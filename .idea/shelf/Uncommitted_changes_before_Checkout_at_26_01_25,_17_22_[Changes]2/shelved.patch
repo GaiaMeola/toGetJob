@@ -1,0 +1,180 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\"><![CDATA[{\n  \"associatedIndex\": 5\n}]]></component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"git-widget-placeholder\": \"master\",\n    \"kotlin-language-version-configured\": \"true\"\n  }\n}]]></component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <servers />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 0359c1e7bec4d8bb558816cf824365ac7f63348b)
++++ b/.idea/workspace.xml	(date 1737908540037)
+@@ -4,15 +4,64 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="" />
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo">
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/PersonDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBasePersonDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemPersonDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryPersonDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Person.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Bean/DELet2.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigLoaderBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigLoaderBase.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigUILoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigUILoader.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerApplicativo/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/Delete.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerGrafico/fwf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerGrafico/fwf.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Exceptions/ConfigException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/exceptions/ConfigException.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Entity/fwefw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/View/afcdsv.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Exception" />
++        <option value="Interface" />
++        <option value="Class" />
++      </list>
++    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory">{
++  &quot;lastFilter&quot;: {
++    &quot;state&quot;: &quot;OPEN&quot;,
++    &quot;assignee&quot;: &quot;GaiaMeola&quot;
++  }
++}</component>
++  <component name="GithubPullRequestsUISettings">{
++  &quot;selectedUrlAndAccountId&quot;: {
++    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
++    &quot;accountId&quot;: &quot;10ff2728-a55b-45dc-b4f1-a35abedc973c&quot;
++  }
++}</component>
+   <component name="MavenImportPreferences">
+     <option name="generalSettings">
+       <MavenGeneralSettings>
+@@ -20,9 +69,9 @@
+       </MavenGeneralSettings>
+     </option>
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 5
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 5
++}</component>
+   <component name="ProjectId" id="2nypPqqlu30o2C6FKHNbd1EkQVy" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+@@ -31,11 +80,26 @@
+   </component>
+   <component name="PropertiesComponent"><![CDATA[{
+   "keyToString": {
++    "Application.HelloApplication.executor": "Run",
++    "Application.Main.executor": "Run",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+     "git-widget-placeholder": "master",
+-    "kotlin-language-version-configured": "true"
++    "kotlin-language-version-configured": "true",
++    "project.structure.last.edited": "Modules",
++    "project.structure.proportion": "0.15",
++    "project.structure.side.proportion": "0.2",
++    "settings.editor.selected.configurable": "preferences.JavaFX"
+   }
+ }]]></component>
++  <component name="RecentsManager">
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/resources" />
++      <recent name="$PROJECT_DIR$/src/main/resources/Configurations" />
++      <recent name="$PROJECT_DIR$/target/classes/org/Configurations" />
++    </key>
++  </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -45,6 +109,61 @@
+       <option name="presentableId" value="Default" />
+       <updated>1729955148511</updated>
+     </task>
++    <task id="LOCAL-00001" summary="Primo Commit">
++      <option name="closed" value="true" />
++      <created>1729955369659</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1729955369659</updated>
++    </task>
++    <task id="LOCAL-00002" summary="Primo Commit">
++      <option name="closed" value="true" />
++      <created>1735663831106</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1735663831106</updated>
++    </task>
++    <task id="LOCAL-00003" summary="Primo Commit">
++      <option name="closed" value="true" />
++      <created>1735663851839</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1735663851839</updated>
++    </task>
++    <task id="LOCAL-00004" summary="Secondo Commit: bozza Abstract Factory">
++      <option name="closed" value="true" />
++      <created>1737883418179</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1737883418179</updated>
++    </task>
++    <task id="LOCAL-00005" summary="Secondo Commit: bozza Abstract Factory">
++      <option name="closed" value="true" />
++      <created>1737883426699</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1737883426699</updated>
++    </task>
++    <task id="LOCAL-00006" summary="Secondo Commit: bozza Abstract Factory">
++      <option name="closed" value="true" />
++      <created>1737883439672</created>
++      <option name="number" value="00006" />
++      <option name="presentableId" value="LOCAL-00006" />
++      <option name="project" value="LOCAL" />
++      <updated>1737883439672</updated>
++    </task>
++    <option name="localTasksCounter" value="7" />
+     <servers />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Primo Commit" />
++    <MESSAGE value="Secondo Commit: bozza Abstract Factory" />
++    <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
++    <option name="LAST_COMMIT_MESSAGE" value="Secondo Commit: Abstract Factory + Singleton completo" />
++  </component>
+ </project>
+\ No newline at end of file

@@ -1,0 +1,32 @@
+Index: src/main/java/it/config/ConfigDaoLoader.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.config;\n\nimport it.exceptions.ConfigException;\n\npublic class ConfigDaoLoader extends ConfigLoaderBase {\n\n    public ConfigDaoLoader(String configFilePath) throws ConfigException {\n        super(configFilePath);\n    }\n\n    public String getProperty(String key){\n        return properties.getProperty(key);\n    }\n}\n
+===================================================================
+diff --git a/src/main/java/it/config/ConfigDaoLoader.java b/src/main/java/it/config/ConfigDaoLoader.java
+--- a/src/main/java/it/config/ConfigDaoLoader.java	(revision 9725ce88a6a8fccf4fefed1a0c1daba4671ed6b4)
++++ b/src/main/java/it/config/ConfigDaoLoader.java	(date 1737908530580)
+@@ -8,6 +8,7 @@
+         super(configFilePath);
+     }
+ 
++    @Override
+     public String getProperty(String key){
+         return properties.getProperty(key);
+     }
+Index: src/main/java/it/config/ConfigUILoader.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.config;\n\nimport it.exceptions.ConfigException;\n\npublic class ConfigUILoader extends ConfigLoaderBase {\n\n    public ConfigUILoader(String configFilePath) throws ConfigException {\n        super(configFilePath);\n    }\n\n    public String getProperty(String key){\n        return properties.getProperty(key);\n    }\n\n}\n
+===================================================================
+diff --git a/src/main/java/it/config/ConfigUILoader.java b/src/main/java/it/config/ConfigUILoader.java
+--- a/src/main/java/it/config/ConfigUILoader.java	(revision 9725ce88a6a8fccf4fefed1a0c1daba4671ed6b4)
++++ b/src/main/java/it/config/ConfigUILoader.java	(date 1737908530585)
+@@ -8,6 +8,7 @@
+         super(configFilePath);
+     }
+ 
++    @Override
+     public String getProperty(String key){
+         return properties.getProperty(key);
+     }

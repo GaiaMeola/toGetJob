@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.HelloController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <cursor>
+      <Cursor fx:constant="SE_RESIZE" />
+   </cursor>
+   <children>
+      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+         <children>
+            <Label layoutX="66.0" style="-fx-text-fill: #b3d9ff;" text="Register as Recruiter" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="AppleGothic Regular" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="164.0" style="-fx-text-fill: #1D3557;" text="Username :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="240.0" style="-fx-text-fill: #1D3557;" text="Password :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="54.0" style="-fx-text-fill: #1D3557;" text="Fill in the following fields" textFill="#1d3557">
+               <font>
+                  <Font name="AppleGothic Regular" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="88.0" style="-fx-text-fill: #1D3557;" text="Name :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="126.0" style="-fx-text-fill: #1D3557;" text="Surname :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="278.0" style="-fx-text-fill: #1D3557;" text="Date of Birth :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="316.0" style="-fx-text-fill: #1D3557;" text="Phone number :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="354.0" style="-fx-text-fill: #1D3557;" text="Company name :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="13.0" layoutY="202.0" style="-fx-text-fill: #1D3557;" text="Email :">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <TextField layoutX="69.0" layoutY="86.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your name" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="87.0" layoutY="124.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your surname" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="96.0" layoutY="162.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your username" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="63.0" layoutY="200.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your email" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="93.0" layoutY="238.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your password" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="111.0" layoutY="276.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your date of birth" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="123.0" layoutY="314.0" prefHeight="26.0" prefWidth="160.0" promptText="Enter your phone number" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+            <TextField layoutX="134.0" layoutY="352.0" prefHeight="26.0" prefWidth="188.0" promptText="Enter the name of the company you work fo" style="-fx-border-radius: 5;">
+               <font>
+                  <Font name="AppleGothic Regular" size="12.0" />
+               </font>
+            </TextField>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
