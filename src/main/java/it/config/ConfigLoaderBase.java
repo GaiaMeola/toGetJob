@@ -1,6 +1,6 @@
-package it.Config;
+package it.config;
 
-import it.Exceptions.ConfigException;
+import it.exceptions.ConfigException;
 
 import java.io.IOException;
 import java.io.InputStream;

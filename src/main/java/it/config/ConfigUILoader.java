@@ -1,6 +1,6 @@
-package it.Config;
+package it.config;
 
-import it.Exceptions.ConfigException;
+import it.exceptions.ConfigException;
 
 public class ConfigUILoader extends ConfigLoaderBase {
 

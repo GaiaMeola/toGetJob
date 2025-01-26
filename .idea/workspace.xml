@@ -4,19 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Primo Commit">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigDaoLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigLoaderBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigUILoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Exceptions/ConfigException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/PersonDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBasePersonDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemPersonDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryPersonDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Dao/vwds.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneRecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneRecruiter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Bean/DELet2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigLoaderBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigLoaderBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigUILoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigUILoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerApplicativo/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerGrafico/fwf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerGrafico/fwf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Exceptions/ConfigException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/exceptions/ConfigException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Entity/fwefw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/View/afcdsv.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +42,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Exception" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -117,26 +133,37 @@
       <option name="project" value="LOCAL" />
       <updated>1735663851839</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Secondo Commit: bozza Abstract Factory">
+      <option name="closed" value="true" />
+      <created>1737883418179</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737883418179</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Secondo Commit: bozza Abstract Factory">
+      <option name="closed" value="true" />
+      <created>1737883426699</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737883426699</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Secondo Commit: bozza Abstract Factory">
+      <option name="closed" value="true" />
+      <created>1737883439672</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737883439672</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Primo Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Primo Commit" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java</url>
-          <line>14</line>
-          <properties class="it.Model.Dao.AbstractFactoryDaoSingleton.AbstractFactoryDaoSingleton" method="getFactoryDao">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Secondo Commit: bozza Abstract Factory" />
+    <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
+    <option name="LAST_COMMIT_MESSAGE" value="Secondo Commit: Abstract Factory + Singleton completo" />
   </component>
 </project>

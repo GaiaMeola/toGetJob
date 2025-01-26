@@ -1,4 +1,4 @@
-package it.Exceptions;
+package it.exceptions;
 
 public class ConfigException extends Exception {
     public ConfigException(String message) {

@@ -1,8 +1,9 @@
 package it;
 
-import it.Config.ConfigDaoLoader;
-import it.Config.ConfigUILoader;
-import it.Exceptions.ConfigException;
+import it.config.ConfigDaoLoader;
+import it.config.ConfigUILoader;
+import it.exceptions.ConfigException;
+import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 
 import java.io.IOException;
 
@@ -22,12 +23,13 @@ public class Main {
         String daoType = loaderDaoConfig.getProperty("dao.type");
         System.out.println("Tipo di DAO configurato: " + daoType);
 
-        factoryDao.setConfigLoader(loaderDaoConfig);
+        AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
+        AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();
 
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
         } catch (ConfigException e) {
-            System.out.println("Errore nella configurazione UI: " + e.getMessage());
+            System.err.println("Errore nella configurazione UI: " + e.getMessage());
             return;
         }
 
