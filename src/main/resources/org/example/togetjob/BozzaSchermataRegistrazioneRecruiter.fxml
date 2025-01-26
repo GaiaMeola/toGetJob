@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.HelloController">
+<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.HelloController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -98,12 +96,12 @@
                   <Font name="AppleGothic Regular" size="12.0" />
                </font>
             </TextField>
-            <TextField layoutX="123.0" layoutY="314.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter your phone number" style="-fx-border-radius: 5;">
+            <TextField layoutX="123.0" layoutY="314.0" prefHeight="26.0" prefWidth="160.0" promptText="Enter your phone number" style="-fx-border-radius: 5;">
                <font>
                   <Font name="AppleGothic Regular" size="12.0" />
                </font>
             </TextField>
-            <TextField layoutX="134.0" layoutY="352.0" prefHeight="26.0" prefWidth="141.0" promptText="Enter the name of the company you work fo" style="-fx-border-radius: 5;">
+            <TextField layoutX="134.0" layoutY="352.0" prefHeight="26.0" prefWidth="188.0" promptText="Enter the name of the company you work fo" style="-fx-border-radius: 5;">
                <font>
                   <Font name="AppleGothic Regular" size="12.0" />
                </font>

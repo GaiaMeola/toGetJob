@@ -4,8 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Schermate di registrazione">
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Primo Commit">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigDaoLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigLoaderBase.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Config/ConfigUILoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Exceptions/ConfigException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Dao/vwds.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneRecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneRecruiter.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +26,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Exception" />
         <option value="Class" />
       </list>
     </option>
@@ -50,17 +62,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.JavaFX"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/Configurations" />
+      <recent name="$PROJECT_DIR$/target/classes/org/Configurations" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -94,20 +117,26 @@
       <option name="project" value="LOCAL" />
       <updated>1735663851839</updated>
     </task>
-    <task id="LOCAL-00004" summary="Schermate di registrazione">
-      <option name="closed" value="true" />
-      <created>1736463892928</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1736463892928</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Primo Commit" />
-    <MESSAGE value="Schermate di registrazione" />
-    <option name="LAST_COMMIT_MESSAGE" value="Schermate di registrazione" />
+    <option name="LAST_COMMIT_MESSAGE" value="Primo Commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java</url>
+          <line>14</line>
+          <properties class="it.Model.Dao.AbstractFactoryDaoSingleton.AbstractFactoryDaoSingleton" method="getFactoryDao">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
