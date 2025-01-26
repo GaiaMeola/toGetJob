@@ -4,35 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/PersonDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBasePersonDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemPersonDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryPersonDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Bean/DELet2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigLoaderBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigLoaderBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Config/ConfigUILoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigUILoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerApplicativo/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/Delete.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Controller/ControllerGrafico/fwf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerGrafico/fwf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Exceptions/ConfigException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/exceptions/ConfigException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Dao/AbstractFactoryDaoSingleton/AbstractFactoryDaoSingleton.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Model/Entity/fwefw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/View/afcdsv.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
-    </list>
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,6 +20,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="updates_testing" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -78,21 +55,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HelloApplication.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.JavaFX"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
@@ -159,6 +136,17 @@
     </task>
     <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Primo Commit" />
