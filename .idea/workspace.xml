@@ -4,7 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Secondo Commit: Abstract Factory + Singleton completo">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/JobAnnouncementSearchBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/JobCandidateSearchBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/StudentDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseStudentDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemStudentDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryStudentDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/InterviewScheduling.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobApplicationCollection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Status.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Student.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/CliInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/javafx/JavaFxInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/PersonDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/DataBaseFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/FileSystemFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/InMemoryFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBasePersonDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemPersonDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryPersonDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Notify.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,16 +48,12 @@
       <list>
         <option value="Exception" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="updates_testing" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -33,12 +62,12 @@
     &quot;assignee&quot;: &quot;GaiaMeola&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
-    &quot;accountId&quot;: &quot;10ff2728-a55b-45dc-b4f1-a35abedc973c&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GaiaMeola/toGetJob.git",
+    "accountId": "0a1af48d-9cff-4190-bde9-bd5096772376"
   }
-}</component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -61,6 +90,7 @@
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -137,21 +167,22 @@
     <option name="localTasksCounter" value="7" />
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Primo Commit" />
     <MESSAGE value="Secondo Commit: bozza Abstract Factory" />
     <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
     <option name="LAST_COMMIT_MESSAGE" value="Secondo Commit: Abstract Factory + Singleton completo" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/src/main/java/it/model/entity/Student.java</url>
+          <line>14</line>
+          <properties field="availability" class="it.model.entity.Student" />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

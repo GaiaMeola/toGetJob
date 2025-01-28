@@ -1,9 +1,10 @@
 package it.model.dao.concretefactorydao;
 
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import it.model.dao.abstractobjects.PersonDao;
+import it.model.dao.abstractobjects.JobAnnouncementDao;
+import it.model.dao.abstractobjects.StudentDao;
 import it.model.dao.abstractobjects.UserDao;
-import it.model.dao.concreteobjects.FileSystemPersonDao;
+import it.model.dao.concreteobjects.FileSystemJobAnnouncementDao;
 import it.model.dao.concreteobjects.FileSystemUserDao;
 
 public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
@@ -14,7 +15,13 @@ public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
     }
 
     @Override
-    public PersonDao createPersonDao() {
-        return new FileSystemPersonDao();
+    public JobAnnouncementDao createJobAnnouncementDao() {
+        return new FileSystemJobAnnouncementDao();
     }
+
+    @Override
+    public StudentDao createStudentDao() {
+        return null;
+    }
+
 }

@@ -1,4 +1,4 @@
 package it.model.entity;
 
-public class Person {
+public class Notify {
 }
