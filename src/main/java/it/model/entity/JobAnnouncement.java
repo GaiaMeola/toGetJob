@@ -10,8 +10,9 @@ public class JobAnnouncement {
     private String companyName;
     private double salary;
     private String description;
+    private Boolean isActive;
 
-    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description) {
+    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive) {
         this.jobTitle = jobTitle;
         this.jobType = jobType;
         this.role = role;
@@ -20,7 +21,9 @@ public class JobAnnouncement {
         this.companyName = companyName;
         this.salary = salary;
         this.description = description;
+        this.isActive = isActive;
     }
+
 
     public String getJobTitle() {
         return jobTitle;
@@ -52,6 +55,10 @@ public class JobAnnouncement {
 
     public String getDescription() {
         return description;
+    }
+
+    public Boolean getActive() {
+        return isActive;
     }
 
 }

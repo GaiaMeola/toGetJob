@@ -5,6 +5,8 @@ import it.config.ConfigUILoader;
 import it.connection.DatabaseConfig;
 import it.exceptions.ConfigException;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import it.pattern.state.concretestate.MainMenuState;
+import it.pattern.state.contextstate.CliContext;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -71,5 +73,20 @@ public class Main {
             System.out.println("Tipo di DAO non riconosciuto.");
         }
 
+        if ("cli".equalsIgnoreCase(uiType)){
+            CliContext context = new CliContext(new MainMenuState());
+            context.startCLI();
+        } else if("gui".equalsIgnoreCase(uiType)){
+            launchGui();
+        } else{
+            System.out.println("Tipo di interfaccia non riconosciuto.");
+        }
+
     }
+
+    private static void launchGui(){
+        //metodo per lanciare interfaccia JavaFx da implementare
+        System.out.println("Launching GUI...");
+    }
+
 }
