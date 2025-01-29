@@ -2,6 +2,7 @@ package it;
 
 import it.config.ConfigDaoLoader;
 import it.config.ConfigUILoader;
+import it.config.DatabaseConfig;
 import it.exceptions.ConfigException;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 
@@ -16,21 +17,6 @@ public class Main {
     public static void main(String[] args) throws RuntimeException, IOException {
         ConfigDaoLoader loaderDaoConfig;
         ConfigUILoader loaderUIConfig;
-
-        String DB_URL = "jdbc:mysql://localhost:3306/ISPW";
-        String DB_USER = "root";
-        String DB_PASSWORD = "";
-
-        try (
-                Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            System.out.println("Connessione riuscita!");
-        } catch (
-                SQLException e) {
-            System.out.println("Errore di connessione: " + e.getMessage());
-        }
-
-
-
 
         try {
             loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
@@ -53,6 +39,38 @@ public class Main {
 
         String uiType = loaderUIConfig.getProperty("ui.type");
         System.out.println("Tipo di interfaccia utente configurata: " + uiType);
-    }
 
+
+        if ("jdbc".equalsIgnoreCase(daoType)) {
+            DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
+            databaseConfig.setConfigLoader(loaderDaoConfig);
+
+            try {
+                Connection connection = databaseConfig.getConnection();
+                if (connection != null) {
+                    System.out.println("Connessione al database riuscita.");
+
+                    // Esegui le operazioni sul database qui...
+
+                    // Alla fine, chiudi la connessione
+                    databaseConfig.closeConnection();  // Chiudi la connessione
+                    System.out.println("Connessione al database chiusa.");
+                } else {
+                    System.out.println("Impossibile ottenere la connessione al database.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Errore durante la connessione al database: " + e.getMessage());
+                return;
+            }
+        } else if ("in memory".equalsIgnoreCase(daoType)) {
+            // Configurazione in-memory: Non serve connettersi al database
+            System.out.println("DAO In-Memory configurato.");
+        } else if ("json".equalsIgnoreCase(daoType)) {
+            // Configurazione FileSystem (esempio con json): Non serve connettersi al database
+            System.out.println("DAO FileSystem configurato.");
+        } else {
+            System.out.println("Tipo di DAO non riconosciuto.");
+        }
+
+    }
 }

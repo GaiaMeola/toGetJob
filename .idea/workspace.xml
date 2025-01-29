@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Terzo Commit: Aggiunta Entity">
-      <change afterPath="$PROJECT_DIR$/libs/mysql-connector-j-9.2.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/RegisterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataHomeStudente.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRecruiter.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataStudent.fxml" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Terzo Commit: Prova Database">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/config/DatabaseConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +23,8 @@
         <option value="Exception" />
         <option value="Interface" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -162,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738086982811</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Terzo Commit: Prova Database">
+      <option name="closed" value="true" />
+      <created>1738142978544</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738142978544</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -181,7 +186,8 @@
     <MESSAGE value="Secondo Commit: bozza Abstract Factory" />
     <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
     <MESSAGE value="Terzo Commit: Aggiunta Entity" />
-    <option name="LAST_COMMIT_MESSAGE" value="Terzo Commit: Aggiunta Entity" />
+    <MESSAGE value="Terzo Commit: Prova Database" />
+    <option name="LAST_COMMIT_MESSAGE" value="Terzo Commit: Prova Database" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -192,6 +198,10 @@
           <properties field="availability" class="it.model.entity.Student" />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="14" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
