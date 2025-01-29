@@ -2,13 +2,12 @@ package it;
 
 import it.config.ConfigDaoLoader;
 import it.config.ConfigUILoader;
-import it.config.DatabaseConfig;
+import it.connection.DatabaseConfig;
 import it.exceptions.ConfigException;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or

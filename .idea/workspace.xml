@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Terzo Commit: Prova Database">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/config/DatabaseConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Quarto Commit: Connection prova">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738142978544</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
+      <option name="closed" value="true" />
+      <created>1738152156784</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738152156784</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -187,7 +191,8 @@
     <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
     <MESSAGE value="Terzo Commit: Aggiunta Entity" />
     <MESSAGE value="Terzo Commit: Prova Database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Terzo Commit: Prova Database" />
+    <MESSAGE value="Quarto Commit: Connection prova" />
+    <option name="LAST_COMMIT_MESSAGE" value="Quarto Commit: Connection prova" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

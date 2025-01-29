@@ -1,4 +1,6 @@
-package it.config;
+package it.connection;
+
+import it.config.ConfigDaoLoader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
