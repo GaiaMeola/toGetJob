@@ -2,18 +2,32 @@ package it.connection;
 
 import it.config.ConfigDaoLoader;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DatabaseConfig {
 
     private static DatabaseConfig instance = null;
-    private Connection connection;
+    private static Connection connection;
     private static ConfigDaoLoader loaderDaoConfig;
+    private static Properties dbProperties = new Properties();
 
     private DatabaseConfig() {
+        loadDatabaseConfig();
     }
+
+    private void loadDatabaseConfig() {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            dbProperties.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Errore durante il caricamento di db.properties: " + e.getMessage());
+        }
+    }
+
 
     public static synchronized DatabaseConfig getInstance() {
 
@@ -38,9 +52,13 @@ public class DatabaseConfig {
                 throw new IllegalStateException("Il ConfigDaoLoader non è stato impostato.");
             }
 
-            String dbUrl = loaderDaoConfig.getDbUrl();
-            String dbUsername = loaderDaoConfig.getDbUsername();
-            String dbPassword = loaderDaoConfig.getDbPassword();
+            String dbUrl = dbProperties.getProperty("CONNECTION_URL");
+            String dbUsername = dbProperties.getProperty("DB_USER");
+            String dbPassword = dbProperties.getProperty("DB_PASSWORD");
+
+            if (dbUrl == null || dbUsername == null) {
+                throw new SQLException("Parametri di connessione non trovati in db.properties");
+            }
 
             try {
                 // Carica il driver JDBC se necessario

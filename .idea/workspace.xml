@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Quarto Commit: Connection prova">
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Quarto Commit: Connection riuscita">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/config/ConfigDaoLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/connection/DatabaseConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/connection/DatabaseConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738152156784</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Quarto Commit: Connection riuscita">
+      <option name="closed" value="true" />
+      <created>1738152567157</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738152567157</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,7 +203,8 @@
     <MESSAGE value="Terzo Commit: Aggiunta Entity" />
     <MESSAGE value="Terzo Commit: Prova Database" />
     <MESSAGE value="Quarto Commit: Connection prova" />
-    <option name="LAST_COMMIT_MESSAGE" value="Quarto Commit: Connection prova" />
+    <MESSAGE value="Quarto Commit: Connection riuscita" />
+    <option name="LAST_COMMIT_MESSAGE" value="Quarto Commit: Connection riuscita" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
