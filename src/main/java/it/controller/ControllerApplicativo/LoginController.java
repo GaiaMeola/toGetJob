@@ -1,4 +1,4 @@
 package it.controller.ControllerApplicativo;
 
-public class Delete {
+public class LoginController {
 }
