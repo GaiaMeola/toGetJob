@@ -4,25 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Sesto Commit: Pattern State CLI prova">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/RegisterController.java" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/LoginController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/RegisterController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerGrafico/fwf.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738179850233</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Settimo Commit: prova Caso d'uso Registrazione">
+      <option name="closed" value="true" />
+      <created>1738233820826</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1738233820826</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -235,7 +226,8 @@
     <MESSAGE value="Quarto Commit: Connection riuscita" />
     <MESSAGE value="Quinto Commit: Fine Db" />
     <MESSAGE value="Sesto Commit: Pattern State CLI prova" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sesto Commit: Pattern State CLI prova" />
+    <MESSAGE value="Settimo Commit: prova Caso d'uso Registrazione" />
+    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: prova Caso d'uso Registrazione" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
