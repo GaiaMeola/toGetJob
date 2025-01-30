@@ -1,4 +1,4 @@
-package it.view.javafx;
+package it.view.state.javafx;
 
 public class JavaFxInterface {
 }

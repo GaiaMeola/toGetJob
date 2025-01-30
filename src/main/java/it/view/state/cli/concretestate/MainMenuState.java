@@ -1,7 +1,7 @@
-package it.pattern.state.concretestate;
+package it.view.state.cli.concretestate;
 
-import it.pattern.state.contextstate.CliContext;
-import it.pattern.state.abstractstate.CliState;
+import it.view.state.cli.contextstate.CliContext;
+import it.view.state.cli.abstractstate.CliState;
 
 public class MainMenuState implements CliState {
 
@@ -17,16 +17,21 @@ public class MainMenuState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, Integer input) {
+    public void goNext() {
+
+    }
+
+    @Override
+    public void goNext(CliContext context, String input) {
 
         switch (input) {
-            case 1:
+            case "1":
                 context.setState(new LoginState());
                 break;
-            case 2:
+            case "2":
                 context.setState(new RegisterState());
                 break;
-            case 3:
+            case "3":
                 context.setState(new ExitState());
                 break;
             default:

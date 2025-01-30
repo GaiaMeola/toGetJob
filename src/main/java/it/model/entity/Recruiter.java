@@ -2,7 +2,7 @@ package it.model.entity;
 
 import java.util.List;
 
-public class Recruiter extends User{
+public class Recruiter extends User {
 
     private List<String> companies;
     private List<Recruiter> collaborators;

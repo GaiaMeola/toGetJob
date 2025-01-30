@@ -7,7 +7,7 @@ import java.util.*;
 
 public class InMemoryUserDao implements UserDao {
 
-    private Map<String, User> users = new HashMap<>();
+    private static Map<String, User> users = new HashMap<>();
 
     @Override
     public boolean saveUser(User user) {

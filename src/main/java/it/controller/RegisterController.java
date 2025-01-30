@@ -21,6 +21,7 @@ public class RegisterController {
     public boolean registerUser(RegisterUserBean userBean) {
         // Verifica se l'username è già esistente
         if (userDao.userExists(userBean.getUsername())) {
+            System.out.println("Error: Username already in use.");
             return false; // Username già in uso
         }
 
@@ -36,15 +37,17 @@ public class RegisterController {
                 // Creazione di uno Student (tramite costruttore che aggiunge dettagli specifici)
                 user = new Student(userBean.getUsername(), plainPassword, userBean.getName(), userBean.getSurname(),
                         userBean.getEmailAddress(), role);
+                System.out.println("Welcome " + userBean.getName() + " to toGetJob. Please complete the following fields:");
                 break;
             case RECRUITER:
                 // Creazione di un Recruiter
                 user = new Recruiter(userBean.getUsername(), plainPassword, userBean.getName(), userBean.getSurname(),
                         userBean.getEmailAddress(), role);
+                System.out.println("Welcome " + userBean.getName() + " to toGetJob. Please complete the following fields:");
                 break;
             default:
                 // Se il ruolo non è valido, lanciamo un'eccezione
-                throw new IllegalArgumentException("Ruolo non valido: " + role);
+                throw new IllegalArgumentException("Invalid role: " + role);
         }
 
         // Salviamo l'utente tramite il DAO
