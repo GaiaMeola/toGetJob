@@ -11,8 +11,9 @@ public class JobAnnouncement {
     private double salary;
     private String description;
     private Boolean isActive;
+    private Recruiter recruiter;
 
-    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive) {
+    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive, Recruiter recruiter) {
         this.jobTitle = jobTitle;
         this.jobType = jobType;
         this.role = role;
@@ -22,6 +23,7 @@ public class JobAnnouncement {
         this.salary = salary;
         this.description = description;
         this.isActive = isActive;
+        this.recruiter = recruiter;
     }
 
 
@@ -59,6 +61,10 @@ public class JobAnnouncement {
 
     public Boolean getActive() {
         return isActive;
+    }
+
+    public Recruiter getRecruiter() {
+        return recruiter;
     }
 
 }

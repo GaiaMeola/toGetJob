@@ -4,17 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Quinto Commit: Fine Db">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Sesto Commit: Pattern State CLI prova">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/RegisterController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/LoginController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerApplicativo/RegisterController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/ControllerGrafico/fwf.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryUserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +203,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738157742126</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Sesto Commit: Pattern State CLI prova">
+      <option name="closed" value="true" />
+      <created>1738179850232</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1738179850233</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -218,17 +234,12 @@
     <MESSAGE value="Quarto Commit: Connection prova" />
     <MESSAGE value="Quarto Commit: Connection riuscita" />
     <MESSAGE value="Quinto Commit: Fine Db" />
-    <option name="LAST_COMMIT_MESSAGE" value="Quinto Commit: Fine Db" />
+    <MESSAGE value="Sesto Commit: Pattern State CLI prova" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sesto Commit: Pattern State CLI prova" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-field">
-          <url>file://$PROJECT_DIR$/src/main/java/it/model/entity/Student.java</url>
-          <line>14</line>
-          <properties field="availability" class="it.model.entity.Student" />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="14" />

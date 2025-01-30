@@ -15,8 +15,12 @@ public class Student extends User{
     private String availability;
     private List<JobApplication> jobApplications;
 
-    public Student(String name, String surname, String username, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {
-        super(name, surname, username, role);
+    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {
+        super(name, surname, username, emailAddress, password, role); // Chiamata alla superclasse User
+    }
+
+    public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {
+        super(name, surname, username, emailAddress, password, role);
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.degrees = degrees;

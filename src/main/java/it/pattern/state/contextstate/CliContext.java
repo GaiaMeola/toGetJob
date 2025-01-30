@@ -31,6 +31,8 @@ public class CliContext {
             showMenu();
             String input = scanner.nextLine();
 
+            System.out.println("Input ricevuto: " + input);
+
             // Aggiunto il controllo per "exit" per uscire dal ciclo
             if(input.equalsIgnoreCase("exit")){
                 System.out.println("Exiting...");

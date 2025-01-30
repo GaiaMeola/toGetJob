@@ -9,7 +9,7 @@ public abstract class User {
     private String password;
     private Role role;
 
-    public User(String name, String surname, String username, Role role) {
+    public User(String name, String surname, String username, String emailAddress, String password, Role role) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -17,6 +17,7 @@ public abstract class User {
         this.password = password;
         this.role = role;
     }
+
 
     public String getName() {
         return name;
