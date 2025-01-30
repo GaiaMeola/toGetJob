@@ -1,0 +1,206 @@
+Index: src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.abstractobjects;\n\nimport it.model.entity.JobAnnouncement;\n\npublic interface JobAnnouncementDao {\n\n    void createJobAnnouncement(JobAnnouncement jobAnnouncement);\n    JobAnnouncement getJobAnnouncement(int id);\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java b/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java	(revision b7483c0a6180fffe2502577bc1b328920dc1a19f)
++++ b/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java	(date 1738152626196)
+@@ -2,8 +2,11 @@
+ 
+ import it.model.entity.JobAnnouncement;
+ 
++import java.util.Optional;
++
+ public interface JobAnnouncementDao {
+ 
+     void createJobAnnouncement(JobAnnouncement jobAnnouncement);
+     JobAnnouncement getJobAnnouncement(int id);
++
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Quarto Commit: Connection prova\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/dao.config.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/dao.config.properties\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Exception\" />\n        <option value=\"Interface\" />\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.HelloApplication.executor\": \"Run\",\n    \"Application.Main.executor\": \"Run\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\n    \"SONARLINT_PRECOMMIT_ANALYSIS\": \"true\",\n    \"git-widget-placeholder\": \"master\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"last_opened_file_path\": \"/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob\",\n    \"project.structure.last.edited\": \"Libraries\",\n    \"project.structure.proportion\": \"0.15\",\n    \"project.structure.side.proportion\": \"0.2\",\n    \"settings.editor.selected.configurable\": \"preferences.JavaFX\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729955369659</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729955369659</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663831106</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663831106</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663851839</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663851839</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"11\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Quarto Commit: Connection prova\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" type=\"java-field\">\n          <url>file://$PROJECT_DIR$/src/main/java/it/model/entity/Student.java</url>\n          <line>14</line>\n          <properties field=\"availability\" class=\"it.model.entity.Student\" />\n          <option name=\"timeStamp\" value=\"12\" />\n        </line-breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b7483c0a6180fffe2502577bc1b328920dc1a19f)
++++ b/.idea/workspace.xml	(date 1738165693236)
+@@ -4,9 +4,12 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Quarto Commit: Connection prova">
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Terzo Commit: Prova Database">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -55,23 +58,23 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Application.HelloApplication.executor": "Run",
+-    "Application.Main.executor": "Run",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+-    "git-widget-placeholder": "master",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob",
+-    "project.structure.last.edited": "Libraries",
+-    "project.structure.proportion": "0.15",
+-    "project.structure.side.proportion": "0.2",
+-    "settings.editor.selected.configurable": "preferences.JavaFX"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
++    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
+@@ -163,15 +166,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738142978544</updated>
+     </task>
+-    <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
+-      <option name="closed" value="true" />
+-      <created>1738152156784</created>
+-      <option name="number" value="00010" />
+-      <option name="presentableId" value="LOCAL-00010" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1738152156784</updated>
+-    </task>
+-    <option name="localTasksCounter" value="11" />
++    <option name="localTasksCounter" value="10" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -191,8 +186,7 @@
+     <MESSAGE value="Secondo Commit: Abstract Factory + Singleton completo" />
+     <MESSAGE value="Terzo Commit: Aggiunta Entity" />
+     <MESSAGE value="Terzo Commit: Prova Database" />
+-    <MESSAGE value="Quarto Commit: Connection prova" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Quarto Commit: Connection prova" />
++    <option name="LAST_COMMIT_MESSAGE" value="Terzo Commit: Prova Database" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.JobAnnouncementDao;\nimport it.model.entity.JobAnnouncement;\n\npublic class DataBaseJobAnnouncementDao implements JobAnnouncementDao {\n    @Override\n    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {\n\n    }\n\n    @Override\n    public JobAnnouncement getJobAnnouncement(int id) {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java b/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java	(revision b7483c0a6180fffe2502577bc1b328920dc1a19f)
++++ b/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java	(date 1738152629993)
+@@ -3,6 +3,8 @@
+ import it.model.dao.abstractobjects.JobAnnouncementDao;
+ import it.model.entity.JobAnnouncement;
+ 
++import java.util.Optional;
++
+ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
+     @Override
+     public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {
+@@ -11,6 +13,8 @@
+ 
+     @Override
+     public JobAnnouncement getJobAnnouncement(int id) {
++
+         return null;
++
+     }
+ }
+Index: src/main/java/it/model/dao/abstractobjects/UserDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.abstractobjects;\n\nimport it.model.entity.User;\n\npublic interface UserDao {\n\n    void createUser(User user);\n    User getUser(int id);\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/abstractobjects/UserDao.java b/src/main/java/it/model/dao/abstractobjects/UserDao.java
+--- a/src/main/java/it/model/dao/abstractobjects/UserDao.java	(revision b7483c0a6180fffe2502577bc1b328920dc1a19f)
++++ b/src/main/java/it/model/dao/abstractobjects/UserDao.java	(date 1738152629996)
+@@ -2,6 +2,8 @@
+ 
+ import it.model.entity.User;
+ 
++import java.util.Optional;
++
+ public interface UserDao {
+ 
+     void createUser(User user);
+Index: src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.UserDao;\nimport it.model.entity.User;\n\npublic class DataBaseUserDao implements UserDao {\n    @Override\n    public void createUser(User user) {\n    }\n\n    @Override\n    public User getUser(int id) {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java b/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java	(revision b7483c0a6180fffe2502577bc1b328920dc1a19f)
++++ b/src/main/java/it/model/dao/concreteobjects/DataBaseUserDao.java	(date 1738152630000)
+@@ -1,15 +1,34 @@
+ package it.model.dao.concreteobjects;
+ 
++import it.config.ConfigDaoLoader;
+ import it.model.dao.abstractobjects.UserDao;
+ import it.model.entity.User;
+ 
++import java.sql.Connection;
++import java.util.Optional;
++
+ public class DataBaseUserDao implements UserDao {
++
++    public DataBaseUserDao(){
++
++
++
++    }
++
++
++
+     @Override
+     public void createUser(User user) {
++
++
+     }
+ 
+     @Override
+     public User getUser(int id) {
++
++
+         return null;
++
++
+     }
+ }
