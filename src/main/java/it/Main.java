@@ -72,7 +72,6 @@ public class Main {
         } else {
             System.out.println("Tipo di DAO non riconosciuto.");
         }
-
         if ("cli".equalsIgnoreCase(uiType)){
             CliContext context = new CliContext(new MainMenuState());
             context.startCLI();

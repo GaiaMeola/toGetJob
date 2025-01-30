@@ -12,7 +12,7 @@ public class CliContext {
         this.currentState = currentState;
     }
 
-    public void goNext(String input){
+    public void goNext(Integer input){
         currentState.goNext(this, input);
     }
 
@@ -29,19 +29,21 @@ public class CliContext {
         Scanner scanner = new Scanner(System.in);
         while(true){
             showMenu();
-            String input = scanner.nextLine();
+            Integer input = scanner.nextInt();
 
             System.out.println("Input ricevuto: " + input);
 
             // Aggiunto il controllo per "exit" per uscire dal ciclo
-            if(input.equalsIgnoreCase("exit")){
-                System.out.println("Exiting...");
+            if( input == 3 ){
+                goNext(input);
+                goNext(input);
                 break;  // Esce dal ciclo, terminando l'applicazione
             }
 
             // Altrimenti, prosegue con l'elaborazione dell'input
             goNext(input);
         }
+
         scanner.close(); // Chiude lo scanner alla fine
     }
 

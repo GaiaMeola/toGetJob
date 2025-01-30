@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

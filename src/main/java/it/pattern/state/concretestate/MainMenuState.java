@@ -17,16 +17,16 @@ public class MainMenuState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(CliContext context, Integer input) {
 
         switch (input) {
-            case "1":
+            case 1:
                 context.setState(new LoginState());
                 break;
-            case "2":
+            case 2:
                 context.setState(new RegisterState());
                 break;
-            case "3":
+            case 3:
                 context.setState(new ExitState());
                 break;
             default:

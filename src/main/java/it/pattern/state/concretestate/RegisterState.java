@@ -10,7 +10,7 @@ public class RegisterState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(CliContext context, Integer input) {
         context.setState(new MainMenuState());
     }
 }

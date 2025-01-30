@@ -10,7 +10,7 @@ public class ExitState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(CliContext context, Integer input) {
         System.out.println("Thank you for using the application toGetJob. Goodbye!");
         System.exit(0);
 
