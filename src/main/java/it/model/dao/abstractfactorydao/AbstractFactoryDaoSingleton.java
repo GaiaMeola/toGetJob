@@ -2,6 +2,7 @@ package it.model.dao.abstractfactorydao;
 
 import it.config.ConfigDaoLoader;
 import it.model.dao.abstractobjects.JobAnnouncementDao;
+import it.model.dao.abstractobjects.RecruiterDao;
 import it.model.dao.abstractobjects.StudentDao;
 import it.model.dao.abstractobjects.UserDao;
 import it.model.dao.concretefactorydao.DataBaseFactoryDao;
@@ -59,4 +60,5 @@ public abstract class AbstractFactoryDaoSingleton {
     public abstract UserDao createUserDao();
     public abstract JobAnnouncementDao createJobAnnouncementDao();
     public abstract StudentDao createStudentDao();
+    public abstract RecruiterDao createRecruiterDao();
 }

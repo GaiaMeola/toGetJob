@@ -18,15 +18,12 @@ public class LoginController {
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
         if(user == null){
-            System.out.println("User does not exist.");
-            return false;
+            return false; //User does not exists
         }
 
         if(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword())){
-            System.out.println("Login successful! Welcome to toGetJob !");
-            return true;
+            return true; //Login successful
         } else {
-            System.out.println("Incorrect password. Please, try again");
             return false;
         }
     }
