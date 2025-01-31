@@ -1,21 +1,25 @@
-package it.view.state.cli.concretestate;
+package it.view.cli.concretestate;
 
-import it.view.state.cli.abstractstate.CliState;
-import it.view.state.cli.contextstate.CliContext;
+import it.boundary.LoginBoundary;
+import it.view.cli.abstractstate.CliState;
+import it.view.cli.contextstate.CliContext;
 
 import java.util.Scanner;
 
 public class HomeStudentState implements CliState {
+
+    private final LoginBoundary loginBoundary = new LoginBoundary();
+
     @Override
     public void showMenu() {
             System.out.println("\n ---Home - Student---");
             System.out.println("Welcome, Student! You can do the following:");
             System.out.println("1. View your profile");
             System.out.println("2. Vote a company");
-            System.out.println("3. Show job announcements");
+            System.out.println("3. Show Job Announcements");
             System.out.println("4. View notifications");
             System.out.println("5. Logout");
-            System.out.println("6. Exit the application");
+            System.out.println("6. Exit");
             System.out.print("Choose an option: ");
     }
 
@@ -49,7 +53,8 @@ public class HomeStudentState implements CliState {
             case "5": // Logout
             case "logout":
                 System.out.println("Logging out...");
-                context.setState(new MainMenuState());  // Torna al menu principale
+                loginBoundary.logout();
+                context.setState(new MainMenuState());// Torna al menu principale
                 break;
             case "6": // Exit
             case "exit":

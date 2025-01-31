@@ -5,8 +5,8 @@ import it.config.ConfigUILoader;
 import it.connection.DatabaseConfig;
 import it.exceptions.ConfigException;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import it.view.state.cli.concretestate.MainMenuState;
-import it.view.state.cli.contextstate.CliContext;
+import it.view.cli.concretestate.MainMenuState;
+import it.view.cli.contextstate.CliContext;
 
 import java.io.IOException;
 import java.sql.Connection;

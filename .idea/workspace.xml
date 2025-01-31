@@ -4,18 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Caso d'uso Registrazione e Login completati">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/ContactAJobCandidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/InviteARecruiterAsCollaborator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/student/SendAJobApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/student/VoteACompany.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeStudentState.java" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/LoginBoundary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/RegisterBoundary.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/session/SessionManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/abstractstate/CliState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/abstractstate/CliState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/ExitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/ExitState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeStudentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/LoginState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/MainMenuState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/RegisterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/contextstate/CliContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/javafx/JavaFxInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/javafx/JavaFxInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +251,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738320033356</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli">
+      <option name="closed" value="true" />
+      <created>1738323917280</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1738323917280</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -271,7 +286,8 @@
     <MESSAGE value="Settimo Commit: prova Caso d'uso Registrazione" />
     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login iniziati" />
     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
-    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
+    <MESSAGE value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

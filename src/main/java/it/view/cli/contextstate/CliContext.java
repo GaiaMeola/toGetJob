@@ -1,7 +1,7 @@
-package it.view.state.cli.contextstate;
+package it.view.cli.contextstate;
 
-import it.view.state.cli.abstractstate.CliState;
-import it.view.state.cli.concretestate.ExitState;
+import it.view.cli.abstractstate.CliState;
+import it.view.cli.concretestate.ExitState;
 
 import java.util.Scanner;
 
