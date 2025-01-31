@@ -1,7 +1,7 @@
-package it.view.state.cli.concretestate;
+package it.view.cli.concretestate;
 
-import it.view.state.cli.abstractstate.CliState;
-import it.view.state.cli.contextstate.CliContext;
+import it.view.cli.abstractstate.CliState;
+import it.view.cli.contextstate.CliContext;
 
 public class ExitState implements CliState {
     @Override

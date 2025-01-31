@@ -1,6 +1,6 @@
-package it.view.state.cli.abstractstate;
+package it.view.cli.abstractstate;
 
-import it.view.state.cli.contextstate.CliContext;
+import it.view.cli.contextstate.CliContext;
 
 public interface CliState {
         void showMenu();

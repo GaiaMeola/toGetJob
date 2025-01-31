@@ -1,13 +1,14 @@
-package it.view.state.cli.concretestate;
+package it.view.cli.concretestate;
 
 import it.bean.RecruiterInfoBean;
 import it.bean.RegisterUserBean;
 import it.bean.StudentInfoBean;
+import it.boundary.RegisterBoundary;
 import it.controller.registration.AbstractRegisterController;
 import it.controller.registration.RegisterRecruiterController;
 import it.controller.registration.RegisterStudentController;
-import it.view.state.cli.abstractstate.CliState;
-import it.view.state.cli.contextstate.CliContext;
+import it.view.cli.abstractstate.CliState;
+import it.view.cli.contextstate.CliContext;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,13 +20,6 @@ public class RegisterState implements CliState {
     public void showMenu() {
 
         System.out.println("\n ---Register---");
-        System.out.println("Please enter the following details to register:");
-        System.out.println("1. Username");
-        System.out.println("2. Password");
-        System.out.println("3. Name");
-        System.out.println("4. Surname");
-        System.out.println("5. Email");
-        System.out.println("6. Role (student/recruiter)");
         System.out.println("To submit, type 'submit'.");
 
     }
@@ -45,12 +39,20 @@ public class RegisterState implements CliState {
             return;
         }
 
+        System.out.println("Welcome to toGetJob ! Fill the following fields: ");
         System.out.print("Enter username: ");
         String username = scanner.nextLine();
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
         System.out.print("Confirm password: ");
         String checkPassword = scanner.nextLine();
+
+        if (!password.equals(checkPassword)) {
+            System.out.println("Passwords do not match. Please try again.");
+            context.setState(new RegisterState()); // Rimani nello stato di registrazione
+            return;
+        }
+
         System.out.print("Enter name: ");
         String name = scanner.nextLine();
         System.out.print("Enter surname: ");
@@ -61,24 +63,22 @@ public class RegisterState implements CliState {
         String roleInput = scanner.nextLine().trim().toLowerCase();
 
         RegisterUserBean userBean = new RegisterUserBean(username, email, password, name, surname, roleInput, checkPassword);
-        AbstractRegisterController registerController;
 
         //polymorphism
         Object infoBean = null;
 
         if ("student".equals(roleInput)) {
             infoBean = getStudentInfo(scanner);
-            registerController = new RegisterStudentController((StudentInfoBean) infoBean);
         } else if ("recruiter".equals(roleInput)) {
             infoBean = getRecruiterInfo(scanner);
-            registerController = new RegisterRecruiterController((RecruiterInfoBean) infoBean);
         } else {
             System.out.println("Invalid role. Please try again.");
             context.setState(new RegisterState());
             return;
         }
 
-        boolean registrationSuccess = registerController.registerUser(userBean);
+        RegisterBoundary registerBoundary = new RegisterBoundary();
+        boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 
         if (registrationSuccess) {
             System.out.println("Registration successful!");
@@ -91,7 +91,7 @@ public class RegisterState implements CliState {
     }
 
     private StudentInfoBean getStudentInfo(Scanner scanner) {
-        System.out.println("Welcome! Please complete your student profile:");
+        System.out.println("Welcome to toGetJob! Please complete your student profile:");
 
         System.out.print("Enter your date of birth (yyyy-mm-dd): ");
         LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());

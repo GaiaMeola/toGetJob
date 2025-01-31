@@ -1,14 +1,14 @@
-package it.view.state.cli.concretestate;
+package it.view.cli.concretestate;
 
-import it.view.state.cli.contextstate.CliContext;
-import it.view.state.cli.abstractstate.CliState;
+import it.view.cli.contextstate.CliContext;
+import it.view.cli.abstractstate.CliState;
 
 public class MainMenuState implements CliState {
 
     @Override
     public void showMenu() {
 
-        System.out.println("--- Main Menu ---");
+        System.out.println("--- Welcome to toGetJob ---");
         System.out.println("1. Login");
         System.out.println("2. Register ");
         System.out.println("3. Exit ");

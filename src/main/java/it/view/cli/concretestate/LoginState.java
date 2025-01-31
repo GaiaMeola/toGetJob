@@ -1,20 +1,22 @@
-package it.view.state.cli.concretestate;
+package it.view.cli.concretestate;
 
 import it.bean.LoginUserBean;
+import it.boundary.LoginBoundary;
 import it.controller.LoginController;
-import it.view.state.cli.abstractstate.CliState;
-import it.view.state.cli.contextstate.CliContext;
+import it.model.entity.User;
+import it.view.cli.abstractstate.CliState;
+import it.view.cli.contextstate.CliContext;
+import session.SessionManager;
 
 import java.util.Scanner;
 
 public class LoginState implements CliState {
+
+    private final LoginBoundary loginBoundary = new LoginBoundary();
+
     @Override
     public void showMenu() {
         System.out.println("\n--- Login ---");
-        System.out.println("Please enter the following details to register:");
-        System.out.println("1. Username");
-        System.out.println("2. Email");
-        System.out.println("3. Password");
         System.out.println("To log, type 'login'.");
     }
 
@@ -31,20 +33,16 @@ public class LoginState implements CliState {
         if("login".equalsIgnoreCase(input)){
             System.out.print("Enter username: ");
             String username = scanner.nextLine();
-            System.out.print("Enter email: ");
-            String email = scanner.nextLine();
             System.out.print("Enter password: ");
             String password= scanner.nextLine();
 
-            LoginUserBean userBean = new LoginUserBean(username, email, password);
-            LoginController loginController = new LoginController();
+            boolean loginSuccess = loginBoundary.login(username, password);
 
-            boolean loginSuccessful = loginController.loginUser(userBean);
-
-            if (loginSuccessful) {
+            if (loginSuccess) {
                 // Login ok
-                String userRole = loginController.getUserRole(userBean);
+                String userRole = loginBoundary.getUserRole();
                 System.out.println("Login successful!");
+
 
                 if ("STUDENT".equalsIgnoreCase(userRole)) {
                     context.setState(new HomeStudentState());  // go to HomePageStudent

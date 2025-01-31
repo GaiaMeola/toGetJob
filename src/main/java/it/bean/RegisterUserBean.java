@@ -5,12 +5,14 @@ public class RegisterUserBean extends LoginUserBean {
     private String name;
     private String surname;
     private String role;
+    private String emailAddress;
     private String checkPassword;
 
     public RegisterUserBean(String username, String emailAddress, String password, String name, String surname, String role, String checkPassword) {
-        super(username, emailAddress, password);  // Chiamata al costruttore della classe base (LoginUserBean)
+        super(username, password);  // Chiamata al costruttore della classe base (LoginUserBean)
         this.name = name;
         this.surname = surname;
+        this.emailAddress = emailAddress;
         this.role = role;
         this.checkPassword = checkPassword;  // Inizializzazione del campo checkpassword
     }
@@ -48,4 +50,14 @@ public class RegisterUserBean extends LoginUserBean {
     public void setCheckPassword(String checkPassword) {
         this.checkPassword = checkPassword;
     }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+
 }

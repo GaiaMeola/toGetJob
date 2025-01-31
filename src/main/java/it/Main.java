@@ -5,8 +5,8 @@ import it.config.ConfigUILoader;
 import it.connection.DatabaseConfig;
 import it.exceptions.ConfigException;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import it.view.state.cli.concretestate.MainMenuState;
-import it.view.state.cli.contextstate.CliContext;
+import it.view.cli.concretestate.MainMenuState;
+import it.view.cli.contextstate.CliContext;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -40,7 +40,6 @@ public class Main {
 
         String uiType = loaderUIConfig.getProperty("ui.type");
         System.out.println("Tipo di interfaccia utente configurata: " + uiType);
-
 
         if ("jdbc".equalsIgnoreCase(daoType)) {
             DatabaseConfig databaseConfig = DatabaseConfig.getInstance();

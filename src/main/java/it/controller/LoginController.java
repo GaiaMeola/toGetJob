@@ -4,6 +4,7 @@ import it.bean.LoginUserBean;
 import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import it.model.dao.abstractobjects.UserDao;
 import it.model.entity.User;
+import session.SessionManager;
 
 public class LoginController {
 
@@ -17,26 +18,18 @@ public class LoginController {
 
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
-        if(user == null){
-            return false; //User does not exists
+        if(user == null || !user.getPassword().equalsIgnoreCase(loginUserBean.getPassword())){
+            return false; // User non esiste o password errata
         }
 
-        if(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword())){
-            return true; //Login successful
-        } else {
-            return false;
-        }
+        SessionManager.getInstance().setCurrentUser(user);
+        return true;
     }
 
     public String getUserRole(LoginUserBean loginUserBean){
 
-        User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
-
-        if(user != null){
-            return user.getRole().name();
-        }
-
-        return null; //User does not exist
+        User user = SessionManager.getInstance().getCurrentUser();
+        return (user != null) ? user.getRole().name() : null; //User does not exist
 
     }
 
