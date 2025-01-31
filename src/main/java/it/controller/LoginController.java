@@ -27,4 +27,17 @@ public class LoginController {
             return false;
         }
     }
+
+    public String getUserRole(LoginUserBean loginUserBean){
+
+        User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
+
+        if(user != null){
+            return user.getRole().name();
+        }
+
+        return null; //User does not exist
+
+    }
+
 }

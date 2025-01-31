@@ -42,9 +42,18 @@ public class LoginState implements CliState {
             boolean loginSuccessful = loginController.loginUser(userBean);
 
             if (loginSuccessful) {
-                // Login riuscito, cambia stato al menu principale
+                // Login ok
+                String userRole = loginController.getUserRole(userBean);
                 System.out.println("Login successful!");
-                context.setState(new MainMenuState());
+
+                if ("STUDENT".equalsIgnoreCase(userRole)) {
+                    context.setState(new HomeStudentState());  // go to HomePageStudent
+                } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
+                    context.setState(new HomeRecruiterState());  // go to HomePageRecruiter
+                } else {
+                    System.out.println("Unknown role. Please try again.");
+                    context.setState(new LoginState());  // Goto Login
+                }
             } else {
                 // Login fallito, chiediamo di riprovare
                 System.out.println("Login failed. Please try again.");

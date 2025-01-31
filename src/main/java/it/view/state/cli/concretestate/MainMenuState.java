@@ -24,14 +24,14 @@ public class MainMenuState implements CliState {
     @Override
     public void goNext(CliContext context, String input) {
 
-        switch (input) {
+        switch (input) { // View Login
             case "1":
                 context.setState(new LoginState());
                 break;
-            case "2":
+            case "2": // View Register
                 context.setState(new RegisterState());
                 break;
-            case "3":
+            case "3": //Exit
                 context.setState(new ExitState());
                 break;
             default:
