@@ -8,8 +8,8 @@ import java.util.List;
 
 public class JobApplicationCollectionSubject implements Subject {
 
-    private List<NotificationObserver> observers = new ArrayList<>();
-    private List<JobApplication> jobApplications = new ArrayList<>();
+    private final  List<NotificationObserver> observers = new ArrayList<>();
+    private final  List<JobApplication> jobApplications = new ArrayList<>();
 
 
     @Override
