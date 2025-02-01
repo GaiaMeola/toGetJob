@@ -1,0 +1,323 @@
+Index: src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.UserDao;\nimport it.model.entity.User;\n\nimport java.util.List;\nimport java.util.Optional;\n\npublic class FileSystemUserDao implements UserDao {\n\n    @Override\n    public boolean saveUser(User user) {\n        return false;\n    }\n\n    @Override\n    public Optional<User> getUser(String username) {\n        return Optional.empty();\n    }\n\n    @Override\n    public List<User> getAllUsers() {\n        return List.of();\n    }\n\n    @Override\n    public boolean updateUser(User user) {\n        return false;\n    }\n\n    @Override\n    public boolean deleteUser(String username) {\n        return false;\n    }\n\n    @Override\n    public boolean userExists(String username) {\n        return false;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java b/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java	(revision 17ce27ef229dd3a794fdb05866e955b8e6c3ef32)
++++ b/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java	(date 1738274771486)
+@@ -1,40 +1,158 @@
+ package it.model.dao.concreteobjects;
+ 
++import com.fasterxml.jackson.core.type.TypeReference;
++import com.fasterxml.jackson.databind.ObjectMapper;
+ import it.model.dao.abstractobjects.UserDao;
+ import it.model.entity.User;
+ 
++import java.io.File;
++import java.io.IOException;
+ import java.util.List;
+ import java.util.Optional;
+ 
+ public class FileSystemUserDao implements UserDao {
+ 
++    private static final String FILE_NAME = "User.json";
++    private final ObjectMapper objectMapper = new ObjectMapper();
++
+     @Override
+     public boolean saveUser(User user) {
+-        return false;
++        try {
++            List<User> users = getAllUsers() ;
++
++            if (users.stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))) {
++                System.out.println("The user " + user.getUsername() + " already exists.");
++                return false;
++            }
++
++            users.add(user) ;
++
++            objectMapper.writeValue(new File(FILE_NAME), users);
++            System.out.println("The user " + user.getUsername() + "has been successfully saved in the File System");
++            return true;
++
++        } catch (IOException e) {
++            System.out.println("The user " + user.getUsername() + "cannot be saved in the File System");
++            System.out.println(e.getMessage());
++            return false;
++        }
+     }
+ 
+     @Override
+     public Optional<User> getUser(String username) {
+-        return Optional.empty();
++
++        return getAllUsers().stream().filter(user -> user.getUsername().equals(username)).findFirst();
++
+     }
+ 
+     @Override
+     public List<User> getAllUsers() {
+-        return List.of();
++        try {
++
++            List<User> users = objectMapper.readValue(new File(FILE_NAME), new TypeReference<List<User>>() {});
++
++            if (users.isEmpty()) {
++
++                System.out.println("There aren't any user in the File System");
++                return List.of();
++
++            }
++
++            return users;
++
++        } catch (IOException e) {
++
++            System.out.println("Users cannot be retrieved from File System");
++            System.out.println(e.getMessage());
++            return List.of();
++        }
++
+     }
+ 
+     @Override
+     public boolean updateUser(User user) {
+-        return false;
+-    }
++
++        try {
++            List<User> users = getAllUsers();
++            boolean found = false;
++
++            for (int i = 0; i < users.size(); i++) {
++                if (users.get(i).getUsername().equals(user.getUsername())) {
++                    users.set(i, user); // Aggiorna i dati dell'utente
++                    found = true;
++                    break;
++                }
++            }
++
++            if (!found) {
++                System.out.println("The user " + user.getUsername() + " doesn't exist.");
++                return false;
++            }
+ 
++            objectMapper.writeValue(new File(FILE_NAME), users);
++            System.out.println("The user " + user.getUsername() + " has been successfully updated.");
++            return true;
++
++        } catch (Exception e) {
++            System.out.println("An unexpected error occurred: " + e.getMessage());
++            return false;
++        }
++    }
++
+     @Override
+     public boolean deleteUser(String username) {
+-        return false;
+-    }
++        try {
++            List<User> users = getAllUsers();
++
++            boolean removed = users.removeIf(user -> user.getUsername().equals(username));
++            if (!removed) {
++                System.out.println("The user " + username + " doesn't exist.");
++                return false;
++            }
+ 
++            objectMapper.writeValue(new File(FILE_NAME), users);
++            System.out.println("The user " + username + " has been successfully deleted.");
++            return true;
++
++        }catch (IOException e) {
++            System.out.println("The user: " + username + " cannot be deleted");
++            System.out.println(e.getMessage());
++            return false;
++        }
++    }
++
++
+     @Override
+     public boolean userExists(String username) {
+-        return false;
++        try {
++            List<User> users = objectMapper.readValue(new File(FILE_NAME), new TypeReference<List<User>>() {
++            });
++
++            if (users.isEmpty()) {
++
++                System.out.println("There aren't any user in the File System");
++                return false;
++
++            }
++
++            boolean presence = users.stream().anyMatch(user -> user.getUsername().equals(username));
++
++            if (presence) {
++
++                System.out.println("The user " + username + "exists");
++                return presence;
++
++            }
++
++            System.out.println("The user " + username + "doesn't exist");
++            return presence;
++
++        }catch(IOException e){
++
++            System.out.println("The user: "+ username + "cannot be searched");
++            System.out.println(e.getMessage());
++            return false ;
++
++        }
+     }
+ }
+Index: src/main/java/it/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it;\n\nimport it.config.ConfigDaoLoader;\nimport it.config.ConfigUILoader;\nimport it.connection.DatabaseConfig;\nimport it.exceptions.ConfigException;\nimport it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;\nimport it.pattern.state.concretestate.MainMenuState;\nimport it.pattern.state.contextstate.CliContext;\n\nimport java.io.IOException;\nimport java.sql.Connection;\nimport java.sql.SQLException;\n\n//TIP To <b>Run</b> code, press <shortcut actionId=\"Run\"/> or\n// click the <icon src=\"AllIcons.Actions.Execute\"/> icon in the gutter.\npublic class Main {\n    public static void main(String[] args) throws RuntimeException, IOException {\n        ConfigDaoLoader loaderDaoConfig;\n        ConfigUILoader loaderUIConfig;\n\n        try {\n            loaderDaoConfig = new ConfigDaoLoader(\"dao.config.properties\");\n        } catch (ConfigException e) {\n            System.out.println(\"Errore nella configurazione DAO: \" + e.getMessage());\n            return;\n        }\n        String daoType = loaderDaoConfig.getProperty(\"dao.type\");\n        System.out.println(\"Tipo di DAO configurato: \" + daoType);\n\n        AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);\n        AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();\n\n        try {\n            loaderUIConfig = new ConfigUILoader(\"ui.config.properties\");\n        } catch (ConfigException e) {\n            System.err.println(\"Errore nella configurazione UI: \" + e.getMessage());\n            return;\n        }\n\n        String uiType = loaderUIConfig.getProperty(\"ui.type\");\n        System.out.println(\"Tipo di interfaccia utente configurata: \" + uiType);\n\n\n        if (\"jdbc\".equalsIgnoreCase(daoType)) {\n            DatabaseConfig databaseConfig = DatabaseConfig.getInstance();\n            databaseConfig.setConfigLoader(loaderDaoConfig);\n\n            try {\n                Connection connection = databaseConfig.getConnection();\n                if (connection != null) {\n                    System.out.println(\"Connessione al database riuscita.\");\n\n                    // Esegui le operazioni sul database qui...\n\n                    // Alla fine, chiudi la connessione\n                    databaseConfig.closeConnection();  // Chiudi la connessione\n                    System.out.println(\"Connessione al database chiusa.\");\n                } else {\n                    System.out.println(\"Impossibile ottenere la connessione al database.\");\n                }\n            } catch (SQLException e) {\n                System.out.println(\"Errore durante la connessione al database: \" + e.getMessage());\n                return;\n            }\n        } else if (\"in memory\".equalsIgnoreCase(daoType)) {\n            // Configurazione in-memory: Non serve connettersi al database\n            System.out.println(\"DAO In-Memory configurato.\");\n        } else if (\"json\".equalsIgnoreCase(daoType)) {\n            // Configurazione FileSystem (esempio con json): Non serve connettersi al database\n            System.out.println(\"DAO FileSystem configurato.\");\n        } else {\n            System.out.println(\"Tipo di DAO non riconosciuto.\");\n        }\n        if (\"cli\".equalsIgnoreCase(uiType)){\n            CliContext context = new CliContext(new MainMenuState());\n            context.startCLI();\n        } else if(\"gui\".equalsIgnoreCase(uiType)){\n            launchGui();\n        } else{\n            System.out.println(\"Tipo di interfaccia non riconosciuto.\");\n        }\n\n    }\n\n    private static void launchGui(){\n        //metodo per lanciare interfaccia JavaFx da implementare\n        System.out.println(\"Launching GUI...\");\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/Main.java b/src/main/java/it/Main.java
+--- a/src/main/java/it/Main.java	(revision 17ce27ef229dd3a794fdb05866e955b8e6c3ef32)
++++ b/src/main/java/it/Main.java	(date 1738275728433)
+@@ -5,6 +5,8 @@
+ import it.connection.DatabaseConfig;
+ import it.exceptions.ConfigException;
+ import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
++import it.model.dao.concretefactorydao.FileSystemFactoryDao;
++import it.model.entity.User;
+ import it.pattern.state.concretestate.MainMenuState;
+ import it.pattern.state.contextstate.CliContext;
+ 
+@@ -30,7 +32,7 @@
+ 
+         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
+         AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();
+-
++        /*
+         try {
+             loaderUIConfig = new ConfigUILoader("ui.config.properties");
+         } catch (ConfigException e) {
+@@ -87,5 +89,7 @@
+         //metodo per lanciare interfaccia JavaFx da implementare
+         System.out.println("Launching GUI...");
+     }
++*/
++    }
+ 
+ }
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/Main.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Exception\" />\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729955369659</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729955369659</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663831106</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663831106</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663851839</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663851839</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"17\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 17ce27ef229dd3a794fdb05866e955b8e6c3ef32)
++++ b/.idea/workspace.xml	(date 1738275695792)
+@@ -4,15 +4,17 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione">
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Ottavo Commit: prova Caso d'uso Registrazione">
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/InterviewScheduling.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/JobAnnouncement.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/JobApplication.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/Recruiter.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/Student.json" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/User.json" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/abstractstate/CliState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/ExitState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/LoginState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/MainMenuState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/contextstate/CliContext.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemUserDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -83,6 +85,7 @@
+       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
+     </key>
+     <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json" />
+       <recent name="$PROJECT_DIR$/src/main/resources" />
+       <recent name="$PROJECT_DIR$/src/main/resources/Configurations" />
+       <recent name="$PROJECT_DIR$/target/classes/org/Configurations" />
+@@ -225,7 +228,23 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738234584655</updated>
+     </task>
+-    <option name="localTasksCounter" value="17" />
++    <task id="LOCAL-00017" summary="Settimo Commit: prova Caso d'uso Registrazione">
++      <option name="closed" value="true" />
++      <created>1738237785234</created>
++      <option name="number" value="00017" />
++      <option name="presentableId" value="LOCAL-00017" />
++      <option name="project" value="LOCAL" />
++      <updated>1738237785234</updated>
++    </task>
++    <task id="LOCAL-00018" summary="Ottavo Commit: prova Caso d'uso Registrazione">
++      <option name="closed" value="true" />
++      <created>1738237800601</created>
++      <option name="number" value="00018" />
++      <option name="presentableId" value="LOCAL-00018" />
++      <option name="project" value="LOCAL" />
++      <updated>1738237800601</updated>
++    </task>
++    <option name="localTasksCounter" value="19" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -250,7 +269,8 @@
+     <MESSAGE value="Quinto Commit: Fine Db" />
+     <MESSAGE value="Sesto Commit: Pattern State CLI prova" />
+     <MESSAGE value="Settimo Commit: prova Caso d'uso Registrazione" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: prova Caso d'uso Registrazione" />
++    <MESSAGE value="Ottavo Commit: prova Caso d'uso Registrazione" />
++    <option name="LAST_COMMIT_MESSAGE" value="Ottavo Commit: prova Caso d'uso Registrazione" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module org.example.togetjob {\n    requires javafx.controls;\n    requires javafx.fxml;\n    requires javafx.web;\n\n    requires org.controlsfx.controls;\n    requires com.dlsc.formsfx;\n    requires net.synedra.validatorfx;\n    requires org.kordamp.ikonli.javafx;\n    requires org.kordamp.bootstrapfx.core;\n    requires eu.hansolo.tilesfx;\n    requires com.almasb.fxgl.all;\n    requires java.sql;\n\n    opens org.example.togetjob to javafx.fxml;\n    exports org.example.togetjob;\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision 17ce27ef229dd3a794fdb05866e955b8e6c3ef32)
++++ b/src/main/java/module-info.java	(date 1738245106165)
+@@ -10,7 +10,7 @@
+     requires org.kordamp.bootstrapfx.core;
+     requires eu.hansolo.tilesfx;
+     requires com.almasb.fxgl.all;
+-    requires java.sql;
++    requires com.fasterxml.jackson.databind;
+ 
+     opens org.example.togetjob to javafx.fxml;
+     exports org.example.togetjob;
+diff --git a/src/main/resources/org/example/togetjob/files_json/InterviewScheduling.json b/src/main/resources/org/example/togetjob/files_json/InterviewScheduling.json
+new file mode 100644
+diff --git a/src/main/resources/org/example/togetjob/files_json/JobApplication.json b/src/main/resources/org/example/togetjob/files_json/JobApplication.json
+new file mode 100644
+diff --git a/src/main/resources/org/example/togetjob/files_json/JobAnnouncement.json b/src/main/resources/org/example/togetjob/files_json/JobAnnouncement.json
+new file mode 100644
+diff --git a/src/main/resources/org/example/togetjob/files_json/Student.json b/src/main/resources/org/example/togetjob/files_json/Student.json
+new file mode 100644
+diff --git a/src/main/resources/org/example/togetjob/files_json/Recruiter.json b/src/main/resources/org/example/togetjob/files_json/Recruiter.json
+new file mode 100644
+diff --git a/src/main/resources/org/example/togetjob/files_json/User.json b/src/main/resources/org/example/togetjob/files_json/User.json
+new file mode 100644
