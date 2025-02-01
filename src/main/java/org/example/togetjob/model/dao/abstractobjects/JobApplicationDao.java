@@ -14,7 +14,7 @@ public interface JobApplicationDao {
     Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement);
     boolean updateJobApplication(JobApplication jobApplication);
     boolean deleteJobApplication(JobApplication jobApplication);
-    boolean JobApplicationExists(Student student, JobAnnouncement jobAnnouncement);
+    boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement);
     List<JobApplication> getAllJobApplications(Student student);
 
 }

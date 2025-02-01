@@ -31,13 +31,6 @@ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public List<JobAnnouncement> getAllJobAnnouncements() {
-        return jobAnnouncementsMap.values().stream()
-                .flatMap(map -> map.values().stream())
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) {
         String key = generateKey(jobAnnouncement);
         Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);

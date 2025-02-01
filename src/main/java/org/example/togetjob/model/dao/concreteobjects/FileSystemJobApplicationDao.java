@@ -30,7 +30,7 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean JobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
+    public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
         return false;
     }
 
