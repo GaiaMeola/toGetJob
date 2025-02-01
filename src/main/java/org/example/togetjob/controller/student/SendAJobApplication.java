@@ -28,7 +28,7 @@ public class SendAJobApplication {
     }
 
     // DA FINIRE
-    public List<JobAnnouncementSearchBean> getFilteredJobAnnouncement (JobAnnouncementSearchBean jobAnnouncementSearchBean){
+    public List<JobAnnouncementBean> getFilteredJobAnnouncement (JobAnnouncementSearchBean jobAnnouncementSearchBean){
 
         return List.of() ;
 
@@ -57,6 +57,7 @@ public class SendAJobApplication {
 
     }
 
+    // DA COLLEGARE CON L'OBSERVER
     public boolean sendAJobApplication (JobApplicationBean jobApplicationBean){
 
         // Recupero lo studente dalla sessione attuale
@@ -94,13 +95,6 @@ public class SendAJobApplication {
 
     }
 
-
-
-
-
-
-
-
     public Status getStatusJobApplication (JobApplicationBean jobApplicationBean){
 
         Optional<JobApplication> jobApplicationOpt = getJobApplication(jobApplicationBean) ;
@@ -131,7 +125,6 @@ public class SendAJobApplication {
 
             // la job application è stata modificata
             return true ;
-
 
         }
 
