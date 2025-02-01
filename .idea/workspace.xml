@@ -5,13 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Pattern Observer (Send a Job Application)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/CLINotification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/GUINotification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/Notification.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Notify.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/observer/RecruiterObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/observer/RecruiterObserver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/subject/JobApplicationCollectionSubject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/subject/JobApplicationCollectionSubject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/boundary/LoginBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/boundary/LoginBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/registration/RegisterRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/registration/RegisterRecruiterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +276,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738445091963</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Settimo Commit: Pattern Observer (Send a Job Application)">
+      <option name="closed" value="true" />
+      <created>1738446888904</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738446888904</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

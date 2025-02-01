@@ -14,13 +14,7 @@ public class LoginBoundary {
 
     public boolean login(String username, String password) {
         LoginUserBean userBean = new LoginUserBean(username, password);
-        boolean success = loginController.loginUser(userBean);
-
-        if (success) {
-            return true;
-        } else {
-            return false;
-        }
+        return loginController.loginUser(userBean);
     }
 
     public void logout() {
