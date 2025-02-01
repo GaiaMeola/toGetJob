@@ -5,6 +5,7 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
+import org.example.togetjob.model.factory.JobAnnouncementFactory;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.ArrayList;
@@ -36,18 +37,16 @@ public class PublishAJobAnnouncementController {
             return false;
         }
 
-        JobAnnouncement jobAnnouncement = new JobAnnouncement(
+        JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
                 jobAnnouncementBean.getJobTitle(),
                 jobAnnouncementBean.getJobType(),
                 jobAnnouncementBean.getRole(),
                 jobAnnouncementBean.getLocation(),
-                workingHours,
+                Integer.parseInt(jobAnnouncementBean.getWorkingHours()),
                 jobAnnouncementBean.getCompanyName(),
-                salary,
+                Double.parseDouble(jobAnnouncementBean.getSalary()),
                 jobAnnouncementBean.getDescription(),
-                true, //default
-                recruiter,
-                null
+                recruiter
         );
 
         return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);

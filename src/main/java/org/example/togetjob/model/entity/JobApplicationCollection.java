@@ -1,10 +1,15 @@
 package org.example.togetjob.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JobApplicationCollection {
 
     private List<JobApplication> jobApplications;
+
+    public JobApplicationCollection() {
+        this.jobApplications = new ArrayList<>();
+    }
 
     public JobApplicationCollection(List<JobApplication> jobApplications) {
         this.jobApplications = jobApplications;

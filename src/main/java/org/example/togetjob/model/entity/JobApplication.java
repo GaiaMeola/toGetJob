@@ -8,13 +8,14 @@ public class JobApplication {
     private Student student;
     private Status status;
     private String coverLetter;
+    private JobAnnouncement jobAnnouncement;
 
-
-    public JobApplication(LocalDate applicationDate, Student student, Status status, String coverLetter) {
-        this.applicationDate = applicationDate;
+    public JobApplication(Student student, String coverLetter, JobAnnouncement jobAnnouncement) {
+        this.applicationDate = LocalDate.now();
         this.student = student;
-        this.status = status;
+        this.status = Status.PENDING;
         this.coverLetter = coverLetter;
+        this.jobAnnouncement = jobAnnouncement;
     }
 
     public LocalDate getApplicationDate() {
@@ -47,5 +48,13 @@ public class JobApplication {
 
     public void setCoverLetter(String coverLetter) {
         this.coverLetter = coverLetter;
+    }
+
+    public JobAnnouncement getJobAnnouncement() {
+        return jobAnnouncement;
+    }
+
+    public void setJobAnnouncement(JobAnnouncement jobAnnouncement) {
+        this.jobAnnouncement = jobAnnouncement;
     }
 }
