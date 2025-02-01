@@ -36,7 +36,6 @@ public class SendAJobApplication {
 
     private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean){
 
-
         Student student = getStudentFromSession();
 
         Optional<Recruiter> recruiterOpt = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername());
@@ -82,7 +81,7 @@ public class SendAJobApplication {
 
         if (jobApplicationOpt.isEmpty()){
 
-            JobApplication jobApplication = new JobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
+            JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
             jobApplicationDao.saveJobApplication(jobApplication) ;
 
             // job application inviata
@@ -127,7 +126,7 @@ public class SendAJobApplication {
             Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean) ;
             JobApplication oldJobApplication = jobApplicationOPT.get() ;
 
-            JobApplication newJobApplication = new JobApplication(oldJobApplication.getStudent(),jobApplicationBean.getCoverLetter(),oldJobApplication.getJobAnnouncement()) ;
+            JobApplication newJobApplication = JobApplicationFactory.createJobApplication(oldJobApplication.getStudent(),jobApplicationBean.getCoverLetter(),oldJobApplication.getJobAnnouncement()) ;
             jobApplicationDao.saveJobApplication(newJobApplication) ;
 
             // la job application è stata modificata
@@ -150,7 +149,7 @@ public class SendAJobApplication {
             Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean) ;
             JobApplication oldJobApplication = jobApplicationOPT.get() ;
 
-            JobApplication newJobApplication = new JobApplication(oldJobApplication.getStudent(),jobApplicationBean.getCoverLetter(),oldJobApplication.getJobAnnouncement()) ;
+            JobApplication newJobApplication = JobApplicationFactory.createJobApplication(oldJobApplication.getStudent(),jobApplicationBean.getCoverLetter(),oldJobApplication.getJobAnnouncement()) ;
             jobApplicationDao.deleteJobApplication(newJobApplication) ;
 
             // la job application è stata eliminata
