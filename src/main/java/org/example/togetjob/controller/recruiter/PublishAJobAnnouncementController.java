@@ -6,6 +6,7 @@ import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.factory.JobAnnouncementFactory;
+import org.example.togetjob.pattern_observer.observer.RecruiterObserver;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ public class PublishAJobAnnouncementController {
     public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
 
         Recruiter recruiter = getRecruiterFromSession();
-        int workingHours;
-        double salary;
+        int workingHours = 0;
+        double salary = 0;
 
         if (jobAnnouncementDao.jobAnnouncementExists(jobAnnouncementBean.getJobTitle(), recruiter)) {
             return false;  // false if user exists
@@ -37,18 +38,21 @@ public class PublishAJobAnnouncementController {
             return false;
         }
 
+
         JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
                 jobAnnouncementBean.getJobTitle(),
                 jobAnnouncementBean.getJobType(),
                 jobAnnouncementBean.getRole(),
                 jobAnnouncementBean.getLocation(),
-                Integer.parseInt(jobAnnouncementBean.getWorkingHours()),
+                workingHours,
                 jobAnnouncementBean.getCompanyName(),
-                Double.parseDouble(jobAnnouncementBean.getSalary()),
+                salary,
                 jobAnnouncementBean.getDescription(),
                 recruiter
         );
 
+        // register recruiter who publishes the job announcement
+        jobAnnouncement.getJobApplicationCollection().attach(new RecruiterObserver(recruiter));
         return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);
 
     }
