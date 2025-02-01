@@ -28,6 +28,5 @@ public class JobApplication {
         return status;
     }
 
-    pu
 
 }
