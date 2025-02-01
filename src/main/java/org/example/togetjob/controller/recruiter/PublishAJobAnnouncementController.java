@@ -46,7 +46,8 @@ public class PublishAJobAnnouncementController {
                 salary,
                 jobAnnouncementBean.getDescription(),
                 true, //default
-                recruiter
+                recruiter,
+                null
         );
 
         return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);
