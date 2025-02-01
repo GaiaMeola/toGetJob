@@ -12,6 +12,7 @@ module org.example.togetjob {
     requires com.almasb.fxgl.all;
     requires com.fasterxml.jackson.databind;
     requires java.sql;
+    /*requires mysql.connector.j;*/
 
     opens org.example.togetjob to javafx.fxml;
     exports org.example.togetjob;
