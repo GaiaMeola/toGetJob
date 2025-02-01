@@ -15,7 +15,7 @@ import java.sql.SQLException;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    public static void main(String[] args) throws RuntimeException, IOException {
+    public static void main(String[] args) throws RuntimeException {
         ConfigDaoLoader loaderDaoConfig;
         ConfigUILoader loaderUIConfig;
 
@@ -29,7 +29,6 @@ public class Main {
         System.out.println("Tipo di DAO configurato: " + daoType);
 
         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
-        AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();
 
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
@@ -49,11 +48,7 @@ public class Main {
                 Connection connection = databaseConfig.getConnection();
                 if (connection != null) {
                     System.out.println("Connessione al database riuscita.");
-
-                    // Esegui le operazioni sul database qui...
-
-                    // Alla fine, chiudi la connessione
-                    databaseConfig.closeConnection();  // Chiudi la connessione
+                    databaseConfig.closeConnection(); //Connection closed
                     System.out.println("Connessione al database chiusa.");
                 } else {
                     System.out.println("Impossibile ottenere la connessione al database.");
@@ -63,10 +58,10 @@ public class Main {
                 return;
             }
         } else if ("in memory".equalsIgnoreCase(daoType)) {
-            // Configurazione in-memory: Non serve connettersi al database
+            //In memory
             System.out.println("DAO In-Memory configurato.");
         } else if ("json".equalsIgnoreCase(daoType)) {
-            // Configurazione FileSystem (esempio con json): Non serve connettersi al database
+           //file system
             System.out.println("DAO FileSystem configurato.");
         } else {
             System.out.println("Tipo di DAO non riconosciuto.");
@@ -83,7 +78,7 @@ public class Main {
     }
 
     private static void launchGui(){
-        //metodo per lanciare interfaccia JavaFx da implementare
+       //GUI
         System.out.println("Launching GUI...");
     }
 

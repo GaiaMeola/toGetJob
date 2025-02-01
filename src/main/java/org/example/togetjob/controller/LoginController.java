@@ -8,7 +8,7 @@ import org.example.togetjob.session.SessionManager;
 
 public class LoginController {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     public LoginController(){
         this.userDao = AbstractFactoryDaoSingleton.getFactoryDao().createUserDao();
@@ -18,19 +18,12 @@ public class LoginController {
 
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
-        if(user == null || !user.getPassword().equalsIgnoreCase(loginUserBean.getPassword())){
-            return false; // User non esiste o password errata
+        if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
+            return false; // User not found
         }
 
         SessionManager.getInstance().setCurrentUser(user);
         return true;
-    }
-
-    public String getUserRole(LoginUserBean loginUserBean){
-
-        User user = SessionManager.getInstance().getCurrentUser();
-        return (user != null) ? user.getRole().name() : null; //User does not exist
-
     }
 
 }

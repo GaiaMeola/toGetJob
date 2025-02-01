@@ -43,11 +43,11 @@ public class LoginState implements CliState {
                     context.setState(new HomeRecruiterState());  // go to HomePageRecruiter
                 } else {
                     System.out.println("Unknown role. Please try again.");
-                    context.setState(new LoginState());  // Goto Login
+                    context.setState(new MainMenuState());  // Goto Login
                 }
             } else {
                 System.out.println("Login failed. Please try again.");
-                context.setState(new LoginState());  // Rimani nello stato di login
+                context.setState(new MainMenuState());  //Login
             }
     }
 }

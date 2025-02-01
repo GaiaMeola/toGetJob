@@ -19,11 +19,6 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public List<JobAnnouncement> getAllJobAnnouncements() {
-        return List.of();
-    }
-
-    @Override
     public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) {
         return false;
     }

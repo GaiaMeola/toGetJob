@@ -22,8 +22,8 @@ public class RegisterRecruiterController extends AbstractRegisterController{
     protected User createUser(RegisterUserBean userBean) {
         return new Recruiter(
                 userBean.getUsername(), userBean.getPassword(), userBean.getName(), userBean.getSurname(),
-                userBean.getEmailAddress(), Role.RECRUITER, recruiterInfoBean.getCompanies(), null
-        ); //No Collaborators
+                userBean.getEmailAddress(), Role.RECRUITER, recruiterInfoBean.getCompanies()
+        );
     }
 
     @Override

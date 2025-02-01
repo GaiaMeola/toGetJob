@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.HelloController">
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <cursor>
+      <Cursor fx:constant="SE_RESIZE" />
+   </cursor>
+   <children>
+      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+         <children>
+            <Label layoutX="32.0" style="-fx-text-fill: #b3d9ff;" text="Welcome to toGetJob !">
+               <font>
+                  <Font name="AppleGothic Regular" size="36.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="23.0" layoutY="52.0" prefHeight="178.0" prefWidth="406.0" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20;">
+               <children>
+                  <Label layoutX="14.0" layoutY="14.0" style="-fx-text-fill: #1D3557;" text="Do you already have an account?" textFill="#1d3557">
+                     <font>
+                        <Font name="AppleGothic Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="16.0" layoutY="57.0" style="-fx-text-fill: #1D3557;" text="Username">
+                     <font>
+                        <Font name="AppleGothic Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="124.0" style="-fx-text-fill: #1D3557;" text="Password">
+                     <font>
+                        <Font name="AppleGothic Regular" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="14.0" layoutY="78.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your username" style="-fx-border-radius: 5;">
+                     <font>
+                        <Font name="AppleGothic Regular" size="12.0" />
+                     </font>
+                  </TextField>
+                  <PasswordField layoutX="14.0" layoutY="145.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your password" style="-fx-border-radius: 5;">
+                     <font>
+                        <Font name="AppleGothic Regular" size="12.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </AnchorPane>
+            <Label layoutX="94.0" layoutY="281.0" style="-fx-text-fill: #1D3557;" text="Do you want to create a new one? ">
+               <font>
+                  <Font name="AppleGothic Regular" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="182.0" layoutY="321.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="88.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Register">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

@@ -27,11 +27,7 @@ public class SendAJobApplication {
         this.recruiterDao = AbstractFactoryDaoSingleton.getFactoryDao().createRecruiterDao() ;
     }
 
-
-
-
-
-
+    // DA FINIRE
     public List<JobAnnouncementSearchBean> getFilteredJobAnnouncement (JobAnnouncementSearchBean jobAnnouncementSearchBean){
 
         return List.of() ;
