@@ -27,13 +27,4 @@ public class Recruiter extends User {
         return collaborators;
     }
 
-    @Override
-    public String toString() {
-        return "Recruiter{" +
-                "username='" + getUsername() + '\'' +
-                ", email='" + getEmailAddress() + '\'' +
-                ", companies='" + getCompanies() + '\'' +
-                '}';
-    }
-
 }
