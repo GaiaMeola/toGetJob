@@ -1,14 +1,8 @@
 package org.example.togetjob.model.dao.concretefactorydao;
 
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
-import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
-import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-import org.example.togetjob.model.dao.abstractobjects.UserDao;
-import org.example.togetjob.model.dao.concreteobjects.DataBaseJobAnnouncementDao;
-import org.example.togetjob.model.dao.concreteobjects.DataBaseRecruiterDao;
-import org.example.togetjob.model.dao.concreteobjects.DataBaseStudentDao;
-import org.example.togetjob.model.dao.concreteobjects.DataBaseUserDao;
+import org.example.togetjob.model.dao.abstractobjects.*;
+import org.example.togetjob.model.dao.concreteobjects.*;
 
 public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     @Override
@@ -30,5 +24,9 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     public RecruiterDao createRecruiterDao() {
         return new DataBaseRecruiterDao();
     }
+
+    @Override
+    public JobApplicationDao createJobApplicationDao() {return new DataBaseJobApplicationDao();}
+
 
 }

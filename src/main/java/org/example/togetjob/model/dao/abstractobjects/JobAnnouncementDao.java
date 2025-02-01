@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface JobAnnouncementDao {
     boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement);
     Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter);
-    List<JobAnnouncement> getAllJobAnnouncements();
     boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement);
     boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement);
     boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter);

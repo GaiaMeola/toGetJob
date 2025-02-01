@@ -1,14 +1,8 @@
 package org.example.togetjob.model.dao.concretefactorydao;
 
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
-import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
-import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-import org.example.togetjob.model.dao.abstractobjects.UserDao;
-import org.example.togetjob.model.dao.concreteobjects.FileSystemJobAnnouncementDao;
-import org.example.togetjob.model.dao.concreteobjects.FileSystemRecruiterDao;
-import org.example.togetjob.model.dao.concreteobjects.FileSystemStudentDao;
-import org.example.togetjob.model.dao.concreteobjects.FileSystemUserDao;
+import org.example.togetjob.model.dao.abstractobjects.*;
+import org.example.togetjob.model.dao.concreteobjects.*;
 
 public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
 
@@ -31,5 +25,8 @@ public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
     public RecruiterDao createRecruiterDao() {
         return new FileSystemRecruiterDao();
     }
+
+    @Override
+    public JobApplicationDao createJobApplicationDao() {return new FileSystemJobApplicationDao();}
 
 }

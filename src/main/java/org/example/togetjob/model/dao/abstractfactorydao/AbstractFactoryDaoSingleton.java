@@ -1,15 +1,14 @@
 package org.example.togetjob.model.dao.abstractfactorydao;
 
 import org.example.togetjob.config.ConfigDaoLoader;
-import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
-import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
-import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-import org.example.togetjob.model.dao.abstractobjects.UserDao;
+import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concretefactorydao.DataBaseFactoryDao;
 import org.example.togetjob.model.dao.concretefactorydao.FileSystemFactoryDao;
 import org.example.togetjob.model.dao.concretefactorydao.InMemoryFactoryDao;
+import org.example.togetjob.model.entity.JobApplication;
 
-public abstract class AbstractFactoryDaoSingleton {
+public abstract class
+AbstractFactoryDaoSingleton {
 
     private static AbstractFactoryDaoSingleton factoryDao = null;
     private static ConfigDaoLoader configLoader;
@@ -61,4 +60,5 @@ public abstract class AbstractFactoryDaoSingleton {
     public abstract JobAnnouncementDao createJobAnnouncementDao();
     public abstract StudentDao createStudentDao();
     public abstract RecruiterDao createRecruiterDao();
+    public abstract JobApplicationDao createJobApplicationDao();
 }
