@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Commit: FileSystemUserDao , GuiState , Observer , Interfacce">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/JobAnnouncement.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/Recruiter.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/Student.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/files_json/User.json" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Caso d'uso Registrazione e Login completati">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/ContactAJobCandidate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/InviteARecruiterAsCollaborator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/student/SendAJobApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/controller/student/VoteACompany.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeStudentState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemRecruiterDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemRecruiterDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemStudentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemStudentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,19 +26,14 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Exception" />
-        <option value="FxmlFile" />
         <option value="Enum" />
+        <option value="FxmlFile" />
         <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="PREVIOUS_COMMIT_AUTHORS">
-      <list>
-        <option value="Gaia Meola &lt;gaia.meola@gmail.com&gt;" />
-      </list>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -46,7 +45,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
-    &quot;accountId&quot;: &quot;10ff2728-a55b-45dc-b4f1-a35abedc973c&quot;
+    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
   }
 }</component>
   <component name="MavenImportPreferences">
@@ -245,23 +244,7 @@
       <option name="project" value="LOCAL" />
       <updated>1738320033356</updated>
     </task>
-    <task id="LOCAL-00019" summary="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli">
-      <option name="closed" value="true" />
-      <created>1738323917280</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1738323917280</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Commit: FileSystemUserDao , GuiState , Observer">
-      <option name="closed" value="true" />
-      <created>1738369789183</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1738369789183</updated>
-    </task>
-    <option name="localTasksCounter" value="21" />
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -288,10 +271,7 @@
     <MESSAGE value="Settimo Commit: prova Caso d'uso Registrazione" />
     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login iniziati" />
     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
-    <MESSAGE value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
-    <MESSAGE value="Settimo Commit: Aggiunta delle boundary" />
-    <MESSAGE value="Commit: FileSystemUserDao , GuiState , Observer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit: FileSystemUserDao , GuiState , Observer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
