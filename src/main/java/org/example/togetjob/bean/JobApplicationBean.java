@@ -17,6 +17,9 @@ public class JobApplicationBean {
         this.recruiterUsername = recruiterUsername;
     }
 
+    public JobApplicationBean() {
+    }
+
     public String getStudentUsername() {
         return studentUsername;
     }

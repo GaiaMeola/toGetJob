@@ -6,7 +6,7 @@ import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.factory.JobAnnouncementFactory;
-import org.example.togetjob.pattern_observer.observer.RecruiterObserver;
+import org.example.togetjob.pattern.observer.RecruiterObserver;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.ArrayList;

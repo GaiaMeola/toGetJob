@@ -5,6 +5,9 @@ import org.example.togetjob.model.entity.Recruiter;
 
 public class JobAnnouncementFactory {
 
+    private JobAnnouncementFactory(){
+    }
+
     public static JobAnnouncement createJobAnnouncement(String jobTitle, String jobType, String role,
                                                         String location, int workingHours, String companyName,
                                                         double salary, String description, Recruiter recruiter){

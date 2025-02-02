@@ -5,36 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_01_25,_17_22_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_01_25,_17_22_[Changes]2/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_01_25__17_22__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_01_25__17_22__Changes_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_01_25,_17_06_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_01_25,_5_24 PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_01_25__17_06__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_26_01_25__5_24PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobApplicationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobApplicationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/connection/DatabaseConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/connection/DatabaseConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/factory/JobAnnouncementFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/factory/JobAnnouncementFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/CLINotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern_observer/CLINotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/JobAnnouncementRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/JobAnnouncementRecruiterState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataHomeStudente.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataIniziale.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataLogin.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRecruiter.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneRecruiter.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataRegistrazioneStudente.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/BozzaSchermataStudent.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterContactAJobCandidateCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterContactAJobCandidateCopia.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RegistrazioneRecruiterCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RegistrazioneRecruiterCopia.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentShowJobAnnouncementsCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentShowJobAnnouncementsCopia.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +40,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
-    &quot;accountId&quot;: &quot;10ff2728-a55b-45dc-b4f1-a35abedc973c&quot;
+    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
   }
 }</component>
   <component name="MavenImportPreferences">
@@ -327,15 +298,7 @@
       <option name="project" value="LOCAL" />
       <updated>1738451954957</updated>
     </task>
-    <task id="LOCAL-00026" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <option name="closed" value="true" />
-      <created>1738453107060</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1738453107060</updated>
-    </task>
-    <option name="localTasksCounter" value="27" />
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
