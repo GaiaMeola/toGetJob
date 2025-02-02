@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class DatabaseConfig {
+
+    private static final Logger logger = Logger.getLogger(DatabaseConfig.class.getName());
 
     private static DatabaseConfig instance = null;
     private static Connection connection;
@@ -64,11 +67,11 @@ public class DatabaseConfig {
                 // Carica il driver JDBC se necessario
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                System.out.println("Connessione al database riuscita!");
+                logger.info("Connessione al database riuscita!");
             } catch (ClassNotFoundException e) {
                 throw new SQLException("Driver JDBC MySQL non trovato", e);
             } catch (SQLException e) {
-                System.err.println("Errore durante la connessione al database: " + e.getMessage());
+                logger.severe("Errore durante la connessione al database: " + e.getMessage());
                 throw e; // Propaga l'errore all'esterno
             }
         }
@@ -79,9 +82,9 @@ public class DatabaseConfig {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connessione chiusa con successo.");
+                logger.info("Connessione chiusa con successo.");
             } catch (SQLException e) {
-                System.err.println("Errore durante la chiusura della connessione: " + e.getMessage());
+                logger.severe("Errore durante la chiusura della connessione: " + e.getMessage());
             } finally {
                 connection = null; // Resetta la connessione dopo la chiusura
             }

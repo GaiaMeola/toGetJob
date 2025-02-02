@@ -8,37 +8,39 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.view.cli.concretestate.MainMenuState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) throws RuntimeException {
+
         ConfigDaoLoader loaderDaoConfig;
         ConfigUILoader loaderUIConfig;
 
         try {
             loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
         } catch (ConfigException e) {
-            System.out.println("Errore nella configurazione DAO: " + e.getMessage());
+            logger.severe("Errore nella configurazione DAO: " + e.getMessage());
             return;
         }
         String daoType = loaderDaoConfig.getProperty("dao.type");
-        System.out.println("Tipo di DAO configurato: " + daoType);
+        logger.info("Tipo di DAO configurato: " + daoType);
 
         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
 
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
         } catch (ConfigException e) {
-            System.err.println("Errore nella configurazione UI: " + e.getMessage());
+            logger.severe("Errore nella configurazione UI: " + e.getMessage());
             return;
         }
 
         String uiType = loaderUIConfig.getProperty("ui.type");
-        System.out.println("Tipo di interfaccia utente configurata: " + uiType);
+        logger.info("Tipo di interfaccia utente configurata: " + uiType);
 
         if ("jdbc".equalsIgnoreCase(daoType)) {
             DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
@@ -47,39 +49,40 @@ public class Main {
             try {
                 Connection connection = databaseConfig.getConnection();
                 if (connection != null) {
-                    System.out.println("Connessione al database riuscita.");
+                    logger.info("Connessione al database riuscita.");
                     databaseConfig.closeConnection(); //Connection closed
-                    System.out.println("Connessione al database chiusa.");
+                    logger.info("Connessione al database chiusa.");
                 } else {
-                    System.out.println("Impossibile ottenere la connessione al database.");
+                    logger.warning("Impossibile ottenere la connessione al database.");
                 }
             } catch (SQLException e) {
-                System.out.println("Errore durante la connessione al database: " + e.getMessage());
+                logger.severe("Errore durante la connessione al database: " + e.getMessage());
                 return;
             }
         } else if ("in memory".equalsIgnoreCase(daoType)) {
             //In memory
-            System.out.println("DAO In-Memory configurato.");
+            logger.info("DAO In-Memory configurato.");
         } else if ("json".equalsIgnoreCase(daoType)) {
-           //file system
-            System.out.println("DAO FileSystem configurato.");
+            //file system
+            logger.info("DAO FileSystem configurato.");
         } else {
-            System.out.println("Tipo di DAO non riconosciuto.");
+            logger.warning("Tipo di DAO non riconosciuto.");
         }
-        if ("cli".equalsIgnoreCase(uiType)){
+
+        if ("cli".equalsIgnoreCase(uiType)) {
             CliContext context = new CliContext(new MainMenuState());
             context.startCLI();
-        } else if("gui".equalsIgnoreCase(uiType)){
+        } else if ("gui".equalsIgnoreCase(uiType)) {
             launchGui();
-        } else{
-            System.out.println("Tipo di interfaccia non riconosciuto.");
+        } else {
+            logger.warning("Tipo di interfaccia non riconosciuto.");
         }
 
     }
 
     private static void launchGui(){
-       //GUI
-        System.out.println("Launching GUI...");
+        //GUI
+        logger.info("Launching GUI...");
     }
 
 }

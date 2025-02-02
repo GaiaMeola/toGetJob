@@ -48,7 +48,7 @@
             </SplitMenuButton>
             <ImageView fitHeight="85.0" fitWidth="111.0" layoutX="170.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
                <image>
-                  <Image url="@../IdeaProjects/toGetJob/src/main/resources/org/example/togetjob/logo-removebg-preview.png" />
+                  <Image url="@logo-removebg-preview.png" />
                </image>
                <viewport>
                   <Rectangle2D minY="-10.0" />
