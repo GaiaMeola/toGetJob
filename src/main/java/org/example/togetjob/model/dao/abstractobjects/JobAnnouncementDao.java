@@ -13,5 +13,4 @@ public interface JobAnnouncementDao {
     boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement);
     boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter);
     List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter);
-    List<JobAnnouncement> getAllJobAnnouncements();
 }

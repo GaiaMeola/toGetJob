@@ -1,8 +1,8 @@
-package org.example.togetjob.pattern.observer;
+package org.example.togetjob.pattern_observer.observer;
 
 import org.example.togetjob.model.entity.JobApplication;
 import org.example.togetjob.model.entity.Recruiter;
-import org.example.togetjob.pattern.Notification;
+import org.example.togetjob.pattern_observer.Notification;
 
 public class RecruiterObserver implements NotificationObserver{
 

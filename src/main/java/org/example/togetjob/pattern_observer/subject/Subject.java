@@ -1,7 +1,7 @@
-package org.example.togetjob.pattern.subject;
+package org.example.togetjob.pattern_observer.subject;
 
 import org.example.togetjob.model.entity.JobApplication;
-import org.example.togetjob.pattern.observer.NotificationObserver;
+import org.example.togetjob.pattern_observer.observer.NotificationObserver;
 
 public interface Subject {
 
