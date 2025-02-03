@@ -1,0 +1,1073 @@
+Index: src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.abstractobjects;\n\nimport it.model.entity.JobAnnouncement;\n\npublic interface JobAnnouncementDao {\n\n    void createJobAnnouncement(JobAnnouncement jobAnnouncement);\n    JobAnnouncement getJobAnnouncement(int id);\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java b/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java	(date 1738348191542)
+@@ -1,9 +1,17 @@
+ package it.model.dao.abstractobjects;
+ 
+ import it.model.entity.JobAnnouncement;
++import it.model.entity.Recruiter;
++
++import java.util.List;
++import java.util.Optional;
+ 
+ public interface JobAnnouncementDao {
+-
+-    void createJobAnnouncement(JobAnnouncement jobAnnouncement);
+-    JobAnnouncement getJobAnnouncement(int id);
++    boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement);
++    Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter);
++    List<JobAnnouncement> getAllJobAnnouncements();
++    boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement);
++    boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement);
++    boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter);
++    List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter);
+ }
+Index: src/main/java/it/view/cli/concretestate/JobAnnouncementRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/view/cli/concretestate/JobAnnouncementRecruiterState.java b/src/main/java/it/view/cli/concretestate/JobAnnouncementRecruiterState.java
+new file mode 100644
+--- /dev/null	(date 1738353350567)
++++ b/src/main/java/it/view/cli/concretestate/JobAnnouncementRecruiterState.java	(date 1738353350567)
+@@ -0,0 +1,166 @@
++package it.view.cli.concretestate;
++
++import it.bean.JobAnnouncementBean;
++import it.boundary.PublishAJobAnnouncementRecruiterBoundary;
++import it.view.cli.abstractstate.CliState;
++import it.view.cli.contextstate.CliContext;
++
++import java.util.Scanner;
++
++public class JobAnnouncementRecruiterState implements CliState {
++
++    private final PublishAJobAnnouncementRecruiterBoundary jobAnnouncementRecruiterBoundary = new PublishAJobAnnouncementRecruiterBoundary();
++
++    @Override
++    public void showMenu() {
++        System.out.println("\n --- Job Announcements - Recruiter ---");
++        System.out.println("Welcome, Recruiter! You can do the following:");
++        System.out.println("1. View all your job announcements");
++        System.out.println("2. Create a new job announcement");
++        System.out.println("3. Deactivate a job announcement");
++        System.out.println("4. Delete a job announcement");
++        System.out.println("5. Go back");
++        System.out.println("6. Exit");
++        System.out.print("Choose an option: ");
++    }
++
++    @Override
++    public void goNext() {
++
++    }
++
++    @Override
++    public void goNext(CliContext context, String input) {
++
++        Scanner scanner = context.getScanner();
++
++        switch (input.toLowerCase()) {
++            case "1": // View job announcements
++                viewJobAnnouncements();
++                break;
++
++            case "2": // Create a new job announcement
++                createJobAnnouncement(scanner);
++                break;
++
++            case "3": // Deactivate a job announcement
++                deactivateJobAnnouncement(scanner);
++                break;
++
++            case "4": // Delete a job announcement
++                deleteJobAnnouncement(scanner);
++                break;
++
++            case "5": // Go back to previous state
++                System.out.println("Returning to recruiter home...");
++                context.setState(new HomeRecruiterState());
++                break;
++
++            case "6": // Exit application
++                System.out.println("Exiting application...");
++                context.setState(new ExitState());
++                break;
++
++            default:
++                System.out.println("Invalid option. Please try again.");
++                break;
++        }
++
++    }
++
++
++    private void viewJobAnnouncements() {
++        // Call the boundary method to fetch job announcements
++        var jobAnnouncements = jobAnnouncementRecruiterBoundary.getJobAnnouncements();
++
++        if (jobAnnouncements.isEmpty()) {
++            System.out.println("No job announcements found.");
++        } else {
++            // Display the announcements
++            for (var job : jobAnnouncements) {
++                System.out.println("Title: " + job.getJobTitle());
++                System.out.println("Location: " + job.getLocation());
++                System.out.println("Salary: " + job.getSalary());
++                System.out.println("Active: " + job.isActive());
++                System.out.println("-------------------------");
++            }
++        }
++    }
++
++    private void createJobAnnouncement(Scanner scanner) {
++        // Collect job details from the user to create a new job announcement
++        System.out.println("Enter the details for the new job announcement:");
++
++        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
++
++        System.out.print("Enter Job Title: ");
++        jobAnnouncementBean.setJobTitle(scanner.nextLine());
++
++        System.out.print("Enter Job Type: ");
++        jobAnnouncementBean.setJobType(scanner.nextLine());
++
++        System.out.print("Enter Role: ");
++        jobAnnouncementBean.setRole(scanner.nextLine());
++
++        System.out.print("Enter Location: ");
++        jobAnnouncementBean.setLocation(scanner.nextLine());
++
++        System.out.print("Enter Working Hours: ");
++        jobAnnouncementBean.setWorkingHours(scanner.nextLine());
++
++        System.out.print("Enter Company Name: ");
++        jobAnnouncementBean.setCompanyName(scanner.nextLine());
++
++        System.out.print("Enter Salary: ");
++        jobAnnouncementBean.setSalary(scanner.nextLine());
++
++        System.out.print("Enter Description: ");
++        jobAnnouncementBean.setDescription(scanner.nextLine());
++
++        // Call the boundary method to publish the job announcement
++        boolean success = jobAnnouncementRecruiterBoundary.publishJobAnnouncement(jobAnnouncementBean);
++
++        if (success) {
++            System.out.println("Job announcement created successfully.");
++        } else {
++            System.out.println("Failed to create job announcement.");
++        }
++    }
++
++    private void deactivateJobAnnouncement(Scanner scanner) {
++        // Collect job title from the user to deactivate the job announcement
++        System.out.print("Enter the title of the job announcement to deactivate: ");
++        String jobTitle = scanner.nextLine();
++
++        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
++        jobAnnouncementBean.setJobTitle(jobTitle);
++
++        // Call the boundary method to deactivate the job announcement
++        boolean success = jobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
++
++        if (success) {
++            System.out.println("Job announcement deactivated successfully.");
++        } else {
++            System.out.println("Failed to deactivate job announcement.");
++        }
++    }
++
++    private void deleteJobAnnouncement(Scanner scanner) {
++        // Collect job title from the user to delete the job announcement
++        System.out.print("Enter the title of the job announcement to delete: ");
++        String jobTitle = scanner.nextLine();
++
++        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
++        jobAnnouncementBean.setJobTitle(jobTitle);
++
++        // Call the boundary method to delete the job announcement
++        boolean success = jobAnnouncementRecruiterBoundary.deleteJobAnnouncement(jobAnnouncementBean);
++
++        if (success) {
++            System.out.println("Job announcement deleted successfully.");
++        } else {
++            System.out.println("Failed to delete job announcement.");
++        }
++    }
++
++}
+Index: src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.JobAnnouncementDao;\nimport it.model.entity.JobAnnouncement;\n\npublic class DataBaseJobAnnouncementDao implements JobAnnouncementDao {\n    @Override\n    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {\n\n    }\n\n    @Override\n    public JobAnnouncement getJobAnnouncement(int id) {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java b/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java	(date 1738348207443)
+@@ -2,15 +2,44 @@
+ 
+ import it.model.dao.abstractobjects.JobAnnouncementDao;
+ import it.model.entity.JobAnnouncement;
++import it.model.entity.Recruiter;
++
++import java.util.List;
++import java.util.Optional;
+ 
+ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
+     @Override
+-    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {
+-
++    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
++    @Override
++    public Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter) {
++        return Optional.empty();
+     }
+ 
+     @Override
+-    public JobAnnouncement getJobAnnouncement(int id) {
+-        return null;
++    public List<JobAnnouncement> getAllJobAnnouncements() {
++        return List.of();
++    }
++
++    @Override
++    public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
++    @Override
++    public boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
++    @Override
++    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) {
++        return false;
++    }
++
++    @Override
++    public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
++        return List.of();
+     }
+ }
+Index: src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.JobAnnouncementDao;\nimport it.model.entity.JobAnnouncement;\n\npublic class FileSystemJobAnnouncementDao implements JobAnnouncementDao {\n    @Override\n    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {\n\n    }\n\n    @Override\n    public JobAnnouncement getJobAnnouncement(int id) {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java b/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java	(date 1738348249597)
+@@ -2,15 +2,45 @@
+ 
+ import it.model.dao.abstractobjects.JobAnnouncementDao;
+ import it.model.entity.JobAnnouncement;
++import it.model.entity.Recruiter;
++
++import java.util.List;
++import java.util.Optional;
+ 
+ public class FileSystemJobAnnouncementDao implements JobAnnouncementDao {
++
++    @Override
++    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
+     @Override
+-    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {
+-
++    public Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter) {
++        return Optional.empty();
+     }
+ 
+     @Override
+-    public JobAnnouncement getJobAnnouncement(int id) {
+-        return null;
++    public List<JobAnnouncement> getAllJobAnnouncements() {
++        return List.of();
++    }
++
++    @Override
++    public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
++    @Override
++    public boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        return false;
++    }
++
++    @Override
++    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) {
++        return false;
++    }
++
++    @Override
++    public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
++        return List.of();
+     }
+ }
+Index: src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.concreteobjects;\n\nimport it.model.dao.abstractobjects.JobAnnouncementDao;\nimport it.model.entity.JobAnnouncement;\n\npublic class InMemoryJobAnnouncementDao implements JobAnnouncementDao {\n    @Override\n    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {\n\n    }\n\n    @Override\n    public JobAnnouncement getJobAnnouncement(int id) {\n        return null;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java b/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java
+--- a/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java	(date 1738348702169)
+@@ -2,15 +2,89 @@
+ 
+ import it.model.dao.abstractobjects.JobAnnouncementDao;
+ import it.model.entity.JobAnnouncement;
++import it.model.entity.Recruiter;
++
++import java.util.*;
++import java.util.stream.Collectors;
+ 
+ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
++
++    private Map<String, Map<Recruiter, JobAnnouncement>> jobAnnouncementsMap = new HashMap<>();
++
++
++    @Override
++    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        String key = generateKey(jobAnnouncement);
++        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.getOrDefault(key, new HashMap<>());
++
++        recruiterMap.put(jobAnnouncement.getRecruiter(), jobAnnouncement);
++        jobAnnouncementsMap.put(key, recruiterMap);
++
++        return true;
++    }
++
+     @Override
+-    public void createJobAnnouncement(JobAnnouncement jobAnnouncement) {
++    public Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter) {
++        String key = generateKey(jobTitle, recruiter);
++        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);
+ 
++        return recruiterMap != null ? Optional.ofNullable(recruiterMap.get(recruiter)) : Optional.empty();
+     }
+ 
+     @Override
+-    public JobAnnouncement getJobAnnouncement(int id) {
+-        return null;
++    public List<JobAnnouncement> getAllJobAnnouncements() {
++        return jobAnnouncementsMap.values().stream()
++                .flatMap(map -> map.values().stream())
++                .collect(Collectors.toList());
++    }
++
++    @Override
++    public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        String key = generateKey(jobAnnouncement);
++        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);
++
++        if (recruiterMap != null && recruiterMap.containsKey(jobAnnouncement.getRecruiter())) {
++            recruiterMap.put(jobAnnouncement.getRecruiter(), jobAnnouncement);
++            return true;
++        }
++
++        return false;
++    }
++
++    @Override
++    public boolean deleteJobAnnouncement(JobAnnouncement jobAnnouncement) {
++        String key = generateKey(jobAnnouncement);
++        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);
++
++        if (recruiterMap != null && recruiterMap.containsKey(jobAnnouncement.getRecruiter())) {
++            recruiterMap.remove(jobAnnouncement.getRecruiter());
++            return true;
++        }
++
++        return false;
++    }
++
++    @Override
++    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) {
++        String key = generateKey(jobTitle, recruiter);
++        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);
++        return recruiterMap != null && recruiterMap.containsKey(recruiter);
++    }
++
++    @Override
++    public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
++        return jobAnnouncementsMap.values().stream()
++                .map(map -> map.get(recruiter))
++                .filter(announcement -> announcement != null)
++                .collect(Collectors.toList());
++    }
++
++    private String generateKey(JobAnnouncement jobAnnouncement) {
++        return jobAnnouncement.getJobTitle() + "-" + jobAnnouncement.getRecruiter().getUsername();
+     }
++
++    private String generateKey(String jobTitle, Recruiter recruiter) {
++        return jobTitle + "-" + recruiter.getUsername();
++    }
++
+ }
+Index: src/main/java/it/view/cli/contextstate/CliContext.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.view.cli.contextstate;\n\nimport it.view.cli.abstractstate.CliState;\nimport it.view.cli.concretestate.ExitState;\n\nimport java.util.Scanner;\n\npublic class CliContext {\n\n    private CliState currentState;\n    private final Scanner scanner;\n\n    public CliContext(CliState currentState) {\n        this.currentState = currentState;\n        this.scanner = new Scanner(System.in);\n    }\n\n    public void goNext(String input){\n        currentState.goNext(this, input);\n    }\n\n    public void setState(CliState newState){\n        this.currentState = newState;\n    }\n\n    public void showMenu(){\n        currentState.showMenu();\n    }\n\n    // Inizia la CLI e continua a ricevere input\n    public void startCLI(){\n        while(!(currentState instanceof ExitState)){\n            //Continua finché non siamo nell'Exit\n            showMenu(); //Menù del Current State\n            String input = scanner.nextLine().trim();\n\n            System.out.println(\"Input received: \" + input);\n\n            //Exit State\n            if(input.equalsIgnoreCase(\"3\")){\n                setState(new ExitState());\n                showMenu(); //Menù dell'Exit State\n                goNext(input);\n                break;\n            }\n\n            // Altrimenti, prosegue con l'elaborazione dell'input\n            goNext(input);\n        }\n\n    }\n\n    public Scanner getScanner() {\n        return this.scanner;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/view/cli/contextstate/CliContext.java b/src/main/java/it/view/cli/contextstate/CliContext.java
+--- a/src/main/java/it/view/cli/contextstate/CliContext.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/view/cli/contextstate/CliContext.java	(date 1738356269239)
+@@ -2,6 +2,8 @@
+ 
+ import it.view.cli.abstractstate.CliState;
+ import it.view.cli.concretestate.ExitState;
++import it.view.cli.concretestate.LoginState;
++import it.view.cli.concretestate.RegisterState;
+ 
+ import java.util.Scanner;
+ 
+@@ -27,13 +29,22 @@
+         currentState.showMenu();
+     }
+ 
+-    // Inizia la CLI e continua a ricevere input
++    // CLI begin
+     public void startCLI(){
+         while(!(currentState instanceof ExitState)){
+-            //Continua finché non siamo nell'Exit
+-            showMenu(); //Menù del Current State
++            showMenu(); //Current State
++
++            if (currentState instanceof LoginState) {
++                goNext("login");
++                continue;
++            }
++
++            if (currentState instanceof RegisterState) {
++                goNext("register");
++                continue;
++            }
++
+             String input = scanner.nextLine().trim();
+-
+             System.out.println("Input received: " + input);
+ 
+             //Exit State
+@@ -44,7 +55,6 @@
+                 break;
+             }
+ 
+-            // Altrimenti, prosegue con l'elaborazione dell'input
+             goNext(input);
+         }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/boundary/LoginBoundary.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/it/boundary/RegisterBoundary.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/session/SessionManager.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/Main.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/controller/LoginController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/controller/LoginController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/abstractstate/CliState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/abstractstate/CliState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/ExitState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/ExitState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeRecruiterState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeStudentState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeStudentState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/LoginState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/MainMenuState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/RegisterState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/RegisterState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/cli/contextstate/CliContext.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/cli/contextstate/CliContext.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/it/view/state/javafx/JavaFxInterface.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/it/view/javafx/JavaFxInterface.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Exception\" />\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729955369659</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729955369659</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663831106</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663831106</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663851839</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663851839</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"20\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/.idea/workspace.xml	(date 1738356274737)
+@@ -4,25 +4,25 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/LoginBoundary.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/RegisterBoundary.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/session/SessionManager.java" afterDir="false" />
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Aggiunta delle boundary">
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/bean/JobAnnouncementBean.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/boundary/SendAJobApplicationStudentBoundary.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/JobAnnouncementRecruiterState.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/Main.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/bean/LoginUserBean.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/bean/RegisterUserBean.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/LoginController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/abstractstate/CliState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/abstractstate/CliState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/ExitState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/ExitState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeStudentState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/LoginState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/MainMenuState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/MainMenuState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/RegisterState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/cli/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/contextstate/CliContext.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/state/javafx/JavaFxInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/javafx/JavaFxInterface.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/boundary/LoginBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/boundary/LoginBoundary.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/boundary/PublishAJobAnnouncementRecruiterBoundary.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/controller/recruiter/PublishAJobAnnouncementController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/JobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/abstractobjects/UserDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/FileSystemJobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/dao/concreteobjects/InMemoryJobAnnouncementDao.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/JobAnnouncement.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/LoginState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/LoginState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/concretestate/RegisterState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/view/cli/contextstate/CliContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/view/cli/contextstate/CliContext.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -259,7 +259,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738323917280</updated>
+     </task>
+-    <option name="localTasksCounter" value="20" />
++    <task id="LOCAL-00020" summary="Settimo Commit: Aggiunta delle boundary">
++      <option name="closed" value="true" />
++      <created>1738336985156</created>
++      <option name="number" value="00020" />
++      <option name="presentableId" value="LOCAL-00020" />
++      <option name="project" value="LOCAL" />
++      <updated>1738336985156</updated>
++    </task>
++    <option name="localTasksCounter" value="21" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -287,7 +295,8 @@
+     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login iniziati" />
+     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
+     <MESSAGE value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
++    <MESSAGE value="Settimo Commit: Aggiunta delle boundary" />
++    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Aggiunta delle boundary" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: src/main/java/it/view/cli/concretestate/HomeRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.view.cli.concretestate;\n\nimport it.boundary.LoginBoundary;\nimport it.view.cli.abstractstate.CliState;\nimport it.view.cli.contextstate.CliContext;\nimport session.SessionManager;\n\nimport java.util.Scanner;\n\npublic class HomeRecruiterState implements CliState {\n\n    private final LoginBoundary loginBoundary = new LoginBoundary();\n\n    @Override\n    public void showMenu() {\n        System.out.println(\"\\n ---Home - Recruiter---\");\n        System.out.println(\"Welcome, Recruiter! You can do the following:\");\n        System.out.println(\"1. View your profile\");\n        System.out.println(\"2. Publish a Job Announcement\");\n        System.out.println(\"3. Contact a Job Candidate\");\n        System.out.println(\"4. View reviews\");\n        System.out.println(\"5. Invite another recruiter to collaborate\");\n        System.out.println(\"6. Logout\");\n        System.out.println(\"7. Exit\");\n        System.out.print(\"Choose an option: \");\n    }\n\n    @Override\n    public void goNext() {\n\n    }\n\n    @Override\n    public void goNext(CliContext context, String input) {\n\n        Scanner scanner = context.getScanner();\n\n        switch (input) {\n            case \"1\":\n                System.out.println(\"Viewing your profile...\");\n                // Logica per visualizzare il profilo\n                break;\n            case \"2\":\n                System.out.println(\"Publishing a job announcement...\");\n                // Logica per pubblicare un annuncio di lavoro\n                break;\n            case \"3\":\n                System.out.println(\"Contacting a job candidate...\");\n                // Logica per contattare un candidato\n                break;\n            case \"4\":\n                System.out.println(\"Viewing reviews...\");\n                // Logica per visualizzare le recensioni\n                break;\n            case \"5\":\n                // Opzione per invitare un altro recruiter\n                System.out.println(\"Enter the email of the recruiter you want to invite: \");\n                String recruiterEmail = scanner.nextLine();\n                // Logica per inviare l'invito al recruiter\n                break;\n            case \"6\":\n            case \"logout\":\n                System.out.println(\"Logging out...\");\n                loginBoundary.logout();\n                context.setState(new MainMenuState());  // Torna al menu principale\n                break;\n            case \"7\":\n            case \"exit\":\n                System.out.println(\"Exiting application...\");\n                context.setState(new ExitState());  // Chiudi l'applicazione (ExitState)\n                break;\n            default:\n                System.out.println(\"Invalid option. Please try again.\");\n                context.setState(new HomeRecruiterState()); // Rimane nello stato corrente\n                break;\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java b/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java
+--- a/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/view/cli/concretestate/HomeRecruiterState.java	(date 1738355333597)
+@@ -42,7 +42,7 @@
+                 break;
+             case "2":
+                 System.out.println("Publishing a job announcement...");
+-                // Logica per pubblicare un annuncio di lavoro
++                context.setState(new JobAnnouncementRecruiterState());
+                 break;
+             case "3":
+                 System.out.println("Contacting a job candidate...");
+Index: src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java b/src/main/java/it/controller/recruiter/PublishAJobAnnouncementController.java
+rename from src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java
+rename to src/main/java/it/controller/recruiter/PublishAJobAnnouncementController.java
+--- a/src/main/java/it/controller/recruiter/PublishAJobAnnouncement.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/controller/recruiter/PublishAJobAnnouncementController.java	(date 1738355047508)
+@@ -1,4 +1,103 @@
+ package it.controller.recruiter;
+ 
+-public class PublishAJobAnnouncement {
++import it.bean.JobAnnouncementBean;
++import it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
++import it.model.dao.abstractobjects.JobAnnouncementDao;
++import it.model.entity.JobAnnouncement;
++import it.model.entity.Recruiter;
++import session.SessionManager;
++
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Optional;
++
++public class PublishAJobAnnouncementController {
++
++    private final JobAnnouncementDao jobAnnouncementDao;
++
++    public PublishAJobAnnouncementController(){
++      this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
++    }
++
++    public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
++
++        Recruiter recruiter = getRecruiterFromSession();
++
++        if (jobAnnouncementDao.jobAnnouncementExists(jobAnnouncementBean.getJobTitle(), recruiter)) {
++            return false;  // false if user exists
++        }
++
++        int workingHours = Integer.parseInt(jobAnnouncementBean.getWorkingHours());  // workingHours as int
++        double salary = Double.parseDouble(jobAnnouncementBean.getSalary());  // salary as double
++
++
++        JobAnnouncement jobAnnouncement = new JobAnnouncement(
++                jobAnnouncementBean.getJobTitle(),
++                jobAnnouncementBean.getJobType(),
++                jobAnnouncementBean.getRole(),
++                jobAnnouncementBean.getLocation(),
++                workingHours,
++                jobAnnouncementBean.getCompanyName(),
++                salary,
++                jobAnnouncementBean.getDescription(),
++                true, //default
++                recruiter
++        );
++
++        return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);
++
++    }
++
++    private Recruiter getRecruiterFromSession() {
++        // Recruiter from session
++        return (Recruiter) SessionManager.getInstance().getCurrentUser();
++    }
++
++    public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
++
++        Recruiter recruiter = getRecruiterFromSession();
++        Optional<JobAnnouncement> jobAnnouncementOptional = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
++
++        if(jobAnnouncementOptional.isPresent()){
++            JobAnnouncement jobAnnouncement = jobAnnouncementOptional.get();
++            jobAnnouncement.setActive(false);
++            return jobAnnouncementDao.updateJobAnnouncement(jobAnnouncement);
++        }
++
++        return false;
++    }
++
++    public boolean deleteJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
++        Recruiter recruiter = getRecruiterFromSession();
++        Optional<JobAnnouncement> jobAnnouncementOptional = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
++
++        return jobAnnouncementOptional.filter(jobAnnouncementDao::deleteJobAnnouncement).isPresent();
++    }
++
++    public List<JobAnnouncementBean> getJobAnnouncement() {
++        Recruiter recruiter = getRecruiterFromSession();
++        List<JobAnnouncement> jobAnnouncements = jobAnnouncementDao.getAllJobAnnouncements(recruiter);
++
++        List<JobAnnouncementBean> jobAnnouncementBeans = new ArrayList<>();
++        for (JobAnnouncement job : jobAnnouncements) {
++
++            JobAnnouncementBean bean = new JobAnnouncementBean(
++                    job.getJobTitle(),
++                    job.getJobType(),
++                    job.getRole(),
++                    job.getLocation(),
++                    String.valueOf(job.getWorkingHours()),  // String
++                    job.getCompanyName(),
++                    String.valueOf(job.getSalary()),        // String
++                    job.getDescription(),
++                    job.getActive(),
++                    recruiter.getUsername()
++            );
++
++            jobAnnouncementBeans.add(bean);
++        }
++        return jobAnnouncementBeans;
++    }
++
++
+ }
+Index: src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module org.example.togetjob {\n    requires javafx.controls;\n    requires javafx.fxml;\n    requires javafx.web;\n\n    requires org.controlsfx.controls;\n    requires com.dlsc.formsfx;\n    requires net.synedra.validatorfx;\n    requires org.kordamp.ikonli.javafx;\n    requires org.kordamp.bootstrapfx.core;\n    requires eu.hansolo.tilesfx;\n    requires com.almasb.fxgl.all;\n    requires java.sql;\n\n    opens org.example.togetjob to javafx.fxml;\n    exports org.example.togetjob;\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+--- a/src/main/java/module-info.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/module-info.java	(date 1738343262092)
+@@ -11,6 +11,7 @@
+     requires eu.hansolo.tilesfx;
+     requires com.almasb.fxgl.all;
+     requires java.sql;
++    requires mysql.connector.j;
+ 
+     opens org.example.togetjob to javafx.fxml;
+     exports org.example.togetjob;
+Index: src/main/java/it/view/cli/concretestate/LoginState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.view.cli.concretestate;\n\nimport it.bean.LoginUserBean;\nimport it.boundary.LoginBoundary;\nimport it.controller.LoginController;\nimport it.model.entity.User;\nimport it.view.cli.abstractstate.CliState;\nimport it.view.cli.contextstate.CliContext;\nimport session.SessionManager;\n\nimport java.util.Scanner;\n\npublic class LoginState implements CliState {\n\n    private final LoginBoundary loginBoundary = new LoginBoundary();\n\n    @Override\n    public void showMenu() {\n        System.out.println(\"\\n--- Login ---\");\n        System.out.println(\"To log, type 'login'.\");\n    }\n\n    @Override\n    public void goNext() {\n\n    }\n\n    @Override\n    public void goNext(CliContext context, String input) {\n\n        Scanner scanner = context.getScanner();\n\n        if(\"login\".equalsIgnoreCase(input)){\n            System.out.print(\"Enter username: \");\n            String username = scanner.nextLine();\n            System.out.print(\"Enter password: \");\n            String password= scanner.nextLine();\n\n            boolean loginSuccess = loginBoundary.login(username, password);\n\n            if (loginSuccess) {\n                // Login ok\n                String userRole = loginBoundary.getUserRole();\n                System.out.println(\"Login successful!\");\n\n\n                if (\"STUDENT\".equalsIgnoreCase(userRole)) {\n                    context.setState(new HomeStudentState());  // go to HomePageStudent\n                } else if (\"RECRUITER\".equalsIgnoreCase(userRole)) {\n                    context.setState(new HomeRecruiterState());  // go to HomePageRecruiter\n                } else {\n                    System.out.println(\"Unknown role. Please try again.\");\n                    context.setState(new LoginState());  // Goto Login\n                }\n            } else {\n                // Login fallito, chiediamo di riprovare\n                System.out.println(\"Login failed. Please try again.\");\n                context.setState(new LoginState());  // Rimani nello stato di login\n            }\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/view/cli/concretestate/LoginState.java b/src/main/java/it/view/cli/concretestate/LoginState.java
+--- a/src/main/java/it/view/cli/concretestate/LoginState.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/view/cli/concretestate/LoginState.java	(date 1738356606198)
+@@ -17,7 +17,6 @@
+     @Override
+     public void showMenu() {
+         System.out.println("\n--- Login ---");
+-        System.out.println("To log, type 'login'.");
+     }
+ 
+     @Override
+@@ -28,9 +27,8 @@
+     @Override
+     public void goNext(CliContext context, String input) {
+ 
+-        Scanner scanner = context.getScanner();
++            Scanner scanner = context.getScanner();
+ 
+-        if("login".equalsIgnoreCase(input)){
+             System.out.print("Enter username: ");
+             String username = scanner.nextLine();
+             System.out.print("Enter password: ");
+@@ -43,7 +41,6 @@
+                 String userRole = loginBoundary.getUserRole();
+                 System.out.println("Login successful!");
+ 
+-
+                 if ("STUDENT".equalsIgnoreCase(userRole)) {
+                     context.setState(new HomeStudentState());  // go to HomePageStudent
+                 } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
+@@ -53,10 +50,8 @@
+                     context.setState(new LoginState());  // Goto Login
+                 }
+             } else {
+-                // Login fallito, chiediamo di riprovare
+                 System.out.println("Login failed. Please try again.");
+                 context.setState(new LoginState());  // Rimani nello stato di login
+             }
+-        }
+     }
+ }
+Index: src/main/java/it/view/cli/concretestate/RegisterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.view.cli.concretestate;\n\nimport it.bean.RecruiterInfoBean;\nimport it.bean.RegisterUserBean;\nimport it.bean.StudentInfoBean;\nimport it.boundary.RegisterBoundary;\nimport it.controller.registration.AbstractRegisterController;\nimport it.controller.registration.RegisterRecruiterController;\nimport it.controller.registration.RegisterStudentController;\nimport it.view.cli.abstractstate.CliState;\nimport it.view.cli.contextstate.CliContext;\n\nimport java.time.LocalDate;\nimport java.util.List;\nimport java.util.Scanner;\n\npublic class RegisterState implements CliState {\n\n    @Override\n    public void showMenu() {\n\n        System.out.println(\"\\n ---Register---\");\n        System.out.println(\"To submit, type 'submit'.\");\n\n    }\n\n    @Override\n    public void goNext() {\n        System.out.println(\"Registration complete, returning to main menu...\");\n    }\n\n    @Override\n    public void goNext(CliContext context, String input) {\n\n        Scanner scanner = context.getScanner();\n\n        if (!\"submit\".equalsIgnoreCase(input)) {\n            context.setState(new MainMenuState()); // go to Main Menu\n            return;\n        }\n\n        System.out.println(\"Welcome to toGetJob ! Fill the following fields: \");\n        System.out.print(\"Enter username: \");\n        String username = scanner.nextLine();\n        System.out.print(\"Enter password: \");\n        String password = scanner.nextLine();\n        System.out.print(\"Confirm password: \");\n        String checkPassword = scanner.nextLine();\n\n        if (!password.equals(checkPassword)) {\n            System.out.println(\"Passwords do not match. Please try again.\");\n            context.setState(new RegisterState()); // Rimani nello stato di registrazione\n            return;\n        }\n\n        System.out.print(\"Enter name: \");\n        String name = scanner.nextLine();\n        System.out.print(\"Enter surname: \");\n        String surname = scanner.nextLine();\n        System.out.print(\"Enter email: \");\n        String email = scanner.nextLine();\n        System.out.print(\"Enter role (student/recruiter): \");\n        String roleInput = scanner.nextLine().trim().toLowerCase();\n\n        RegisterUserBean userBean = new RegisterUserBean(username, email, password, name, surname, roleInput, checkPassword);\n\n        //polymorphism\n        Object infoBean = null;\n\n        if (\"student\".equals(roleInput)) {\n            infoBean = getStudentInfo(scanner);\n        } else if (\"recruiter\".equals(roleInput)) {\n            infoBean = getRecruiterInfo(scanner);\n        } else {\n            System.out.println(\"Invalid role. Please try again.\");\n            context.setState(new RegisterState());\n            return;\n        }\n\n        RegisterBoundary registerBoundary = new RegisterBoundary();\n        boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);\n\n        if (registrationSuccess) {\n            System.out.println(\"Registration successful!\");\n            context.setState(new MainMenuState()); // Passa al menu principale\n        } else {\n            System.out.println(\"Username already exists. Please try again.\");\n            context.setState(new RegisterState());\n        }\n\n    }\n\n    private StudentInfoBean getStudentInfo(Scanner scanner) {\n        System.out.println(\"Welcome to toGetJob! Please complete your student profile:\");\n\n        System.out.print(\"Enter your date of birth (yyyy-mm-dd): \");\n        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());\n        System.out.print(\"Enter your phone number: \");\n        String phoneNumber = scanner.nextLine();\n        System.out.print(\"Enter your degrees (comma-separated): \");\n        List<String> degrees = List.of(scanner.nextLine().split(\",\"));\n        System.out.print(\"Enter courses attended (comma-separated): \");\n        List<String> courses = List.of(scanner.nextLine().split(\",\"));\n        System.out.print(\"Enter certifications (comma-separated): \");\n        List<String> certifications = List.of(scanner.nextLine().split(\",\"));\n        System.out.print(\"Enter work experiences (comma-separated): \");\n        List<String> workExperiences = List.of(scanner.nextLine().split(\",\"));\n        System.out.print(\"Enter your skills (comma-separated): \");\n        List<String> skills = List.of(scanner.nextLine().split(\",\"));\n        System.out.print(\"Enter your availability: \");\n        String availability = scanner.nextLine();\n\n        return new StudentInfoBean(dateOfBirth, phoneNumber, degrees, courses, certifications, workExperiences, skills, availability);\n    }\n\n    private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {\n\n        System.out.println(\"Welcome! Please complete your recruiter profile:\");\n\n        System.out.print(\"Enter the companies you work for (comma-separated): \");\n        List<String> companies = List.of(scanner.nextLine().split(\",\"));\n        return new RecruiterInfoBean(companies);\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/view/cli/concretestate/RegisterState.java b/src/main/java/it/view/cli/concretestate/RegisterState.java
+--- a/src/main/java/it/view/cli/concretestate/RegisterState.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/view/cli/concretestate/RegisterState.java	(date 1738355974280)
+@@ -20,7 +20,6 @@
+     public void showMenu() {
+ 
+         System.out.println("\n ---Register---");
+-        System.out.println("To submit, type 'submit'.");
+ 
+     }
+ 
+@@ -34,12 +33,7 @@
+ 
+         Scanner scanner = context.getScanner();
+ 
+-        if (!"submit".equalsIgnoreCase(input)) {
+-            context.setState(new MainMenuState()); // go to Main Menu
+-            return;
+-        }
+-
+-        System.out.println("Welcome to toGetJob ! Fill the following fields: ");
++        System.out.println("Welcome to toGetJob! Fill the following fields: ");
+         System.out.print("Enter username: ");
+         String username = scanner.nextLine();
+         System.out.print("Enter password: ");
+@@ -91,13 +85,13 @@
+     }
+ 
+     private StudentInfoBean getStudentInfo(Scanner scanner) {
+-        System.out.println("Welcome to toGetJob! Please complete your student profile:");
++        System.out.println("Please, complete your student profile:");
+ 
+-        System.out.print("Enter your date of birth (yyyy-mm-dd): ");
++        System.out.print("Enter date of birth (yyyy-mm-dd): ");
+         LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());
+-        System.out.print("Enter your phone number: ");
++        System.out.print("Enter phone number: ");
+         String phoneNumber = scanner.nextLine();
+-        System.out.print("Enter your degrees (comma-separated): ");
++        System.out.print("Enter degrees (comma-separated): ");
+         List<String> degrees = List.of(scanner.nextLine().split(","));
+         System.out.print("Enter courses attended (comma-separated): ");
+         List<String> courses = List.of(scanner.nextLine().split(","));
+@@ -105,9 +99,9 @@
+         List<String> certifications = List.of(scanner.nextLine().split(","));
+         System.out.print("Enter work experiences (comma-separated): ");
+         List<String> workExperiences = List.of(scanner.nextLine().split(","));
+-        System.out.print("Enter your skills (comma-separated): ");
++        System.out.print("Enter skills (comma-separated): ");
+         List<String> skills = List.of(scanner.nextLine().split(","));
+-        System.out.print("Enter your availability: ");
++        System.out.print("Enter availability: ");
+         String availability = scanner.nextLine();
+ 
+         return new StudentInfoBean(dateOfBirth, phoneNumber, degrees, courses, certifications, workExperiences, skills, availability);
+@@ -115,7 +109,7 @@
+ 
+     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
+ 
+-        System.out.println("Welcome! Please complete your recruiter profile:");
++        System.out.println("Please, complete your recruiter profile:");
+ 
+         System.out.print("Enter the companies you work for (comma-separated): ");
+         List<String> companies = List.of(scanner.nextLine().split(","));
+Index: src/main/java/it/model/entity/JobAnnouncement.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.entity;\n\npublic class JobAnnouncement {\n\n    private String jobTitle;\n    private String jobType;\n    private String role;\n    private String location;\n    private int workingHours;\n    private String companyName;\n    private double salary;\n    private String description;\n    private Boolean isActive;\n    private Recruiter recruiter;\n\n    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive, Recruiter recruiter) {\n        this.jobTitle = jobTitle;\n        this.jobType = jobType;\n        this.role = role;\n        this.location = location;\n        this.workingHours = workingHours;\n        this.companyName = companyName;\n        this.salary = salary;\n        this.description = description;\n        this.isActive = isActive;\n        this.recruiter = recruiter;\n    }\n\n\n    public String getJobTitle() {\n        return jobTitle;\n    }\n\n    public String getJobType() {\n        return jobType;\n    }\n\n    public String getRole() {\n        return role;\n    }\n\n    public String getLocation() {\n        return location;\n    }\n\n    public int getWorkingHours() {\n        return workingHours;\n    }\n\n    public String getCompanyName() {\n        return companyName;\n    }\n\n    public double getSalary() {\n        return salary;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n\n    public Boolean getActive() {\n        return isActive;\n    }\n\n    public Recruiter getRecruiter() {\n        return recruiter;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/entity/JobAnnouncement.java b/src/main/java/it/model/entity/JobAnnouncement.java
+--- a/src/main/java/it/model/entity/JobAnnouncement.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/entity/JobAnnouncement.java	(date 1738347109456)
+@@ -67,4 +67,7 @@
+         return recruiter;
+     }
+ 
++    public void setActive(Boolean active) {
++        isActive = active;
++    }
+ }
+Index: src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java b/src/main/java/it/boundary/PublishAJobAnnouncementRecruiterBoundary.java
+rename from src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java
+rename to src/main/java/it/boundary/PublishAJobAnnouncementRecruiterBoundary.java
+--- a/src/main/java/it/boundary/PublishAJobAnnouncementBoundary.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/boundary/PublishAJobAnnouncementRecruiterBoundary.java	(date 1738354725506)
+@@ -1,7 +1,33 @@
+ package it.boundary;
+ 
+-public class PublishAJobAnnouncementBoundary {
++import it.bean.JobAnnouncementBean;
++import it.controller.recruiter.PublishAJobAnnouncementController;
++
++import java.util.List;
++
++public class PublishAJobAnnouncementRecruiterBoundary {
++
++    private final PublishAJobAnnouncementController controller;
++
++    public PublishAJobAnnouncementRecruiterBoundary() {
++        this.controller = new PublishAJobAnnouncementController();
++    }
+ 
++    //Method to publish a job announcement
++    public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
++        return controller.publishJobAnnouncement(jobAnnouncementBean);
++    }
+ 
++    public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
++        return controller.deactivateJobAnnouncement(jobAnnouncementBean);
++    }
++
++    public boolean deleteJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
++        return controller.deleteJobAnnouncement(jobAnnouncementBean);
++    }
++
++    public List<JobAnnouncementBean> getJobAnnouncements(){
++        return controller.getJobAnnouncement();
++    }
+ 
+ }
+Index: src/main/java/it/boundary/SendAJobApplicationStudentBoundary.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/boundary/SendAJobApplicationStudentBoundary.java b/src/main/java/it/boundary/SendAJobApplicationStudentBoundary.java
+new file mode 100644
+--- /dev/null	(date 1738338836472)
++++ b/src/main/java/it/boundary/SendAJobApplicationStudentBoundary.java	(date 1738338836472)
+@@ -0,0 +1,7 @@
++package it.boundary;
++
++public class SendAJobApplicationStudentBoundary {
++
++    //qui ci sarà il metodo getJobaAnnouncements
++
++}
+Index: src/main/java/it/bean/JobAnnouncementBean.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/bean/JobAnnouncementBean.java b/src/main/java/it/bean/JobAnnouncementBean.java
+new file mode 100644
+--- /dev/null	(date 1738355089624)
++++ b/src/main/java/it/bean/JobAnnouncementBean.java	(date 1738355089624)
+@@ -0,0 +1,112 @@
++package it.bean;
++
++public class JobAnnouncementBean {
++
++    private String jobTitle;
++    private String jobType;
++    private String role;
++    private String location;
++    private String workingHours;
++    private String companyName;
++    private String salary;
++    private String description;
++    private boolean isActive;
++    private String recruiterUsername;
++
++
++    public JobAnnouncementBean(String jobTitle, String jobType, String role, String location, String workingHours, String companyName, String salary, String description, boolean isActive, String recruiterUsername) {
++        this.jobTitle = jobTitle;
++        this.jobType = jobType;
++        this.role = role;
++        this.location = location;
++        this.workingHours = workingHours;
++        this.companyName = companyName;
++        this.salary = salary;
++        this.description = description;
++        this.isActive = isActive;
++        this.recruiterUsername = recruiterUsername;
++    }
++
++    public JobAnnouncementBean(){
++    }
++
++    public String getJobTitle() {
++        return jobTitle;
++    }
++
++    public void setJobTitle(String jobTitle) {
++        this.jobTitle = jobTitle;
++    }
++
++    public String getJobType() {
++        return jobType;
++    }
++
++    public void setJobType(String jobType) {
++        this.jobType = jobType;
++    }
++
++    public String getRole() {
++        return role;
++    }
++
++    public void setRole(String role) {
++        this.role = role;
++    }
++
++    public String getLocation() {
++        return location;
++    }
++
++    public void setLocation(String location) {
++        this.location = location;
++    }
++
++    public String getWorkingHours() {
++        return workingHours;
++    }
++
++    public void setWorkingHours(String workingHours) {
++        this.workingHours = workingHours;
++    }
++
++    public String getCompanyName() {
++        return companyName;
++    }
++
++    public void setCompanyName(String companyName) {
++        this.companyName = companyName;
++    }
++
++    public String getSalary() {
++        return salary;
++    }
++
++    public void setSalary(String salary) {
++        this.salary = salary;
++    }
++
++    public String getDescription() {
++        return description;
++    }
++
++    public void setDescription(String description) {
++        this.description = description;
++    }
++
++    public boolean isActive() {
++        return isActive;
++    }
++
++    public void setActive(boolean active) {
++        isActive = active;
++    }
++
++    public String getRecruiterUsername() {
++        return recruiterUsername;
++    }
++
++    public void setRecruiterUsername(String recruiterUsername) {
++        this.recruiterUsername = recruiterUsername;
++    }
++}
+Index: src/main/java/it/boundary/LoginBoundary.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.boundary;\n\nimport it.bean.LoginUserBean;\nimport it.controller.LoginController;\nimport session.SessionManager;\n\npublic class LoginBoundary {\n\n    private final LoginController loginController;\n\n    public LoginBoundary(){\n        this.loginController = new LoginController();\n    }\n\n    public boolean login(String username, String password) {\n        LoginUserBean userBean = new LoginUserBean(username, password);\n        boolean success = loginController.loginUser(userBean);\n\n        if (success) {\n            return true;\n        } else {\n            return false;\n        }\n    }\n\n    public void logout() {\n        SessionManager.getInstance().clearSession();\n        System.out.println(\"Logout successful!\");\n    }\n\n    public String getUserRole() {\n        return SessionManager.getInstance().getCurrentUser().getRole().name();\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/boundary/LoginBoundary.java b/src/main/java/it/boundary/LoginBoundary.java
+--- a/src/main/java/it/boundary/LoginBoundary.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/boundary/LoginBoundary.java	(date 1738343481162)
+@@ -25,7 +25,6 @@
+ 
+     public void logout() {
+         SessionManager.getInstance().clearSession();
+-        System.out.println("Logout successful!");
+     }
+ 
+     public String getUserRole() {
+Index: src/main/java/it/model/dao/abstractobjects/UserDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.dao.abstractobjects;\n\nimport it.model.entity.User;\n\nimport java.util.List;\nimport java.util.Optional;\n\npublic interface UserDao {\n\n    boolean saveUser(User user);\n    Optional<User> getUser(String username);\n    List<User> getAllUsers();\n    boolean updateUser(User user);\n    boolean deleteUser(String username);\n    boolean userExists(String username);\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/dao/abstractobjects/UserDao.java b/src/main/java/it/model/dao/abstractobjects/UserDao.java
+--- a/src/main/java/it/model/dao/abstractobjects/UserDao.java	(revision bdcf69242538ac32b6307b8792cb20765544a821)
++++ b/src/main/java/it/model/dao/abstractobjects/UserDao.java	(date 1738340241056)
+@@ -6,7 +6,6 @@
+ import java.util.Optional;
+ 
+ public interface UserDao {
+-
+     boolean saveUser(User user);
+     Optional<User> getUser(String username);
+     List<User> getAllUsers();

@@ -1,0 +1,118 @@
+Index: src/main/java/it/model/entity/Recruiter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.model.entity;\n\nimport java.util.List;\n\npublic class Recruiter extends User{\n\n    private List<String> companies;\n    private List<Recruiter> collaborators;\n\n\n    // Costruttore base per User\n    public Recruiter(String username, String password, String name, String surname, String emailAddress, Role role) {\n        super(name, surname, username, emailAddress, password, role); // Chiamata alla superclasse User\n    }\n\n    public Recruiter(String name, String surname, String username, String emailAddress, String password, Role role, List<String> companies, List<Recruiter> collaborators) {\n        super(name, surname, username, emailAddress, password, role);\n        this.companies = companies;\n        this.collaborators = collaborators;\n    }\n\n    // Costruttore base per Recruiter\n\n\n    public List<String> getCompanies() {\n        return companies;\n    }\n\n    public List<Recruiter> getCollaborators() {\n        return collaborators;\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/model/entity/Recruiter.java b/src/main/java/it/model/entity/Recruiter.java
+--- a/src/main/java/it/model/entity/Recruiter.java	(revision 08a5351cf0c13e14a88db30b8274650bbe2869d9)
++++ b/src/main/java/it/model/entity/Recruiter.java	(date 1738237699576)
+@@ -2,7 +2,7 @@
+ 
+ import java.util.List;
+ 
+-public class Recruiter extends User{
++public class Recruiter extends User {
+ 
+     private List<String> companies;
+     private List<Recruiter> collaborators;
+Index: src/main/java/it/pattern/state/concretestate/RegisterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.pattern.state.concretestate;\n\nimport it.pattern.state.abstractstate.CliState;\nimport it.pattern.state.contextstate.CliContext;\n\npublic class RegisterState implements CliState {\n    @Override\n    public void showMenu() {\n            return;\n    }\n\n    @Override\n    public void goNext(CliContext context, String input) {\n        context.setState(new MainMenuState());\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/pattern/state/concretestate/RegisterState.java b/src/main/java/it/pattern/state/concretestate/RegisterState.java
+--- a/src/main/java/it/pattern/state/concretestate/RegisterState.java	(revision 08a5351cf0c13e14a88db30b8274650bbe2869d9)
++++ b/src/main/java/it/pattern/state/concretestate/RegisterState.java	(date 1738235582767)
+@@ -1,16 +1,47 @@
+ package it.pattern.state.concretestate;
+ 
++import it.bean.RegisterUserBean;
++import it.controller.RegisterController;
+ import it.pattern.state.abstractstate.CliState;
+ import it.pattern.state.contextstate.CliContext;
+ 
++import java.util.Scanner;
++
+ public class RegisterState implements CliState {
++
++    private RegisterController registerController = new RegisterController();
++
+     @Override
+     public void showMenu() {
+-            return;
++        System.out.println("\n ---Register---");
++        System.out.println("Please enter the following details to register:");
++        System.out.println("1. Username");
++        System.out.println("2. Password");
++        System.out.println("3. Name");
++        System.out.println("4. Surname");
++        System.out.println("5. Email");
++        System.out.println("6. Role (student/recruiter)");
++        System.out.println("To submit, type 'submit'.");
+     }
+ 
+     @Override
+     public void goNext(CliContext context, String input) {
++
++        Scanner scanner = new Scanner(System.in);
++
++        System.out.print("Enter username: ");
++        String username = scanner.nextLine();
++        System.out.print("Enter password: ");
++        String password = scanner.nextLine();
++        System.out.print("Enter name: ");
++        String name = scanner.nextLine();
++        System.out.print("Enter surname: ");
++        String surname = scanner.nextLine();
++        System.out.print("Enter email: ");
++        String email = scanner.nextLine();
++        System.out.print("Enter role (student/recruiter): ");
++        String roleInput = scanner.nextLine();
++
+         context.setState(new MainMenuState());
+     }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Exception\" />\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729955369659</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729955369659</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663831106</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663831106</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663851839</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663851839</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"17\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 08a5351cf0c13e14a88db30b8274650bbe2869d9)
++++ b/.idea/workspace.xml	(date 1738237699612)
+@@ -4,7 +4,11 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione" />
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: prova Caso d'uso Registrazione">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/model/entity/Recruiter.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/pattern/state/concretestate/RegisterState.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -216,7 +220,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1738234584655</updated>
+     </task>
+-    <option name="localTasksCounter" value="17" />
++    <task id="LOCAL-00017" summary="Settimo Commit: prova Caso d'uso Registrazione">
++      <option name="closed" value="true" />
++      <created>1738235147374</created>
++      <option name="number" value="00017" />
++      <option name="presentableId" value="LOCAL-00017" />
++      <option name="project" value="LOCAL" />
++      <updated>1738235147374</updated>
++    </task>
++    <option name="localTasksCounter" value="18" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
