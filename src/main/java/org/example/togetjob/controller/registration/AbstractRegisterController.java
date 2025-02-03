@@ -9,7 +9,7 @@ public abstract class AbstractRegisterController {
 
     protected final UserDao userDao;
 
-    public AbstractRegisterController(){
+    protected AbstractRegisterController(){
         this.userDao = AbstractFactoryDaoSingleton.getFactoryDao().createUserDao();
     }
 

@@ -36,19 +36,16 @@ public class HomeStudentState implements CliState {
         switch (input.toLowerCase()) {
             case "1": // View profile
                 System.out.println("Displaying your profile...");
-                // Qui inserisci il codice per visualizzare il profilo dello studente
                 break;
             case "2": // Vote a company
                 System.out.println("Voting a company...");
-                // Qui inserisci il codice per votare un'azienda
                 break;
             case "3": // Show job announcements
                 System.out.println("Showing job announcements...");
-                // Qui inserisci il codice per mostrare gli annunci di lavoro
+                context.setState(new SendAJobApplicationState());
                 break;
             case "4": // View notifications
                 System.out.println("Viewing notifications...");
-                // Qui inserisci il codice per visualizzare le notifiche
                 break;
             case "5": // Logout
             case "logout":

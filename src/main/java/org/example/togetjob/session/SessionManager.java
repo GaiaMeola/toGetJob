@@ -4,16 +4,18 @@ import org.example.togetjob.model.entity.User;
 
 public class SessionManager {
 
-    private static SessionManager instance;
+    private static SessionManager instance = null;
     private User currentUser;
 
     private SessionManager(){ }
 
-    public static SessionManager getInstance(){
+    public static synchronized SessionManager getInstance() {
+
         if(instance == null){
             instance = new SessionManager();
         }
         return instance;
+
     }
 
     public void setCurrentUser(User user){
@@ -26,10 +28,6 @@ public class SessionManager {
 
     public void clearSession(){
         this.currentUser = null;
-    }
-
-    public boolean isUserLoggedIn(){
-            return this.currentUser != null;
     }
 
 }

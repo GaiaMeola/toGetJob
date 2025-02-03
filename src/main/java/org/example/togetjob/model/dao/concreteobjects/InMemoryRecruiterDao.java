@@ -7,7 +7,7 @@ import java.util.*;
 
 public class InMemoryRecruiterDao implements RecruiterDao {
 
-    private static Map<String, Recruiter> recruiters = new HashMap<>();
+    private static final Map<String, Recruiter> recruiters = new HashMap<>();
 
     @Override
     public boolean saveRecruiter(Recruiter recruiter) {

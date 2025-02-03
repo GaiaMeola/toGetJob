@@ -21,8 +21,7 @@ public class RegisterStudentController extends AbstractRegisterController{
     @Override
     protected User createUser(RegisterUserBean userBean) {
         return new Student(
-                userBean.getUsername(), userBean.getPassword(), userBean.getName(), userBean.getSurname(),
-                userBean.getEmailAddress(), Role.STUDENT,
+                userBean.getName(), userBean.getSurname(),userBean.getUsername(), userBean.getEmailAddress(), userBean.getPassword(), Role.STUDENT,
                 studentInfoBean.getDateOfBirth(), studentInfoBean.getPhoneNumber(),
                 studentInfoBean.getDegrees(), studentInfoBean.getCourseAttended(),
                 studentInfoBean.getCertifications(), studentInfoBean.getWorkExperiences(),

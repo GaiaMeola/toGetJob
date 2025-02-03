@@ -5,7 +5,6 @@ import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concretefactorydao.DataBaseFactoryDao;
 import org.example.togetjob.model.dao.concretefactorydao.FileSystemFactoryDao;
 import org.example.togetjob.model.dao.concretefactorydao.InMemoryFactoryDao;
-import org.example.togetjob.model.entity.JobApplication;
 
 public abstract class
 AbstractFactoryDaoSingleton {
@@ -15,7 +14,7 @@ AbstractFactoryDaoSingleton {
 
     public static void setConfigLoader(ConfigDaoLoader loader){
         if(loader == null){
-            throw new IllegalArgumentException("Il ConfigDaoLoader non può essere null. ");
+            throw new IllegalArgumentException("Error.");
         }
         configLoader = loader;
     }
@@ -27,12 +26,12 @@ AbstractFactoryDaoSingleton {
 
        if(factoryDao == null){
            if(configLoader ==  null){
-               throw new IllegalStateException("ConfigDaoLoader non è stato impostato.");
+               throw new IllegalStateException("Error.");
            }
 
            String daoType = configLoader.getProperty("dao.type");
            if(daoType == null || daoType.isEmpty()){
-               throw new IllegalArgumentException("Il tipo di DAO non è specificato nella configurazione.");
+               throw new IllegalArgumentException("Type of DAO not found.");
            }
 
            switch (daoType.toLowerCase()){
@@ -47,7 +46,7 @@ AbstractFactoryDaoSingleton {
                    factoryDao = new FileSystemFactoryDao();
                    break;
                default:
-                   throw new IllegalArgumentException("Tipo di Dao non valido: " + daoType);
+                   throw new IllegalArgumentException("Type of DAO not found" + daoType);
            }
 
         }

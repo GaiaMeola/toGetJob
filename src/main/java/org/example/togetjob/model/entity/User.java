@@ -11,14 +11,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public abstract class User {
 
-    private String name;
-    private String surname;
-    private String username;
-    private String emailAddress;
-    private String password;
-    private Role role;
+    private final String name;
+    private final String surname;
+    private final String username;
+    private final String emailAddress;
+    private final String password;
+    private final Role role;
 
-    public User(String name, String surname, String username, String emailAddress, String password, Role role) {
+    protected User(String name, String surname, String username, String emailAddress, String password, Role role) {
         this.name = name;
         this.surname = surname;
         this.username = username;
@@ -27,13 +27,8 @@ public abstract class User {
         this.role = role;
     }
 
-
     public String getName() {
         return name;
-    }
-
-    public String getSurname() {
-        return surname;
     }
 
     public String getUsername() {
@@ -51,4 +46,6 @@ public abstract class User {
     public Role getRole() {
         return role;
     }
+
+    public String getSurname() { return surname; }
 }

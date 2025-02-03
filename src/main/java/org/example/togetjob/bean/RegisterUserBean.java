@@ -9,12 +9,12 @@ public class RegisterUserBean extends LoginUserBean {
     private String checkPassword;
 
     public RegisterUserBean(String username, String emailAddress, String password, String name, String surname, String role, String checkPassword) {
-        super(username, password);  // Chiamata al costruttore della classe base (LoginUserBean)
+        super(username, password);  // (LoginUserBean)
         this.name = name;
         this.surname = surname;
         this.emailAddress = emailAddress;
         this.role = role;
-        this.checkPassword = checkPassword;  // Inizializzazione del campo checkpassword
+        this.checkPassword = checkPassword;  //
     }
 
     public RegisterUserBean() {}

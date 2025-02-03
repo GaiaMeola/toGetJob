@@ -19,6 +19,10 @@ public class LoginController {
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
         if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
+
+            if (user == null) {
+                return false;
+            }
             return false; // User not found
         }
 

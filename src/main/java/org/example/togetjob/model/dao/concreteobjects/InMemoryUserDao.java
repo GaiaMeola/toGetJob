@@ -7,12 +7,12 @@ import java.util.*;
 
 public class InMemoryUserDao implements UserDao {
 
-    private static Map<String, User> users = new HashMap<>();
+    private static final Map<String, User> users = new HashMap<>();
 
     @Override
     public boolean saveUser(User user) {
         if (users.containsKey(user.getUsername())) {
-            return false; // username già esistente
+            return false; // Username exists
         }
         users.put(user.getUsername(), user);
         return true;
@@ -30,12 +30,10 @@ public class InMemoryUserDao implements UserDao {
 
     @Override
     public boolean updateUser(User user) {
-        // Controlla se l'utente esiste
         if (!users.containsKey(user.getUsername())) {
-            return false; // l'utente non esiste
+            return false; // User does not exist
         }
 
-        // Aggiorna i dati dell'utente
         users.put(user.getUsername(), user);
         return true;
     }

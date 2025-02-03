@@ -1,6 +1,7 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
+import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.boundary.SendAJobApplicationStudentBoundary;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -31,15 +32,12 @@ public class SendAJobApplicationState implements CliState {
     @Override
     public void goNext(CliContext context, String input) {
 
-        /* da rivedere
-
         Scanner scanner = context.getScanner();
 
 
         switch (input.toLowerCase()) {
             case "1": // View job announcements
-                viewJobAnnouncements(scanner);
-                context.setState(new SendAJobApplicationState()); // Stay in the same state after viewing
+                applyFiltersAndShowJobAnnouncements(scanner);
                 break;
 
             case "2": // Go back to previous state
@@ -59,27 +57,77 @@ public class SendAJobApplicationState implements CliState {
     }
 
 
-    private void viewJobAnnouncements(Scanner scanner) {
-        // Call the boundary method to fetch job announcements
-        List<JobAnnouncementBean> jobAnnouncements = sendAJobApplicationStudentBoundary.getJobAnnouncements();
+    private void applyFiltersAndShowJobAnnouncements(Scanner scanner) {
 
-        if (jobAnnouncements.isEmpty()) {
-            System.out.println("No job announcements found.");
+        System.out.println("\nEnter your search filters:");
+
+        System.out.print("Enter job title (or leave blank to skip): ");
+        String jobTitle = scanner.nextLine();
+
+        System.out.print("Enter job type (or leave blank to skip): ");
+        String jobType = scanner.nextLine();
+
+        System.out.print("Enter role (or leave blank to skip): ");
+        String role = scanner.nextLine();
+
+        System.out.print("Enter location (or leave blank to skip): ");
+        String location = scanner.nextLine();
+
+        System.out.print("Enter working hours (or leave blank to skip): ");
+        String workingHours = scanner.nextLine();
+
+        System.out.print("Enter company name (or leave blank to skip): ");
+        String companyName = scanner.nextLine();
+
+        System.out.print("Enter salary (or leave blank to skip): ");
+        String salary = scanner.nextLine();
+
+        JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean(jobTitle, jobType, role, location, workingHours, companyName, salary);
+
+        System.out.println("\n --- Filters you have selected ---");
+        System.out.println("Job Title: " + (jobTitle.isEmpty() ? "Not specified" : jobTitle));
+        System.out.println("Location: " + (location.isEmpty() ? "Not specified" : location));
+        System.out.println("Salary: " + (salary.isEmpty() ? "Not specified" : salary));
+        System.out.println("Working Hours: " + (workingHours.isEmpty() ? "Not specified" : workingHours));
+        System.out.println("Company: " + (companyName.isEmpty() ? "Not specified" : companyName));
+        System.out.println("\nDo you want to proceed with these filters?");
+        System.out.println("1. Proceed");
+        System.out.println("2. Go back and change filters");
+        System.out.print("Choose an option: ");
+        String choice = scanner.nextLine();
+
+        if (choice.equals("1")) {
+            System.out.println("\nProceeding with the selected filters...");
+            proceedWithFilters(scanner,searchBean);
+        } else if (choice.equals("2")) {
+            System.out.println("Returning to filter selection...");
+            applyFiltersAndShowJobAnnouncements(scanner);
         } else {
-            // Display the announcements
-            for (int i = 0; i < jobAnnouncements.size(); i++) {
-                JobAnnouncementBean job = jobAnnouncements.get(i);
-                System.out.println((i + 1) + ". " + job.getJobTitle() + " - Location: " + job.getLocation() + " - Salary: " + job.getSalary());
-            }
-
-            // Allow the student to apply to a selected job announcement
-            applyToJob(scanner, jobAnnouncements);
+            System.out.println("Invalid choice. Please try again.");
+            applyFiltersAndShowJobAnnouncements(scanner);
         }
     }
 
-    private void applyToJob(Scanner scanner, List<JobAnnouncementBean> jobAnnouncements) {
-        // Ask the student to choose a job to apply to
-        System.out.print("Please enter the number of the job you want to apply to: ");
+
+    private void proceedWithFilters(Scanner scanner, JobAnnouncementSearchBean searchBean) {
+
+        List<JobAnnouncementBean> jobApplications = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
+
+        if (jobApplications.isEmpty()) {
+            System.out.println("No job applications found with the specified filters.");
+        } else {
+            for (int i = 0; i < jobApplications.size(); i++) {
+                JobAnnouncementBean job = jobApplications.get(i);
+                System.out.println((i + 1) + ". Job Title: " + job.getJobTitle() + " - Location: " + job.getLocation() + " - Salary: " + job.getSalary());
+            }
+
+            showJobAnnouncementDetails(scanner, jobApplications);
+        }
+    }
+
+    private void showJobAnnouncementDetails(Scanner scanner, List<JobAnnouncementBean> jobAnnouncements) {
+        // Ask the student to choose a job
+        System.out.print("Enter the number of the job to see more details: ");
         int jobIndex = scanner.nextInt() - 1;
         scanner.nextLine();  // Consume the newline
 
@@ -88,33 +136,39 @@ public class SendAJobApplicationState implements CliState {
             return;
         }
 
-        // Get the selected job announcement
         JobAnnouncementBean selectedJob = jobAnnouncements.get(jobIndex);
+        JobAnnouncementBean jobDetails = sendAJobApplicationStudentBoundary.getJobAnnouncementDetail(selectedJob);
 
-        // Collect the student's application details
-        JobApplicationBean jobApplicationBean = new JobApplicationBean();
-        jobApplicationBean.setJobTitle(selectedJob.getJobTitle());
-        jobApplicationBean.setStudentName("StudentName"); // Replace with actual student's name or reference
+        System.out.println("\n --- Job Details ---");
+        System.out.println("Job Title: " + jobDetails.getJobTitle());
+        System.out.println("Company: " + jobDetails.getCompanyName());
+        System.out.println("Location: " + jobDetails.getLocation());
+        System.out.println("Salary: " + jobDetails.getSalary());
+        System.out.println("Working Hours: " + jobDetails.getWorkingHours());
+        System.out.println("Job Type: " + jobDetails.getJobType());
+        System.out.println("Role: " + jobDetails.getRole());
+        System.out.println("Job Description: " + jobDetails.getDescription());
 
-        System.out.println("Enter your motivation letter: ");
-        jobApplicationBean.setMotivationLetter(scanner.nextLine());
 
-        System.out.println("Enter your resume reference (e.g., file path or link): ");
-        jobApplicationBean.setResumeReference(scanner.nextLine());
+        // Allow user to go back or apply for the job
+        System.out.println("\nDo you want to apply for this job?");
+        System.out.println("1. Send your job application");
+        System.out.println("2. Go back");
+        System.out.print("Choose an option: ");
+        String choice = scanner.nextLine();
 
-        // Send the application
-        boolean success = sendAJobApplicationStudentBoundary.sendJobApplication(jobApplicationBean);
-
-        if (success) {
-            System.out.println("Your job application has been successfully submitted.");
+        if (choice.equals("1")) {
+            // Proceed with job application process (not yet implemented)
+            System.out.println("Applying for the job...");
+            // Implement the application logic here
+        } else if (choice.equals("2")) {
+            // Go back to job announcement details
+            showJobAnnouncementDetails(scanner, jobAnnouncements);
         } else {
-            System.out.println("Failed to submit your job application. Please try again later.");
+            System.out.println("Invalid choice. Please try again.");
+            showJobAnnouncementDetails(scanner, jobAnnouncements);
         }
+
     }
-
-
-
-
-
 
 }

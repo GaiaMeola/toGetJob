@@ -37,7 +37,6 @@ public class HomeRecruiterState implements CliState {
         switch (input) {
             case "1":
                 System.out.println("Viewing your profile...");
-                // Logica per visualizzare il profilo
                 break;
             case "2":
                 System.out.println("Publishing a job announcement...");
@@ -45,32 +44,28 @@ public class HomeRecruiterState implements CliState {
                 break;
             case "3":
                 System.out.println("Contacting a job candidate...");
-                // Logica per contattare un candidato
                 break;
             case "4":
                 System.out.println("Viewing reviews...");
-                // Logica per visualizzare le recensioni
                 break;
             case "5":
-                // Opzione per invitare un altro recruiter
                 System.out.println("Enter the email of the recruiter you want to invite: ");
-                String recruiterEmail = scanner.nextLine();
-                // Logica per inviare l'invito al recruiter
+                scanner.nextLine(); //Email
                 break;
             case "6":
             case "logout":
                 System.out.println("Logging out...");
                 loginBoundary.logout();
-                context.setState(new MainMenuState());  // Torna al menu principale
+                context.setState(new MainMenuState());
                 break;
             case "7":
             case "exit":
                 System.out.println("Exiting application...");
-                context.setState(new ExitState());  // Chiudi l'applicazione (ExitState)
+                context.setState(new ExitState());  // (ExitState)
                 break;
             default:
                 System.out.println("Invalid option. Please try again.");
-                context.setState(new HomeRecruiterState()); // Rimane nello stato corrente
+                context.setState(new HomeRecruiterState());
                 break;
         }
     }

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class InMemoryJobApplicationDao implements JobApplicationDao {
 
-    private static Map<String, Map<Student, JobApplication>> jobApplicationsMap = new HashMap<>();
+    private static final Map<String, Map<Student, JobApplication>> jobApplicationsMap = new HashMap<>();
 
     @Override
     public boolean saveJobApplication(JobApplication jobApplication) {

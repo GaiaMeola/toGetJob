@@ -10,6 +10,16 @@ public class JobAnnouncementSearchBean {
     private String companyName;
     private String salary;
 
+    public JobAnnouncementSearchBean(String jobTitle, String jobType, String role, String location, String workingHours, String companyName, String salary) {
+        this.jobTitle = jobTitle;
+        this.jobType = jobType;
+        this.role = role;
+        this.location = location;
+        this.workingHours = workingHours;
+        this.companyName = companyName;
+        this.salary = salary;
+    }
+
     public String getJobTitle() {
         return jobTitle;
     }
