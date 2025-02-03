@@ -2,13 +2,13 @@ package org.example.togetjob.view.cli.contextstate;
 
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.concretestate.ExitState;
-import org.example.togetjob.view.cli.concretestate.LoginState;
-import org.example.togetjob.view.cli.concretestate.RegisterState;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class CliContext {
 
+    private static final Logger logger = Logger.getLogger(CliContext.class.getName());
     private CliState currentState;
     private final Scanner scanner;
 
@@ -35,27 +35,12 @@ public class CliContext {
             showMenu(); //Current State
 
             String input = scanner.nextLine().trim();
-            System.out.println("Input received: " + input);
+            logger.info("Input received: " + input);
             goNext(input);
-
-           if (currentState instanceof LoginState) {
-                goNext("login");
-                continue;
-            }
-
-            if (currentState instanceof RegisterState) {
-                goNext("register");
-                continue;
-            }
-
-            if(currentState instanceof ExitState) {
-                goNext("exit");
-            } //Exit State
         }
     }
 
     public Scanner getScanner() {
         return this.scanner;
     }
-
 }

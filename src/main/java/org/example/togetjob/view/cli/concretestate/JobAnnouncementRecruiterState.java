@@ -6,27 +6,29 @@ import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class JobAnnouncementRecruiterState implements CliState {
 
+    private static final Logger logger = Logger.getLogger(JobAnnouncementRecruiterState.class.getName());
     private final PublishAJobAnnouncementRecruiterBoundary jobAnnouncementRecruiterBoundary = new PublishAJobAnnouncementRecruiterBoundary();
 
     @Override
     public void showMenu() {
-        System.out.println("\n --- Job Announcements - Recruiter ---");
-        System.out.println("Welcome, Recruiter! You can do the following:");
-        System.out.println("1. View all your job announcements");
-        System.out.println("2. Create a new job announcement");
-        System.out.println("3. Deactivate a job announcement");
-        System.out.println("4. Delete a job announcement");
-        System.out.println("5. Go back");
-        System.out.println("6. Exit");
-        System.out.print("Choose an option: ");
+        logger.info("\n --- Job Announcements - Recruiter ---");
+        logger.info("Welcome, Recruiter! You can do the following:");
+        logger.info("1. View all your job announcements");
+        logger.info("2. Create a new job announcement");
+        logger.info("3. Deactivate a job announcement");
+        logger.info("4. Delete a job announcement");
+        logger.info("5. Go back");
+        logger.info("6. Exit");
+        logger.info("Choose an option: ");
     }
 
     @Override
     public void goNext() {
-
+        // Non implementato
     }
 
     @Override
@@ -56,83 +58,82 @@ public class JobAnnouncementRecruiterState implements CliState {
                 break;
 
             case "5": // Go back to previous state
-                System.out.println("Returning to recruiter home...");
+                logger.info("Returning to recruiter home...");
                 context.setState(new HomeRecruiterState());
                 break;
 
             case "6": // Exit application
-                System.out.println("Exiting application...");
+                logger.info("Exiting application...");
                 context.setState(new ExitState());
                 break;
 
             default:
-                System.out.println("Invalid option. Please try again.");
+                logger.warning("Invalid option. Please try again.");
                 break;
         }
 
     }
-
 
     private void viewJobAnnouncements() {
         // Call the boundary method to fetch job announcements
         var jobAnnouncements = jobAnnouncementRecruiterBoundary.getJobAnnouncements();
 
         if (jobAnnouncements.isEmpty()) {
-            System.out.println("No job announcements found.");
+            logger.info("No job announcements found.");
         } else {
             // Display the announcements
             for (var job : jobAnnouncements) {
-                System.out.println("Title: " + job.getJobTitle());
-                System.out.println("Location: " + job.getLocation());
-                System.out.println("Salary: " + job.getSalary());
-                System.out.println("Active: " + job.isActive());
-                System.out.println("-------------------------");
+                logger.info("Title: " + job.getJobTitle());
+                logger.info("Location: " + job.getLocation());
+                logger.info("Salary: " + job.getSalary());
+                logger.info("Active: " + job.isActive());
+                logger.info("-------------------------");
             }
         }
     }
 
     private void createJobAnnouncement(Scanner scanner) {
         // Collect job details from the user to create a new job announcement
-        System.out.println("Enter the details for the new job announcement:");
+        logger.info("Enter the details for the new job announcement:");
 
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
 
-        System.out.print("Enter Job Title: ");
+        logger.info("Enter Job Title: ");
         jobAnnouncementBean.setJobTitle(scanner.nextLine());
 
-        System.out.print("Enter Job Type: ");
+        logger.info("Enter Job Type: ");
         jobAnnouncementBean.setJobType(scanner.nextLine());
 
-        System.out.print("Enter Role: ");
+        logger.info("Enter Role: ");
         jobAnnouncementBean.setRole(scanner.nextLine());
 
-        System.out.print("Enter Location: ");
+        logger.info("Enter Location: ");
         jobAnnouncementBean.setLocation(scanner.nextLine());
 
-        System.out.print("Enter Working Hours: ");
+        logger.info("Enter Working Hours: ");
         jobAnnouncementBean.setWorkingHours(scanner.nextLine());
 
-        System.out.print("Enter Company Name: ");
+        logger.info("Enter Company Name: ");
         jobAnnouncementBean.setCompanyName(scanner.nextLine());
 
-        System.out.print("Enter Salary: ");
+        logger.info("Enter Salary: ");
         jobAnnouncementBean.setSalary(scanner.nextLine());
 
-        System.out.print("Enter Description: ");
+        logger.info("Enter Description: ");
         jobAnnouncementBean.setDescription(scanner.nextLine());
 
         // Call the boundary method to publish the job announcement
         boolean success = jobAnnouncementRecruiterBoundary.publishJobAnnouncement(jobAnnouncementBean);
 
         if (success) {
-            System.out.println("Job announcement created successfully.");
+            logger.info("Job announcement created successfully.");
         } else {
-            System.out.println("Failed to create job announcement.");
+            logger.warning("Failed to create job announcement.");
         }
     }
 
     private void deactivateJobAnnouncement(Scanner scanner) {
-        System.out.print("Enter the title of the job announcement to deactivate: ");
+        logger.info("Enter the title of the job announcement to deactivate: ");
         String jobTitle = scanner.nextLine();
 
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
@@ -142,15 +143,15 @@ public class JobAnnouncementRecruiterState implements CliState {
         boolean success = jobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
 
         if (success) {
-            System.out.println("Job announcement deactivated successfully.");
+            logger.info("Job announcement deactivated successfully.");
         } else {
-            System.out.println("Failed to deactivate job announcement.");
+            logger.warning("Failed to deactivate job announcement.");
         }
     }
 
     private void deleteJobAnnouncement(Scanner scanner) {
         // Collect job title from the user to delete the job announcement
-        System.out.print("Enter the title of the job announcement to delete: ");
+        logger.info("Enter the title of the job announcement to delete: ");
         String jobTitle = scanner.nextLine();
 
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
@@ -160,9 +161,9 @@ public class JobAnnouncementRecruiterState implements CliState {
         boolean success = jobAnnouncementRecruiterBoundary.deleteJobAnnouncement(jobAnnouncementBean);
 
         if (success) {
-            System.out.println("Job announcement deleted successfully.");
+            logger.info("Job announcement deleted successfully.");
         } else {
-            System.out.println("Failed to delete job announcement.");
+            logger.warning("Failed to delete job announcement.");
         }
     }
 

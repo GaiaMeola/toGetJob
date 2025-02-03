@@ -5,28 +5,30 @@ import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class HomeRecruiterState implements CliState {
 
+    private static final Logger logger = Logger.getLogger(HomeRecruiterState.class.getName());
     private final LoginBoundary loginBoundary = new LoginBoundary();
 
     @Override
     public void showMenu() {
-        System.out.println("\n ---Home - Recruiter---");
-        System.out.println("Welcome, Recruiter! You can do the following:");
-        System.out.println("1. View your profile");
-        System.out.println("2. Publish a Job Announcement");
-        System.out.println("3. Contact a Job Candidate");
-        System.out.println("4. View reviews");
-        System.out.println("5. Invite another recruiter to collaborate");
-        System.out.println("6. Logout");
-        System.out.println("7. Exit");
-        System.out.print("Choose an option: ");
+        logger.info("\n ---Home - Recruiter---");
+        logger.info("Welcome, Recruiter! You can do the following:");
+        logger.info("1. View your profile");
+        logger.info("2. Publish a Job Announcement");
+        logger.info("3. Contact a Job Candidate");
+        logger.info("4. View reviews");
+        logger.info("5. Invite another recruiter to collaborate");
+        logger.info("6. Logout");
+        logger.info("7. Exit");
+        logger.info("Choose an option: ");
     }
 
     @Override
     public void goNext() {
-
+        // Non implementato
     }
 
     @Override
@@ -36,40 +38,39 @@ public class HomeRecruiterState implements CliState {
 
         switch (input) {
             case "1":
-                System.out.println("Viewing your profile...");
+                logger.info("Viewing your profile...");
                 // Logica per visualizzare il profilo
                 break;
             case "2":
-                System.out.println("Publishing a job announcement...");
+                logger.info("Publishing a job announcement...");
                 context.setState(new JobAnnouncementRecruiterState());
                 break;
             case "3":
-                System.out.println("Contacting a job candidate...");
+                logger.info("Contacting a job candidate...");
                 // Logica per contattare un candidato
                 break;
             case "4":
-                System.out.println("Viewing reviews...");
+                logger.info("Viewing reviews...");
                 // Logica per visualizzare le recensioni
                 break;
             case "5":
-                // Opzione per invitare un altro recruiter
-                System.out.println("Enter the email of the recruiter you want to invite: ");
+                logger.info("Enter the email of the recruiter you want to invite: ");
                 String recruiterEmail = scanner.nextLine();
                 // Logica per inviare l'invito al recruiter
                 break;
             case "6":
             case "logout":
-                System.out.println("Logging out...");
+                logger.info("Logging out...");
                 loginBoundary.logout();
                 context.setState(new MainMenuState());  // Torna al menu principale
                 break;
             case "7":
             case "exit":
-                System.out.println("Exiting application...");
+                logger.info("Exiting application...");
                 context.setState(new ExitState());  // Chiudi l'applicazione (ExitState)
                 break;
             default:
-                System.out.println("Invalid option. Please try again.");
+                logger.warning("Invalid option. Please try again.");
                 context.setState(new HomeRecruiterState()); // Rimane nello stato corrente
                 break;
         }

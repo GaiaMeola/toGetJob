@@ -10,19 +10,20 @@ import org.example.togetjob.view.cli.contextstate.CliContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class RegisterState implements CliState {
 
+    private static final Logger logger = Logger.getLogger(RegisterState.class.getName());
+
     @Override
     public void showMenu() {
-
-        System.out.println("\n ---Register---");
-
+        logger.info("\n ---Register---");
     }
 
     @Override
     public void goNext() {
-        System.out.println("Registration complete, returning to main menu...");
+        logger.info("Registration complete, returning to main menu...");
     }
 
     @Override
@@ -30,27 +31,27 @@ public class RegisterState implements CliState {
 
         Scanner scanner = context.getScanner();
 
-        System.out.println("Welcome to toGetJob! Fill the following fields: ");
-        System.out.print("Enter username: ");
+        logger.info("Welcome to toGetJob! Fill the following fields: ");
+        logger.info("Enter username: ");
         String username = scanner.nextLine();
-        System.out.print("Enter password: ");
+        logger.info("Enter password: ");
         String password = scanner.nextLine();
-        System.out.print("Confirm password: ");
+        logger.info("Confirm password: ");
         String checkPassword = scanner.nextLine();
 
         if (!password.equals(checkPassword)) {
-            System.out.println("Passwords do not match. Please try again.");
+            logger.warning("Passwords do not match. Please try again.");
             context.setState(new RegisterState()); // Rimani nello stato di registrazione
             return;
         }
 
-        System.out.print("Enter name: ");
+        logger.info("Enter name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter surname: ");
+        logger.info("Enter surname: ");
         String surname = scanner.nextLine();
-        System.out.print("Enter email: ");
+        logger.info("Enter email: ");
         String email = scanner.nextLine();
-        System.out.print("Enter role (student/recruiter): ");
+        logger.info("Enter role (student/recruiter): ");
         String roleInput = scanner.nextLine().trim().toLowerCase();
 
         RegisterUserBean userBean = new RegisterUserBean(username, email, password, name, surname, roleInput, checkPassword);
@@ -63,7 +64,7 @@ public class RegisterState implements CliState {
         } else if ("recruiter".equals(roleInput)) {
             infoBean = getRecruiterInfo(scanner);
         } else {
-            System.out.println("Invalid role. Please try again.");
+            logger.warning("Invalid role. Please try again.");
             context.setState(new RegisterState());
             return;
         }
@@ -72,33 +73,33 @@ public class RegisterState implements CliState {
         boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 
         if (registrationSuccess) {
-            System.out.println("Registration successful!");
+            logger.info("Registration successful!");
             context.setState(new MainMenuState()); // Main Menù
         } else {
-            System.out.println("Username already exists. Please try again.");
+            logger.warning("Username already exists. Please try again.");
             context.setState(new RegisterState());
         }
 
     }
 
     private StudentInfoBean getStudentInfo(Scanner scanner) {
-        System.out.println("Please, complete your student profile:");
+        logger.info("Please, complete your student profile:");
 
-        System.out.print("Enter date of birth (yyyy-mm-dd): ");
+        logger.info("Enter date of birth (yyyy-mm-dd): ");
         LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());
-        System.out.print("Enter phone number: ");
+        logger.info("Enter phone number: ");
         String phoneNumber = scanner.nextLine();
-        System.out.print("Enter degrees (comma-separated): ");
+        logger.info("Enter degrees (comma-separated): ");
         List<String> degrees = List.of(scanner.nextLine().split(","));
-        System.out.print("Enter courses attended (comma-separated): ");
+        logger.info("Enter courses attended (comma-separated): ");
         List<String> courses = List.of(scanner.nextLine().split(","));
-        System.out.print("Enter certifications (comma-separated): ");
+        logger.info("Enter certifications (comma-separated): ");
         List<String> certifications = List.of(scanner.nextLine().split(","));
-        System.out.print("Enter work experiences (comma-separated): ");
+        logger.info("Enter work experiences (comma-separated): ");
         List<String> workExperiences = List.of(scanner.nextLine().split(","));
-        System.out.print("Enter skills (comma-separated): ");
+        logger.info("Enter skills (comma-separated): ");
         List<String> skills = List.of(scanner.nextLine().split(","));
-        System.out.print("Enter availability: ");
+        logger.info("Enter availability: ");
         String availability = scanner.nextLine();
 
         return new StudentInfoBean(dateOfBirth, phoneNumber, degrees, courses, certifications, workExperiences, skills, availability);
@@ -106,9 +107,9 @@ public class RegisterState implements CliState {
 
     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
 
-        System.out.println("Please, complete your recruiter profile:");
+        logger.info("Please, complete your recruiter profile:");
 
-        System.out.print("Enter the companies you work for (comma-separated): ");
+        logger.info("Enter the companies you work for (comma-separated): ");
         List<String> companies = List.of(scanner.nextLine().split(","));
         return new RecruiterInfoBean(companies);
     }
