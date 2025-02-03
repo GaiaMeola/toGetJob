@@ -8,6 +8,7 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.view.cli.concretestate.MainMenuState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -21,23 +22,23 @@ public class Main {
         try {
             loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
         } catch (ConfigException e) {
-            System.out.println("Error DAO Configuration: " + e.getMessage());
+            System.out.println("Errore nella configurazione DAO: " + e.getMessage());
             return;
         }
         String daoType = loaderDaoConfig.getProperty("dao.type");
-        System.out.println("Type of DAO: " + daoType);
+        System.out.println("Tipo di DAO configurato: " + daoType);
 
         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
 
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
         } catch (ConfigException e) {
-            System.err.println("Error UI Configuration: " + e.getMessage());
+            System.err.println("Errore nella configurazione UI: " + e.getMessage());
             return;
         }
 
         String uiType = loaderUIConfig.getProperty("ui.type");
-        System.out.println("Type of UI: " + uiType);
+        System.out.println("Tipo di interfaccia utente configurata: " + uiType);
 
         if ("jdbc".equalsIgnoreCase(daoType)) {
             DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
@@ -46,24 +47,24 @@ public class Main {
             try {
                 Connection connection = databaseConfig.getConnection();
                 if (connection != null) {
-                    System.out.println("Connection ...");
+                    System.out.println("Connessione al database riuscita.");
                     databaseConfig.closeConnection(); //Connection closed
-                    System.out.println("Connection closed.");
+                    System.out.println("Connessione al database chiusa.");
                 } else {
-                    System.out.println("Error Connection.");
+                    System.out.println("Impossibile ottenere la connessione al database.");
                 }
             } catch (SQLException e) {
-                System.out.println("Error Connection: " + e.getMessage());
+                System.out.println("Errore durante la connessione al database: " + e.getMessage());
                 return;
             }
         } else if ("in memory".equalsIgnoreCase(daoType)) {
             //In memory
-            System.out.println("DAO In-Memory");
+            System.out.println("DAO In-Memory configurato.");
         } else if ("json".equalsIgnoreCase(daoType)) {
            //file system
-            System.out.println("DAO FileSystem");
+            System.out.println("DAO FileSystem configurato.");
         } else {
-            System.out.println("DAO DataBase.");
+            System.out.println("Tipo di DAO non riconosciuto.");
         }
         if ("cli".equalsIgnoreCase(uiType)){
             CliContext context = new CliContext(new MainMenuState());
@@ -71,7 +72,7 @@ public class Main {
         } else if("gui".equalsIgnoreCase(uiType)){
             launchGui();
         } else{
-            System.out.println("UI not found");
+            System.out.println("Tipo di interfaccia non riconosciuto.");
         }
 
     }

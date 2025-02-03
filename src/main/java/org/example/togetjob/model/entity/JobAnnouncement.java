@@ -1,6 +1,6 @@
 package org.example.togetjob.model.entity;
 
-import org.example.togetjob.pattern.subject.JobApplicationCollectionSubject;
+import org.example.togetjob.pattern_observer.subject.JobApplicationCollectionSubject;
 
 import java.util.ArrayList;
 import java.util.List;
