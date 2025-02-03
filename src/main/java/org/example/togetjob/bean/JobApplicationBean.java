@@ -1,6 +1,7 @@
 package org.example.togetjob.bean;
 
 import org.example.togetjob.model.entity.Status;
+import org.example.togetjob.model.entity.Student;
 
 public class JobApplicationBean {
 
