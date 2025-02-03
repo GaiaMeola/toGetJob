@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Inizio del caso d'uso Send A Job Application">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Settimo Commit: Prima parte del caso d'uso funzionante" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -262,7 +260,23 @@
       <option name="project" value="LOCAL" />
       <updated>1738591871116</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Settimo Commit: Prima parte del caso d'uso funzionante">
+      <option name="closed" value="true" />
+      <created>1738602095720</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1738602095720</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Settimo Commit: Prima parte del caso d'uso funzionante">
+      <option name="closed" value="true" />
+      <created>1738602224321</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1738602224321</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -291,7 +305,8 @@
     <MESSAGE value="Settimo Commit: Caso d'uso Registrazione e Login completati" />
     <MESSAGE value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
     <MESSAGE value="Settimo Commit: Inizio del caso d'uso Send A Job Application" />
-    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Inizio del caso d'uso Send A Job Application" />
+    <MESSAGE value="Settimo Commit: Prima parte del caso d'uso funzionante" />
+    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Prima parte del caso d'uso funzionante" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
