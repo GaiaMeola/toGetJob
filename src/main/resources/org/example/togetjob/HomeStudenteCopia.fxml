@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="113.0" fitWidth="161.0" layoutX="145.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
                <image>
-                  <Image url="@logo-removebg-preview.png" />
+                  <Image url="@../../../../../../../../Downloads/logo-removebg-preview.png" />
                </image>
                <viewport>
                   <Rectangle2D minY="-10.0" />
