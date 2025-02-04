@@ -1,6 +1,7 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.boundary.LoginBoundary;
+import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
@@ -12,7 +13,7 @@ public class LoginState implements CliState {
 
     @Override
     public void showMenu() {
-        System.out.println("\n--- Login ---");
+        Printer.print("\n--- Login ---");
     }
 
     @Override
@@ -25,9 +26,9 @@ public class LoginState implements CliState {
 
             Scanner scanner = context.getScanner();
 
-            System.out.print("Enter username: ");
+            Printer.print("Enter username: ");
             String username = scanner.nextLine();
-            System.out.print("Enter password: ");
+            Printer.print("Enter password: ");
             String password= scanner.nextLine();
 
             boolean loginSuccess = loginBoundary.login(username, password);
@@ -35,18 +36,18 @@ public class LoginState implements CliState {
             if (loginSuccess) {
                 // Login ok
                 String userRole = loginBoundary.getUserRole();
-                System.out.println("Login successful!");
+                Printer.print("Login successful!");
 
                 if ("STUDENT".equalsIgnoreCase(userRole)) {
                     context.setState(new HomeStudentState());  // go to HomePageStudent
                 } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
                     context.setState(new HomeRecruiterState());  // go to HomePageRecruiter
                 } else {
-                    System.out.println("Unknown role. Please try again.");
+                    Printer.print("Unknown role. Please try again.");
                     context.setState(new MainMenuState());  // Goto Login
                 }
             } else {
-                System.out.println("Login failed. Please try again.");
+                Printer.print("Login failed. Please try again.");
                 context.setState(new MainMenuState());  //Login
             }
     }

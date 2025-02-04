@@ -1,6 +1,7 @@
 package org.example.togetjob.connection;
 
 import org.example.togetjob.config.ConfigDaoLoader;
+import org.example.togetjob.printer.Printer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,7 +65,7 @@ public class DatabaseConfig {
                 // Carica il driver JDBC se necessario
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                System.out.println("Connessione al database riuscita!");
+                Printer.print("Connessione al database riuscita!");
             } catch (ClassNotFoundException e) {
                 throw new SQLException("Driver JDBC MySQL non trovato", e);
             } catch (SQLException e) {
@@ -79,7 +80,7 @@ public class DatabaseConfig {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connessione chiusa con successo.");
+                Printer.print("Connessione chiusa con successo.");
             } catch (SQLException e) {
                 System.err.println("Errore durante la chiusura della connessione: " + e.getMessage());
             } finally {

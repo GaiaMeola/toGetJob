@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.Recruiter;
+import org.example.togetjob.printer.Printer;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,18 +24,18 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             List<Recruiter> recruiters = getAllRecruiter();
 
             if (recruiters.stream().anyMatch(r -> r.getUsername().equals(recruiter.getUsername()))) {
-                System.out.println("The recruiter: " + recruiter.getUsername() + " already exists.");
+                Printer.print("The recruiter: " + recruiter.getUsername() + " already exists.");
                 return false;
             }
 
             recruiters.add(recruiter);
             objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            System.out.println("The recruiter: " + recruiter.getUsername() + " has been successfully saved in the File System");
+            Printer.print("The recruiter: " + recruiter.getUsername() + " has been successfully saved in the File System");
             return true;
 
         } catch (IOException e) {
-            System.out.println("The recruiter: " + recruiter.getUsername() + " cannot be saved in the File System");
-            System.out.println(e.getMessage());
+            Printer.print("The recruiter: " + recruiter.getUsername() + " cannot be saved in the File System");
+            Printer.print(e.getMessage());
             return false;
         }
     }
@@ -58,8 +59,8 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             return recruiters;
 
         } catch (IOException e) {
-            System.out.println("Recruiters cannot be retrieved from File System");
-            System.out.println(e.getMessage());
+            Printer.print("Recruiters cannot be retrieved from File System");
+            Printer.print(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -80,16 +81,16 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             }
 
             if (!found) {
-                System.out.println("The recruiter: " + recruiter.getUsername() + " doesn't exist.");
+                Printer.print("The recruiter: " + recruiter.getUsername() + " doesn't exist.");
                 return false;
             }
 
             objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            System.out.println("The recruiter: " + recruiter.getUsername() + " has been successfully updated.");
+            Printer.print("The recruiter: " + recruiter.getUsername() + " has been successfully updated.");
             return true;
 
         } catch (IOException e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            Printer.print("An unexpected error occurred: " + e.getMessage());
             return false;
         }
     }
@@ -100,17 +101,17 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             List<Recruiter> recruiters = getAllRecruiter();
             boolean removed = recruiters.removeIf(recruiter -> recruiter.getUsername().equals(username));
             if (!removed) {
-                System.out.println("The recruiter: " + username + " doesn't exist.");
+                Printer.print("The recruiter: " + username + " doesn't exist.");
                 return false;
             }
 
             objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            System.out.println("The recruiter: " + username + " has been successfully deleted.");
+            Printer.print("The recruiter: " + username + " has been successfully deleted.");
             return true;
 
         } catch (IOException e) {
-            System.out.println("The recruiter: " + username + " cannot be deleted");
-            System.out.println(e.getMessage());
+            Printer.print("The recruiter: " + username + " cannot be deleted");
+            Printer.print(e.getMessage());
             return false;
         }
     }
@@ -121,23 +122,23 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             List<Recruiter> recruiters = objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Recruiter>>() {});
 
             if (recruiters.isEmpty()) {
-                System.out.println("There aren't any recruiters in the File System");
+                Printer.print("There aren't any recruiters in the File System");
                 return false;
             }
 
             boolean presence = recruiters.stream().anyMatch(recruiter -> recruiter.getUsername().equals(username));
 
             if (presence) {
-                System.out.println("The recruiter: " + username + " exists");
+                Printer.print("The recruiter: " + username + " exists");
                 return true;
             }
 
-            System.out.println("The recruiter: " + username + " doesn't exist");
+            Printer.print("The recruiter: " + username + " doesn't exist");
             return false;
 
         } catch (IOException e) {
-            System.out.println("The recruiter: " + username + " cannot be searched");
-            System.out.println(e.getMessage());
+            Printer.print("The recruiter: " + username + " cannot be searched");
+            Printer.print(e.getMessage());
             return false;
         }
     }

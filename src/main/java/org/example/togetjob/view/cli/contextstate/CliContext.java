@@ -1,5 +1,6 @@
 package org.example.togetjob.view.cli.contextstate;
 
+import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.concretestate.ExitState;
 import org.example.togetjob.view.cli.concretestate.LoginState;
@@ -35,7 +36,7 @@ public class CliContext {
             showMenu(); //Current State
 
             String input = scanner.nextLine().trim();
-            System.out.println("Input received: " + input);
+            Printer.print("Input received: " + input);
             goNext(input);
 
            if (currentState instanceof LoginState) {

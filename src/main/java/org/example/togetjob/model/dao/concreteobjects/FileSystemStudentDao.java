@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.togetjob.model.dao.abstractobjects.StudentDao;
 import org.example.togetjob.model.entity.Student;
+import org.example.togetjob.printer.Printer;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,18 +24,18 @@ public class FileSystemStudentDao implements StudentDao {
             List<Student> students = getAllStudents();
 
             if (students.stream().anyMatch(s -> s.getUsername().equals(student.getUsername()))) {
-                System.out.println("The student: " + student.getUsername() + " already exists.");
+                Printer.print("The student: " + student.getUsername() + " already exists.");
                 return false;
             }
 
             students.add(student);
             objectMapper.writeValue(new File(PATH_NAME), students);
-            System.out.println("The student: " + student.getUsername() + " has been successfully saved in the File System");
+            Printer.print("The student: " + student.getUsername() + " has been successfully saved in the File System");
             return true;
 
         } catch (IOException e) {
-            System.out.println("The student: " + student.getUsername() + " cannot be saved in the File System");
-            System.out.println(e.getMessage());
+            Printer.print("The student: " + student.getUsername() + " cannot be saved in the File System");
+            Printer.print(e.getMessage());
             return false;
         }
     }
@@ -58,8 +59,8 @@ public class FileSystemStudentDao implements StudentDao {
             return students;
 
         } catch (IOException e) {
-            System.out.println("Students cannot be retrieved from File System");
-            System.out.println(e.getMessage());
+            Printer.print("Students cannot be retrieved from File System");
+            Printer.print(e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -79,16 +80,16 @@ public class FileSystemStudentDao implements StudentDao {
             }
 
             if (!found) {
-                System.out.println("The student: " + student.getUsername() + " doesn't exist.");
+                Printer.print("The student: " + student.getUsername() + " doesn't exist.");
                 return false;
             }
 
             objectMapper.writeValue(new File(PATH_NAME), students);
-            System.out.println("The student: " + student.getUsername() + " has been successfully updated.");
+            Printer.print("The student: " + student.getUsername() + " has been successfully updated.");
             return true;
 
         } catch (IOException e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            Printer.print("An unexpected error occurred: " + e.getMessage());
             return false;
         }
     }
@@ -100,17 +101,17 @@ public class FileSystemStudentDao implements StudentDao {
             List<Student> students = getAllStudents();
             boolean removed = students.removeIf(student -> student.getUsername().equals(username));
             if (!removed) {
-                System.out.println("The student: " + username + " doesn't exist.");
+                Printer.print("The student: " + username + " doesn't exist.");
                 return false;
             }
 
             objectMapper.writeValue(new File(PATH_NAME), students);
-            System.out.println("The student: " + username + " has been successfully deleted.");
+            Printer.print("The student: " + username + " has been successfully deleted.");
             return true;
 
         } catch (IOException e) {
-            System.out.println("The student: " + username + " cannot be deleted");
-            System.out.println(e.getMessage());
+            Printer.print("The student: " + username + " cannot be deleted");
+            Printer.print(e.getMessage());
             return false;
         }
     }
@@ -122,23 +123,23 @@ public class FileSystemStudentDao implements StudentDao {
             List<Student> students = objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Student>>() {});
 
             if (students.isEmpty()) {
-                System.out.println("There aren't any students in the File System");
+                Printer.print("There aren't any students in the File System");
                 return false;
             }
 
             boolean presence = students.stream().anyMatch(student -> student.getUsername().equals(username));
 
             if (presence) {
-                System.out.println("The student: " + username + " exists");
+                Printer.print("The student: " + username + " exists");
                 return true;
             }
 
-            System.out.println("The student: " + username + " doesn't exist");
+            Printer.print("The student: " + username + " doesn't exist");
             return false;
 
         } catch (IOException e) {
-            System.out.println("The student: " + username + " cannot be searched");
-            System.out.println(e.getMessage());
+            Printer.print("The student: " + username + " cannot be searched");
+            Printer.print(e.getMessage());
             return false;
         }
     }
