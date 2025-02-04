@@ -44,7 +44,7 @@ public class FileSystemUserDao implements UserDao {
             return true;
 
         } catch (IOException e) {
-            System.err.println("Error saving user: " + user.getUsername());
+            Printer.print("Error saving user: " + user.getUsername());
             e.printStackTrace();
             return false;
         }
@@ -66,7 +66,7 @@ public class FileSystemUserDao implements UserDao {
             return objectMapper.readValue(file, new TypeReference<List<User>>() {});
 
         } catch (IOException e) {
-            System.err.println("Error retrieving users from File System");
+            Printer.print("Error retrieving users from File System");
             e.printStackTrace();
             return new ArrayList<>();
         }
