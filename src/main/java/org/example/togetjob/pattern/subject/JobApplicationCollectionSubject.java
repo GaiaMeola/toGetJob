@@ -1,7 +1,7 @@
-package org.example.togetjob.pattern_observer.subject;
+package org.example.togetjob.pattern.subject;
 
 import org.example.togetjob.model.entity.JobApplication;
-import org.example.togetjob.pattern_observer.observer.NotificationObserver;
+import org.example.togetjob.pattern.observer.NotificationObserver;
 
 import java.util.ArrayList;
 import java.util.List;

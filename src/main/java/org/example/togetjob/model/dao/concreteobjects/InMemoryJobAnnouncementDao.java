@@ -5,11 +5,10 @@ import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
 
-    private static Map<String, Map<Recruiter, JobAnnouncement>> jobAnnouncementsMap = new HashMap<>();
+    private static final Map<String, Map<Recruiter, JobAnnouncement>> jobAnnouncementsMap = new HashMap<>();
 
     @Override
     public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) {
@@ -67,8 +66,15 @@ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
     public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
         return jobAnnouncementsMap.values().stream()
                 .map(map -> map.get(recruiter))
-                .filter(announcement -> announcement != null)
-                .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    @Override
+    public List<JobAnnouncement> getAllJobAnnouncements() {
+        return jobAnnouncementsMap.values().stream()
+                .flatMap(map -> map.values().stream())
+                .toList();
     }
 
     private String generateKey(JobAnnouncement jobAnnouncement) {
