@@ -6,9 +6,9 @@ public class JobAnnouncementSearchBean {
     private String jobType;
     private String role;
     private String location;
-    private String workingHours;
+    private int workingHours;
     private String companyName;
-    private String salary;
+    private double salary;
 
     public JobAnnouncementSearchBean(String jobTitle, String jobType, String role, String location, String workingHours, String companyName, String salary) {
         this.jobTitle = jobTitle;
@@ -52,11 +52,11 @@ public class JobAnnouncementSearchBean {
         this.location = location;
     }
 
-    public String getWorkingHours() {
+    public int getWorkingHours() {
         return workingHours;
     }
 
-    public void setWorkingHours(String workingHours) {
+    public void setWorkingHours(int workingHours) {
         this.workingHours = workingHours;
     }
 
@@ -68,11 +68,11 @@ public class JobAnnouncementSearchBean {
         this.companyName = companyName;
     }
 
-    public String getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(String salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 }

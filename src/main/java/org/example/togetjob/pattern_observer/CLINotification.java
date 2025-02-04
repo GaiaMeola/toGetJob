@@ -1,4 +1,4 @@
-package org.example.togetjob.pattern;
+package org.example.togetjob.pattern_observer;
 
 import org.example.togetjob.model.entity.JobApplication;
 

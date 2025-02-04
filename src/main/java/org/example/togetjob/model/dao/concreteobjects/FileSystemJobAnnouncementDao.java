@@ -38,9 +38,4 @@ public class FileSystemJobAnnouncementDao implements JobAnnouncementDao {
     public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
         return List.of();
     }
-
-    @Override
-    public List<JobAnnouncement> getAllJobAnnouncements() {
-        return List.of();
-    }
 }
