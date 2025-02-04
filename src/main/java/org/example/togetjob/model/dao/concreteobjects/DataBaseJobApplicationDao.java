@@ -10,8 +10,7 @@ import java.util.Optional;
 
 public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
-    public boolean saveJobApplication(JobApplication jobApplication) {
-        return false;
+    public void saveJobApplication(JobApplication jobApplication) {
     }
 
     @Override
@@ -25,8 +24,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean deleteJobApplication(JobApplication jobApplication) {
-        return false;
+    public void deleteJobApplication(JobApplication jobApplication) {
     }
 
     @Override
@@ -36,6 +34,11 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {
+        return List.of();
+    }
+
+    @Override
+    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
         return List.of();
     }
 }

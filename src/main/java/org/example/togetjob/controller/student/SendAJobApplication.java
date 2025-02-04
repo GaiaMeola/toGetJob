@@ -3,10 +3,7 @@ package org.example.togetjob.controller.student;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
-import org.example.togetjob.exceptions.ConfigException;
-import org.example.togetjob.exceptions.JobAnnouncementNotFoundException;
-import org.example.togetjob.exceptions.NotificationException;
-import org.example.togetjob.exceptions.RecruiterNotFoundException;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
@@ -19,8 +16,6 @@ import org.example.togetjob.pattern.observer.RecruiterObserver;
 import org.example.togetjob.pattern.subject.JobApplicationCollectionSubject;
 import org.example.togetjob.session.SessionManager;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +76,24 @@ public class SendAJobApplication {
 
     }
 
+    private List<JobApplicationBean> convertToJobApplicationBeans(List<JobApplication> jobApplications) {
+        List<JobApplicationBean> jobApplicationBeans = new ArrayList<>();
+
+        for (JobApplication jobApplication : jobApplications) {
+            JobApplicationBean jobApplicationBean = new JobApplicationBean();
+
+            jobApplicationBean.setJobTitle(jobApplication.getJobAnnouncement().getJobTitle());
+            jobApplicationBean.setStudentUsername(jobApplication.getStudent().getUsername());
+            jobApplicationBean.setCoverLetter(jobApplication.getCoverLetter());
+            jobApplicationBean.setRecruiterUsername(jobApplication.getJobAnnouncement().getRecruiter().getUsername());
+            jobApplicationBean.setStatus(jobApplication.getStatus());
+            jobApplicationBeans.add(jobApplicationBean);
+        }
+
+        return jobApplicationBeans;
+    }
+
+
     public JobAnnouncementBean showJobAnnouncementDetails(JobAnnouncementBean jobAnnouncementBean) throws RecruiterNotFoundException {
 
         String recruiterUsername = jobAnnouncementBean.getRecruiterUsername();
@@ -127,8 +140,14 @@ public class SendAJobApplication {
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)
                 .orElseThrow(() -> new IllegalArgumentException("Error: JobAnnouncement not found.")); // Job Announcement Found
 
+        // Check if the job announcement is still active
+        if (jobAnnouncement.getActive() == null || !jobAnnouncement.getActive()) {
+            throw new JobAnnouncementNotActiveException("This job announcement is no longer active.");
+        }
+
+        // Check if the student has already applied for this job
         if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isPresent()) {
-            return false; // Job Application already sent
+            throw new JobApplicationAlreadySentException("You have already applied for this job.");
         }
 
         JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
@@ -143,51 +162,38 @@ public class SendAJobApplication {
         return true;
     }
 
-    private void sendNotificationToRecruiter(JobApplication jobApplication) throws NotificationException {
-
-        Recruiter recruiter = jobApplication.getJobAnnouncement().getRecruiter();
-
-        try {
-            Notification notification = NotificationFactory.createNotification();
-            RecruiterObserver recruiterObserver = new RecruiterObserver(recruiter, notification);
-
-            jobApplicationCollection.attach(recruiterObserver); // observer
-            jobApplicationCollection.addJobApplication(jobApplication); // notify
-
-        } catch (ConfigException e) {
-            throw new NotificationException("Error during the configuration", e);
-        }
-
-    }
-
-    private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {
+    public List<JobApplicationBean> getAllJobApplication(){
 
         Student student = getStudentFromSession();
 
-        Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Error: Recruiter not found."));
-
-        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException("Error: Job Announcement not found."));
-
-        return jobApplicationDao.getJobApplication(student, jobAnnouncement);
-
-    }
-
-    private Status getStatusJobApplication(JobApplicationBean jobApplicationBean) {
-
-        Optional<JobApplication> jobApplicationOpt = getJobApplication(jobApplicationBean);
-        if (jobApplicationOpt.isEmpty()) {
-
-            throw new IllegalArgumentException("Error: job Application not Found.");
-
+        if (student == null) {
+            throw new IllegalStateException("Error: No student is currently logged in.");
         }
 
-        JobApplication jobApplication = jobApplicationOpt.get();
-        return jobApplication.getStatus();
+        List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
+        return convertToJobApplicationBeans(jobApplications);
 
     }
 
+    public List<JobApplicationBean> getJobApplicationsForRecruiter(JobAnnouncementBean jobAnnouncementBean){
+
+        Recruiter recruiter = getRecruiterFromSession();
+        if (recruiter == null) {
+            throw new IllegalStateException("Error: No recruiter is currently logged in.");
+        }
+
+        Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
+        if (jobAnnouncementOpt.isEmpty()) {
+            throw new IllegalStateException("Error: No job announcement found for the recruiter with the specified title.");
+        }
+
+        JobAnnouncement jobAnnouncement = jobAnnouncementOpt.get();
+
+        // all the job applications sent to the job announcement
+        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
+        return convertToJobApplicationBeans(jobApplications);
+
+    }
 
     public boolean modifyJobApplication(JobApplicationBean jobApplicationBean) {
 
@@ -239,85 +245,87 @@ public class SendAJobApplication {
 
     }
 
-    public boolean acceptJobApplication(JobApplicationBean jobApplicationBean) {
+
+    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) {
 
         Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);
 
         if (jobApplicationOPT.isEmpty()) {
-            throw new IllegalArgumentException("Error: not found.");
+            throw new IllegalArgumentException("Error, not found");
         }
 
         JobApplication jobApplication = jobApplicationOPT.get();
 
+
         if (!jobApplication.getStatus().equals(Status.PENDING)) {
-            return false; //job application already managed
+            return false; // not Pending, already managed
         }
 
-        jobApplication.setStatus(Status.ACCEPTED);
+        jobApplication.setStatus(status); // (ACCEPTED o REJECTED)
         jobApplicationDao.saveJobApplication(jobApplication);
 
         return true;
+    }
+
+
+    private void sendNotificationToRecruiter(JobApplication jobApplication) throws NotificationException {
+
+        Recruiter recruiter = jobApplication.getJobAnnouncement().getRecruiter();
+
+        try {
+            Notification notification = NotificationFactory.createNotification();
+            RecruiterObserver recruiterObserver = new RecruiterObserver(recruiter, notification);
+
+            jobApplicationCollection.attach(recruiterObserver); // observer
+            jobApplicationCollection.addJobApplication(jobApplication); // notify
+
+        } catch (ConfigException e) {
+            throw new NotificationException("Error during the configuration", e);
+        }
 
     }
 
-    public boolean rejectJobApplication(JobApplicationBean jobApplicationBean) {
+    private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {
 
-        Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);
+        Student student = getStudentFromSession();
 
-        if (jobApplicationOPT.isEmpty()) {
-            throw new IllegalArgumentException("Error: not found.");
-        }
+        Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Error: Recruiter not found."));
 
-        JobApplication jobApplication = jobApplicationOPT.get();
+        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)
+                .orElseThrow(() -> new IllegalArgumentException("Error: Job Announcement not found."));
 
-        if (!jobApplication.getStatus().equals(Status.PENDING)) {
-            return false; //job application already managed
-        }
-
-        jobApplication.setStatus(Status.REJECTED);
-        jobApplicationDao.saveJobApplication(jobApplication);
-
-        return true;
+        return jobApplicationDao.getJobApplication(student, jobAnnouncement);
 
     }
 
-   /* public List<JobApplicationBean> viewPendingJobApplications(JobAnnouncementBean jobAnnouncementBean) {
+    private Status getStatusJobApplication(JobApplicationBean jobApplicationBean) {
 
-        List<JobApplication> pendingApplications = getPendingApplicationsForJob(jobAnnouncementBean);
+        Optional<JobApplication> jobApplicationOpt = getJobApplication(jobApplicationBean);
+        if (jobApplicationOpt.isEmpty()) {
 
-        if (pendingApplications.isEmpty()) {
-            return new ArrayList<>(); //No applications
+            throw new IllegalArgumentException("Error: job Application not Found.");
+
         }
 
-        List<JobApplicationBean> jobApplicationBeans = new ArrayList<>();
+        JobApplication jobApplication = jobApplicationOpt.get();
+        return jobApplication.getStatus();
 
-        for (JobApplication application : pendingApplications) {
-            JobApplicationBean jobApplicationBean = convertToJobApplicationBean(application);
-            jobApplicationBeans.add(jobApplicationBean);
-        }
-
-        return jobApplicationBeans;
     }
 
-    private List<JobApplication> getPendingApplicationsForJob(JobAnnouncementBean jobAnnouncementBean){
 
-        List<JobApplication> pendingApplications = new ArrayList<>();
 
-        for(JobApplication application: jobAnnouncementBean.getJobApplications()){
-            if (application.getStatus() == JobApplication.Status.PENDING_APPROVAL) {
-                pendingApplications.add(application);
-            }
-        }
-
-        return pendingApplications;
-
-    } da rivedere e rifare */
 
     //student session for the job application
 
     private Student getStudentFromSession() {
         // Student from session
         return (Student) SessionManager.getInstance().getCurrentUser();
+    }
+
+    private Recruiter getRecruiterFromSession() {
+        // Recruiter from session
+        return (Recruiter) SessionManager.getInstance().getCurrentUser();
     }
 
     //method to filter

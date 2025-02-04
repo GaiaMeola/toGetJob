@@ -31,6 +31,10 @@ public class SendAJobApplicationStudentBoundary {
         return controller.sendAJobApplication(jobApplicationBean);
     }
 
+    public List<JobApplicationBean> getJobApplicationsByStudent() {
+        return controller.getAllJobApplication();
+    }
+
     public boolean modifyAJobApplication(JobApplicationBean jobApplicationBean){
         return controller.modifyJobApplication(jobApplicationBean);
     }

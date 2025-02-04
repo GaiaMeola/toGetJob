@@ -7,17 +7,17 @@ import java.util.List;
 
 public class JobAnnouncement {
 
-    private String jobTitle;
-    private String jobType;
-    private String role;
-    private String location;
-    private int workingHours;
-    private String companyName;
-    private double salary;
-    private String description;
+    private final String jobTitle;
+    private final String jobType;
+    private final String role;
+    private final String location;
+    private final int workingHours;
+    private final String companyName;
+    private final double salary;
+    private final String description;
     private Boolean isActive;
-    private Recruiter recruiter;
-    private List <Recruiter> collaborators;
+    private final Recruiter recruiter;
+    private final List <Recruiter> collaborators;
     private JobApplicationCollectionSubject jobApplicationCollection;
 
     public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive, Recruiter recruiter) {

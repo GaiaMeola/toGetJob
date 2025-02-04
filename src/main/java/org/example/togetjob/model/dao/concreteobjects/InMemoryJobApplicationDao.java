@@ -5,25 +5,20 @@ import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.JobApplication;
 import org.example.togetjob.model.entity.Student;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class InMemoryJobApplicationDao implements JobApplicationDao {
 
     private static final Map<String, Map<Student, JobApplication>> jobApplicationsMap = new HashMap<>();
 
     @Override
-    public boolean saveJobApplication(JobApplication jobApplication) {
+    public void saveJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
         Map<Student, JobApplication> studentMap = jobApplicationsMap.getOrDefault(key, new HashMap<>());
 
         studentMap.put(jobApplication.getStudent(), jobApplication);
         jobApplicationsMap.put(key, studentMap);
 
-        return true;
     }
 
     @Override
@@ -48,16 +43,14 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean deleteJobApplication(JobApplication jobApplication) {
+    public void deleteJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
         Map<Student, JobApplication> studentMap = jobApplicationsMap.get(key);
 
         if (studentMap != null && studentMap.containsKey(jobApplication.getStudent())) {
             studentMap.remove(jobApplication.getStudent());
-            return true;
         }
 
-        return false;
     }
 
     @Override
@@ -71,9 +64,17 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {
         return jobApplicationsMap.values().stream()
-                .map(map -> map.get(student))
-                .filter(application -> application != null)
-                .collect(Collectors.toList());
+                .map(map -> map.get(student)) //
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    @Override
+    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
+        return jobApplicationsMap.values().stream() //
+                .flatMap(studentMap -> studentMap.values().stream())
+                .filter(application -> application.getJobAnnouncement().equals(jobAnnouncement))
+                .toList();
     }
 
 
@@ -82,7 +83,6 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
         return student.getUsername() + "-" + jobAnnouncement.getJobTitle() + "-" + jobAnnouncement.getRecruiter().getUsername() ;
     }
 
-    // la chiave è costituita da: username studente + titolo job announcement + username recruiter
     private String generateKey(JobApplication jobApplication) {
         return jobApplication.getStudent().getUsername() + "-" + jobApplication.getJobAnnouncement().getJobTitle() + "-" + jobApplication.getJobAnnouncement().getRecruiter().getUsername() ;
     }

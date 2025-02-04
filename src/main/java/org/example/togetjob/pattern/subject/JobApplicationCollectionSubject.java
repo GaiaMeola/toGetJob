@@ -38,8 +38,8 @@ public class JobApplicationCollectionSubject implements Subject {
         return jobApplications;
     }
 
-    public boolean removeJobApplication(JobApplication jobApplication) {
-        return jobApplications.remove(jobApplication);
+    public void removeJobApplication(JobApplication jobApplication) {
+        jobApplications.remove(jobApplication);
     }
 }
 
