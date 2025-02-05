@@ -1,0 +1,55 @@
+Index: src/main/java/it/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it;\n\nimport it.config.ConfigDaoLoader;\nimport it.config.ConfigUILoader;\nimport it.exceptions.ConfigException;\nimport it.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;\n\nimport java.io.IOException;\n\n//TIP To <b>Run</b> code, press <shortcut actionId=\"Run\"/> or\n// click the <icon src=\"AllIcons.Actions.Execute\"/> icon in the gutter.\npublic class Main {\n    public static void main(String[] args) throws RuntimeException, IOException {\n        ConfigDaoLoader loaderDaoConfig;\n        ConfigUILoader loaderUIConfig;\n\n        try {\n            loaderDaoConfig = new ConfigDaoLoader(\"dao.config.properties\");\n        } catch (ConfigException e) {\n            System.out.println(\"Errore nella configurazione DAO: \" + e.getMessage());\n            return;\n        }\n        String daoType = loaderDaoConfig.getProperty(\"dao.type\");\n        System.out.println(\"Tipo di DAO configurato: \" + daoType);\n\n        AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);\n        AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();\n\n        try {\n            loaderUIConfig = new ConfigUILoader(\"ui.config.properties\");\n        } catch (ConfigException e) {\n            System.err.println(\"Errore nella configurazione UI: \" + e.getMessage());\n            return;\n        }\n\n        String uiType = loaderUIConfig.getProperty(\"ui.type\");\n        System.out.println(\"Tipo di interfaccia utente configurata: \" + uiType);\n    }\n\n}
+===================================================================
+diff --git a/src/main/java/it/Main.java b/src/main/java/it/Main.java
+--- a/src/main/java/it/Main.java	(revision b3732fe2b8239222dfcdd8c6cdb0c953e8ac3d47)
++++ b/src/main/java/it/Main.java	(date 1738594242886)
+@@ -1,5 +1,6 @@
+ package it;
+ 
++import it.Printer.Printer;
+ import it.config.ConfigDaoLoader;
+ import it.config.ConfigUILoader;
+ import it.exceptions.ConfigException;
+@@ -10,6 +11,9 @@
+ //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+ // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+ public class Main {
++
++
++
+     public static void main(String[] args) throws RuntimeException, IOException {
+         ConfigDaoLoader loaderDaoConfig;
+         ConfigUILoader loaderUIConfig;
+@@ -17,11 +21,11 @@
+         try {
+             loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
+         } catch (ConfigException e) {
+-            System.out.println("Errore nella configurazione DAO: " + e.getMessage());
++            Printer.print("Errore nella configurazione DAO: " + e.getMessage());
+             return;
+         }
+         String daoType = loaderDaoConfig.getProperty("dao.type");
+-        System.out.println("Tipo di DAO configurato: " + daoType);
++        Printer.print("Tipo di DAO configurato: " + daoType);
+ 
+         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
+         AbstractFactoryDaoSingleton factory = AbstractFactoryDaoSingleton.getFactoryDao();
+@@ -29,12 +33,12 @@
+         try {
+             loaderUIConfig = new ConfigUILoader("ui.config.properties");
+         } catch (ConfigException e) {
+-            System.err.println("Errore nella configurazione UI: " + e.getMessage());
++            Printer.print("Errore nella configurazione UI: " + e.getMessage());
+             return;
+         }
+ 
+         String uiType = loaderUIConfig.getProperty("ui.type");
+-        System.out.println("Tipo di interfaccia utente configurata: " + uiType);
++        Printer.print("Tipo di interfaccia utente configurata: " + uiType);
+     }
+ 
+ }
+\ No newline at end of file
