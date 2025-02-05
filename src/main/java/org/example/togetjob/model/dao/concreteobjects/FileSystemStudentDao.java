@@ -19,22 +19,24 @@ public class FileSystemStudentDao implements StudentDao {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void saveStudent(Student student) {
+    public boolean saveStudent(Student student) {
         try {
             List<Student> students = getAllStudents();
 
             if (students.stream().anyMatch(s -> s.getUsername().equals(student.getUsername()))) {
                 Printer.print("The student: " + student.getUsername() + " already exists.");
-                return;
+                return false;
             }
 
             students.add(student);
             objectMapper.writeValue(new File(PATH_NAME), students);
             Printer.print("The student: " + student.getUsername() + " has been successfully saved in the File System");
+            return true;
 
         } catch (IOException e) {
             Printer.print("The student: " + student.getUsername() + " cannot be saved in the File System");
             Printer.print(e.getMessage());
+            return false;
         }
     }
 

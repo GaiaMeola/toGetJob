@@ -10,11 +10,12 @@ public class InMemoryStudentDao implements StudentDao {
     private static final Map<String, Student> students = new HashMap<>();
 
     @Override
-    public void saveStudent(Student student) {
+    public boolean saveStudent(Student student) {
         if(students.containsKey(student.getUsername())){
-            return;
+            return false;
         }
         students.put(student.getUsername(), student);
+        return true;
     }
 
     @Override

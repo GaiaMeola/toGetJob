@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public class DataBaseRecruiterDao implements RecruiterDao {
     @Override
-    public void saveRecruiter(Recruiter recruiter) {
+    public boolean saveRecruiter(Recruiter recruiter) {
+        return false;
     }
 
     @Override

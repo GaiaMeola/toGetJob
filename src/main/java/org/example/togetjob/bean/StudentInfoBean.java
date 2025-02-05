@@ -5,15 +5,14 @@ import java.util.List;
 
 public class StudentInfoBean {
 
-    private String username;
-    private LocalDate dateOfBirth;
-    private String phoneNumber;
-    private List<String> degrees;
-    private List<String> courseAttended;
-    private List<String> certifications;
-    private List<String> workExperiences;
-    private List<String> skills;
-    private String availability;
+    private LocalDate dateOfBirth;  // Data di nascita
+    private String phoneNumber;     // Numero di telefono
+    private List<String> degrees;   // Lauree conseguite
+    private List<String> courseAttended;  // Corsi frequentati
+    private List<String> certifications;   // Certificazioni ottenute
+    private List<String> workExperiences; // Esperienze lavorative
+    private List<String> skills;    // Competenze/abilità
+    private String availability;    // Disponibilità lavorativa
 
     public StudentInfoBean(LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability) {
         this.dateOfBirth = dateOfBirth;
@@ -26,8 +25,6 @@ public class StudentInfoBean {
         this.availability = availability;
     }
 
-    public StudentInfoBean() {
-    }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -91,13 +88,5 @@ public class StudentInfoBean {
 
     public void setAvailability(String availability) {
         this.availability = availability;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

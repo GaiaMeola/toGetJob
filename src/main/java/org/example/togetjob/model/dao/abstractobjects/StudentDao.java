@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface StudentDao {
 
-    void saveStudent(Student student);
+    boolean saveStudent(Student student);
     Optional<Student> getStudent(String username);
     List<Student> getAllStudents();
     boolean updateStudent(Student student);

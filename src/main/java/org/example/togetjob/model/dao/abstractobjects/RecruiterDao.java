@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface RecruiterDao {
 
-    void saveRecruiter(Recruiter recruiter);
+    boolean saveRecruiter(Recruiter recruiter);
     Optional<Recruiter> getRecruiter(String username);
     List<Recruiter> getAllRecruiter();
     boolean updateRecruiter(Recruiter recruiter);

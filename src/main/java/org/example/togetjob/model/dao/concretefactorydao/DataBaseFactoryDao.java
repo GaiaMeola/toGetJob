@@ -28,6 +28,5 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     @Override
     public JobApplicationDao createJobApplicationDao() {return new DataBaseJobApplicationDao();}
 
-    @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return new DataBaseInterviewSchedulingDao(); }
+
 }

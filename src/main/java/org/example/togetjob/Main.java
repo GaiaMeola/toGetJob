@@ -33,7 +33,7 @@ public class Main {
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
         } catch (ConfigException e) {
-           Printer.print("Error UI Configuration: " + e.getMessage());
+            System.err.println("Error UI Configuration: " + e.getMessage());
             return;
         }
 

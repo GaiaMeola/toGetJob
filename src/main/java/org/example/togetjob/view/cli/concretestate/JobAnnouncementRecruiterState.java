@@ -25,8 +25,6 @@ public class JobAnnouncementRecruiterState implements CliState {
         Printer.print("Choose an option: ");
     }
 
-    /* aggiungi l'opzione per attivare e fai tutto a partire dalla 1 */
-
     @Override
     public void goNext() {
 

@@ -29,6 +29,4 @@ public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
     @Override
     public JobApplicationDao createJobApplicationDao() {return new FileSystemJobApplicationDao();}
 
-    @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return new FileSystemInterviewSchedulingDao(); }
 }
