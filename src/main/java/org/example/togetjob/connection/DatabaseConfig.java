@@ -69,7 +69,7 @@ public class DatabaseConfig {
             } catch (ClassNotFoundException e) {
                 throw new SQLException("Driver JDBC MySQL non trovato", e);
             } catch (SQLException e) {
-                System.err.println("Errore durante la connessione al database: " + e.getMessage());
+                Printer.print("Errore durante la connessione al database: " + e.getMessage());
                 throw e; // Propaga l'errore all'esterno
             }
         }
@@ -82,7 +82,7 @@ public class DatabaseConfig {
                 connection.close();
                 Printer.print("Connessione chiusa con successo.");
             } catch (SQLException e) {
-                System.err.println("Errore durante la chiusura della connessione: " + e.getMessage());
+                Printer.print("Errore durante la chiusura della connessione: " + e.getMessage());
             } finally {
                 connection = null; // Resetta la connessione dopo la chiusura
             }
