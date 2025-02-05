@@ -9,8 +9,7 @@ import java.util.Optional;
 public class DataBaseStudentDao implements StudentDao {
 
     @Override
-    public boolean saveStudent(Student student) {
-        return false;
+    public void saveStudent(Student student) {
     }
 
     @Override

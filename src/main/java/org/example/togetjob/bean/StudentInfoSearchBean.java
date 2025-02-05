@@ -1,49 +1,28 @@
 package org.example.togetjob.bean;
 
-import java.time.LocalDate;
 import java.util.List;
 
-public class StudentInfoBean {
+public class StudentInfoSearchBean {
 
-    private String username;
-    private LocalDate dateOfBirth;
-    private String phoneNumber;
     private List<String> degrees;
-    private List<String> courseAttended;
+    private List<String> coursesAttended;
     private List<String> certifications;
     private List<String> workExperiences;
     private List<String> skills;
     private String availability;
 
-    public StudentInfoBean(LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability) {
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
+    public StudentInfoSearchBean() {
+    }
+
+    public StudentInfoSearchBean(List<String> degrees, List<String> coursesAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability) {
         this.degrees = degrees;
-        this.courseAttended = courseAttended;
+        this.coursesAttended = coursesAttended;
         this.certifications = certifications;
         this.workExperiences = workExperiences;
         this.skills = skills;
         this.availability = availability;
     }
 
-    public StudentInfoBean() {
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public List<String> getDegrees() {
         return degrees;
@@ -53,12 +32,12 @@ public class StudentInfoBean {
         this.degrees = degrees;
     }
 
-    public List<String> getCourseAttended() {
-        return courseAttended;
+    public List<String> getCoursesAttended() {
+        return coursesAttended;
     }
 
-    public void setCourseAttended(List<String> courseAttended) {
-        this.courseAttended = courseAttended;
+    public void setCoursesAttended(List<String> coursesAttended) {
+        this.coursesAttended = coursesAttended;
     }
 
     public List<String> getCertifications() {
@@ -91,13 +70,5 @@ public class StudentInfoBean {
 
     public void setAvailability(String availability) {
         this.availability = availability;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }
