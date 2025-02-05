@@ -8,7 +8,7 @@ public class SendAJobApplicationRecruiterBoundary {
 
     private final SendAJobApplication controller;
 
-    public SendAJobApplicationRecruiterBoundary(){
+    public SendAJobApplicationRecruiterBoundary() {
         this.controller = new SendAJobApplication();
     }
 
@@ -21,3 +21,7 @@ public class SendAJobApplicationRecruiterBoundary {
     }
 
 }
+
+    /* aggiungere la visualizzazione di tutte le candidature*/
+
+

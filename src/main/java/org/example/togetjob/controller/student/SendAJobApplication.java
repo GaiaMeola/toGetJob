@@ -313,8 +313,9 @@ public class SendAJobApplication {
 
     }
 
-
-
+    public Recruiter getLoggedRecruiter() {
+        return getRecruiterFromSession();
+    }
 
     //student session for the job application
 

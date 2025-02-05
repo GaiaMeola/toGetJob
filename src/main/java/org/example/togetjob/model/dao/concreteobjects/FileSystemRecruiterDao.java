@@ -19,24 +19,22 @@ public class FileSystemRecruiterDao implements RecruiterDao {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public boolean saveRecruiter(Recruiter recruiter) {
+    public void saveRecruiter(Recruiter recruiter) {
         try {
             List<Recruiter> recruiters = getAllRecruiter();
 
             if (recruiters.stream().anyMatch(r -> r.getUsername().equals(recruiter.getUsername()))) {
                 Printer.print("The recruiter: " + recruiter.getUsername() + " already exists.");
-                return false;
+                return;
             }
 
             recruiters.add(recruiter);
             objectMapper.writeValue(new File(PATH_NAME), recruiters);
             Printer.print("The recruiter: " + recruiter.getUsername() + " has been successfully saved in the File System");
-            return true;
 
         } catch (IOException e) {
             Printer.print("The recruiter: " + recruiter.getUsername() + " cannot be saved in the File System");
             Printer.print(e.getMessage());
-            return false;
         }
     }
 

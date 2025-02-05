@@ -10,12 +10,11 @@ public class InMemoryRecruiterDao implements RecruiterDao {
     private static final Map<String, Recruiter> recruiters = new HashMap<>();
 
     @Override
-    public boolean saveRecruiter(Recruiter recruiter) {
+    public void saveRecruiter(Recruiter recruiter) {
         if (recruiters.containsKey(recruiter.getUsername())) {
-            return false;
+            return;
         }
         recruiters.put(recruiter.getUsername(), recruiter);
-        return true;
     }
 
     @Override
