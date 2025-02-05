@@ -20,13 +20,7 @@ public class RegisterBoundary {
             return false;
         }
 
-        boolean success = registerController.registerUser(userBean);
-
-        if(success) {
-            return true;
-        } else {
-            return false;
-        }
+       return registerController.registerUser(userBean);
 
     }
 

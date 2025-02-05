@@ -16,15 +16,20 @@ public class LoginController {
 
     public boolean loginUser(LoginUserBean loginUserBean){
 
+        System.out.println(loginUserBean.getUsername());
+
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
-        if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
 
+        if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
             if (user == null) {
                 return false;
             }
             return false; // User not found
         }
+
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
 
         SessionManager.getInstance().setCurrentUser(user);
         return true;

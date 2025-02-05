@@ -1,145 +1,239 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.togetjob.model.dao.abstractobjects.StudentDao;
 import org.example.togetjob.model.entity.Student;
+import org.example.togetjob.model.entity.Role;
 import org.example.togetjob.printer.Printer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class FileSystemStudentDao implements StudentDao {
-
-    private static final String PATH_NAME = "/Users/enrico_talone/IdeaProjects/toGetJob/src/main/resources/org/example/togetjob/files_json/Student.json";
-    //private static final String PATH_NAME = "files_json/Student.json" ;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String PATH_NAME = "src/main/resources/files_txt/Student.txt";
 
     @Override
     public void saveStudent(Student student) {
-        try {
-            List<Student> students = getAllStudents();
+        if (studentExists(student.getUsername())) {
+            Printer.print("Lo studente con username " + student.getUsername() + " esiste già.");
+            return;
+        }
 
-            if (students.stream().anyMatch(s -> s.getUsername().equals(student.getUsername()))) {
-                Printer.print("The student: " + student.getUsername() + " already exists.");
-                return;
-            }
-
-            students.add(student);
-            objectMapper.writeValue(new File(PATH_NAME), students);
-            Printer.print("The student: " + student.getUsername() + " has been successfully saved in the File System");
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
+            writer.write(student.getName() + ";" + student.getSurname() + ";" + student.getUsername() + ";" +
+                    student.getEmailAddress() + ";" + student.getPassword() + ";" + student.getRole() + ";" +
+                    student.getDateOfBirth() + ";" +
+                    student.getPhoneNumber() + ";" +
+                    student.getDegrees() + ";" +
+                    student.getCourseAttended() + ";" +
+                    student.getCertifications() + ";" +
+                    student.getWorkExperiences() + ";" +
+                    student.getSkills() + ";" +
+                    student.getAvailability());
+            writer.newLine();
         } catch (IOException e) {
-            Printer.print("The student: " + student.getUsername() + " cannot be saved in the File System");
-            Printer.print(e.getMessage());
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
         }
     }
 
-
     @Override
     public Optional<Student> getStudent(String username) {
-        return getAllStudents().stream().filter(student -> student.getUsername().equals(username)).findFirst();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 14 && data[2].trim().equals(username)) {  // Assicurati che ci siano almeno 14 elementi (per tutti i dati)
+                    // Trova lo studente corrispondente allo username
+                    Role role = Role.valueOf(data[5].trim());
+                    if (role == Role.STUDENT) {
+                        // Costruisci lo Student con i vecchi campi e i nuovi
+                        LocalDate dateOfBirth = LocalDate.parse(data[6].trim());  // Assicurati che sia nel formato corretto
+                        String phoneNumber = data[7].trim();
+                        List<String> degrees = Arrays.asList(data[8].split(","));
+                        List<String> courseAttended = Arrays.asList(data[9].split(","));
+                        List<String> certifications = Arrays.asList(data[10].split(","));
+                        List<String> workExperiences = Arrays.asList(data[11].split(","));
+                        List<String> skills = Arrays.asList(data[12].split(","));
+                        String availability = data[13].trim();
+
+                        // Crea lo Student completo con tutti i campi
+                        Student student = new Student(
+                                data[0].trim(),  // name
+                                data[1].trim(),  // surname
+                                data[2].trim(),  // username
+                                data[3].trim(),  // emailAddress
+                                data[4].trim(),  // password
+                                role,  // role
+                                dateOfBirth,  // dateOfBirth
+                                phoneNumber,  // phoneNumber
+                                degrees,  // degrees
+                                courseAttended,  // courseAttended
+                                certifications,  // certifications
+                                workExperiences,  // workExperiences
+                                skills,  // skills
+                                availability,  // availability
+                                new ArrayList<>()  // jobApplications, vuoto per ora
+                        );
+                        return Optional.of(student);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (DateTimeParseException e) {
+            Printer.print("Errore nel parsing della data di nascita: " + e.getMessage());
+        }
+
+        return Optional.empty();
     }
 
 
     @Override
     public List<Student> getAllStudents() {
-        try {
-            List<Student> students = new ArrayList<>(objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Student>>() {}));
+        List<Student> students = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 14) {  // Assicurati che ci siano almeno 14 elementi (per tutti i dati)
+                    Role role = Role.valueOf(data[5].trim());
+                    if (role == Role.STUDENT) {
+                        // Parso i nuovi campi
+                        LocalDate dateOfBirth = LocalDate.parse(data[6].trim());  // Assicurati che la data sia nel formato corretto
+                        String phoneNumber = data[7].trim();
+                        List<String> degrees = Arrays.asList(data[8].split(","));
+                        List<String> courseAttended = Arrays.asList(data[9].split(","));
+                        List<String> certifications = Arrays.asList(data[10].split(","));
+                        List<String> workExperiences = Arrays.asList(data[11].split(","));
+                        List<String> skills = Arrays.asList(data[12].split(","));
+                        String availability = data[13].trim();
 
-            if (students.isEmpty()) {
-                return new ArrayList<>();
+                        // Crea lo Student completo con tutti i campi
+                        Student student = new Student(
+                                data[0].trim(),  // name
+                                data[1].trim(),  // surname
+                                data[2].trim(),  // username
+                                data[3].trim(),  // emailAddress
+                                data[4].trim(),  // password
+                                role,  // role
+                                dateOfBirth,  // dateOfBirth
+                                phoneNumber,  // phoneNumber
+                                degrees,  // degrees
+                                courseAttended,  // courseAttended
+                                certifications,  // certifications
+                                workExperiences,  // workExperiences
+                                skills,  // skills
+                                availability,  // availability
+                                new ArrayList<>()  // jobApplications, vuoto per ora
+                        );
+                        students.add(student);
+                    }
+                }
             }
-
-            return students;
-
         } catch (IOException e) {
-            Printer.print("Students cannot be retrieved from File System");
-            Printer.print(e.getMessage());
-            return new ArrayList<>();
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (DateTimeParseException e) {
+            Printer.print("Errore nel parsing della data di nascita: " + e.getMessage());
         }
+        return students;
     }
 
     @Override
     public boolean updateStudent(Student student) {
-        try {
-            List<Student> students = getAllStudents();
-            boolean found = false;
+        if (!studentExists(student.getUsername())) {
+            return false; // Lo studente non esiste, quindi non possiamo aggiornarlo.
+        }
 
-            for (int i = 0; i < students.size(); i++) {
-                if (students.get(i).getUsername().equals(student.getUsername())) {
-                    students.set(i, student); // Update student data
-                    found = true;
-                    break;
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 6 && data[2].trim().equals(student.getUsername())) {
+                    // Trova la riga dello studente da aggiornare e sostituiscila con i nuovi dati
+                    line = student.getName() + ";" + student.getSurname() + ";" + student.getUsername() + ";" +
+                            student.getEmailAddress() + ";" + student.getPassword() + ";" + student.getRole() + ";" +
+                            student.getDateOfBirth() + ";" + student.getPhoneNumber() + ";" +
+                            String.join(",", student.getDegrees()) + ";" +
+                            String.join(",", student.getCourseAttended()) + ";" +
+                            String.join(",", student.getCertifications()) + ";" +
+                            String.join(",", student.getWorkExperiences()) + ";" +
+                            String.join(",", student.getSkills()) + ";" +
+                            student.getAvailability();
                 }
+                lines.add(line); // Aggiungi la riga al buffer
             }
-
-            if (!found) {
-                Printer.print("The student: " + student.getUsername() + " doesn't exist.");
-                return false;
-            }
-
-            objectMapper.writeValue(new File(PATH_NAME), students);
-            Printer.print("The student: " + student.getUsername() + " has been successfully updated.");
-            return true;
-
         } catch (IOException e) {
-            Printer.print("An unexpected error occurred: " + e.getMessage());
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
             return false;
         }
-    }
 
+        // Scrivi le linee aggiornate nel file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+            for (String updatedLine : lines) {
+                writer.write(updatedLine);
+                writer.newLine(); // Aggiungi una nuova riga
+            }
+        } catch (IOException e) {
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+            return false;
+        }
+
+        return true; // L'aggiornamento è andato a buon fine
+    }
 
     @Override
     public boolean deleteStudent(String username) {
-        try {
-            List<Student> students = getAllStudents();
-            boolean removed = students.removeIf(student -> student.getUsername().equals(username));
-            if (!removed) {
-                Printer.print("The student: " + username + " doesn't exist.");
-                return false;
+        if (!studentExists(username)) {
+            return false; // Lo studente non esiste, quindi non possiamo eliminarlo.
+        }
+
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 6 && !data[2].trim().equals(username)) {
+                    // Aggiungi solo le righe che non corrispondono allo studente da eliminare
+                    lines.add(line);
+                }
             }
-
-            objectMapper.writeValue(new File(PATH_NAME), students);
-            Printer.print("The student: " + username + " has been successfully deleted.");
-            return true;
-
         } catch (IOException e) {
-            Printer.print("The student: " + username + " cannot be deleted");
-            Printer.print(e.getMessage());
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+            return false;
+        }
+
+        // Riscrivi il file senza lo studente eliminato
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine(); // Scrivi a capo
+            }
+            return true;
+        } catch (IOException e) {
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
             return false;
         }
     }
-
 
     @Override
     public boolean studentExists(String username) {
-        try {
-            List<Student> students = objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Student>>() {});
-
-            if (students.isEmpty()) {
-                Printer.print("There aren't any students in the File System");
-                return false;
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 5 && data[2].trim().equals(username)) {  // username è al terzo posto
+                    return true;  // Studente trovato
+                }
             }
-
-            boolean presence = students.stream().anyMatch(student -> student.getUsername().equals(username));
-
-            if (presence) {
-                Printer.print("The student: " + username + " exists");
-                return true;
-            }
-
-            Printer.print("The student: " + username + " doesn't exist");
-            return false;
-
         } catch (IOException e) {
-            Printer.print("The student: " + username + " cannot be searched");
-            Printer.print(e.getMessage());
-            return false;
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
         }
+        return false;  // Studente non trovato
     }
-
 }

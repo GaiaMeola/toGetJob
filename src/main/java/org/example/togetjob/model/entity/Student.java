@@ -15,8 +15,9 @@ public class Student extends User{
     private String availability;
     private List<JobApplication> jobApplications;
 
-    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {
-        super(name, surname, username, emailAddress, password, role); // User
+
+    public Student(String name, String surname, String username, String emailAddress, String password, Role role) {
+        super(name, surname, username, emailAddress, password, role);
     }
 
     public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {
@@ -78,4 +79,39 @@ public class Student extends User{
                 '}';
     }
 
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setDegrees(List<String> degrees) {
+        this.degrees = degrees;
+    }
+
+    public void setCourseAttended(List<String> courseAttended) {
+        this.courseAttended = courseAttended;
+    }
+
+    public void setCertifications(List<String> certifications) {
+        this.certifications = certifications;
+    }
+
+    public void setWorkExperiences(List<String> workExperiences) {
+        this.workExperiences = workExperiences;
+    }
+
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
+    public void setJobApplications(List<JobApplication> jobApplications) {
+        this.jobApplications = jobApplications;
+    }
 }

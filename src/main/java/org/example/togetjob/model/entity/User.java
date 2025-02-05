@@ -1,14 +1,5 @@
 package org.example.togetjob.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
-        @JsonSubTypes.Type(value = Recruiter.class, name = "RECRUITER")
-})
-
 public abstract class User {
 
     private final String name;

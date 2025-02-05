@@ -1,144 +1,169 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.Recruiter;
+import org.example.togetjob.model.entity.Role;
 import org.example.togetjob.printer.Printer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 
 public class FileSystemRecruiterDao implements RecruiterDao {
-
-    private static final String PATH_NAME = "/Users/enrico_talone/IdeaProjects/toGetJob/src/main/resources/org/example/togetjob/files_json/Recruiter.json";
-    //private static final String PATH_NAME = "files_json/Recruiter.json" ;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String PATH_NAME = "src/main/resources/files_txt/Recruiter.txt";
 
     @Override
     public void saveRecruiter(Recruiter recruiter) {
-        try {
-            List<Recruiter> recruiters = getAllRecruiter();
+        if (recruiterExists(recruiter.getUsername())) {
+            Printer.print("Il recruiter con username " + recruiter.getUsername() + " esiste già.");
+            return;
+        }
 
-            if (recruiters.stream().anyMatch(r -> r.getUsername().equals(recruiter.getUsername()))) {
-                Printer.print("The recruiter: " + recruiter.getUsername() + " already exists.");
-                return;
-            }
-
-            recruiters.add(recruiter);
-            objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            Printer.print("The recruiter: " + recruiter.getUsername() + " has been successfully saved in the File System");
-
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
+            writer.write(recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
+                    recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" + recruiter.getCompanies());
+            writer.newLine();
         } catch (IOException e) {
-            Printer.print("The recruiter: " + recruiter.getUsername() + " cannot be saved in the File System");
-            Printer.print(e.getMessage());
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
         }
     }
-
 
     @Override
     public Optional<Recruiter> getRecruiter(String username) {
-        return getAllRecruiter().stream().filter(recruiter -> recruiter.getUsername().equals(username)).findFirst();
-    }
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 7 && data[2].trim().equals(username)) {
+                    // Trova il recruiter corrispondente allo username
+                    Role role = Role.valueOf(data[5].trim());
+                    if (role == Role.RECRUITER) {
+                        List<String> companies = Arrays.asList(data[6].split(","));
+                        Recruiter recruiter = new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role, companies);
+                        return Optional.of(recruiter);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        }
 
+        return Optional.empty();
+    }
 
     @Override
     public List<Recruiter> getAllRecruiter() {
-        try {
-            List<Recruiter> recruiters = new ArrayList<>(objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Recruiter>>() {}));
+        List<Recruiter> recruiters = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 7) { // Assicurati che ci siano almeno 7 colonne
+                    Role role = Role.valueOf(data[5].trim());
+                    if (role == Role.RECRUITER) {
+                        // Recupera la lista delle aziende (composte da più stringhe separate da punto e virgola)
+                        List<String> companies = Arrays.asList(data[6].split(","));
 
-            if (recruiters.isEmpty()) {
-                return new ArrayList<>();
+                        Recruiter recruiter = new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role, companies);
+                        recruiters.add(recruiter);
+                    }
+                }
             }
-
-            return recruiters;
-
         } catch (IOException e) {
-            Printer.print("Recruiters cannot be retrieved from File System");
-            Printer.print(e.getMessage());
-            return new ArrayList<>();
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
         }
+        return recruiters;
     }
 
 
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
-        try {
-            List<Recruiter> recruiters = getAllRecruiter();
-            boolean found = false;
-
-            for (int i = 0; i < recruiters.size(); i++) {
-                if (recruiters.get(i).getUsername().equals(recruiter.getUsername())) {
-                    recruiters.set(i, recruiter); // Update recruiter data
-                    found = true;
-                    break;
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 7 && data[2].trim().equals(recruiter.getUsername())) {
+                    // Trova la riga del recruiter da aggiornare e sostituiscila con i nuovi dati
+                    String updatedLine = recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
+                            recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" +
+                            String.join(",", recruiter.getCompanies()); // Concatena le aziende separandole con un ";"
+                    lines.add(updatedLine); // Aggiungi la riga aggiornata
+                } else {
+                    lines.add(line); // Aggiungi la riga non modificata
                 }
             }
-
-            if (!found) {
-                Printer.print("The recruiter: " + recruiter.getUsername() + " doesn't exist.");
-                return false;
-            }
-
-            objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            Printer.print("The recruiter: " + recruiter.getUsername() + " has been successfully updated.");
-            return true;
-
         } catch (IOException e) {
-            Printer.print("An unexpected error occurred: " + e.getMessage());
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+            return false;
+        }
+
+        // Riscrivi il file con i dati aggiornati
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine(); // Scrivi a capo
+            }
+            return true;
+        } catch (IOException e) {
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
             return false;
         }
     }
+
 
     @Override
     public boolean deleteRecruiter(String username) {
-        try {
-            List<Recruiter> recruiters = getAllRecruiter();
-            boolean removed = recruiters.removeIf(recruiter -> recruiter.getUsername().equals(username));
-            if (!removed) {
-                Printer.print("The recruiter: " + username + " doesn't exist.");
-                return false;
+        if (!recruiterExists(username)) {
+            return false; // Il recruiter non esiste, quindi non possiamo eliminarlo.
+        }
+
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 7 && !data[2].trim().equals(username)) {
+                    // Aggiungi solo le righe che non corrispondono al recruiter da eliminare
+                    lines.add(line);
+                }
             }
-
-            objectMapper.writeValue(new File(PATH_NAME), recruiters);
-            Printer.print("The recruiter: " + username + " has been successfully deleted.");
-            return true;
-
         } catch (IOException e) {
-            Printer.print("The recruiter: " + username + " cannot be deleted");
-            Printer.print(e.getMessage());
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+            return false;
+        }
+
+        // Riscrivi il file senza il recruiter eliminato
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine(); // Scrivi a capo
+            }
+            return true;
+        } catch (IOException e) {
+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
             return false;
         }
     }
+
 
     @Override
     public boolean recruiterExists(String username) {
-        try {
-            List<Recruiter> recruiters = objectMapper.readValue(new File(PATH_NAME), new TypeReference<List<Recruiter>>() {});
-
-            if (recruiters.isEmpty()) {
-                Printer.print("There aren't any recruiters in the File System");
-                return false;
+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(";");
+                if (data.length >= 7 && data[2].trim().equals(username)) {  // username è al terzo posto
+                    return true;  // Recruiter trovato
+                }
             }
-
-            boolean presence = recruiters.stream().anyMatch(recruiter -> recruiter.getUsername().equals(username));
-
-            if (presence) {
-                Printer.print("The recruiter: " + username + " exists");
-                return true;
-            }
-
-            Printer.print("The recruiter: " + username + " doesn't exist");
-            return false;
-
         } catch (IOException e) {
-            Printer.print("The recruiter: " + username + " cannot be searched");
-            Printer.print(e.getMessage());
-            return false;
+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
         }
+        return false;  // Recruiter non trovato
     }
-
 }
+
