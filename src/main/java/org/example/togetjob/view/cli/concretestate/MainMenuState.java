@@ -16,11 +16,6 @@ public class MainMenuState implements CliState {
     }
 
     @Override
-    public void goNext() {
-
-    }
-
-    @Override
     public void goNext(CliContext context, String input) {
 
         switch (input) { // View Login

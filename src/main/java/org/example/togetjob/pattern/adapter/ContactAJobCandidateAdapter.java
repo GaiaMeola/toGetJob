@@ -2,20 +2,26 @@ package org.example.togetjob.pattern.adapter;
 
 import org.example.togetjob.bean.*;
 import org.example.togetjob.controller.student.SendAJobApplication;
+import org.example.togetjob.exceptions.ConfigException;
+import org.example.togetjob.exceptions.NotificationException;
 import org.example.togetjob.exceptions.StudentNotFoundException;
+import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
 import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-import org.example.togetjob.model.entity.InterviewScheduling;
-import org.example.togetjob.model.entity.JobAnnouncement;
-import org.example.togetjob.model.entity.Recruiter;
-import org.example.togetjob.model.entity.Student;
+import org.example.togetjob.model.entity.*;
+import org.example.togetjob.model.factory.InterviewSchedulingFactory;
+import org.example.togetjob.model.factory.NotificationFactory;
+import org.example.togetjob.pattern.Notification;
+import org.example.togetjob.pattern.observer.RecruiterNotificationObserver;
+import org.example.togetjob.pattern.observer.StudentObserverStudent;
+import org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;
+import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
@@ -24,12 +30,16 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     private final StudentDao studentDao;
     private final JobAnnouncementDao jobAnnouncementDao;
     private final JobApplicationDao jobApplicationDao;
+    private final InterviewSchedulingDao interviewSchedulingDao;
+    private final SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter;
 
-    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao) {
+    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao, SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter) {
         this.adaptee = adaptee;
         this.studentDao = studentDao;
         this.jobAnnouncementDao = jobAnnouncementDao;
         this.jobApplicationDao = jobApplicationDao;
+        this.interviewSchedulingDao = interviewSchedulingDao;
+        this.schedulingInterviewCollectionSubjectRecruiter = schedulingInterviewCollectionSubjectRecruiter;
     }
 
 
@@ -100,39 +110,64 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     @Override
     public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
 
-        /*Recruiter recruiter = adaptee.getLoggedRecruiter();
+        Recruiter recruiter = adaptee.getLoggedRecruiter();
 
+        //student
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Error: Student not found."));
 
+        //job announcement
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
                 .orElseThrow(() -> new IllegalArgumentException("Error: Job Announcement not found."));
 
+        //verify that the student has submitted the job application
         if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isEmpty()) {
-            throw new IllegalArgumentException("Student not exists.");
+            throw new IllegalArgumentException("Error: Student has not applied for this job.");
         }
 
-        boolean interviewAlreadyScheduled = checkIfInterviewScheduled(interviewSchedulingBean.getStudentUsername());
-
-        if (interviewAlreadyScheduled) {
-            throw new IllegalArgumentException("Il colloquio per questo studente è già stato programmato.");
+        //verify that there's not another interview scheduling
+        if (interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement).isPresent()) {
+            throw new IllegalArgumentException("Error: An interview for this student has already been scheduled.");
         }
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
+
+        //create interview scheduling from bean
         InterviewScheduling interviewScheduling = InterviewSchedulingFactory.createInterviewScheduling(
-                recruiter, student, interviewSchedulingBean.getInterviewDateTime(), interviewSchedulingBean.getLocation(), jobAnnouncement
+                interviewDateTime,
+                interviewSchedulingBean.getLocation(), student,
+                jobAnnouncement
         );
 
         interviewSchedulingDao.saveInterviewScheduling(interviewScheduling);
-         */
+        //save it
+
+        try { //student as observer
+            schedulingInterviewCollectionSubjectRecruiter.attach(new StudentObserverStudent(student, NotificationFactory.createNotification("You have a new interview scheduled!")));
+        } catch (ConfigException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            sendNotification(interviewScheduling);
+
+        } catch (NotificationException e) {
+            return false;
+        }
         return true;
     }
 
-    /*private boolean checkIfInterviewScheduled(String studentUsername) {
+    private void sendNotification(InterviewScheduling interviewScheduling) throws NotificationException {
 
-        List<InterviewSchedulingBean> scheduledInterviews = adaptee.getScheduledInterviewsForStudent(studentUsername);
-        return scheduledInterviews.stream().anyMatch(interview -> interview.getStudentUsername().equals(studentUsername));
+        try{
+            schedulingInterviewCollectionSubjectRecruiter.addInterviewScheduling(interviewScheduling);
 
-    }*/
+        } catch (NotificationException e) {
+            throw new NotificationException("Error during the configuration", e);
+        }
+
+    }
 
 
     private StudentInfoBean convertToStudentInfoBean(Student student) {

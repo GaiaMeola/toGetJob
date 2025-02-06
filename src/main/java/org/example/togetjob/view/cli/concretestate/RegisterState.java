@@ -21,10 +21,6 @@ public class RegisterState implements CliState {
 
     }
 
-    @Override
-    public void goNext() {
-        Printer.print("Registration complete, returning to main menu...");
-    }
 
     @Override
     public void goNext(CliContext context, String input) {

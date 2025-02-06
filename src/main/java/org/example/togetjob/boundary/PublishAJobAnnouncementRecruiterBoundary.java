@@ -19,7 +19,11 @@ public class PublishAJobAnnouncementRecruiterBoundary {
     }
 
     public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
-        return controller.deactivateJobAnnouncement(jobAnnouncementBean);
+        return controller.changeJobAnnouncementStatus(jobAnnouncementBean, false);
+    }
+
+    public boolean activateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
+        return controller.changeJobAnnouncementStatus(jobAnnouncementBean, true);
     }
 
     public boolean deleteJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){

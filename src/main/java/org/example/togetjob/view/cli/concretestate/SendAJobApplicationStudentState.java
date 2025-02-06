@@ -14,7 +14,7 @@ import org.example.togetjob.view.cli.contextstate.CliContext;
 import java.util.List;
 import java.util.Scanner;
 
-public class SendAJobApplicationState implements CliState {
+public class SendAJobApplicationStudentState implements CliState {
 
     private final SendAJobApplicationStudentBoundary sendAJobApplicationStudentBoundary = new SendAJobApplicationStudentBoundary();
 
@@ -27,12 +27,7 @@ public class SendAJobApplicationState implements CliState {
         Printer.print("2. View sent job applications");
         Printer.print("3. Go back");
         Printer.print("4. Exit");
-        Printer.print("Choose an option: ");;
-    }
-
-    @Override
-    public void goNext() {
-
+        Printer.print("Choose an option: ");
     }
 
     @Override

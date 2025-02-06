@@ -21,7 +21,7 @@ public enum Role {
                 return role;
             }
         }
-        throw new IllegalArgumentException("Ruolo non valido per l'id: " + id);
+        throw new IllegalArgumentException("Role not valid for id: " + id);
     }
 
 }

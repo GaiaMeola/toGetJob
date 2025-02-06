@@ -1,30 +1,30 @@
 package org.example.togetjob.pattern.subject;
 
 import org.example.togetjob.model.entity.JobApplication;
-import org.example.togetjob.pattern.observer.NotificationObserver;
+import org.example.togetjob.pattern.observer.RecruiterNotificationObserver;
+import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JobApplicationCollectionSubject implements Subject {
+public class JobApplicationCollectionSubjectRecruiter implements SubjectRecruiter {
 
-    private final  List<NotificationObserver> observers = new ArrayList<>();
+    private final  List<RecruiterNotificationObserver> observers = new ArrayList<>();
     private final  List<JobApplication> jobApplications = new ArrayList<>();
 
-
     @Override
-    public void attach(NotificationObserver observer) {
+    public void attach(RecruiterNotificationObserver observer) {
         observers.add(observer);
     }
 
     @Override
-    public void detach(NotificationObserver observer) {
+    public void detach(RecruiterNotificationObserver observer) {
         observers.remove(observer);
     }
 
     @Override
     public void notify(JobApplication jobApplication) {
-        for (NotificationObserver observer: observers){
+        for (RecruiterNotificationObserver observer: observers){
             observer.update(jobApplication);
         }
     }

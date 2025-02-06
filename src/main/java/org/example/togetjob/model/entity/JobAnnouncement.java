@@ -1,6 +1,6 @@
 package org.example.togetjob.model.entity;
 
-import org.example.togetjob.pattern.subject.JobApplicationCollectionSubject;
+import org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class JobAnnouncement {
     private Boolean isActive;
     private final Recruiter recruiter;
     private final List <Recruiter> collaborators;
-    private JobApplicationCollectionSubject jobApplicationCollection;
+    private JobApplicationCollectionSubjectRecruiter jobApplicationCollection;
 
     public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive, Recruiter recruiter) {
         this.jobTitle = jobTitle;
@@ -32,7 +32,7 @@ public class JobAnnouncement {
         this.isActive = isActive;
         this.recruiter = recruiter;
         this.collaborators = new ArrayList<>(); //no collaborators when the job announcement is created
-        this.jobApplicationCollection = new JobApplicationCollectionSubject();
+        this.jobApplicationCollection = new JobApplicationCollectionSubjectRecruiter();
     }
 
     public String getJobTitle() {
@@ -79,11 +79,11 @@ public class JobAnnouncement {
         isActive = active;
     }
 
-    public JobApplicationCollectionSubject getJobApplicationCollection() {
+    public JobApplicationCollectionSubjectRecruiter getJobApplicationCollection() {
         return jobApplicationCollection;
     }
 
-    public void setJobApplicationCollection(JobApplicationCollectionSubject jobApplicationCollection) {
+    public void setJobApplicationCollection(JobApplicationCollectionSubjectRecruiter jobApplicationCollection) {
         this.jobApplicationCollection = jobApplicationCollection;
     }
 

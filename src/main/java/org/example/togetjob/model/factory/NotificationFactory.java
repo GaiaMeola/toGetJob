@@ -14,7 +14,7 @@ public class NotificationFactory {
         //To not create instance
     }
 
-    public static Notification createNotification() throws ConfigException {
+    public static Notification createNotification(String message) throws ConfigException {
         ConfigUILoader uiLoader;
 
         try {
@@ -25,10 +25,15 @@ public class NotificationFactory {
 
         String uiType = uiLoader.getProperty("ui.type");
 
-        return switch (uiType.toLowerCase()) {
+        Notification notification = switch (uiType.toLowerCase()) {
             case "cli" -> new CLINotification();
             case "gui" -> new GUINotification();
             default -> throw new ConfigException("UI not found: " + uiType);
         };
+
+        notification.setMessage(message);
+        return notification;
+
     }
+
 }

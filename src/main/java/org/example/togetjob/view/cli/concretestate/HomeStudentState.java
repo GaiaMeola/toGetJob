@@ -24,11 +24,6 @@ public class HomeStudentState implements CliState {
     }
 
     @Override
-    public void goNext() {
-
-    }
-
-    @Override
     public void goNext(CliContext context, String input) {
 
         Scanner scanner = context.getScanner();
@@ -42,7 +37,7 @@ public class HomeStudentState implements CliState {
                 break;
             case "3": // Show job announcements
                 System.out.println("Showing job announcements...");
-                context.setState(new SendAJobApplicationState());
+                context.setState(new SendAJobApplicationStudentState());
                 break;
             case "4": // View notifications
                 System.out.println("Viewing notifications...");

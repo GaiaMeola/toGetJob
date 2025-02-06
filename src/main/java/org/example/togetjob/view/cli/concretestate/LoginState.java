@@ -17,11 +17,6 @@ public class LoginState implements CliState {
     }
 
     @Override
-    public void goNext() {
-
-    }
-
-    @Override
     public void goNext(CliContext context, String input) {
 
             Scanner scanner = context.getScanner();

@@ -1,8 +1,11 @@
 package org.example.togetjob.boundary;
 
+import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.model.entity.Status;
+
+import java.util.List;
 
 public class SendAJobApplicationRecruiterBoundary {
 
@@ -20,8 +23,10 @@ public class SendAJobApplicationRecruiterBoundary {
         return controller.updateJobApplicationStatus(jobApplicationBean, Status.REJECTED);
     }
 
-}
+    public List<JobApplicationBean> getAllJobApplications(JobAnnouncementBean jobAnnouncementBean){
+        return controller.getJobApplicationsForRecruiter(jobAnnouncementBean);
+    }
 
-    /* aggiungere la visualizzazione di tutte le candidature*/
+}
 
 

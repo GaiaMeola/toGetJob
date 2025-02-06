@@ -6,7 +6,7 @@ import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.factory.JobAnnouncementFactory;
-import org.example.togetjob.pattern.observer.RecruiterObserver;
+import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ public class PublishAJobAnnouncementController {
     public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
 
         Recruiter recruiter = getRecruiterFromSession();
-        int workingHours = 0;
-        double salary = 0;
+        int workingHours ;
+        double salary ;
 
         if (jobAnnouncementDao.jobAnnouncementExists(jobAnnouncementBean.getJobTitle(), recruiter)) {
             return false;  // false if user exists
@@ -52,7 +52,7 @@ public class PublishAJobAnnouncementController {
         );
 
         // register recruiter who publishes the job announcement
-        jobAnnouncement.getJobApplicationCollection().attach(new RecruiterObserver(recruiter));
+        jobAnnouncement.getJobApplicationCollection().attach(new RecruiterObserverStudent(recruiter));
         return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);
 
     }
@@ -62,14 +62,14 @@ public class PublishAJobAnnouncementController {
         return (Recruiter) SessionManager.getInstance().getCurrentUser();
     }
 
-    public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
+    public boolean changeJobAnnouncementStatus(JobAnnouncementBean jobAnnouncementBean, boolean isActive){
 
         Recruiter recruiter = getRecruiterFromSession();
         Optional<JobAnnouncement> jobAnnouncementOptional = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
 
         if(jobAnnouncementOptional.isPresent()){
             JobAnnouncement jobAnnouncement = jobAnnouncementOptional.get();
-            jobAnnouncement.setActive(false);
+            jobAnnouncement.setActive(isActive);
             return jobAnnouncementDao.updateJobAnnouncement(jobAnnouncement);
         }
 
