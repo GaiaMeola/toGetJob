@@ -166,11 +166,17 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
         String jobTitle = scanner.nextLine();
 
         Printer.print("Choose an action: ");
+        Printer.print("0. Go back");
         Printer.print("1. Deactivate");
         Printer.print("2. Activate");
         Printer.print("3. Delete");
         Printer.print("Choose an option: ");
         String action = scanner.nextLine();
+
+        if ("0".equals(action)) {
+            Printer.print("Returning to the previous menu...");
+            return; // Exit the method and return to the previous menu
+        }
 
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
         jobAnnouncementBean.setJobTitle(jobTitle);
