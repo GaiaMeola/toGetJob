@@ -28,9 +28,6 @@ public class LoginController {
             return false; // User not found
         }
 
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-
         SessionManager.getInstance().setCurrentUser(user);
         return true;
     }

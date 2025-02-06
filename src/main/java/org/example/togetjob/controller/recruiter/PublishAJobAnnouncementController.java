@@ -9,9 +9,7 @@ import org.example.togetjob.model.factory.JobAnnouncementFactory;
 import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
 import org.example.togetjob.session.SessionManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PublishAJobAnnouncementController {
 
@@ -58,8 +56,7 @@ public class PublishAJobAnnouncementController {
     }
 
     private Recruiter getRecruiterFromSession() {
-        // Recruiter from session
-        return (Recruiter) SessionManager.getInstance().getCurrentUser();
+        return SessionManager.getInstance().getRecruiterFromSession();
     }
 
     public boolean changeJobAnnouncementStatus(JobAnnouncementBean jobAnnouncementBean, boolean isActive){
@@ -84,29 +81,11 @@ public class PublishAJobAnnouncementController {
     }
 
     public List<JobAnnouncementBean> getJobAnnouncement() {
-        Recruiter recruiter = getRecruiterFromSession();
-        List<JobAnnouncement> jobAnnouncements = jobAnnouncementDao.getAllJobAnnouncements(recruiter);
+        JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
 
-        List<JobAnnouncementBean> jobAnnouncementBeans = new ArrayList<>();
-        for (JobAnnouncement job : jobAnnouncements) {
+        List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();
 
-            JobAnnouncementBean bean = new JobAnnouncementBean(
-                    job.getJobTitle(),
-                    job.getJobType(),
-                    job.getRole(),
-                    job.getLocation(),
-                    String.valueOf(job.getWorkingHours()),  // String
-                    job.getCompanyName(),
-                    String.valueOf(job.getSalary()),        // String
-                    job.getDescription(),
-                    job.getActive(),
-                    recruiter.getUsername()
-            );
+        return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
 
-            jobAnnouncementBeans.add(bean);
-        }
-        return jobAnnouncementBeans;
     }
-
-
 }

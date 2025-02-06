@@ -40,6 +40,7 @@ public class HomeRecruiterState implements CliState {
                 break;
             case "3":
                 Printer.print("Contacting a job candidate...");
+                context.setState(new ContactAJobCandidateRecruiterState());
                 break;
             case "4":
                 Printer.print("Viewing reviews...");
@@ -49,15 +50,13 @@ public class HomeRecruiterState implements CliState {
                 scanner.nextLine(); //Email
                 break;
             case "6":
-            case "logout":
                 Printer.print("Logging out...");
                 loginBoundary.logout();
                 context.setState(new MainMenuState());
                 break;
             case "7":
-            case "exit":
                 Printer.print("Exiting application...");
-                context.setState(new ExitState());  // (ExitState)
+                context.setState(new ExitState());
                 break;
             default:
                 Printer.print("Invalid option. Please try again.");

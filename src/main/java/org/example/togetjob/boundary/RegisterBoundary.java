@@ -9,8 +9,9 @@ import org.example.togetjob.controller.registration.RegisterStudentController;
 
 public class RegisterBoundary {
 
+    AbstractRegisterController registerController;
+
     public boolean registerUser(RegisterUserBean userBean, Object infoBean){
-        AbstractRegisterController registerController;
 
         if ("student".equals(userBean.getRole().toLowerCase())) {
             registerController = new RegisterStudentController((StudentInfoBean) infoBean);

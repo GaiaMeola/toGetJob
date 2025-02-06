@@ -15,7 +15,7 @@ public class DatabaseConfig {
     private static DatabaseConfig instance = null;
     private static Connection connection;
     private static ConfigDaoLoader loaderDaoConfig;
-    private static Properties dbProperties = new Properties();
+    private final Properties dbProperties = new Properties();
 
     private DatabaseConfig() {
         loadDatabaseConfig();
@@ -42,7 +42,7 @@ public class DatabaseConfig {
 
     public void setConfigLoader(ConfigDaoLoader loader) {
         if (loader == null) {
-            throw new IllegalArgumentException("Il loader di configurazione non può essere null.");
+            throw new IllegalArgumentException("ConfigDaoLoader can't be null.");
         }
         loaderDaoConfig = loader;
     }
@@ -50,7 +50,7 @@ public class DatabaseConfig {
     public synchronized Connection getConnection() throws SQLException {
         if (connection == null) {
             if (loaderDaoConfig == null) {
-                throw new IllegalStateException("Il ConfigDaoLoader non è stato impostato.");
+                throw new IllegalStateException(" ConfigDaoLoader not set.");
             }
 
             String dbUrl = dbProperties.getProperty("CONNECTION_URL");
@@ -58,19 +58,19 @@ public class DatabaseConfig {
             String dbPassword = dbProperties.getProperty("DB_PASSWORD");
 
             if (dbUrl == null || dbUsername == null) {
-                throw new SQLException("Parametri di connessione non trovati in db.properties");
+                throw new SQLException("Error in db properties !");
             }
 
             try {
-                // Carica il driver JDBC se necessario
+                // driver JDBC
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                Printer.print("Connessione al database riuscita!");
+                Printer.print("Connection to db done !");
             } catch (ClassNotFoundException e) {
-                throw new SQLException("Driver JDBC MySQL non trovato", e);
+                throw new SQLException("Driver JDBC MySQL not found", e);
             } catch (SQLException e) {
-                Printer.print("Errore durante la connessione al database: " + e.getMessage());
-                throw e; // Propaga l'errore all'esterno
+                Printer.print("Error during connection to db: " + e.getMessage());
+                throw e;
             }
         }
         return connection;
@@ -80,11 +80,11 @@ public class DatabaseConfig {
         if (connection != null) {
             try {
                 connection.close();
-                Printer.print("Connessione chiusa con successo.");
+                Printer.print("Connection closed.");
             } catch (SQLException e) {
-                Printer.print("Errore durante la chiusura della connessione: " + e.getMessage());
+                Printer.print("Error during connection: " + e.getMessage());
             } finally {
-                connection = null; // Resetta la connessione dopo la chiusura
+                connection = null;
             }
         }
     }

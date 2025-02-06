@@ -1,6 +1,7 @@
 package org.example.togetjob.pattern.adapter;
 
 import org.example.togetjob.bean.*;
+import org.example.togetjob.controller.recruiter.JobAnnouncementService;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.exceptions.ConfigException;
 import org.example.togetjob.exceptions.NotificationException;
@@ -12,11 +13,9 @@ import org.example.togetjob.model.dao.abstractobjects.StudentDao;
 import org.example.togetjob.model.entity.*;
 import org.example.togetjob.model.factory.InterviewSchedulingFactory;
 import org.example.togetjob.model.factory.NotificationFactory;
-import org.example.togetjob.pattern.Notification;
-import org.example.togetjob.pattern.observer.RecruiterNotificationObserver;
 import org.example.togetjob.pattern.observer.StudentObserverStudent;
-import org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;
 import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,15 +25,15 @@ import java.util.stream.Collectors;
 
 public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
 
-    private final SendAJobApplication adaptee;
+    private final SendAJobApplication adapt;
     private final StudentDao studentDao;
     private final JobAnnouncementDao jobAnnouncementDao;
     private final JobApplicationDao jobApplicationDao;
     private final InterviewSchedulingDao interviewSchedulingDao;
     private final SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter;
 
-    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao, SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter) {
-        this.adaptee = adaptee;
+    public ContactAJobCandidateAdapter(SendAJobApplication adapt, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao, SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter) {
+        this.adapt = adapt;
         this.studentDao = studentDao;
         this.jobAnnouncementDao = jobAnnouncementDao;
         this.jobApplicationDao = jobApplicationDao;
@@ -46,15 +45,23 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     @Override
     public List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
 
-        List<JobApplicationBean> jobApplications = adaptee.getJobApplicationsForRecruiter(jobAnnouncementBean);
+        //all job applications
+        List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
 
-        Set<String> studentUsernames = jobApplications.stream()
+       // job application with status "accepted"
+        List<JobApplicationBean> acceptedApplications = jobApplications.stream()
+                .filter(application -> Status.ACCEPTED.equals(application.getStatus()))
+                .toList();
+
+        //students
+        Set<String> acceptedStudentUsernames = acceptedApplications.stream()
                 .map(JobApplicationBean::getStudentUsername)
                 .collect(Collectors.toSet());
 
+        // filter
         List<Student> filteredStudents = studentDao.getAllStudents()
                 .stream()
-                .filter(student -> studentUsernames.contains(student.getUsername())) // Studenti che hanno applicato
+                .filter(student -> acceptedStudentUsernames.contains(student.getUsername())) // Studenti che hanno una candidatura accettata
                 .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))
                 .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))
                 .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))
@@ -63,17 +70,18 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
                 .filter(student -> filterByAvailability(student, studentInfoSearchBean.getAvailability()))
                 .toList();
 
+
         return filteredStudents.stream()
                 .map(this::convertToStudentInfoBean)
                 .toList();
-
     }
+
 
     @Override
     public StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) throws StudentNotFoundException {
 
         String candidateUsername = studentInfoBean.getUsername();
-        List<JobApplicationBean> jobApplications = adaptee.getJobApplicationsForRecruiter(jobAnnouncementBean);
+        List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
 
         boolean hasApplied = jobApplications.stream()
                 .anyMatch(app -> app.getStudentUsername().equals(candidateUsername));
@@ -110,7 +118,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     @Override
     public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
 
-        Recruiter recruiter = adaptee.getLoggedRecruiter();
+        Recruiter recruiter = adapt.getLoggedRecruiter();
 
         //student
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
@@ -156,6 +164,15 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
             return false;
         }
         return true;
+    }
+
+    @Override
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
+        JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
+
+        List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();
+
+        return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
     }
 
     private void sendNotification(InterviewScheduling interviewScheduling) throws NotificationException {

@@ -21,4 +21,6 @@ public interface ContactAJobCandidateController {
 
     boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean);
 
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter();
+
 }
