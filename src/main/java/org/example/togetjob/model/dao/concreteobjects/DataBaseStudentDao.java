@@ -13,13 +13,32 @@ import java.util.Optional;
 
 public class DataBaseStudentDao implements StudentDao {
 
+    private static final String INSERT_STUDENT_SQL =
+            "INSERT INTO STUDENT (Username, Name, Surname, EmailAddress, Password, Role, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String SELECT_STUDENT_SQL =
+            "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
+                    + "FROM STUDENT WHERE Username = ?";
+
+    private static final String SELECT_ALL_STUDENTS_SQL =
+            "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
+                    + "FROM STUDENT WHERE Role = 'STUDENT'";
+
+    private static final String UPDATE_STUDENT_SQL =
+            "UPDATE STUDENT SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, DateOfBirth = ?, PhoneNumber = ?, Degrees = ?, CourseAttended = ?, Certifications = ?, "
+                    + "WorkExperiences = ?, Skills = ?, Availability = ? WHERE Username = ?";
+
+    private static final String DELETE_STUDENT_SQL =
+            "DELETE FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
+
+    private static final String CHECK_STUDENT_EXISTS_SQL =
+            "SELECT COUNT(*) FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
+
     @Override
     public void saveStudent(Student student) {
-        String sql = "INSERT INTO STUDENT (Username, Name, Surname, EmailAddress, Password, Role, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(INSERT_STUDENT_SQL)) {
 
             stmt.setString(1, student.getUsername());
             stmt.setString(2, student.getName());
@@ -45,11 +64,8 @@ public class DataBaseStudentDao implements StudentDao {
 
     @Override
     public Optional<Student> getStudent(String username) {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
-                + "FROM STUDENT WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SELECT_STUDENT_SQL)) {
 
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -85,12 +101,10 @@ public class DataBaseStudentDao implements StudentDao {
 
     @Override
     public List<Student> getAllStudents() {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
-                + "FROM STUDENT WHERE Role = 'STUDENT'"; // Filter for 'STUDENT' role
         List<Student> students = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_STUDENTS_SQL);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) { // Iterate through the results
@@ -125,12 +139,8 @@ public class DataBaseStudentDao implements StudentDao {
 
     @Override
     public boolean updateStudent(Student student) {
-        String sql = "UPDATE STUDENT SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, " +
-                "DateOfBirth = ?, PhoneNumber = ?, Degrees = ?, CourseAttended = ?, Certifications = ?, " +
-                "WorkExperiences = ?, Skills = ?, Availability = ? WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT_SQL)) {
 
             // Set parameters for the query
             stmt.setString(1, student.getName());
@@ -159,10 +169,8 @@ public class DataBaseStudentDao implements StudentDao {
 
     @Override
     public boolean deleteStudent(String username) {
-        String sql = "DELETE FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(DELETE_STUDENT_SQL)) {
 
             // Set the username parameter
             stmt.setString(1, username);
@@ -178,10 +186,8 @@ public class DataBaseStudentDao implements StudentDao {
 
     @Override
     public boolean studentExists(String username) {
-        String sql = "SELECT COUNT(*) FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(CHECK_STUDENT_EXISTS_SQL)) {
 
             // Set the username parameter
             stmt.setString(1, username);

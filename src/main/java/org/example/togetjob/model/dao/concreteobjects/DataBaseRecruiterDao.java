@@ -12,166 +12,148 @@ import java.util.Optional;
 
 public class DataBaseRecruiterDao implements RecruiterDao {
 
+    private static final String INSERT_RECRUITER_SQL =
+            "INSERT INTO RECRUITER (Username, Name, Surname, EmailAddress, Password, Role, Companies) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String SELECT_RECRUITER_BY_USERNAME_SQL =
+            "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER WHERE Username = ?";
+    private static final String SELECT_ALL_RECRUITERS_SQL =
+            "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER";
+    private static final String UPDATE_RECRUITER_SQL =
+            "UPDATE RECRUITER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Companies = ? WHERE Username = ?";
+    private static final String DELETE_RECRUITER_SQL =
+            "DELETE FROM RECRUITER WHERE Username = ?";
+    private static final String CHECK_RECRUITER_EXISTS_SQL =
+            "SELECT COUNT(*) FROM RECRUITER WHERE Username = ?";
+
     @Override
     public void saveRecruiter(Recruiter recruiter) {
-        String sql = "INSERT INTO RECRUITER (Username, Name, Surname, EmailAddress, Password, Role, Companies) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(INSERT_RECRUITER_SQL)) {
 
             stmt.setString(1, recruiter.getUsername());
             stmt.setString(2, recruiter.getName());
             stmt.setString(3, recruiter.getSurname());
             stmt.setString(4, recruiter.getEmailAddress());
             stmt.setString(5, recruiter.getPassword());
-            stmt.setString(6, recruiter.getRole().name());
+            stmt.setString(6, recruiter.getRole().name()); // Role (RECRUITER)
+            stmt.setString(7, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
 
-            // Convert the list of companies to a comma-separated string
-            stmt.setString(7, String.join(",", recruiter.getCompanies()));
-
-            stmt.executeUpdate();  // Execute the insert statement
+            stmt.executeUpdate(); // Executes the insertion into the database
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
     }
 
     @Override
     public Optional<Recruiter> getRecruiter(String username) {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SELECT_RECRUITER_BY_USERNAME_SQL)) {
 
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // Retrieve data from the result set
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
                 String emailAddress = rs.getString("EmailAddress");
                 String password = rs.getString("Password");
-                Role role = Role.valueOf(rs.getString("Role").toUpperCase());
+                Role role = Role.valueOf(rs.getString("Role").toUpperCase()); // Get Role as enum
 
-                // Retrieve companies and convert to a list
                 String companiesString = rs.getString("Companies");
-                List<String> companies = List.of(companiesString.split(","));
+                List<String> companies = List.of(companiesString.split(",")); // Convert string back to list
 
-                // Create and return the Recruiter object
                 Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
-
-                return Optional.of(recruiter);  // Return recruiter
+                return Optional.of(recruiter); // Return recruiter object
             }
 
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
 
-        return Optional.empty();  // Return empty if recruiter not found
+        return Optional.empty(); // Return empty if no recruiter is found
     }
 
     @Override
     public List<Recruiter> getAllRecruiter() {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER";
         List<Recruiter> recruiters = new ArrayList<>();
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_RECRUITERS_SQL);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                // Extract data from result set
                 String username = rs.getString("Username");
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
                 String emailAddress = rs.getString("EmailAddress");
                 String password = rs.getString("Password");
-                Role role = Role.valueOf(rs.getString("Role").toUpperCase());
+                Role role = Role.valueOf(rs.getString("Role").toUpperCase()); // Convert role string to Role enum
 
-                // Extract companies and convert to list
                 String companiesString = rs.getString("Companies");
-                List<String> companies = List.of(companiesString.split(","));
+                List<String> companies = List.of(companiesString.split(",")); // Convert companies string to list
 
-                // Create recruiter object and add to list
                 Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
-                recruiters.add(recruiter); // Add to list
+                recruiters.add(recruiter); // Add recruiter to list
             }
 
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
 
-        return recruiters;  // Return list of recruiters
+        return recruiters; // Return the list of recruiters
     }
 
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
-        String sql = "UPDATE RECRUITER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Companies = ? WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(UPDATE_RECRUITER_SQL)) {
 
-            // Set query parameters
             stmt.setString(1, recruiter.getName());
             stmt.setString(2, recruiter.getSurname());
             stmt.setString(3, recruiter.getEmailAddress());
             stmt.setString(4, recruiter.getPassword());
-
-            // Companies must be stored as a comma-separated string
-            String companies = String.join(",", recruiter.getCompanies());
-            stmt.setString(5, companies);
-
+            stmt.setString(5, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
             stmt.setString(6, recruiter.getUsername());
 
-            // Execute update and return true if at least one record is updated
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-
+            int rowsUpdated = stmt.executeUpdate(); // Execute the update query
+            return rowsUpdated > 0; // Return true if at least one row was updated
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
-        return false;  // Return false if no rows are updated
+
+        return false; // Return false if no rows were updated or an error occurred
     }
 
     @Override
     public boolean deleteRecruiter(String username) {
-        String sql = "DELETE FROM RECRUITER WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(DELETE_RECRUITER_SQL)) {
 
-            // Set parameter for username
             stmt.setString(1, username);
-
-            // Execute delete and return true if at least one row is deleted
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
-
+            int rowsDeleted = stmt.executeUpdate(); // Execute the delete query
+            return rowsDeleted > 0; // Return true if at least one row was deleted
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
-        return false;  // Return false if no rows are deleted
+
+        return false; // Return false if no rows were deleted or an error occurred
     }
 
     @Override
     public boolean recruiterExists(String username) {
-        String sql = "SELECT COUNT(*) FROM RECRUITER WHERE Username = ?";
-
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(CHECK_RECRUITER_EXISTS_SQL)) {
 
-            // Set parameter for username
             stmt.setString(1, username);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int count = rs.getInt(1);  // Get number of matching rows
-                    return count > 0;  // Return true if count > 0
+                    int count = rs.getInt(1); // Get count of matching rows
+                    return count > 0; // Return true if count is greater than 0
                 }
             }
         } catch (SQLException e) {
-            // Handle error without printing stack trace
+            // Log or handle exception as needed
         }
-        return false;  // Return false if no matching rows are found
+
+        return false; // Return false if no matching rows are found
     }
 }

@@ -1,6 +1,7 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
@@ -231,7 +232,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
                         try {
                             return createJobAnnouncementFromResultSet(rs, r);
                         } catch (SQLException e) {
-                            throw new RuntimeException(e);
+                            throw new DatabaseException("Error Database");
                         }
                     });
                 }

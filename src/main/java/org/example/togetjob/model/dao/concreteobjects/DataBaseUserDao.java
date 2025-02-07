@@ -1,6 +1,7 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.Role;
@@ -14,12 +15,17 @@ import java.util.Optional;
 
 public class DataBaseUserDao implements UserDao {
 
-    @Override
-    public boolean saveUser(User user) {
-        String sql = "INSERT INTO USER (Username, Name, Surname, EmailAddress, Password, Role) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT_USER = "INSERT INTO USER (Username, Name, Surname, EmailAddress, Password, Role) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_SELECT_USER = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER WHERE Username = ?";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER";
+    private static final String SQL_UPDATE_USER = "UPDATE USER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Role = ? WHERE Username = ?";
+    private static final String SQL_DELETE_USER = "DELETE FROM USER WHERE Username = ?";
+    private static final String SQL_CHECK_USER_EXISTS = "SELECT COUNT(*) FROM USER WHERE Username = ?";
 
+    @Override
+    public boolean saveUser(User user) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_USER)) {
 
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getName());
@@ -30,17 +36,14 @@ public class DataBaseUserDao implements UserDao {
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error saving user to the database", e);
+            throw new DatabaseException("Error saving user to the database");
         }
     }
 
     @Override
-    public Optional<User> getUser(String username) {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER WHERE Username = ?";
-
+    public Optional<User> getUser(String username) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_USER)) {
 
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -53,7 +56,6 @@ public class DataBaseUserDao implements UserDao {
                 Role role = Role.valueOf(rs.getString("Role").toUpperCase());
 
                 User user;
-
                 if (role.equals(Role.STUDENT)) {
                     user = new Student(name, surname, username, emailAddress, password, role);
                 } else {
@@ -63,19 +65,17 @@ public class DataBaseUserDao implements UserDao {
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error retrieving user from the database", e);
+            throw new DatabaseException("Error retrieving user from the database");
         }
         return Optional.empty();
     }
 
     @Override
-    public List<User> getAllUsers() {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER";
+    public List<User> getAllUsers() throws DatabaseException {
         List<User> users = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL_USERS);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -96,19 +96,16 @@ public class DataBaseUserDao implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error retrieving all users from the database", e);
+            throw new DatabaseException("Error retrieving all users from the database");
         }
 
         return users;
     }
 
     @Override
-    public boolean updateUser(User user) {
-        String sql = "UPDATE USER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Role = ? WHERE Username = ?";
-
+    public boolean updateUser(User user) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_USER)) {
 
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getSurname());
@@ -120,34 +117,28 @@ public class DataBaseUserDao implements UserDao {
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error updating user in the database", e);
+            throw new DatabaseException("Error updating user in the database");
         }
     }
 
     @Override
-    public boolean deleteUser(String username) {
-        String sql = "DELETE FROM USER WHERE Username = ?";
-
+    public boolean deleteUser(String username) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_USER)) {
 
             stmt.setString(1, username);
 
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error deleting user from the database", e);
+            throw new DatabaseException("Error deleting user from the database");
         }
     }
 
     @Override
-    public boolean userExists(String username) {
-        String sql = "SELECT COUNT(*) FROM USER WHERE Username = ?";
-
+    public boolean userExists(String username) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_USER_EXISTS)) {
 
             stmt.setString(1, username);
 
@@ -158,8 +149,7 @@ public class DataBaseUserDao implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            // Log the exception or handle it as needed
-            throw new RuntimeException("Error checking if user exists in the database", e);
+            throw new DatabaseException("Error checking if user exists in the database");
         }
 
         return false;

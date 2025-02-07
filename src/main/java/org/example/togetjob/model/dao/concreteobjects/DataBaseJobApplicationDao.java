@@ -1,6 +1,7 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.JobApplication;
@@ -65,7 +66,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_JOB_APPLICATION)) {
@@ -79,7 +80,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+            throw new DatabaseException(ERROR_DATABASE);
         }
     }
 
@@ -91,7 +92,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobAnnouncement.getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_JOB_APPLICATION)) {
@@ -110,8 +111,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     }
                 }
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_JOB_APPLICATION_NOT_FOUND + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_JOB_APPLICATION_NOT_FOUND);
         }
 
         return Optional.empty();
@@ -125,7 +126,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_JOB_APPLICATION)) {
@@ -138,8 +139,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                 stmt.executeUpdate();
                 return true;
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_DATABASE);
         }
     }
 
@@ -151,7 +152,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_JOB_APPLICATION)) {
@@ -160,8 +161,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                 stmt.setInt(2, jobAnnouncementIdValue);
                 stmt.executeUpdate();
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_DATABASE);
         }
     }
 
@@ -173,7 +174,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobAnnouncement.getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_JOB_APPLICATION_EXISTS)) {
@@ -185,8 +186,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     return rs.next(); // If a row is returned, the job application exists
                 }
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_DATABASE);
         }
     }
 
@@ -208,15 +209,15 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
                         int jobAnnouncementId = rs.getInt(COLUMN_JOB_ANNOUNCEMENT_ID);
                         JobAnnouncement jobAnnouncement = dataBaseJobAnnouncementDao.getJobAnnouncementById(jobAnnouncementId)
-                                .orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+                                .orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
                         JobApplication jobApplication = new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement);
                         jobApplications.add(jobApplication);
                     }
                 }
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_DATABASE);
         }
 
         return jobApplications;
@@ -232,7 +233,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                     jobAnnouncement.getRecruiter().getUsername()
             );
 
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_JOB_APPLICATIONS_BY_ANNOUNCEMENT)) {
@@ -247,15 +248,15 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
                         String studentUsername = rs.getString(COLUMN_USERNAME_STUDENT);
                         Student student = dataBaseStudentDao.getStudent(studentUsername)
-                                .orElseThrow(() -> new RuntimeException(ERROR_JOB_APPLICATION_NOT_FOUND));
+                                .orElseThrow(() -> new DatabaseException(ERROR_JOB_APPLICATION_NOT_FOUND));
 
                         JobApplication jobApplication = new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement);
                         jobApplications.add(jobApplication);
                     }
                 }
             }
-        } catch (SQLException | RuntimeException e) {
-            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
+        } catch (SQLException | DatabaseException e) {
+            throw new DatabaseException(ERROR_DATABASE);
         }
 
         return jobApplications;
