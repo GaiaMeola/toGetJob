@@ -3,7 +3,6 @@ package org.example.togetjob.model.dao.concreteobjects;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.Role;
-import org.example.togetjob.printer.Printer;
 
 import java.io.*;
 import java.util.*;
@@ -14,16 +13,15 @@ public class FileSystemRecruiterDao implements RecruiterDao {
     @Override
     public void saveRecruiter(Recruiter recruiter) {
         if (recruiterExists(recruiter.getUsername())) {
-            Printer.print("Il recruiter con username " + recruiter.getUsername() + " esiste già.");
-            return;
+            return; // The recruiter with the given username already exists.
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
             writer.write(recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
                     recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" + recruiter.getCompanies());
             writer.newLine();
-        } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
         }
     }
 
@@ -34,7 +32,7 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 7 && data[2].trim().equals(username)) {
-                    // Trova il recruiter corrispondente allo username
+                    // Find the recruiter corresponding to the username
                     Role role = Role.valueOf(data[5].trim());
                     if (role == Role.RECRUITER) {
                         List<String> companies = Arrays.asList(data[6].split(","));
@@ -43,10 +41,8 @@ public class FileSystemRecruiterDao implements RecruiterDao {
                     }
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
         }
 
         return Optional.empty();
@@ -59,10 +55,10 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 7) { // Assicurati che ci siano almeno 7 colonne
+                if (data.length >= 7) { // Ensure there are at least 7 columns
                     Role role = Role.valueOf(data[5].trim());
                     if (role == Role.RECRUITER) {
-                        // Recupera la lista delle aziende (composte da più stringhe separate da punto e virgola)
+                        // Retrieve the list of companies (separated by commas)
                         List<String> companies = Arrays.asList(data[6].split(","));
 
                         Recruiter recruiter = new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role, companies);
@@ -70,14 +66,11 @@ public class FileSystemRecruiterDao implements RecruiterDao {
                     }
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
         }
         return recruiters;
     }
-
 
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
@@ -87,38 +80,37 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 7 && data[2].trim().equals(recruiter.getUsername())) {
-                    // Trova la riga del recruiter da aggiornare e sostituiscila con i nuovi dati
+                    // Find the recruiter row to update and replace it with the new data
                     String updatedLine = recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
                             recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" +
-                            String.join(",", recruiter.getCompanies()); // Concatena le aziende separandole con un ";"
-                    lines.add(updatedLine); // Aggiungi la riga aggiornata
+                            String.join(",", recruiter.getCompanies()); // Concatenate companies separated by a comma
+                    lines.add(updatedLine); // Add the updated line
                 } else {
-                    lines.add(line); // Aggiungi la riga non modificata
+                    lines.add(line); // Add the unchanged line
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
             return false;
         }
 
-        // Riscrivi il file con i dati aggiornati
+        // Rewrite the file with the updated data
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
             for (String line : lines) {
                 writer.write(line);
-                writer.newLine(); // Scrivi a capo
+                writer.newLine(); // Write a new line
             }
             return true;
         } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+            // Handle file writing error
             return false;
         }
     }
 
-
     @Override
     public boolean deleteRecruiter(String username) {
         if (!recruiterExists(username)) {
-            return false; // Il recruiter non esiste, quindi non possiamo eliminarlo.
+            return false; // The recruiter does not exist, so we cannot delete them.
         }
 
         List<String> lines = new ArrayList<>();
@@ -127,28 +119,27 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 7 && !data[2].trim().equals(username)) {
-                    // Aggiungi solo le righe che non corrispondono al recruiter da eliminare
+                    // Add only the lines that do not correspond to the recruiter to delete
                     lines.add(line);
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
             return false;
         }
 
-        // Riscrivi il file senza il recruiter eliminato
+        // Rewrite the file without the deleted recruiter
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
             for (String line : lines) {
                 writer.write(line);
-                writer.newLine(); // Scrivi a capo
+                writer.newLine(); // Write a new line
             }
             return true;
         } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+            // Handle file writing error
             return false;
         }
     }
-
 
     @Override
     public boolean recruiterExists(String username) {
@@ -156,14 +147,13 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 7 && data[2].trim().equals(username)) {  // username è al terzo posto
-                    return true;  // Recruiter trovato
+                if (data.length >= 7 && data[2].trim().equals(username)) {  // username is at the third position
+                    return true;  // Recruiter found
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle both IOException and IllegalArgumentException
         }
-        return false;  // Recruiter non trovato
+        return false;  // Recruiter not found
     }
 }
-

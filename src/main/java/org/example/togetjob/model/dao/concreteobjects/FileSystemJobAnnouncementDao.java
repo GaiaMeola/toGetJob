@@ -43,4 +43,14 @@ public class FileSystemJobAnnouncementDao implements JobAnnouncementDao {
     public List<JobAnnouncement> getAllJobAnnouncements() {
         return List.of();
     }
+
+    @Override
+    public Optional<Integer> getJobAnnouncementId(String jobTitle, String recruiterName) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<JobAnnouncement> getJobAnnouncementById(Integer jobAnnouncementId) {
+        return Optional.empty();
+    }
 }

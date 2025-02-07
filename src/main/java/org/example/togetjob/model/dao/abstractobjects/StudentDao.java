@@ -13,5 +13,4 @@ public interface StudentDao {
     boolean updateStudent(Student student);
     boolean deleteStudent(String username);
     boolean studentExists(String username);
-    Optional<Student> getStudentByUsername(String username) ;
 }

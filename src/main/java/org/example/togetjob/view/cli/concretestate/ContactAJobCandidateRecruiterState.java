@@ -5,8 +5,6 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.boundary.ContactAJobCandidateRecruiterBoundary;
-import org.example.togetjob.model.entity.JobAnnouncement;
-import org.example.togetjob.model.entity.Student;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;

@@ -26,19 +26,18 @@ public class DataBaseRecruiterDao implements RecruiterDao {
             stmt.setString(5, recruiter.getPassword());
             stmt.setString(6, recruiter.getRole().name());
 
-            // Convertiamo la lista di companies in una stringa separata da virgole
+            // Convert the list of companies to a comma-separated string
             stmt.setString(7, String.join(",", recruiter.getCompanies()));
 
-            stmt.executeUpdate();  // Eseguiamo l'inserimento
+            stmt.executeUpdate();  // Execute the insert statement
         } catch (SQLException e) {
-            e.printStackTrace();  // Gestione dell'errore
+            // Handle error without printing stack trace
         }
     }
 
-
     @Override
     public Optional<Recruiter> getRecruiter(String username) {
-        String sql = "SELECT * FROM RECRUITER WHERE Username = ?";
+        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER WHERE Username = ?";
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -47,34 +46,33 @@ public class DataBaseRecruiterDao implements RecruiterDao {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // Estrazione dei dati
+                // Retrieve data from the result set
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
                 String emailAddress = rs.getString("EmailAddress");
                 String password = rs.getString("Password");
                 Role role = Role.valueOf(rs.getString("Role").toUpperCase());
 
-                // Estrazione delle companies e trasformazione in lista
+                // Retrieve companies and convert to a list
                 String companiesString = rs.getString("Companies");
                 List<String> companies = List.of(companiesString.split(","));
 
-                // Creazione del recruiter
+                // Create and return the Recruiter object
                 Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
 
-                return Optional.of(recruiter);  // Ritorniamo il recruiter
+                return Optional.of(recruiter);  // Return recruiter
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();  // Gestione dell'errore
+            // Handle error without printing stack trace
         }
 
-        return Optional.empty();  // Se non esiste un recruiter con quel username
+        return Optional.empty();  // Return empty if recruiter not found
     }
-
 
     @Override
     public List<Recruiter> getAllRecruiter() {
-        String sql = "SELECT * FROM RECRUITER";
+        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER";
         List<Recruiter> recruiters = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
@@ -82,7 +80,7 @@ public class DataBaseRecruiterDao implements RecruiterDao {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                // Estrazione dei dati
+                // Extract data from result set
                 String username = rs.getString("Username");
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
@@ -90,20 +88,20 @@ public class DataBaseRecruiterDao implements RecruiterDao {
                 String password = rs.getString("Password");
                 Role role = Role.valueOf(rs.getString("Role").toUpperCase());
 
-                // Estrazione delle companies e trasformazione in lista
+                // Extract companies and convert to list
                 String companiesString = rs.getString("Companies");
                 List<String> companies = List.of(companiesString.split(","));
 
-                // Creazione del recruiter
+                // Create recruiter object and add to list
                 Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
-                recruiters.add(recruiter); // Aggiungi alla lista
+                recruiters.add(recruiter); // Add to list
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Gestione dell'errore
+            // Handle error without printing stack trace
         }
 
-        return recruiters; // Ritorna la lista di recruiter
+        return recruiters;  // Return list of recruiters
     }
 
     @Override
@@ -113,26 +111,26 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Impostazione dei parametri della query
+            // Set query parameters
             stmt.setString(1, recruiter.getName());
             stmt.setString(2, recruiter.getSurname());
             stmt.setString(3, recruiter.getEmailAddress());
             stmt.setString(4, recruiter.getPassword());
 
-            // Le aziende devono essere memorizzate come stringa separata da virgole
+            // Companies must be stored as a comma-separated string
             String companies = String.join(",", recruiter.getCompanies());
             stmt.setString(5, companies);
 
             stmt.setString(6, recruiter.getUsername());
 
-            // Esegui l'update e ritorna true se è stato modificato almeno un record
+            // Execute update and return true if at least one record is updated
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Handle error without printing stack trace
         }
-        return false;
+        return false;  // Return false if no rows are updated
     }
 
     @Override
@@ -142,17 +140,17 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Impostazione del parametro per il nome utente
+            // Set parameter for username
             stmt.setString(1, username);
 
-            // Esegui la delete e ritorna true se almeno una riga è stata eliminata
+            // Execute delete and return true if at least one row is deleted
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Handle error without printing stack trace
         }
-        return false;
+        return false;  // Return false if no rows are deleted
     }
 
     @Override
@@ -162,19 +160,18 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Imposta il parametro username
+            // Set parameter for username
             stmt.setString(1, username);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int count = rs.getInt(1); // Ottieni il numero di righe trovate
-                    return count > 0; // Se count è maggiore di 0, l'utente esiste
+                    int count = rs.getInt(1);  // Get number of matching rows
+                    return count > 0;  // Return true if count > 0
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Handle error without printing stack trace
         }
-        return false; // Se non ci sono risultati, il recruiter non esiste
+        return false;  // Return false if no matching rows are found
     }
-
 }

@@ -26,25 +26,27 @@ public class DataBaseStudentDao implements StudentDao {
             stmt.setString(3, student.getSurname());
             stmt.setString(4, student.getEmailAddress());
             stmt.setString(5, student.getPassword());
-            stmt.setString(6, student.getRole().name()); // Ruolo (STUDENT)
-            stmt.setDate(7, Date.valueOf(student.getDateOfBirth())); // Gestisci LocalDate
+            stmt.setString(6, student.getRole().name()); // Role (STUDENT)
+            stmt.setDate(7, Date.valueOf(student.getDateOfBirth())); // Handling LocalDate
             stmt.setString(8, student.getPhoneNumber());
-            stmt.setString(9, String.join(",", student.getDegrees())); // Converte lista in stringa separata da virgole
+            stmt.setString(9, String.join(",", student.getDegrees())); // Converts list to comma-separated string
             stmt.setString(10, String.join(",", student.getCourseAttended()));
             stmt.setString(11, String.join(",", student.getCertifications()));
             stmt.setString(12, String.join(",", student.getWorkExperiences()));
             stmt.setString(13, String.join(",", student.getSkills()));
             stmt.setString(14, student.getAvailability());
 
+            stmt.executeUpdate(); // Executes the insertion into the database
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
     }
 
-
     @Override
     public Optional<Student> getStudent(String username) {
-        String sql = "SELECT * FROM STUDENT WHERE Username = ?";
+        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
+                + "FROM STUDENT WHERE Username = ?";
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -52,13 +54,13 @@ public class DataBaseStudentDao implements StudentDao {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) { // Se esiste un risultato
+            if (rs.next()) { // If a result exists
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
                 String emailAddress = rs.getString("EmailAddress");
                 String password = rs.getString("Password");
 
-                // Recupere le informazioni aggiuntive per lo Student
+                // Retrieve additional information for the Student
                 LocalDate dateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
                 String phoneNumber = rs.getString("PhoneNumber");
                 List<String> degrees = List.of(rs.getString("Degrees").split(","));
@@ -68,36 +70,37 @@ public class DataBaseStudentDao implements StudentDao {
                 List<String> skills = List.of(rs.getString("Skills").split(","));
                 String availability = rs.getString("Availability");
 
-                // Creazione dell'oggetto Student
+                // Create the Student object
                 Student student = new Student(name, surname, username, emailAddress, password, Role.STUDENT,
                         dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
-                        workExperiences, skills, availability, null); // Impostiamo `null` per `jobApplications`
+                        workExperiences, skills, availability, null); // Set `null` for `jobApplications`
 
                 return Optional.of(student);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
-        return Optional.empty();
+        return Optional.empty(); // Return empty if no student is found
     }
 
     @Override
     public List<Student> getAllStudents() {
-        String sql = "SELECT * FROM STUDENT WHERE Role = 'STUDENT'"; // Filtra per gli utenti di tipo 'STUDENT'
+        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
+                + "FROM STUDENT WHERE Role = 'STUDENT'"; // Filter for 'STUDENT' role
         List<Student> students = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) { // Itera attraverso i risultati
+            while (rs.next()) { // Iterate through the results
                 String username = rs.getString("Username");
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
                 String emailAddress = rs.getString("EmailAddress");
                 String password = rs.getString("Password");
 
-                // Recupera i dati aggiuntivi per lo Student
+                // Retrieve additional data for Student
                 LocalDate dateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
                 String phoneNumber = rs.getString("PhoneNumber");
                 List<String> degrees = List.of(rs.getString("Degrees").split(","));
@@ -107,19 +110,18 @@ public class DataBaseStudentDao implements StudentDao {
                 List<String> skills = List.of(rs.getString("Skills").split(","));
                 String availability = rs.getString("Availability");
 
-                // Crea un oggetto Student e aggiungilo alla lista
+                // Create a Student object and add it to the list
                 Student student = new Student(name, surname, username, emailAddress, password, Role.STUDENT,
                         dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
-                        workExperiences, skills, availability, null); // Imposta `null` per jobApplications
-                students.add(student); // Aggiungi alla lista
+                        workExperiences, skills, availability, null); // Set `null` for jobApplications
+                students.add(student); // Add to list
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
 
-        return students; // Ritorna la lista degli studenti
+        return students; // Return list of students
     }
-
 
     @Override
     public boolean updateStudent(Student student) {
@@ -130,31 +132,30 @@ public class DataBaseStudentDao implements StudentDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Impostiamo i parametri per la query
+            // Set parameters for the query
             stmt.setString(1, student.getName());
             stmt.setString(2, student.getSurname());
             stmt.setString(3, student.getEmailAddress());
             stmt.setString(4, student.getPassword());
-            stmt.setDate(5, Date.valueOf(student.getDateOfBirth())); // Convertiamo LocalDate in java.sql.Date
+            stmt.setDate(5, Date.valueOf(student.getDateOfBirth())); // Convert LocalDate to java.sql.Date
             stmt.setString(6, student.getPhoneNumber());
-            stmt.setString(7, String.join(",", student.getDegrees())); // Converte la lista in una stringa separata da virgola
+            stmt.setString(7, String.join(",", student.getDegrees())); // Convert list to comma-separated string
             stmt.setString(8, String.join(",", student.getCourseAttended()));
             stmt.setString(9, String.join(",", student.getCertifications()));
             stmt.setString(10, String.join(",", student.getWorkExperiences()));
             stmt.setString(11, String.join(",", student.getSkills()));
             stmt.setString(12, student.getAvailability());
-            stmt.setString(13, student.getUsername()); // La chiave primaria è Username
+            stmt.setString(13, student.getUsername()); // Username as primary key
 
-            int rowsUpdated = stmt.executeUpdate(); // Eseguiamo la query
+            int rowsUpdated = stmt.executeUpdate(); // Execute the update query
 
-            return rowsUpdated > 0; // Se almeno una riga è stata aggiornata, ritorna true
+            return rowsUpdated > 0; // Return true if at least one row was updated
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
 
-        return false; // In caso di errore o nessuna riga aggiornata
+        return false; // Return false if no rows were updated or an error occurred
     }
-
 
     @Override
     public boolean deleteStudent(String username) {
@@ -163,19 +164,18 @@ public class DataBaseStudentDao implements StudentDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Impostiamo il parametro username
+            // Set the username parameter
             stmt.setString(1, username);
 
-            int rowsDeleted = stmt.executeUpdate(); // Eseguiamo la query di eliminazione
+            int rowsDeleted = stmt.executeUpdate(); // Execute the delete query
 
-            return rowsDeleted > 0; // Se almeno una riga è stata eliminata, ritorna true
+            return rowsDeleted > 0; // Return true if at least one row was deleted
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
 
-        return false; // Se si verifica un errore o nessuna riga è eliminata, ritorna false
+        return false; // Return false if no rows were deleted or an error occurred
     }
-
 
     @Override
     public boolean studentExists(String username) {
@@ -184,26 +184,19 @@ public class DataBaseStudentDao implements StudentDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Impostiamo il parametro username
+            // Set the username parameter
             stmt.setString(1, username);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int count = rs.getInt(1); // Ottieni il conteggio dei record trovati
-                    return count > 0; // Se il conteggio è maggiore di 0, lo studente esiste
+                    int count = rs.getInt(1); // Get the count of matching records
+                    return count > 0; // Return true if count is greater than 0
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // Log or handle the exception based on your needs
         }
 
-        return false; // Se non ci sono risultati, lo studente non esiste
+        return false; // Return false if no matching records are found
     }
-
-    public Optional<Student> getStudentByUsername(String username){
-
-        return getStudent(username) ;
-
-    }
-
 }

@@ -9,7 +9,7 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     private final JobAnnouncementDao jobAnnouncementDao = new DataBaseJobAnnouncementDao();
     private final StudentDao studentDao = new DataBaseStudentDao();
     private final RecruiterDao recruiterDao = new DataBaseRecruiterDao();
-    private final JobApplicationDao jobApplicationDao = new DataBaseJobApplicationDao();
+    private final JobApplicationDao jobApplicationDao = new DataBaseJobApplicationDao(jobAnnouncementDao);
     private final InterviewSchedulingDao interviewSchedulingDao = new DataBaseInterviewSchedulingDao();
 
     @Override

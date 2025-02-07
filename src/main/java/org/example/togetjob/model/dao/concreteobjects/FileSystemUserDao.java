@@ -3,7 +3,6 @@ package org.example.togetjob.model.dao.concreteobjects;
 import org.example.togetjob.model.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.*;
 import org.example.togetjob.model.entity.Role;
-import org.example.togetjob.printer.Printer;
 
 import java.io.*;
 import java.util.*;
@@ -14,8 +13,7 @@ public class FileSystemUserDao implements UserDao {
     @Override
     public boolean saveUser(User user) {
         if (userExists(user.getUsername())) {
-            Printer.print("L'utente con username " + user.getUsername() + " esiste già.");
-            return false;
+            return false; // The user with this username already exists
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
@@ -23,9 +21,8 @@ public class FileSystemUserDao implements UserDao {
                     user.getEmailAddress() + ";" + user.getPassword() + ";" + user.getRole());
             writer.newLine();
             return true;
-        } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
-            return false;
+        } catch (IOException | IllegalArgumentException e) {
+            return false; // Error during file writing or parsing the role
         }
     }
 
@@ -36,7 +33,7 @@ public class FileSystemUserDao implements UserDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 6 && data[2].trim().equals(username)) {
-                    // Trova l'utente corrispondente allo username
+                    // Found the user with the matching username
                     Role role = Role.valueOf(data[5].trim());
                     User user = (role == Role.STUDENT)
                             ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
@@ -44,15 +41,11 @@ public class FileSystemUserDao implements UserDao {
                     return Optional.of(user);
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle error during file reading or parsing the role
         }
-        // Restituisce Optional.empty() se l'utente non è stato trovato
-        return Optional.empty();
+        return Optional.empty(); // User not found
     }
-
 
     @Override
     public List<User> getAllUsers() {
@@ -60,21 +53,19 @@ public class FileSystemUserDao implements UserDao {
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // Dividi la riga in base alla virgola
+                // Split the line based on the semicolon
                 String[] data = line.split(";");
-                // Verifica che la riga contenga i dati corretti
+                // Verify that the line contains the correct data
                 if (data.length >= 6) {
-                    Role role = Role.valueOf(data[5].trim()); // Rimuovi gli spazi extra
+                    Role role = Role.valueOf(data[5].trim()); // Remove extra spaces
                     User user = (role == Role.STUDENT)
                             ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
                             : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
                     users.add(user);
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle error during file reading or parsing the role
         }
         return users;
     }
@@ -87,35 +78,32 @@ public class FileSystemUserDao implements UserDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 6 && data[2].trim().equals(user.getUsername())) {
-                    // Trova la riga dell'utente da aggiornare e sostituiscila con i nuovi dati
+                    // Find the user's line to update and replace it with the new data
                     line = user.getName() + "," + user.getSurname() + "," + user.getUsername() + "," +
                             user.getEmailAddress() + "," + user.getPassword() + "," + user.getRole();
                 }
-                lines.add(line); // Aggiungi la riga al buffer
+                lines.add(line); // Add the line to the buffer
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-            return false;
+        } catch (IOException | IllegalArgumentException e) {
+            return false; // Error during file reading or parsing the role
         }
 
-        // Riscrivi il file con i dati aggiornati
+        // Rewrite the file with the updated data
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
             for (String line : lines) {
                 writer.write(line);
-                writer.newLine(); // Scrivi a capo
+                writer.newLine(); // Write newline
             }
             return true;
         } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
-            return false;
+            return false; // Error during file writing
         }
     }
-
 
     @Override
     public boolean deleteUser(String username) {
         if (!userExists(username)) {
-            return false; // L'utente non esiste, quindi non possiamo eliminarlo.
+            return false; // User does not exist, so we cannot delete it.
         }
 
         List<String> lines = new ArrayList<>();
@@ -124,28 +112,25 @@ public class FileSystemUserDao implements UserDao {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 if (data.length >= 6 && !data[2].trim().equals(username)) {
-                    // Aggiungi solo le righe che non corrispondono all'utente da eliminare
+                    // Add only the lines that do not match the user to be deleted
                     lines.add(line);
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
-            return false;
+        } catch (IOException | IllegalArgumentException e) {
+            return false; // Error during file reading or parsing the role
         }
 
-        // Riscrivi il file senza l'utente eliminato
+        // Rewrite the file without the deleted user
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
             for (String line : lines) {
                 writer.write(line);
-                writer.newLine(); // Scrivi a capo
+                writer.newLine(); // Write newline
             }
             return true;
         } catch (IOException e) {
-            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
-            return false;
+            return false; // Error during file writing
         }
     }
-
 
     @Override
     public boolean userExists(String username) {
@@ -153,14 +138,13 @@ public class FileSystemUserDao implements UserDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 6 && data[2].trim().equals(username)) {  // username è al terzo posto
-                    return true;  // Utente trovato
+                if (data.length >= 6 && data[2].trim().equals(username)) {
+                    return true; // User found
                 }
             }
-        } catch (IOException e) {
-            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+        } catch (IOException | IllegalArgumentException e) {
+            // Handle error during file reading or parsing the role
         }
-        return false;  // Utente non trovato
+        return false; // User not found
     }
-
 }
