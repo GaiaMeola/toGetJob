@@ -22,6 +22,16 @@ public class InterviewScheduling {
         this.jobAnnouncement = jobAnnouncement;
     }
 
+    public InterviewScheduling(String subject, String greeting, String introduction, LocalDateTime interviewDateTime, String location, Student candidate, JobAnnouncement jobAnnouncement) {
+        this.subject = subject;
+        this.greeting = greeting;
+        this.introduction = introduction;
+        this.interviewDateTime = interviewDateTime;
+        this.location = location;
+        this.candidate = candidate;
+        this.jobAnnouncement = jobAnnouncement;
+    }
+
 
     public Student getCandidate() {
         return candidate;

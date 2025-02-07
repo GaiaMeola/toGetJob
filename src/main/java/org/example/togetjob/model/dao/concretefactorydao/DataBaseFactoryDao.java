@@ -19,7 +19,7 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
         this.studentDao = new DataBaseStudentDao();
         this.jobAnnouncementDao = new DataBaseJobAnnouncementDao(recruiterDao);
         this.jobApplicationDao = new DataBaseJobApplicationDao(jobAnnouncementDao, studentDao);
-        this.interviewSchedulingDao = new DataBaseInterviewSchedulingDao();
+        this.interviewSchedulingDao = new DataBaseInterviewSchedulingDao(jobAnnouncementDao, studentDao);
     }
 
     @Override
