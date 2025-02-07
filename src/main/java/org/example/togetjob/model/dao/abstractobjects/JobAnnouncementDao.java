@@ -15,4 +15,7 @@ public interface JobAnnouncementDao {
     boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter);
     List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter);
     List<JobAnnouncement> getAllJobAnnouncements();
+    Optional<Integer> getJobAnnouncementId(String jobTitle, String recruiterName);
+    Optional<JobAnnouncement> getJobAnnouncementById(Integer jobAnnouncementId) ;
+
 }

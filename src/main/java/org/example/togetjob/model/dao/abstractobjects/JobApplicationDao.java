@@ -16,5 +16,4 @@ public interface JobApplicationDao {
     boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement);
     List<JobApplication> getAllJobApplications(Student student);
     List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement);
-
 }
