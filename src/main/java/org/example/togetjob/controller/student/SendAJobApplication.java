@@ -120,7 +120,7 @@ public class SendAJobApplication {
         form.setJobTitle(jobAnnouncementBean.getJobTitle());
         form.setRecruiterUsername(jobAnnouncementBean.getRecruiterUsername());
         form.setStatus(Status.PENDING);
-        form.setStudentUsername(getStudentFromSession().getUsername());
+        form.setStudentUsername(SessionManager.getInstance().getStudentFromSession().getUsername());
 
         form.setCoverLetter("");
         return form;
@@ -129,7 +129,7 @@ public class SendAJobApplication {
     public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) {
 
         // Student who wants to send a job application to a job announcement
-        Student student = getStudentFromSession();
+        Student student = SessionManager.getInstance().getStudentFromSession();
 
         //Recruiter who publishes the job announcement
         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
@@ -170,11 +170,7 @@ public class SendAJobApplication {
 
     public List<JobApplicationBean> getAllJobApplication(){
 
-        Student student = getStudentFromSession();
-
-        if (student == null) {
-            throw new IllegalStateException("Error: No student is currently logged in.");
-        }
+        Student student = SessionManager.getInstance().getStudentFromSession();
 
         List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
         return convertToJobApplicationBeans(jobApplications);
@@ -194,7 +190,7 @@ public class SendAJobApplication {
             }
 
             JobApplication jobApplication = jobApplicationOPT.get();
-            jobApplication.setCoverLetter(jobApplicationBean.getCoverLetter());  // Modifica direttamente i campi
+            jobApplication.setCoverLetter(jobApplicationBean.getCoverLetter());  // Modify
             jobApplicationDao.saveJobApplication(jobApplication);
             return true;
         }
@@ -226,7 +222,7 @@ public class SendAJobApplication {
 
     public List<JobApplicationBean> getJobApplicationsForRecruiter(JobAnnouncementBean jobAnnouncementBean){
 
-        Recruiter recruiter = getRecruiterFromSession();
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
 
         Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
         if (jobAnnouncementOpt.isEmpty()) {
@@ -268,7 +264,7 @@ public class SendAJobApplication {
 
     private JobAnnouncement getJobAnnouncementFromBean(JobApplicationBean jobApplicationBean) {
         //recruiter from session
-        Recruiter recruiter = getRecruiterFromSession();
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
 
         // job announcement
         Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter);
@@ -293,7 +289,7 @@ public class SendAJobApplication {
     }
 
     private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {
-        Student student = getStudentFromSession();
+        Student student = SessionManager.getInstance().getStudentFromSession();
         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
                 .orElseThrow(() -> new IllegalArgumentException("Error: Recruiter not found."));
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)
@@ -314,30 +310,6 @@ public class SendAJobApplication {
         JobApplication jobApplication = jobApplicationOpt.get();
         return jobApplication.getStatus();
 
-    }
-
-    public Recruiter getLoggedRecruiter() {
-        return getRecruiterFromSession();
-    }
-
-    //student session for the job application
-
-    private Student getStudentFromSession() {
-        // Student from session
-        User currentUser = SessionManager.getInstance().getCurrentUser();
-        if (!(currentUser instanceof Student)) {
-            throw new IllegalStateException("Error: No student is currently logged in.");
-        }
-        return (Student) currentUser;
-    }
-
-    private Recruiter getRecruiterFromSession() {
-        // Recruiter from session
-        User currentUser = SessionManager.getInstance().getCurrentUser();
-        if (!(currentUser instanceof Recruiter)) {
-            throw new IllegalStateException("Error: No recruiter is currently logged in.");
-        }
-        return (Recruiter) currentUser;
     }
 
     //method to filter

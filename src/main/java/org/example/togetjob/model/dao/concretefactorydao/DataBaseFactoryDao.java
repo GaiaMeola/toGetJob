@@ -5,29 +5,28 @@ import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concreteobjects.*;
 
 public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
-    @Override
-    public UserDao createUserDao() {
-        return new DataBaseUserDao();
-    }
+    private final UserDao userDao = new DataBaseUserDao();
+    private final JobAnnouncementDao jobAnnouncementDao = new DataBaseJobAnnouncementDao();
+    private final StudentDao studentDao = new DataBaseStudentDao();
+    private final RecruiterDao recruiterDao = new DataBaseRecruiterDao();
+    private final JobApplicationDao jobApplicationDao = new DataBaseJobApplicationDao();
+    private final InterviewSchedulingDao interviewSchedulingDao = new DataBaseInterviewSchedulingDao();
 
     @Override
-    public JobAnnouncementDao createJobAnnouncementDao() {
-        return new DataBaseJobAnnouncementDao();
-    }
+    public UserDao createUserDao() { return userDao; }
 
     @Override
-    public StudentDao createStudentDao() {
-        return new DataBaseStudentDao();
-    }
+    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
 
     @Override
-    public RecruiterDao createRecruiterDao() {
-        return new DataBaseRecruiterDao();
-    }
+    public StudentDao createStudentDao() { return studentDao; }
 
     @Override
-    public JobApplicationDao createJobApplicationDao() {return new DataBaseJobApplicationDao();}
+    public RecruiterDao createRecruiterDao() { return recruiterDao; }
 
     @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return new DataBaseInterviewSchedulingDao(); }
+    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
+
+    @Override
+    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
 }

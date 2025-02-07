@@ -181,7 +181,7 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
         jobAnnouncementBean.setJobTitle(jobTitle);
 
-        boolean success = false;
+        boolean success;
 
         switch (action) {
             case "1": // Deactivate

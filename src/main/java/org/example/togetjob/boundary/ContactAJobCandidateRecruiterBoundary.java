@@ -31,10 +31,6 @@ public class ContactAJobCandidateRecruiterBoundary {
         return contactAJobCandidateController.showFiltersCandidate(searchCriteria, jobAnnouncement);
     }
 
-    public StudentInfoBean getCandidateDetails(StudentInfoBean candidate, JobAnnouncementBean jobAnnouncement) {
-        return contactAJobCandidateController.showCandidateDetails(candidate, jobAnnouncement);
-    }
-
     public InterviewSchedulingBean getInterviewSchedulingForm(StudentInfoBean candidate, JobAnnouncementBean jobAnnouncement) {
         return contactAJobCandidateController.showInterviewSchedulingForm(candidate, jobAnnouncement);
     }

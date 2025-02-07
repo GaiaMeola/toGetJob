@@ -7,21 +7,11 @@ public enum Role {
 
     private final String id;
 
-    private Role(String id){
+    Role(String id){
         this.id = id;
     }
 
-    public String getId(){
+    public String getId() {
         return id;
     }
-
-    public static Role fromId(String id){
-        for(Role role: Role.values()){
-            if(role.getId().equalsIgnoreCase(id)){
-                return role;
-            }
-        }
-        throw new IllegalArgumentException("Role not valid for id: " + id);
-    }
-
 }

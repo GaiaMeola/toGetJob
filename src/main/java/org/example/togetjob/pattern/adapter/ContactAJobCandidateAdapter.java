@@ -5,7 +5,6 @@ import org.example.togetjob.controller.recruiter.JobAnnouncementService;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.exceptions.ConfigException;
 import org.example.togetjob.exceptions.NotificationException;
-import org.example.togetjob.exceptions.StudentNotFoundException;
 import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
@@ -15,6 +14,7 @@ import org.example.togetjob.model.factory.InterviewSchedulingFactory;
 import org.example.togetjob.model.factory.NotificationFactory;
 import org.example.togetjob.pattern.observer.StudentObserverStudent;
 import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
+import org.example.togetjob.session.SessionManager;
 
 
 import java.time.LocalDate;
@@ -78,28 +78,6 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
 
     @Override
-    public StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) throws StudentNotFoundException {
-
-        String candidateUsername = studentInfoBean.getUsername();
-        List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
-
-        boolean hasApplied = jobApplications.stream()
-                .anyMatch(app -> app.getStudentUsername().equals(candidateUsername));
-
-        if (!hasApplied) {
-            throw new StudentNotFoundException("No job application found for candidate: " + candidateUsername);
-        }
-
-        Optional<Student> studentOpt = studentDao.getStudent(candidateUsername);
-
-        if (studentOpt.isEmpty()) {
-            throw new StudentNotFoundException("Student not found for username: " + candidateUsername);
-        }
-
-        return convertToStudentInfoBean(studentOpt.get());
-    }
-
-    @Override
     public InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) {
 
         InterviewSchedulingBean form = new InterviewSchedulingBean();
@@ -118,7 +96,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     @Override
     public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
 
-        Recruiter recruiter = adapt.getLoggedRecruiter();
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
 
         //student
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
@@ -138,7 +116,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
             throw new IllegalArgumentException("Error: An interview for this student has already been scheduled.");
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
 
         //create interview scheduling from bean
@@ -166,15 +144,6 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         return true;
     }
 
-    @Override
-    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
-        JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
-
-        List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();
-
-        return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
-    }
-
     private void sendNotification(InterviewScheduling interviewScheduling) throws NotificationException {
 
         try{
@@ -184,6 +153,15 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
             throw new NotificationException("Error during the configuration", e);
         }
 
+    }
+
+    @Override
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
+        JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
+
+        List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();
+
+        return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
     }
 
 
@@ -207,31 +185,42 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
     private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
         return requiredDegrees == null || requiredDegrees.isEmpty() ||
-                student.getDegrees().stream().anyMatch(requiredDegrees::contains);
+                student.getDegrees().stream()
+                        .anyMatch(degree -> requiredDegrees.stream()
+                                .anyMatch(reqDegree -> degree.toLowerCase().contains(reqDegree.toLowerCase())));
     }
 
     private boolean filterByCourses(Student student, List<String> requiredCourses) {
         return requiredCourses == null || requiredCourses.isEmpty() ||
-                student.getCourseAttended().stream().anyMatch(requiredCourses::contains);
+                student.getCourseAttended().stream()
+                        .anyMatch(course -> requiredCourses.stream()
+                                .anyMatch(reqCourse -> course.toLowerCase().contains(reqCourse.toLowerCase())));
     }
 
     private boolean filterByCertifications(Student student, List<String> requiredCertifications) {
         return requiredCertifications == null || requiredCertifications.isEmpty() ||
-                student.getCertifications().stream().anyMatch(requiredCertifications::contains);
+                student.getCertifications().stream()
+                        .anyMatch(cert -> requiredCertifications.stream()
+                                .anyMatch(reqCert -> cert.toLowerCase().contains(reqCert.toLowerCase())));
     }
 
     private boolean filterByWorkExperiences(Student student, List<String> requiredWorkExperiences) {
         return requiredWorkExperiences == null || requiredWorkExperiences.isEmpty() ||
-                student.getWorkExperiences().stream().anyMatch(requiredWorkExperiences::contains);
+                student.getWorkExperiences().stream()
+                        .anyMatch(workExp -> requiredWorkExperiences.stream()
+                                .anyMatch(reqWorkExp -> workExp.toLowerCase().contains(reqWorkExp.toLowerCase())));
     }
 
     private boolean filterBySkills(Student student, List<String> requiredSkills) {
         return requiredSkills == null || requiredSkills.isEmpty() ||
-                student.getSkills().stream().anyMatch(requiredSkills::contains);
+                student.getSkills().stream()
+                        .anyMatch(skill -> requiredSkills.stream()
+                                .anyMatch(reqSkill -> skill.toLowerCase().contains(reqSkill.toLowerCase())));
     }
 
     private boolean filterByAvailability(Student student, String requiredAvailability) {
         return requiredAvailability == null || requiredAvailability.isEmpty() ||
-                student.getAvailability().equalsIgnoreCase(requiredAvailability);
+                student.getAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
     }
+
 }

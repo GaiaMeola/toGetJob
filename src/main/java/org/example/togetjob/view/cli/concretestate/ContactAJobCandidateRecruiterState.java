@@ -1,9 +1,12 @@
 package org.example.togetjob.view.cli.concretestate;
 
+import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.boundary.ContactAJobCandidateRecruiterBoundary;
+import org.example.togetjob.model.entity.JobAnnouncement;
+import org.example.togetjob.model.entity.Student;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -145,7 +148,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             if ("1".equals(choice)) {
                 Printer.print("\nProceeding with the selected filters...");
                 List<StudentInfoBean> filteredCandidates = boundary.getFilteredCandidates(filters, selectedJob); // Candidates filtered
-                displayCandidates(scanner, filteredCandidates);
+                displayCandidates(scanner, filteredCandidates, selectedJob);
             } else if ("2".equals(choice)) {
                 Printer.print("Returning to filter selection...");
                 applyFiltersAndShowCandidates(scanner, selectedJob);
@@ -157,7 +160,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
         }
 
 
-        private void displayCandidates(Scanner scanner, List<StudentInfoBean> candidatesList) {
+        private void displayCandidates(Scanner scanner, List<StudentInfoBean> candidatesList, JobAnnouncementBean selectedJob) {
             if (candidatesList.isEmpty()) {
                 Printer.print("No candidates found.");
             } else {
@@ -173,18 +176,18 @@ public class ContactAJobCandidateRecruiterState implements CliState {
                 String choice = scanner.nextLine();
 
                 if ("1".equals(choice)) {
-                    viewCandidateDetails(scanner, candidatesList);
+                    viewCandidateDetails(scanner, candidatesList, selectedJob);
                 } else if ("2".equals(choice)) {
                     showMenu();
                 } else {
                     Printer.print("Invalid option. Please try again.");
-                    displayCandidates(scanner, candidatesList);
+                    displayCandidates(scanner, candidatesList, selectedJob);
                 }
             }
         }
 
 
-        private void viewCandidateDetails(Scanner scanner, List<StudentInfoBean> candidatesList) {
+        private void viewCandidateDetails(Scanner scanner, List<StudentInfoBean> candidatesList, JobAnnouncementBean selectedJob) {
             Printer.print("Enter the number of the candidate to view details: ");
             int candidateIndex = scanner.nextInt() - 1;
             scanner.nextLine(); // Consume the newline
@@ -203,6 +206,38 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             Printer.print("Work Experience: " + selectedCandidate.getWorkExperiences());
             Printer.print("Skills: " + selectedCandidate.getSkills());
             Printer.print("Availability: " + selectedCandidate.getAvailability());
+            Printer.print("Do you want to schedule an interview with this candidate? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if ("yes".equals(response)) {
+                scheduleInterview(scanner, selectedCandidate, selectedJob);
+            } else {
+                Printer.print("Returning to candidate list...");
+                displayCandidates(scanner, candidatesList, selectedJob); // Go back to the list of candidates
+            }
         }
+
+
+    private void scheduleInterview(Scanner scanner, StudentInfoBean selectedCandidate, JobAnnouncementBean selectedJob) {
+
+        Printer.print("Enter the interview date and time (e.g., 2025-02-10T10:00): ");
+        String interviewDateTime = scanner.nextLine();
+
+        Printer.print("Enter the location for the interview: ");
+        String location = scanner.nextLine();
+
+        InterviewSchedulingBean interviewDetails = boundary.getInterviewSchedulingForm(selectedCandidate, selectedJob);
+
+        interviewDetails.setInterviewDateTime(interviewDateTime);
+        interviewDetails.setLocation(location);
+
+        boolean success = boundary.inviteCandidateToInterview(interviewDetails);
+
+        if (success) {
+            Printer.print("The interview invitation has been sent successfully.");
+        } else {
+            Printer.print("There was an issue sending the interview invitation. Please try again.");
+        }
+    }
 
 }

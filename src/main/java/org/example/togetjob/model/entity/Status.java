@@ -8,7 +8,7 @@ public enum Status {
 
     private final String id;
 
-    private Status(String id) {
+    Status(String id) {
         this.id = id;
     }
 
@@ -16,12 +16,4 @@ public enum Status {
         return id;
     }
 
-    public static Status fromId(String id) {
-        for (Status status : Status.values()) {
-            if (status.getId().equalsIgnoreCase(id)) {
-                return status;
-            }
-        }
-        throw new IllegalArgumentException("Stato non valido per l'id: " + id);
-    }
 }

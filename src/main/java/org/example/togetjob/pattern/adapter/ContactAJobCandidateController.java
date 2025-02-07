@@ -15,12 +15,10 @@ public interface ContactAJobCandidateController {
 
     List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean);
 
-    StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);
-
     InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);
 
     boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean);
 
-    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter();
+    List<JobAnnouncementBean> getJobAnnouncementsByRecruiter();
 
 }

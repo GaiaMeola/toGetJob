@@ -16,7 +16,6 @@ public class LoginController {
 
     public boolean loginUser(LoginUserBean loginUserBean){
 
-        System.out.println(loginUserBean.getUsername());
 
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
