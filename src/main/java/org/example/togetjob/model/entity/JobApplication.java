@@ -19,6 +19,16 @@ public class JobApplication {
         this.jobAnnouncement = jobAnnouncement;
     }
 
+    public JobApplication(LocalDate localDate , Student student,Status status , String coverLetter, JobAnnouncement jobAnnouncement) {
+        this.applicationDate = localDate;
+        this.student = student;
+        this.status = status;
+        this.coverLetter = coverLetter;
+        this.jobAnnouncement = jobAnnouncement;
+    }
+
+
+
     public LocalDate getApplicationDate() {
         return applicationDate;
     }
