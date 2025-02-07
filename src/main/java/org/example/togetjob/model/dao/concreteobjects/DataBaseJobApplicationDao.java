@@ -2,8 +2,10 @@ package org.example.togetjob.model.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
-import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
-import org.example.togetjob.model.entity.*;
+import org.example.togetjob.model.entity.JobAnnouncement;
+import org.example.togetjob.model.entity.JobApplication;
+import org.example.togetjob.model.entity.Status;
+import org.example.togetjob.model.entity.Student;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,74 +15,103 @@ import java.util.Optional;
 
 public class DataBaseJobApplicationDao implements JobApplicationDao {
 
+    // Column names as constants
     private static final String COLUMN_APPLICATION_DATE = "ApplicationDate";
     private static final String COLUMN_STATUS = "Status";
     private static final String COLUMN_COVER_LETTER = "CoverLetter";
+    private static final String COLUMN_JOB_ANNOUNCEMENT_ID = "JobAnnouncementID";
+    private static final String COLUMN_USERNAME_STUDENT = "UsernameStudent";
 
-    private final JobAnnouncementDao daoJobAnnouncement;
+    // Error message constants
+    private static final String ERROR_JOB_ANNOUNCEMENT_NOT_FOUND = "Job Announcement not found";
+    private static final String ERROR_JOB_APPLICATION_NOT_FOUND = "Job Application not found";
+    private static final String ERROR_DATABASE = "Database error while saving job application";
 
-    public DataBaseJobApplicationDao(JobAnnouncementDao jobAnnouncementDao) {
-        this.daoJobAnnouncement = jobAnnouncementDao;
+    // SQL query constants
+    private static final String SQL_INSERT_JOB_APPLICATION = "INSERT INTO JOBAPPLICATION (ApplicationDate, UsernameStudent, Status, CoverLetter, JobAnnouncementID) VALUES (?, ?, ?, ?, ?)";
+
+    private static final String SQL_SELECT_JOB_APPLICATION = "SELECT ApplicationDate, Status, CoverLetter FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
+
+    private static final String SQL_UPDATE_JOB_APPLICATION = "UPDATE JOBAPPLICATION SET Status = ?, CoverLetter = ? WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
+
+    private static final String SQL_DELETE_JOB_APPLICATION = "DELETE FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
+
+    private static final String SQL_CHECK_JOB_APPLICATION_EXISTS = "SELECT 1 FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ? LIMIT 1";
+
+    private static final String SQL_SELECT_ALL_JOB_APPLICATIONS = "SELECT ApplicationDate, Status, CoverLetter, JobAnnouncementID, UsernameStudent "
+            + "FROM JOBAPPLICATION "
+            + "JOIN JobAnnouncement ON JOBAPPLICATION.JobAnnouncementID = JobAnnouncement.ID "
+            + "WHERE UsernameStudent = ?";
+
+    private static final String SQL_SELECT_JOB_APPLICATIONS_BY_ANNOUNCEMENT = "SELECT ApplicationDate, Status, CoverLetter, UsernameStudent "
+            + "FROM JOBAPPLICATION "
+            + "WHERE JobAnnouncementID = ?";
+
+
+    DataBaseJobAnnouncementDao dataBaseJobAnnouncementDao;
+    DataBaseStudentDao dataBaseStudentDao;
+
+    public DataBaseJobApplicationDao(DataBaseJobAnnouncementDao dataBaseJobAnnouncementDao, DataBaseStudentDao dataBaseStudentDao) {
+        this.dataBaseJobAnnouncementDao = dataBaseJobAnnouncementDao;
+        this.dataBaseStudentDao = dataBaseStudentDao;
     }
 
     @Override
     public void saveJobApplication(JobApplication jobApplication) {
-        String sql = "INSERT INTO JOBAPPLICATION (ApplicationDate, UsernameStudent, Status, CoverLetter, JobAnnouncementID) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            // Retrieve JobAnnouncement ID
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getName()
+                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return;
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_JOB_APPLICATION)) {
+
+                stmt.setDate(1, Date.valueOf(jobApplication.getApplicationDate()));
+                stmt.setString(2, jobApplication.getStudent().getUsername());
+                stmt.setString(3, jobApplication.getStatus().toString());
+                stmt.setString(4, jobApplication.getCoverLetter());
+                stmt.setInt(5, jobAnnouncementIdValue);
+
+                stmt.executeUpdate();
             }
-
-            stmt.setDate(1, Date.valueOf(jobApplication.getApplicationDate()));
-            stmt.setString(2, jobApplication.getStudent().getUsername());
-            stmt.setString(3, jobApplication.getStatus().toString());
-            stmt.setString(4, jobApplication.getCoverLetter());
-            stmt.setInt(5, jobAnnouncementId.get());
-
-            stmt.executeUpdate();
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
     }
 
     @Override
     public Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement) {
-        String sql = "SELECT ApplicationDate, Status, CoverLetter FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getName()
+                    jobAnnouncement.getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return Optional.empty();
-            }
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
-            stmt.setString(1, student.getUsername());
-            stmt.setInt(2, jobAnnouncementId.get());
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_JOB_APPLICATION)) {
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
-                    Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
-                    String coverLetter = rs.getString(COLUMN_COVER_LETTER);
+                stmt.setString(1, student.getUsername());
+                stmt.setInt(2, jobAnnouncementIdValue);
 
-                    return Optional.of(new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement));
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
+                        Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
+                        String coverLetter = rs.getString(COLUMN_COVER_LETTER);
+
+                        JobApplication jobApplication = new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement);
+                        return Optional.of(jobApplication);
+                    }
                 }
             }
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_JOB_APPLICATION_NOT_FOUND + ": " + e.getMessage(), e);
         }
 
         return Optional.empty();
@@ -88,113 +119,104 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
     @Override
     public boolean updateJobApplication(JobApplication jobApplication) {
-        String sql = "UPDATE JOBAPPLICATION SET Status = ?, CoverLetter = ? WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getName()
+                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return false;
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_JOB_APPLICATION)) {
+
+                stmt.setString(1, jobApplication.getStatus().toString());
+                stmt.setString(2, jobApplication.getCoverLetter());
+                stmt.setString(3, jobApplication.getStudent().getUsername());
+                stmt.setInt(4, jobAnnouncementIdValue);
+
+                stmt.executeUpdate();
+                return true;
             }
-
-            stmt.setString(1, jobApplication.getStatus().toString());
-            stmt.setString(2, jobApplication.getCoverLetter());
-            stmt.setString(3, jobApplication.getStudent().getUsername());
-            stmt.setInt(4, jobAnnouncementId.get());
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
-
-        return false;
     }
 
     @Override
     public void deleteJobApplication(JobApplication jobApplication) {
-        String sql = "DELETE FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getName()
+                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return;
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
+
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_JOB_APPLICATION)) {
+
+                stmt.setString(1, jobApplication.getStudent().getUsername());
+                stmt.setInt(2, jobAnnouncementIdValue);
+                stmt.executeUpdate();
             }
-
-            stmt.setString(1, jobApplication.getStudent().getUsername());
-            stmt.setInt(2, jobAnnouncementId.get());
-
-            stmt.executeUpdate();
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
     }
 
     @Override
     public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
-        String sql = "SELECT COUNT(*) FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getName()
+                    jobAnnouncement.getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return false;
-            }
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
-            stmt.setString(1, student.getUsername());
-            stmt.setInt(2, jobAnnouncementId.get());
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_JOB_APPLICATION_EXISTS)) {
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
+                stmt.setString(1, student.getUsername());
+                stmt.setInt(2, jobAnnouncementIdValue);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    return rs.next(); // If a row is returned, the job application exists
                 }
             }
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
-
-        return false;
     }
 
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {
         List<JobApplication> jobApplications = new ArrayList<>();
-        String sql = "SELECT ApplicationDate, Status, CoverLetter, JobAnnouncementID FROM JOBAPPLICATION WHERE UsernameStudent = ?";
 
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try {
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL_JOB_APPLICATIONS)) {
 
-            stmt.setString(1, student.getUsername());
+                stmt.setString(1, student.getUsername());
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
-                    Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
-                    String coverLetter = rs.getString(COLUMN_COVER_LETTER);
-                    int jobAnnouncementId = rs.getInt("JobAnnouncementID");
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
+                        Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
+                        String coverLetter = rs.getString(COLUMN_COVER_LETTER);
 
-                    Optional<JobAnnouncement> jobAnnouncement = daoJobAnnouncement.getJobAnnouncementById(jobAnnouncementId);
+                        int jobAnnouncementId = rs.getInt(COLUMN_JOB_ANNOUNCEMENT_ID);
+                        JobAnnouncement jobAnnouncement = dataBaseJobAnnouncementDao.getJobAnnouncementById(jobAnnouncementId)
+                                .orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
-                    jobAnnouncement.ifPresent(announcement -> jobApplications.add(new JobApplication(applicationDate, student, status, coverLetter, announcement)));
+                        JobApplication jobApplication = new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement);
+                        jobApplications.add(jobApplication);
+                    }
                 }
             }
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
 
         return jobApplications;
@@ -203,67 +225,40 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
         List<JobApplication> jobApplications = new ArrayList<>();
-        String sql = "SELECT ApplicationDate, UsernameStudent, Status, CoverLetter FROM JOBAPPLICATION WHERE JobAnnouncementID = ?";
 
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            Optional<Integer> jobAnnouncementId = daoJobAnnouncement.getJobAnnouncementId(
+        try {
+            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getName()
+                    jobAnnouncement.getRecruiter().getUsername()
             );
 
-            if (jobAnnouncementId.isEmpty()) {
-                return jobApplications;
-            }
+            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new RuntimeException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
-            stmt.setInt(1, jobAnnouncementId.get());
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_JOB_APPLICATIONS_BY_ANNOUNCEMENT)) {
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
-                    String usernameStudent = rs.getString("UsernameStudent");
-                    Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
-                    String coverLetter = rs.getString(COLUMN_COVER_LETTER);
+                stmt.setInt(1, jobAnnouncementIdValue);
 
-                    Optional<Student> student = getStudentByUsername(usernameStudent);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        LocalDate applicationDate = rs.getDate(COLUMN_APPLICATION_DATE).toLocalDate();
+                        Status status = Status.valueOf(rs.getString(COLUMN_STATUS).toUpperCase());
+                        String coverLetter = rs.getString(COLUMN_COVER_LETTER);
 
-                    student.ifPresent(st -> jobApplications.add(new JobApplication(applicationDate, st, status, coverLetter, jobAnnouncement)));
+                        String studentUsername = rs.getString(COLUMN_USERNAME_STUDENT);
+                        Student student = dataBaseStudentDao.getStudent(studentUsername)
+                                .orElseThrow(() -> new RuntimeException(ERROR_JOB_APPLICATION_NOT_FOUND));
+
+                        JobApplication jobApplication = new JobApplication(applicationDate, student, status, coverLetter, jobAnnouncement);
+                        jobApplications.add(jobApplication);
+                    }
                 }
             }
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(ERROR_DATABASE + ": " + e.getMessage(), e);
         }
 
         return jobApplications;
     }
-
-    private  Optional<Student> getStudentByUsername(String username) {
-        String sql = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM STUDENT WHERE Username = ?";
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String emailAddress = rs.getString("EmailAddress");
-                String password = rs.getString("Password");
-                Role role = Role.valueOf(rs.getString("Role").toUpperCase());
-
-                Student student = new Student(name, surname, username, emailAddress, password, role);
-                return Optional.of(student);
-            }
-
-        } catch (SQLException ignored) {
-            // Silently ignoring the exception
-        }
-
-        return Optional.empty();
-    }
-
 
 }

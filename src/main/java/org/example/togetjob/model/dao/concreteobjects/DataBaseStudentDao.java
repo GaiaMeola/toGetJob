@@ -173,7 +173,6 @@ public class DataBaseStudentDao implements StudentDao {
         } catch (SQLException e) {
             // Log or handle the exception based on your needs
         }
-
         return false; // Return false if no rows were deleted or an error occurred
     }
 

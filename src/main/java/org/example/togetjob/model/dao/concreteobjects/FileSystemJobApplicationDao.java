@@ -11,6 +11,7 @@ import java.util.Optional;
 public class FileSystemJobApplicationDao implements JobApplicationDao {
     @Override
     public void saveJobApplication(JobApplication jobApplication) {
+        // TODO document why this method is empty
     }
 
     @Override
@@ -25,6 +26,7 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
 
     @Override
     public void deleteJobApplication(JobApplication jobApplication) {
+        // TODO document why this method is empty
     }
 
     @Override
