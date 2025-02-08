@@ -48,8 +48,6 @@ public class Main {
                 Connection connection = databaseConfig.getConnection();
                 if (connection != null) {
                     Printer.print("Connection ...");
-                    databaseConfig.closeConnection(); //Connection closed
-                    Printer.print("Connection closed.");
                 } else {
                     Printer.print("Error Connection.");
                 }
@@ -60,7 +58,7 @@ public class Main {
         } else if ("in memory".equalsIgnoreCase(daoType)) {
             //In memory
             Printer.print("DAO In-Memory");
-        } else if ("json".equalsIgnoreCase(daoType)) {
+        } else if ("file system".equalsIgnoreCase(daoType)) {
            //file system
             Printer.print("DAO FileSystem");
         } else {

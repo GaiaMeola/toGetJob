@@ -41,27 +41,21 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         this.schedulingInterviewCollectionSubjectRecruiter = schedulingInterviewCollectionSubjectRecruiter;
     }
 
-
-    @Override
     public List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
-
-        //all job applications
+        // Tutte le candidature
         List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
 
-       // job application with status "accepted"
         List<JobApplicationBean> acceptedApplications = jobApplications.stream()
                 .filter(application -> Status.ACCEPTED.equals(application.getStatus()))
                 .toList();
 
-        //students
         Set<String> acceptedStudentUsernames = acceptedApplications.stream()
                 .map(JobApplicationBean::getStudentUsername)
                 .collect(Collectors.toSet());
 
-        // filter
         List<Student> filteredStudents = studentDao.getAllStudents()
                 .stream()
-                .filter(student -> acceptedStudentUsernames.contains(student.getUsername())) // Studenti che hanno una candidatura accettata
+                .filter(student -> acceptedStudentUsernames.contains(student.getUsername()))
                 .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))
                 .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))
                 .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))
@@ -70,11 +64,81 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
                 .filter(student -> filterByAvailability(student, studentInfoSearchBean.getAvailability()))
                 .toList();
 
-
         return filteredStudents.stream()
                 .map(this::convertToStudentInfoBean)
                 .toList();
     }
+
+    private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
+        if (requiredDegrees == null || requiredDegrees.isEmpty()) {
+            return true;
+        }
+        if (student.getDegrees() == null || student.getDegrees().isEmpty()) {
+            return true;
+        }
+        return student.getDegrees().stream()
+                .anyMatch(degree -> requiredDegrees.stream()
+                        .anyMatch(reqDegree -> degree.toLowerCase().contains(reqDegree.toLowerCase())));
+    }
+
+    private boolean filterByCourses(Student student, List<String> requiredCourses) {
+        if (requiredCourses == null || requiredCourses.isEmpty()) {
+            return true;
+        }
+        if (student.getCourseAttended() == null || student.getCourseAttended().isEmpty()) {
+            return true;
+        }
+        return student.getCourseAttended().stream()
+                .anyMatch(course -> requiredCourses.stream()
+                        .anyMatch(reqCourse -> course.toLowerCase().contains(reqCourse.toLowerCase())));
+    }
+
+    private boolean filterByCertifications(Student student, List<String> requiredCertifications) {
+        if (requiredCertifications == null || requiredCertifications.isEmpty()) {
+            return true;
+        }
+        if (student.getCertifications() == null || student.getCertifications().isEmpty()) {
+            return true;
+        }
+        return student.getCertifications().stream()
+                .anyMatch(cert -> requiredCertifications.stream()
+                        .anyMatch(reqCert -> cert.toLowerCase().contains(reqCert.toLowerCase())));
+    }
+
+    private boolean filterByWorkExperiences(Student student, List<String> requiredWorkExperiences) {
+        if (requiredWorkExperiences == null || requiredWorkExperiences.isEmpty()) {
+            return true;
+        }
+        if (student.getWorkExperiences() == null || student.getWorkExperiences().isEmpty()) {
+            return true;
+        }
+        return student.getWorkExperiences().stream()
+                .anyMatch(workExp -> requiredWorkExperiences.stream()
+                        .anyMatch(reqWorkExp -> workExp.toLowerCase().contains(reqWorkExp.toLowerCase())));
+    }
+
+    private boolean filterBySkills(Student student, List<String> requiredSkills) {
+        if (requiredSkills == null || requiredSkills.isEmpty()) {
+            return true;
+        }
+        if (student.getSkills() == null || student.getSkills().isEmpty()) {
+            return true;
+        }
+        return student.getSkills().stream()
+                .anyMatch(skill -> requiredSkills.stream()
+                        .anyMatch(reqSkill -> skill.toLowerCase().contains(reqSkill.toLowerCase())));
+    }
+
+    private boolean filterByAvailability(Student student, String requiredAvailability) {
+        if (requiredAvailability == null || requiredAvailability.isEmpty()) {
+            return true;
+        }
+        if (student.getAvailability() == null || student.getAvailability().isEmpty()) {
+            return true;
+        }
+        return student.getAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
+    }
+
 
 
     @Override
@@ -116,7 +180,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
             throw new IllegalArgumentException("Error: An interview for this student has already been scheduled.");
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
 
         //create interview scheduling from bean
@@ -183,7 +247,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
 
-    private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
+   /* private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
         return requiredDegrees == null || requiredDegrees.isEmpty() ||
                 student.getDegrees().stream()
                         .anyMatch(degree -> requiredDegrees.stream()
@@ -221,6 +285,6 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     private boolean filterByAvailability(Student student, String requiredAvailability) {
         return requiredAvailability == null || requiredAvailability.isEmpty() ||
                 student.getAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
-    }
+    }*/
 
 }

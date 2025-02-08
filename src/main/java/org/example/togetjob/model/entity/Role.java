@@ -2,8 +2,8 @@ package org.example.togetjob.model.entity;
 
 public enum Role {
 
-    RECRUITER("recruiter"),
-    STUDENT("student");
+    RECRUITER("Recruiter"),
+    STUDENT("Student");
 
     private final String id;
 

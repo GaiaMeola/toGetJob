@@ -21,10 +21,7 @@ public class LoginController {
 
 
         if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
-            if (user == null) {
-                return false;
-            }
-            return false; // User not found
+            return false;
         }
 
         SessionManager.getInstance().setCurrentUser(user);

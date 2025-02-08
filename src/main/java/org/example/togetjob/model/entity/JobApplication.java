@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class JobApplication {
 
-    private LocalDate applicationDate;
+    private final LocalDate applicationDate;
     private Student student;
     private Status status;
     private String coverLetter;
@@ -19,7 +19,7 @@ public class JobApplication {
         this.jobAnnouncement = jobAnnouncement;
     }
 
-    public JobApplication(LocalDate localDate , Student student,Status status , String coverLetter, JobAnnouncement jobAnnouncement) {
+    public JobApplication(LocalDate localDate , Student student, Status status , String coverLetter, JobAnnouncement jobAnnouncement) {
         this.applicationDate = localDate;
         this.student = student;
         this.status = status;
@@ -27,14 +27,23 @@ public class JobApplication {
         this.jobAnnouncement = jobAnnouncement;
     }
 
+    public JobApplication(LocalDate applicationDate, Student student, Status status, String coverLetter) {
+        this.applicationDate = applicationDate;
+        this.student = student;
+        this.status = status;
+        this.coverLetter = coverLetter;
+        this.jobAnnouncement = null;
+    }
 
+    public JobApplication(LocalDate applicationDate, Status status, String coverLetter, JobAnnouncement jobAnnouncement) {
+        this.applicationDate = applicationDate;
+        this.status = status;
+        this.coverLetter = coverLetter;
+        this.jobAnnouncement = jobAnnouncement;
+    }
 
     public LocalDate getApplicationDate() {
         return applicationDate;
-    }
-
-    public void setApplicationDate(LocalDate applicationDate) {
-        this.applicationDate = applicationDate;
     }
 
     public Student getStudent() {

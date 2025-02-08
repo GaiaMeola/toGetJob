@@ -210,7 +210,7 @@ public class SendAJobApplicationStudentState implements CliState {
         List<JobAnnouncementBean> jobApplications = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
 
         if (jobApplications.isEmpty()) {
-            Printer.print("No job applications found with the specified filters.");
+            Printer.print("No job announcements found with the specified filters.");
         } else {
             for (int i = 0; i < jobApplications.size(); i++) {
                 JobAnnouncementBean job = jobApplications.get(i);

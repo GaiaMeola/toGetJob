@@ -128,6 +128,7 @@ public class SendAJobApplication {
 
     public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) {
 
+
         // Student who wants to send a job application to a job announcement
         Student student = SessionManager.getInstance().getStudentFromSession();
 
@@ -226,7 +227,7 @@ public class SendAJobApplication {
 
         Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
         if (jobAnnouncementOpt.isEmpty()) {
-            throw new IllegalStateException("Error: No job announcement found for the recruiter with the specified title.");
+            return new ArrayList<>();
         }
 
         JobAnnouncement jobAnnouncement = jobAnnouncementOpt.get();
@@ -255,7 +256,7 @@ public class SendAJobApplication {
             return false; // Already Managed
         }
         jobApplication.setStatus(status); // (ACCEPTED or REJECTED)
-        jobApplicationDao.saveJobApplication(jobApplication);
+        jobApplicationDao.updateJobApplication(jobApplication);
 
         return true;
 

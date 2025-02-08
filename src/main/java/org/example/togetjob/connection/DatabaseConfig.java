@@ -1,6 +1,7 @@
 package org.example.togetjob.connection;
 
 import org.example.togetjob.config.ConfigDaoLoader;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.printer.Printer;
 
 import java.io.IOException;
@@ -13,78 +14,93 @@ import java.util.Properties;
 public class DatabaseConfig {
 
     private static DatabaseConfig instance = null;
-    private static Connection connection;
-    private static ConfigDaoLoader loaderDaoConfig;
+    private Connection connection;
+    private ConfigDaoLoader loaderDaoConfig;
     private final Properties dbProperties = new Properties();
 
+    // Flag to track if the connection message has already been printed
+    private boolean connectionMessagePrinted = false;
+
+    // Private constructor to prevent instantiation
     private DatabaseConfig() {
         loadDatabaseConfig();
     }
 
-    private void loadDatabaseConfig() {
+    // Method to load DB properties from db.properties file
+    private void loadDatabaseConfig() throws DatabaseException {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                throw new DatabaseException("db.properties file not found.");
+            }
             dbProperties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Errore durante il caricamento di db.properties: " + e.getMessage());
+            throw new DatabaseException("Error loading db.properties: " + e.getMessage());
         }
     }
 
-
+    // Singleton pattern to ensure only one instance of DatabaseConfig
     public static synchronized DatabaseConfig getInstance() {
-
         if (instance == null) {
             instance = new DatabaseConfig();
         }
-
         return instance;
-
     }
 
-    public void setConfigLoader(ConfigDaoLoader loader) {
+    // Setter for the ConfigDaoLoader
+    public synchronized void setConfigLoader(ConfigDaoLoader loader) {
         if (loader == null) {
-            throw new IllegalArgumentException("ConfigDaoLoader can't be null.");
+            throw new IllegalArgumentException("ConfigDaoLoader cannot be null.");
         }
-        loaderDaoConfig = loader;
+        this.loaderDaoConfig = loader;
     }
 
+    // Method to get the database connection
     public synchronized Connection getConnection() throws SQLException {
-        if (connection == null) {
+        if (connection == null || connection.isClosed()) {
             if (loaderDaoConfig == null) {
-                throw new IllegalStateException(" ConfigDaoLoader not set.");
+                throw new IllegalStateException("ConfigDaoLoader is not set.");
             }
 
+            // Retrieve database credentials from properties file
             String dbUrl = dbProperties.getProperty("CONNECTION_URL");
             String dbUsername = dbProperties.getProperty("DB_USER");
             String dbPassword = dbProperties.getProperty("DB_PASSWORD");
 
-            if (dbUrl == null || dbUsername == null) {
-                throw new SQLException("Error in db properties !");
+            if (dbUrl == null || dbUsername == null || dbPassword == null) {
+                throw new SQLException("Missing database properties!");
             }
 
             try {
-                // driver JDBC
+                // Load the JDBC driver and establish the connection
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-                Printer.print("Connection to db done !");
+
+                // Print message only once, when the connection is established
+                if (!connection.isClosed() && !connectionMessagePrinted) {
+                    Printer.print("Connection to the database established.");
+                    connectionMessagePrinted = true; // Set the flag so the message is not printed again
+                }
             } catch (ClassNotFoundException e) {
-                throw new SQLException("Driver JDBC MySQL not found", e);
+                throw new SQLException("JDBC MySQL driver not found.", e);
             } catch (SQLException e) {
-                Printer.print("Error during connection to db: " + e.getMessage());
+                Printer.print("Error during connection to DB: " + e.getMessage());
                 throw e;
             }
         }
         return connection;
     }
 
-    public void closeConnection() {
+    // Method to close the database connection
+    public synchronized void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
                 Printer.print("Connection closed.");
             } catch (SQLException e) {
-                Printer.print("Error during connection: " + e.getMessage());
+                Printer.print("Error closing connection: " + e.getMessage());
             } finally {
                 connection = null;
+                connectionMessagePrinted = false; // Reset the flag when the connection is closed
             }
         }
     }

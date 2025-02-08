@@ -8,7 +8,7 @@ public class RegisterUserBean extends LoginUserBean {
     private String emailAddress;
     private String checkPassword;
 
-    public RegisterUserBean(String username, String emailAddress, String password, String name, String surname, String role, String checkPassword) {
+    public RegisterUserBean(String username, String password, String name, String surname, String emailAddress, String role, String checkPassword) {
         super(username, password);  // (LoginUserBean)
         this.name = name;
         this.surname = surname;

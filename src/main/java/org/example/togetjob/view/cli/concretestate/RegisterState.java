@@ -37,7 +37,7 @@ public class RegisterState implements CliState {
 
         if (!password.equals(checkPassword)) {
             Printer.print("Passwords do not match. Please try again.");
-            context.setState(new RegisterState()); // Rimani nello stato di registrazione
+            context.setState(new RegisterState());
             return;
         }
 
@@ -50,7 +50,7 @@ public class RegisterState implements CliState {
         Printer.print("Enter role (student/recruiter): ");
         String roleInput = scanner.nextLine().trim().toLowerCase();
 
-        RegisterUserBean userBean = new RegisterUserBean(username, email, password, name, surname, roleInput, checkPassword);
+        RegisterUserBean userBean = new RegisterUserBean(username, password, name, surname, email, roleInput, checkPassword);
 
         //polymorphism
         Object infoBean = null;

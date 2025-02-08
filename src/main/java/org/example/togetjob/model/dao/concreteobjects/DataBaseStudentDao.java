@@ -1,207 +1,255 @@
-package org.example.togetjob.model.dao.concreteobjects;
+    package org.example.togetjob.model.dao.concreteobjects;
 
-import org.example.togetjob.connection.DatabaseConfig;
-import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-import org.example.togetjob.model.entity.Role;
-import org.example.togetjob.model.entity.Student;
+    import org.example.togetjob.connection.DatabaseConfig;
+    import org.example.togetjob.exceptions.DatabaseException;
+    import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
+    import org.example.togetjob.model.dao.abstractobjects.StudentDao;
+    import org.example.togetjob.model.dao.abstractobjects.UserDao;
+    import org.example.togetjob.model.entity.JobApplication;
+    import org.example.togetjob.model.entity.Student;
+    import org.example.togetjob.model.entity.User;
 
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+    import java.sql.*;
+    import java.sql.Date;
+    import java.time.LocalDate;
+    import java.util.*;
 
-public class DataBaseStudentDao implements StudentDao {
+    public class DataBaseStudentDao implements StudentDao {
 
-    private static final String INSERT_STUDENT_SQL =
-            "INSERT INTO STUDENT (Username, Name, Surname, EmailAddress, Password, Role, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        private static final String INSERT_STUDENT_SQL =
+                "INSERT INTO STUDENT (Username, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperience, Skills, Availability) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String SELECT_STUDENT_SQL =
-            "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
-                    + "FROM STUDENT WHERE Username = ?";
+        private static final String SELECT_STUDENT_SQL =
+                "SELECT DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperience, Skills, Availability "
+                        + "FROM STUDENT WHERE Username = ?";
 
-    private static final String SELECT_ALL_STUDENTS_SQL =
-            "SELECT Username, Name, Surname, EmailAddress, Password, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperiences, Skills, Availability "
-                    + "FROM STUDENT WHERE Role = 'STUDENT'";
+        private static final String SELECT_ALL_STUDENTS_SQL =
+                "SELECT Username, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperience, Skills, Availability "
+                        + "FROM STUDENT";
 
-    private static final String UPDATE_STUDENT_SQL =
-            "UPDATE STUDENT SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, DateOfBirth = ?, PhoneNumber = ?, Degrees = ?, CourseAttended = ?, Certifications = ?, "
-                    + "WorkExperiences = ?, Skills = ?, Availability = ? WHERE Username = ?";
+        private static final String UPDATE_STUDENT_SQL =
+                "UPDATE STUDENT SET DateOfBirth = ?, PhoneNumber = ?, Degrees = ?, CourseAttended = ?, Certifications = ?, "
+                        + "WorkExperience = ?, Skills = ?, Availability = ? WHERE Username = ?";
 
-    private static final String DELETE_STUDENT_SQL =
-            "DELETE FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
+        private static final String DELETE_STUDENT_SQL =
+                "DELETE FROM STUDENT WHERE Username = ?";
 
-    private static final String CHECK_STUDENT_EXISTS_SQL =
-            "SELECT COUNT(*) FROM STUDENT WHERE Username = ? AND Role = 'STUDENT'";
+        private static final String CHECK_STUDENT_EXISTS_SQL =
+                "SELECT COUNT(*) FROM STUDENT WHERE Username = ?";
 
-    @Override
-    public void saveStudent(Student student) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(INSERT_STUDENT_SQL)) {
+        private static final String COLUMN_DATE_OF_BIRTH = "DateOfBirth";
+        private static final String COLUMN_PHONE_NUMBER = "PhoneNumber";
+        private static final String COLUMN_DEGREES = "Degrees";
+        private static final String COLUMN_COURSE_ATTENDED = "CourseAttended";
+        private static final String COLUMN_CERTIFICATIONS = "Certifications";
+        private static final String COLUMN_WORK_EXPERIENCE = "WorkExperience";
+        private static final String COLUMN_SKILLS = "Skills";
+        private static final String COLUMN_AVAILABILITY = "Availability";
 
-            stmt.setString(1, student.getUsername());
-            stmt.setString(2, student.getName());
-            stmt.setString(3, student.getSurname());
-            stmt.setString(4, student.getEmailAddress());
-            stmt.setString(5, student.getPassword());
-            stmt.setString(6, student.getRole().name()); // Role (STUDENT)
-            stmt.setDate(7, Date.valueOf(student.getDateOfBirth())); // Handling LocalDate
-            stmt.setString(8, student.getPhoneNumber());
-            stmt.setString(9, String.join(",", student.getDegrees())); // Converts list to comma-separated string
-            stmt.setString(10, String.join(",", student.getCourseAttended()));
-            stmt.setString(11, String.join(",", student.getCertifications()));
-            stmt.setString(12, String.join(",", student.getWorkExperiences()));
-            stmt.setString(13, String.join(",", student.getSkills()));
-            stmt.setString(14, student.getAvailability());
+        private final UserDao userDao;
+        private JobApplicationDao jobApplicationDao;
 
-            stmt.executeUpdate(); // Executes the insertion into the database
-
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
+        public DataBaseStudentDao(UserDao userDao, JobApplicationDao jobApplicationDao) {
+            this.userDao = userDao;
+            this.jobApplicationDao = jobApplicationDao;
         }
-    }
 
-    @Override
-    public Optional<Student> getStudent(String username) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_STUDENT_SQL)) {
+        public void setJobApplicationDao(DataBaseJobApplicationDao jobApplicationDao) {
+            this.jobApplicationDao = jobApplicationDao;
+        }
 
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) { // If a result exists
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String emailAddress = rs.getString("EmailAddress");
-                String password = rs.getString("Password");
+        @Override
+        public void saveStudent(Student student) {
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(INSERT_STUDENT_SQL)) {
 
-                // Retrieve additional information for the Student
-                LocalDate dateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
-                String phoneNumber = rs.getString("PhoneNumber");
-                List<String> degrees = List.of(rs.getString("Degrees").split(","));
-                List<String> courseAttended = List.of(rs.getString("CourseAttended").split(","));
-                List<String> certifications = List.of(rs.getString("Certifications").split(","));
-                List<String> workExperiences = List.of(rs.getString("WorkExperiences").split(","));
-                List<String> skills = List.of(rs.getString("Skills").split(","));
-                String availability = rs.getString("Availability");
+                stmt.setString(1, student.getUsername());
+                stmt.setDate(2, Date.valueOf(student.getDateOfBirth()));
+                stmt.setString(3, student.getPhoneNumber());
+                stmt.setString(4, String.join(",", student.getDegrees()));
+                stmt.setString(5, String.join(",", student.getCourseAttended()));
+                stmt.setString(6, String.join(",", student.getCertifications()));
+                stmt.setString(7, String.join(",", student.getWorkExperiences()));
+                stmt.setString(8, String.join(",", student.getSkills()));
+                stmt.setString(9, student.getAvailability());
 
-                // Create the Student object
-                Student student = new Student(name, surname, username, emailAddress, password, Role.STUDENT,
-                        dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
-                        workExperiences, skills, availability, null); // Set `null` for `jobApplications`
-
-                return Optional.of(student);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new DatabaseException("Error save student");
             }
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
         }
-        return Optional.empty(); // Return empty if no student is found
-    }
 
-    @Override
-    public List<Student> getAllStudents() {
-        List<Student> students = new ArrayList<>();
+        @Override
+        public Optional<Student> getStudent(String username) {
+            Optional<User> userOptional = userDao.getUser(username);
 
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_STUDENTS_SQL);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) { // Iterate through the results
-                String username = rs.getString("Username");
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String emailAddress = rs.getString("EmailAddress");
-                String password = rs.getString("Password");
-
-                // Retrieve additional data for Student
-                LocalDate dateOfBirth = rs.getDate("DateOfBirth").toLocalDate();
-                String phoneNumber = rs.getString("PhoneNumber");
-                List<String> degrees = List.of(rs.getString("Degrees").split(","));
-                List<String> courseAttended = List.of(rs.getString("CourseAttended").split(","));
-                List<String> certifications = List.of(rs.getString("Certifications").split(","));
-                List<String> workExperiences = List.of(rs.getString("WorkExperiences").split(","));
-                List<String> skills = List.of(rs.getString("Skills").split(","));
-                String availability = rs.getString("Availability");
-
-                // Create a Student object and add it to the list
-                Student student = new Student(name, surname, username, emailAddress, password, Role.STUDENT,
-                        dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
-                        workExperiences, skills, availability, null); // Set `null` for jobApplications
-                students.add(student); // Add to list
+            if (userOptional.isEmpty()) {
+                return Optional.empty();
             }
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
-        }
 
-        return students; // Return list of students
-    }
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SELECT_STUDENT_SQL)) {
 
-    @Override
-    public boolean updateStudent(Student student) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT_SQL)) {
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
 
-            // Set parameters for the query
-            stmt.setString(1, student.getName());
-            stmt.setString(2, student.getSurname());
-            stmt.setString(3, student.getEmailAddress());
-            stmt.setString(4, student.getPassword());
-            stmt.setDate(5, Date.valueOf(student.getDateOfBirth())); // Convert LocalDate to java.sql.Date
-            stmt.setString(6, student.getPhoneNumber());
-            stmt.setString(7, String.join(",", student.getDegrees())); // Convert list to comma-separated string
-            stmt.setString(8, String.join(",", student.getCourseAttended()));
-            stmt.setString(9, String.join(",", student.getCertifications()));
-            stmt.setString(10, String.join(",", student.getWorkExperiences()));
-            stmt.setString(11, String.join(",", student.getSkills()));
-            stmt.setString(12, student.getAvailability());
-            stmt.setString(13, student.getUsername()); // Username as primary key
-
-            int rowsUpdated = stmt.executeUpdate(); // Execute the update query
-
-            return rowsUpdated > 0; // Return true if at least one row was updated
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
-        }
-
-        return false; // Return false if no rows were updated or an error occurred
-    }
-
-    @Override
-    public boolean deleteStudent(String username) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(DELETE_STUDENT_SQL)) {
-
-            // Set the username parameter
-            stmt.setString(1, username);
-
-            int rowsDeleted = stmt.executeUpdate(); // Execute the delete query
-
-            return rowsDeleted > 0; // Return true if at least one row was deleted
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
-        }
-        return false; // Return false if no rows were deleted or an error occurred
-    }
-
-    @Override
-    public boolean studentExists(String username) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(CHECK_STUDENT_EXISTS_SQL)) {
-
-            // Set the username parameter
-            stmt.setString(1, username);
-
-            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int count = rs.getInt(1); // Get the count of matching records
-                    return count > 0; // Return true if count is greater than 0
+                    User user = userOptional.get();
+
+                    LocalDate dateOfBirth = rs.getDate(COLUMN_DATE_OF_BIRTH).toLocalDate();
+                    String phoneNumber = rs.getString(COLUMN_PHONE_NUMBER);
+                    String degreesStr = rs.getString(COLUMN_DEGREES);
+                    List<String> degrees = degreesStr != null ? List.of(degreesStr.split(",")) : Collections.emptyList();
+
+                    String courseAttendedStr = rs.getString(COLUMN_COURSE_ATTENDED);
+                    List<String> courseAttended = courseAttendedStr != null ? List.of(courseAttendedStr.split(",")) : Collections.emptyList();
+
+                    String certificationsStr = rs.getString(COLUMN_CERTIFICATIONS);
+                    List<String> certifications = certificationsStr != null ? List.of(certificationsStr.split(",")) : Collections.emptyList();
+
+                    String workExperienceStr = rs.getString(COLUMN_WORK_EXPERIENCE);
+                    List<String> workExperiences = workExperienceStr != null ? List.of(workExperienceStr.split(",")) : Collections.emptyList();
+
+                    String skillsStr = rs.getString(COLUMN_SKILLS);
+                    List<String> skills = skillsStr != null ? List.of(skillsStr.split(",")) : Collections.emptyList();
+
+                    String availability = rs.getString(COLUMN_AVAILABILITY);
+
+                    Student student = new Student(user.getName(), user.getSurname(), user.getUsername(), user.getEmailAddress(), user.getPassword(), user.getRole(),
+                            dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
+                            workExperiences, skills, availability, new ArrayList<>()); //NULL
+
+                    if (jobApplicationDao != null) {
+                        List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
+                        student.setJobApplications(jobApplications);
+                    }
+
+                    return Optional.of(student);
+                }
+            } catch (SQLException e) {
+                throw new DatabaseException("Error obtaining student for username: " + username + ", SQL error: " + e.getMessage(), e);
+            }
+            return Optional.empty();
+        }
+
+
+        @Override
+        public List<Student> getAllStudents() {
+            List<Student> students = new ArrayList<>();
+            List<User> users = userDao.getAllUsers();
+            Map<String, Student> studentMap = getStudentsDetails(users);
+
+            for (Student student : studentMap.values()) {
+                List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
+                student.setJobApplications(jobApplications);
+                students.add(student);
+            }
+
+            return students;
+        }
+
+        private Map<String, Student> getStudentsDetails(List<User> users) {
+            Map<String, Student> studentMap = new HashMap<>();
+
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_STUDENTS_SQL);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    String username = rs.getString("Username");
+
+                    User user = findUserByUsername(users, username);
+                    if (user == null) {
+                        continue;
+                    }
+
+                    LocalDate dateOfBirth = rs.getDate(COLUMN_DATE_OF_BIRTH) != null ? rs.getDate(COLUMN_DATE_OF_BIRTH).toLocalDate() : null;
+                    String phoneNumber = rs.getString(COLUMN_PHONE_NUMBER);
+
+                    List<String> degrees = convertCsvToList(rs.getString(COLUMN_DEGREES));
+                    List<String> courseAttended = convertCsvToList(rs.getString(COLUMN_COURSE_ATTENDED));
+                    List<String> certifications = convertCsvToList(rs.getString(COLUMN_CERTIFICATIONS));
+                    List<String> workExperiences = convertCsvToList(rs.getString(COLUMN_WORK_EXPERIENCE));
+                    List<String> skills = convertCsvToList(rs.getString(COLUMN_SKILLS));
+                    String availability = rs.getString(COLUMN_AVAILABILITY);
+
+                    Student student = new Student(user.getName(), user.getSurname(), user.getUsername(),
+                            user.getEmailAddress(), user.getPassword(), user.getRole(), dateOfBirth, phoneNumber,
+                            degrees, courseAttended, certifications, workExperiences, skills, availability, null); // JobApplications is null
+
+                    studentMap.put(username, student);
+                }
+            } catch (SQLException e) {
+                throw new DatabaseException("Error obtaining student details", e);
+            }
+
+            return studentMap;
+        }
+
+        private User findUserByUsername(List<User> users, String username) {
+            for (User user : users) {
+                if (user.getUsername().equals(username)) {
+                    return user;
                 }
             }
-        } catch (SQLException e) {
-            // Log or handle the exception based on your needs
+            return null;
         }
 
-        return false; // Return false if no matching records are found
+        private List<String> convertCsvToList(String csvData) {
+            if (csvData == null || csvData.isEmpty()) {
+                return new ArrayList<>();
+            }
+            return List.of(csvData.split(","));
+        }
+
+        @Override
+        public boolean updateStudent(Student student) {
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT_SQL)) {
+
+                stmt.setDate(1, Date.valueOf(student.getDateOfBirth()));
+                stmt.setString(2, student.getPhoneNumber());
+                stmt.setString(3, String.join(",", student.getDegrees()));
+                stmt.setString(4, String.join(",", student.getCourseAttended()));
+                stmt.setString(5, String.join(",", student.getCertifications()));
+                stmt.setString(6, String.join(",", student.getWorkExperiences()));
+                stmt.setString(7, String.join(",", student.getSkills()));
+                stmt.setString(8, student.getAvailability());
+                stmt.setString(9, student.getUsername());
+
+                int rowsUpdated = stmt.executeUpdate();
+                return rowsUpdated > 0;
+            } catch (SQLException e) {
+                throw new DatabaseException("Error updating student");
+            }
+        }
+
+        @Override
+        public boolean deleteStudent(String username) {
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(DELETE_STUDENT_SQL)) {
+
+                stmt.setString(1, username);
+                int rowsDeleted = stmt.executeUpdate();
+                return rowsDeleted > 0;
+            } catch (SQLException e) {
+                throw new DatabaseException("Error deleting student");
+            }
+        }
+
+        @Override
+        public boolean studentExists(String username) {
+            try (Connection conn = DatabaseConfig.getInstance().getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(CHECK_STUDENT_EXISTS_SQL)) {
+
+                stmt.setString(1, username);
+                ResultSet rs = stmt.executeQuery();
+                return rs.next() && rs.getInt(1) > 0;
+            } catch (SQLException e) {
+                throw new DatabaseException("Error Student not found");
+            }
+        }
+
     }
-}

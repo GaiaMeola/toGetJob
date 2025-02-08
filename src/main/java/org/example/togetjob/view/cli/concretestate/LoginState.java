@@ -33,9 +33,9 @@ public class LoginState implements CliState {
                 String userRole = loginBoundary.getUserRole();
                 Printer.print("Login successful!");
 
-                if ("STUDENT".equalsIgnoreCase(userRole)) {
+                if ("Student".equalsIgnoreCase(userRole)) {
                     context.setState(new HomeStudentState());  // go to HomePageStudent
-                } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
+                } else if ("Recruiter".equalsIgnoreCase(userRole)) {
                     context.setState(new HomeRecruiterState());  // go to HomePageRecruiter
                 } else {
                     Printer.print("Unknown role. Please try again.");

@@ -50,7 +50,7 @@ public class FileSystemJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public Optional<JobAnnouncement> getJobAnnouncementById(Integer jobAnnouncementId) {
+    public Optional<JobAnnouncement> getJobAnnouncementById(int jobAnnouncementId) {
         return Optional.empty();
     }
 }

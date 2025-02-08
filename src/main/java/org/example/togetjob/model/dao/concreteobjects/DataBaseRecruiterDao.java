@@ -1,29 +1,38 @@
 package org.example.togetjob.model.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
+import org.example.togetjob.model.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.Recruiter;
-import org.example.togetjob.model.entity.Role;
+import org.example.togetjob.model.entity.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public class DataBaseRecruiterDao implements RecruiterDao {
 
     private static final String INSERT_RECRUITER_SQL =
-            "INSERT INTO RECRUITER (Username, Name, Surname, EmailAddress, Password, Role, Companies) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO RECRUITER (Username, Companies) VALUES (?, ?)";
     private static final String SELECT_RECRUITER_BY_USERNAME_SQL =
-            "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER WHERE Username = ?";
+            "SELECT Username, Companies FROM RECRUITER WHERE Username = ?";
     private static final String SELECT_ALL_RECRUITERS_SQL =
-            "SELECT Username, Name, Surname, EmailAddress, Password, Role, Companies FROM RECRUITER";
+            "SELECT Username, Companies FROM RECRUITER";
     private static final String UPDATE_RECRUITER_SQL =
-            "UPDATE RECRUITER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Companies = ? WHERE Username = ?";
+            "UPDATE RECRUITER SET Companies = ? WHERE Username = ?";
     private static final String DELETE_RECRUITER_SQL =
             "DELETE FROM RECRUITER WHERE Username = ?";
     private static final String CHECK_RECRUITER_EXISTS_SQL =
             "SELECT COUNT(*) FROM RECRUITER WHERE Username = ?";
+
+    private final UserDao userDao;
+
+    public DataBaseRecruiterDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public void saveRecruiter(Recruiter recruiter) {
@@ -31,75 +40,74 @@ public class DataBaseRecruiterDao implements RecruiterDao {
              PreparedStatement stmt = conn.prepareStatement(INSERT_RECRUITER_SQL)) {
 
             stmt.setString(1, recruiter.getUsername());
-            stmt.setString(2, recruiter.getName());
-            stmt.setString(3, recruiter.getSurname());
-            stmt.setString(4, recruiter.getEmailAddress());
-            stmt.setString(5, recruiter.getPassword());
-            stmt.setString(6, recruiter.getRole().name()); // Role (RECRUITER)
-            stmt.setString(7, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
-
-            stmt.executeUpdate(); // Executes the insertion into the database
+            stmt.setString(2, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error saving user to the database");
         }
     }
 
     @Override
     public Optional<Recruiter> getRecruiter(String username) {
+
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_RECRUITER_BY_USERNAME_SQL)) {
 
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
+
             if (rs.next()) {
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String emailAddress = rs.getString("EmailAddress");
-                String password = rs.getString("Password");
-                Role role = Role.valueOf(rs.getString("Role").toUpperCase()); // Get Role as enum
-
                 String companiesString = rs.getString("Companies");
-                List<String> companies = List.of(companiesString.split(",")); // Convert string back to list
+                List<String> companies = Arrays.stream(companiesString.split(","))
+                        .map(String::trim)
+                        .toList();
 
-                Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
-                return Optional.of(recruiter); // Return recruiter object
+                Optional<User> userOptional = userDao.getUser(username);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    Recruiter recruiter = new Recruiter(user.getName(), user.getSurname(), user.getUsername(),
+                            user.getEmailAddress(), user.getPassword(),
+                            user.getRole(), companies);
+                    return Optional.of(recruiter);
+                } else {
+                    return Optional.empty();
+                }
             }
-
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error obtaining recruiter from database");
         }
 
-        return Optional.empty(); // Return empty if no recruiter is found
+        return Optional.empty();
     }
+
+
 
     @Override
     public List<Recruiter> getAllRecruiter() {
         List<Recruiter> recruiters = new ArrayList<>();
+
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_RECRUITERS_SQL);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 String username = rs.getString("Username");
-                String name = rs.getString("Name");
-                String surname = rs.getString("Surname");
-                String emailAddress = rs.getString("EmailAddress");
-                String password = rs.getString("Password");
-                Role role = Role.valueOf(rs.getString("Role").toUpperCase()); // Convert role string to Role enum
 
-                String companiesString = rs.getString("Companies");
-                List<String> companies = List.of(companiesString.split(",")); // Convert companies string to list
-
-                Recruiter recruiter = new Recruiter(name, surname, username, emailAddress, password, role, companies);
-                recruiters.add(recruiter); // Add recruiter to list
+                Optional<User> userOptional = userDao.getUser(username);
+                if (userOptional.isPresent()) {
+                    User user = userOptional.get();
+                    String companiesString = rs.getString("Companies");
+                    List<String> companies = List.of(companiesString.split(","));
+                    Recruiter recruiter = new Recruiter(user.getName(), user.getSurname(), user.getUsername(), user.getEmailAddress(), user.getPassword(), user.getRole(), companies);
+                    recruiters.add(recruiter);
+                }
             }
-
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error obtaining all recruiters from database");
         }
 
-        return recruiters; // Return the list of recruiters
+        return recruiters;
     }
 
     @Override
@@ -107,20 +115,14 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(UPDATE_RECRUITER_SQL)) {
 
-            stmt.setString(1, recruiter.getName());
-            stmt.setString(2, recruiter.getSurname());
-            stmt.setString(3, recruiter.getEmailAddress());
-            stmt.setString(4, recruiter.getPassword());
-            stmt.setString(5, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
-            stmt.setString(6, recruiter.getUsername());
+            stmt.setString(1, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
+            stmt.setString(2, recruiter.getUsername());
 
-            int rowsUpdated = stmt.executeUpdate(); // Execute the update query
-            return rowsUpdated > 0; // Return true if at least one row was updated
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error updating Recruiter");
         }
-
-        return false; // Return false if no rows were updated or an error occurred
     }
 
     @Override
@@ -129,13 +131,11 @@ public class DataBaseRecruiterDao implements RecruiterDao {
              PreparedStatement stmt = conn.prepareStatement(DELETE_RECRUITER_SQL)) {
 
             stmt.setString(1, username);
-            int rowsDeleted = stmt.executeUpdate(); // Execute the delete query
-            return rowsDeleted > 0; // Return true if at least one row was deleted
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error deleting Recruiter");
         }
-
-        return false; // Return false if no rows were deleted or an error occurred
     }
 
     @Override
@@ -146,14 +146,14 @@ public class DataBaseRecruiterDao implements RecruiterDao {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int count = rs.getInt(1); // Get count of matching rows
-                    return count > 0; // Return true if count is greater than 0
+                    int count = rs.getInt(1);
+                    return count > 0;
                 }
             }
         } catch (SQLException e) {
-            // Log or handle exception as needed
+            throw new DatabaseException("Error Recruiter not found");
         }
 
-        return false; // Return false if no matching rows are found
+        return false;
     }
 }

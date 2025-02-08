@@ -16,9 +16,24 @@ public class JobAnnouncement {
     private final double salary;
     private final String description;
     private Boolean isActive;
-    private final Recruiter recruiter;
+    private Recruiter recruiter;
     private final List <Recruiter> collaborators;
     private JobApplicationCollectionSubjectRecruiter jobApplicationCollection;
+
+    public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive) {
+        this.jobTitle = jobTitle;
+        this.jobType = jobType;
+        this.role = role;
+        this.location = location;
+        this.workingHours = workingHours;
+        this.companyName = companyName;
+        this.salary = salary;
+        this.description = description;
+        this.isActive = isActive;
+        this.recruiter = null;
+        this.collaborators = null;
+        this.jobApplicationCollection = null;
+    }
 
     public JobAnnouncement(String jobTitle, String jobType, String role, String location, int workingHours, String companyName, double salary, String description, Boolean isActive, Recruiter recruiter) {
         this.jobTitle = jobTitle;
@@ -33,6 +48,10 @@ public class JobAnnouncement {
         this.recruiter = recruiter;
         this.collaborators = new ArrayList<>(); //no collaborators when the job announcement is created
         this.jobApplicationCollection = new JobApplicationCollectionSubjectRecruiter();
+    }
+
+    public void setRecruiter(Recruiter recruiter) {
+        this.recruiter = recruiter;
     }
 
     public String getJobTitle() {
@@ -98,5 +117,6 @@ public class JobAnnouncement {
     public List<Recruiter> getCollaborators(){
         return this.collaborators;
     }
+
 
 }

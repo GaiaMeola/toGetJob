@@ -15,7 +15,7 @@ public class Student extends User{
     private String availability;
     private List<JobApplication> jobApplications;
 
-    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {
+    public Student(String name, String surname, String username, String emailAddress, String password, Role role) {
         super(name, surname, username, emailAddress, password, role); // User
     }
 
@@ -78,4 +78,7 @@ public class Student extends User{
                 '}';
     }
 
+    public void setJobApplications(List<JobApplication> jobApplications) {
+        this.jobApplications = jobApplications;
+    }
 }
