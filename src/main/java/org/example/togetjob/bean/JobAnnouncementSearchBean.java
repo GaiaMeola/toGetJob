@@ -3,21 +3,21 @@ package org.example.togetjob.bean;
 public class JobAnnouncementSearchBean {
 
     private String jobTitle;
-    private final String jobType;
+    private String jobType;
     private String role;
     private String location;
-    private final String workingHours;
-    private final String companyName;
-    private final String salary;
+    private String workingHours;
+    private String companyName;
+    private String salary;
 
-    public JobAnnouncementSearchBean(String jobTitle, String jobType, String role, String location, String workingHours, String companyName, String salary) {
-        this.jobTitle = jobTitle;
-        this.jobType = jobType;
-        this.role = role;
-        this.location = location;
-        this.workingHours = workingHours;
-        this.companyName = companyName;
-        this.salary = salary;
+    public JobAnnouncementSearchBean() {
+        this.jobTitle = null;
+        this.jobType = null;
+        this.role = null;
+        this.location = null;
+        this.workingHours = null;
+        this.companyName = null;
+        this.salary = null;
     }
 
     public String getJobTitle() {
@@ -59,4 +59,12 @@ public class JobAnnouncementSearchBean {
     public String getSalary() {
         return salary;
     }
+
+    public void setJobType(String jobType) { this.jobType = jobType; }
+
+    public void setWorkingHours(String workingHours) { this.workingHours = workingHours; }
+
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
+
+    public void setSalary(String salary) { this.salary = salary; }
 }

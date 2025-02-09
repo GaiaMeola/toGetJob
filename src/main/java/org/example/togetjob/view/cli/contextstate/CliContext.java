@@ -33,27 +33,23 @@ public class CliContext {
     // CLI begin
     public void startCLI(){
         while(!(currentState instanceof ExitState)){
-            showMenu(); //Current State
+            showMenu(); // Current State
 
             String input = scanner.nextLine().trim();
             Printer.print("Input received: " + input);
             goNext(input);
 
-           if (currentState instanceof LoginState) {
+            if (currentState instanceof LoginState) {
                 goNext("login");
-                continue;
-            }
-
-            if (currentState instanceof RegisterState) {
+            } else if (currentState instanceof RegisterState) {
                 goNext("register");
-                continue;
             }
-
-            if(currentState instanceof ExitState) {
+            if (currentState instanceof ExitState) {
                 goNext("exit");
-            } //Exit State
+            }
         }
     }
+
 
     public Scanner getScanner() {
         return this.scanner;

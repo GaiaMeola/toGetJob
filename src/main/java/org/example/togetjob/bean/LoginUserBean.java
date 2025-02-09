@@ -5,11 +5,9 @@ public class LoginUserBean {
     private String username;
     private String password;
 
-    public LoginUserBean() {}
-
-    public LoginUserBean(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public LoginUserBean() {
+        this.username = null;
+        this.password = null;
     }
 
     public String getUsername() {

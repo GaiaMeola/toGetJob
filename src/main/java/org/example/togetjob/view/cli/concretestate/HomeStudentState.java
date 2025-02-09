@@ -1,14 +1,19 @@
 package org.example.togetjob.view.cli.concretestate;
 
+import org.example.togetjob.bean.InterviewSchedulingStudentInfoBean;
+import org.example.togetjob.view.boundary.ContactAJobCandidateStudentBoundary;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
+import java.util.List;
+
 
 public class HomeStudentState implements CliState {
 
     private final LoginBoundary loginBoundary = new LoginBoundary();
+    private final ContactAJobCandidateStudentBoundary contactAJobCandidateStudentBoundary = new ContactAJobCandidateStudentBoundary();
 
     @Override
     public void showMenu() {
@@ -39,6 +44,14 @@ public class HomeStudentState implements CliState {
                 break;
             case "4": // View notifications
                 Printer.print("Viewing notifications...");
+                List<InterviewSchedulingStudentInfoBean> interviewSchedulingList =
+                        contactAJobCandidateStudentBoundary.getAllInterviewSchedulingForStudent();
+
+                if (interviewSchedulingList.isEmpty()) {
+                    Printer.print("You have no scheduled interviews at the moment.");
+                } else {
+                    printInterviewScheduling(interviewSchedulingList);
+                }
                 break;
             case "5": // Logout
                 Printer.print("Logging out...");
@@ -53,6 +66,21 @@ public class HomeStudentState implements CliState {
                 Printer.print("Invalid option. Please try again.");
                 context.setState(new HomeStudentState()); // Home Student
                 break;
+        }
+    }
+
+    private void printInterviewScheduling(List<InterviewSchedulingStudentInfoBean> interviewSchedulingList) {
+        for (InterviewSchedulingStudentInfoBean interview : interviewSchedulingList) {
+            Printer.print("\n--- Interview Invitation ---");
+            Printer.print("Subject: " + interview.getSubject());
+            Printer.print("Greeting: " + interview.getGreeting());
+            Printer.print("Introduction: " + interview.getIntroduction());
+            Printer.print("Job Title: " + interview.getJobTitle());
+            Printer.print("Company Name: " + interview.getCompanyName());
+            Printer.print("Interview Date/Time: " + interview.getInterviewDateTime());
+            Printer.print("Location: " + interview.getLocation());
+            Printer.print("Student Username: " + interview.getStudentUsername());
+            Printer.print("----------------------------------");
         }
     }
 }

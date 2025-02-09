@@ -23,7 +23,7 @@ public class RegisterStudentController extends AbstractRegisterController{
         return new Student(
                 userBean.getName(), userBean.getSurname(),userBean.getUsername(), userBean.getEmailAddress(), userBean.getPassword(), Role.STUDENT,
                 studentInfoBean.getDateOfBirth(), studentInfoBean.getPhoneNumber(),
-                studentInfoBean.getDegrees(), studentInfoBean.getCourseAttended(),
+                studentInfoBean.getDegrees(), studentInfoBean.getCoursesAttended(),
                 studentInfoBean.getCertifications(), studentInfoBean.getWorkExperiences(),
                 studentInfoBean.getSkills(), studentInfoBean.getAvailability(), null // No jobApplication
         );

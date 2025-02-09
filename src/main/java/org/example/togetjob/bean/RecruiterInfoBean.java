@@ -4,9 +4,13 @@ import java.util.List;
 
 public class RecruiterInfoBean {
 
-    private final List<String> companies;
+    private List<String> companies;
 
-    public RecruiterInfoBean(List<String> companies) {
+    public RecruiterInfoBean() {
+        this.companies = null;
+    }
+
+    public void setCompanies(List<String> companies){
         this.companies = companies;
     }
 

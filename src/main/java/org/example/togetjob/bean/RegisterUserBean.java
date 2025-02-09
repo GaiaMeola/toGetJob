@@ -6,15 +6,13 @@ public class RegisterUserBean extends LoginUserBean {
     private String surname;
     private String role;
     private String emailAddress;
-    private String checkPassword;
 
-    public RegisterUserBean(String username, String password, String name, String surname, String emailAddress, String role, String checkPassword) {
-        super(username, password);  // (LoginUserBean)
-        this.name = name;
-        this.surname = surname;
-        this.emailAddress = emailAddress;
-        this.role = role;
-        this.checkPassword = checkPassword;  //
+    public RegisterUserBean() {
+        super();
+        this.name = null;
+        this.surname = null;
+        this.emailAddress = null;
+        this.role = null;
     }
 
     public String getName() {
@@ -41,4 +39,9 @@ public class RegisterUserBean extends LoginUserBean {
         return emailAddress;
     }
 
+    public void setSurname(String surname) { this.surname = surname; }
+
+    public void setEmail(String email) { this.emailAddress = email; }
+
+    public void setRoleInput(String roleInput) { this.role = roleInput; }
 }

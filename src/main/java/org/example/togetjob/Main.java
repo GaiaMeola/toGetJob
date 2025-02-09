@@ -15,10 +15,13 @@ import java.sql.SQLException;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+
     public static void main(String[] args) throws RuntimeException {
+
         ConfigDaoLoader loaderDaoConfig;
         ConfigUILoader loaderUIConfig;
 
+        //CONFIGURATION DAO
         try {
             loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
         } catch (ConfigException e) {
@@ -30,6 +33,7 @@ public class Main {
 
         AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
 
+        //CONFIGURATION UI
         try {
             loaderUIConfig = new ConfigUILoader("ui.config.properties");
         } catch (ConfigException e) {
@@ -39,6 +43,7 @@ public class Main {
 
         String uiType = loaderUIConfig.getProperty("ui.type");
         Printer.print("Type of UI: " + uiType);
+
 
         if ("jdbc".equalsIgnoreCase(daoType)) {
             DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
@@ -62,8 +67,10 @@ public class Main {
            //file system
             Printer.print("DAO FileSystem");
         } else {
-            Printer.print("DAO DataBase.");
+            Printer.print("DAO not found");
         }
+
+
         if ("cli".equalsIgnoreCase(uiType)){
             CliContext context = new CliContext(new MainMenuState());
             context.startCLI();

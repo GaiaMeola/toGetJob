@@ -2,10 +2,7 @@ package org.example.togetjob.pattern.adapter;
 
 // Class Target in Adapter
 
-import org.example.togetjob.bean.InterviewSchedulingBean;
-import org.example.togetjob.bean.JobAnnouncementBean;
-import org.example.togetjob.bean.StudentInfoBean;
-import org.example.togetjob.bean.StudentInfoSearchBean;
+import org.example.togetjob.bean.*;
 import org.example.togetjob.exceptions.NotificationException;
 import org.example.togetjob.model.entity.User;
 
@@ -20,5 +17,13 @@ public interface ContactAJobCandidateController {
     boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean);
 
     List<JobAnnouncementBean> getJobAnnouncementsByRecruiter();
+
+    List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent();
+
+    List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean);
+
+    boolean modifyInterview(InterviewSchedulingBean interviewScheduling);
+
+    boolean deleteInterview(InterviewSchedulingBean interviewScheduling);
 
 }

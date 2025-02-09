@@ -13,7 +13,7 @@ public class FileSystemInterviewSchedulingDao implements InterviewSchedulingDao 
 
     @Override
     public void saveInterviewScheduling(InterviewScheduling interviewScheduling) {
-
+        /* not implemented  */
     }
 
     @Override
@@ -34,5 +34,15 @@ public class FileSystemInterviewSchedulingDao implements InterviewSchedulingDao 
     @Override
     public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
         return List.of();
+    }
+
+    @Override
+    public void deleteInterviewScheduling(InterviewScheduling interviewScheduling) {
+        /* not implemented */
+    }
+
+    @Override
+    public void updateInterviewScheduling(InterviewScheduling interviewScheduling) {
+        /* not implemented */
     }
 }

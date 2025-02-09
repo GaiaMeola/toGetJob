@@ -17,7 +17,7 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
         Printer.print("\n --- Job Announcements - Recruiter ---");
         Printer.print("Welcome, Recruiter! You can do the following:");
-        Printer.print("1. View all your job announcements and job applications submitted by students");
+        Printer.print("1. View all your job announcements");
         Printer.print("2. Create a new job announcement");
         Printer.print("3. Manage a job announcement");
         Printer.print("4. Go back");
@@ -108,17 +108,19 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
             }
 
             // Ask if the recruiter wants to view job applications
-            Printer.print("Do you want to view job applications for this job announcement? (yes/no): ");
+            Printer.print("Do you want to view job applications or scheduling interviews sent for this job announcement? (yes/no): ");
             String response = scanner.nextLine().trim().toLowerCase();
 
             if ("yes".equals(response)) {
-                    // Pass the selected job title to the next state for managing job applications
-                    context.setState(new SendAJobApplicationRecruiterState(selectedJob));
+                // Pass the selected job title to the next state for managing job applications
+                context.setState(new SendAJobApplicationRecruiterState(selectedJob));
             } else {
-                    Printer.print("Returning to job announcements...");
-                }
+                Printer.print("Returning to job announcements...");
             }
+
         }
+
+    }
 
     private void createJobAnnouncement(Scanner scanner) {
         // Collect job details from the user to create a new job announcement
@@ -163,6 +165,21 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
     private void manageJobAnnouncement(Scanner scanner) {
         // This method will allow the recruiter to manage (deactivate, activate, or delete) a job announcement
+
+        var jobAnnouncements = publishAJobAnnouncementRecruiterBoundary.getJobAnnouncements();
+
+        if (jobAnnouncements.isEmpty()) {
+            Printer.print("No job announcements found.");
+        } else {
+            // Display the announcements
+            Printer.print("Here are the job announcements you have created or are collaborating on:");
+
+            for (int i = 0; i < jobAnnouncements.size(); i++) {
+                var job = jobAnnouncements.get(i);
+                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
+            }
+        }
+
         Printer.print("Enter the title of the job announcement to manage: ");
         String jobTitle = scanner.nextLine();
 

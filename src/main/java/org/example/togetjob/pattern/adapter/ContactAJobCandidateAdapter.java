@@ -25,6 +25,10 @@ import java.util.stream.Collectors;
 
 public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
 
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
+    public static final String JOB_ANNOUNCEMENT_NOT_FOUND_ERROR = "Error: Job Announcement not found.";
+    public static final String STUDENT_NOT_FOUND_ERROR = "Error: Student not found.";
+
     private final SendAJobApplication adapt;
     private final StudentDao studentDao;
     private final JobAnnouncementDao jobAnnouncementDao;
@@ -140,7 +144,6 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
 
-
     @Override
     public InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) {
 
@@ -159,54 +162,43 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
     @Override
     public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
+        if (isDateFuture(interviewSchedulingBean.getInterviewDateTime())) {
+            throw new IllegalArgumentException("Error: The date must be in the future.");
+        }
 
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
-
-        //student
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Error: Student not found."));
-
-        //job announcement
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException("Error: Job Announcement not found."));
-
-        //verify that the student has submitted the job application
+                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
         if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isEmpty()) {
-            throw new IllegalArgumentException("Error: Student has not applied for this job.");
+            throw new IllegalArgumentException("Error: Job application not found.");
         }
-
-        //verify that there's not another interview scheduling
         if (interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement).isPresent()) {
-            throw new IllegalArgumentException("Error: An interview for this student has already been scheduled.");
+            throw new IllegalArgumentException("Error: Interview Scheduling already exists.");
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
-
-        //create interview scheduling from bean
         InterviewScheduling interviewScheduling = InterviewSchedulingFactory.createInterviewScheduling(
                 interviewDateTime,
                 interviewSchedulingBean.getLocation(), student,
                 jobAnnouncement
         );
-
         interviewSchedulingDao.saveInterviewScheduling(interviewScheduling);
-        //save it
-
-        try { //student as observer
-            schedulingInterviewCollectionSubjectRecruiter.attach(new StudentObserverStudent(student, NotificationFactory.createNotification("You have a new interview scheduled!")));
+        try {
+            schedulingInterviewCollectionSubjectRecruiter.attach(new StudentObserverStudent(student, NotificationFactory.createNotification("You have an interview scheduling!")));
         } catch (ConfigException e) {
             throw new RuntimeException(e);
         }
-
         try {
             sendNotification(interviewScheduling);
-
         } catch (NotificationException e) {
             return false;
         }
         return true;
     }
+
 
     private void sendNotification(InterviewScheduling interviewScheduling) throws NotificationException {
 
@@ -228,6 +220,101 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
     }
 
+    @Override
+    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent() {
+
+        Student student = SessionManager.getInstance().getStudentFromSession();
+
+        if (student == null) {
+            throw new IllegalStateException("Student not found in session.");
+        }
+
+        List<InterviewScheduling> interviewSchedulings = interviewSchedulingDao.getAllInterviewScheduling(student);
+
+        return interviewSchedulings.stream()
+                .map(interviewScheduling -> {
+                    InterviewSchedulingStudentInfoBean bean = new InterviewSchedulingStudentInfoBean();
+                    bean.setSubject(interviewScheduling.getSubject());
+                    bean.setGreeting(interviewScheduling.getGreeting());
+                    bean.setIntroduction(interviewScheduling.getIntroduction());
+                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().getJobTitle());
+                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().getCompanyName());
+                    bean.setInterviewDateTime(interviewScheduling.getInterviewDateTime().toString());
+                    bean.setLocation(interviewScheduling.getLocation());
+                    bean.setStudentUsername(interviewScheduling.getCandidate().getUsername());
+                    return bean;
+                })
+                .toList();
+    }
+
+    @Override
+    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean) {
+
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
+        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter)
+                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+
+        List<InterviewScheduling> interviewSchedulings = interviewSchedulingDao.getAllInterviewScheduling(jobAnnouncement);
+
+        return interviewSchedulings.stream()
+                .map(interviewScheduling -> {
+                    InterviewSchedulingBean bean = new InterviewSchedulingBean();
+                    bean.setStudentUsername(interviewScheduling.getCandidate().getUsername());
+                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().getJobTitle());
+                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().getCompanyName());
+                    bean.setInterviewDateTime(interviewScheduling.getInterviewDateTime().toString());
+                    bean.setLocation(interviewScheduling.getLocation());
+                    return bean;
+                })
+                .toList();
+    }
+
+    @Override
+    public boolean modifyInterview(InterviewSchedulingBean interviewSchedulingBean) {
+
+        if (isDateFuture(interviewSchedulingBean.getInterviewDateTime())) {
+            throw new IllegalArgumentException("Error: The date must be in the future.");
+        }
+
+
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
+
+        Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
+        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
+                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+
+        InterviewScheduling interviewScheduling = interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement)
+                .orElseThrow(() -> new IllegalArgumentException("Error: Interview not found."));
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
+        interviewScheduling.setInterviewDateTime(interviewDateTime);
+        interviewScheduling.setLocation(interviewSchedulingBean.getLocation());
+
+        interviewSchedulingDao.updateInterviewScheduling(interviewScheduling);
+
+        return true;
+    }
+
+    @Override
+    public boolean deleteInterview(InterviewSchedulingBean interviewSchedulingBean) {
+
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
+        Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
+                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
+        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
+                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+
+
+        InterviewScheduling interviewScheduling = interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement)
+                .orElseThrow(() -> new IllegalArgumentException("Error: Interview not found."));
+
+        interviewSchedulingDao.deleteInterviewScheduling(interviewScheduling);
+
+        return true;
+    }
 
     private StudentInfoBean convertToStudentInfoBean(Student student) {
 
@@ -237,13 +324,19 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         studentInfoBean.setDateOfBirth(student.getDateOfBirth() != null ? student.getDateOfBirth() : LocalDate.of(2000, 1, 1));
         studentInfoBean.setPhoneNumber(student.getPhoneNumber() != null ? student.getPhoneNumber() : "No Phone Provided");
         studentInfoBean.setDegrees(student.getDegrees() != null ? new ArrayList<>(student.getDegrees()) : new ArrayList<>());
-        studentInfoBean.setCourseAttended(student.getCourseAttended() != null ? new ArrayList<>(student.getCourseAttended()) : new ArrayList<>());
+        studentInfoBean.setCoursesAttended(student.getCourseAttended() != null ? new ArrayList<>(student.getCourseAttended()) : new ArrayList<>());
         studentInfoBean.setCertifications(student.getCertifications() != null ? new ArrayList<>(student.getCertifications()) : new ArrayList<>());
         studentInfoBean.setWorkExperiences(student.getWorkExperiences() != null ? new ArrayList<>(student.getWorkExperiences()) : new ArrayList<>());
         studentInfoBean.setSkills(student.getSkills() != null ? new ArrayList<>(student.getSkills()) : new ArrayList<>());
         studentInfoBean.setAvailability(student.getAvailability() != null ? student.getAvailability() : "Not Specified");
         return studentInfoBean;
 
+    }
+
+    public boolean isDateFuture(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
+        LocalDateTime interviewDateTime = LocalDateTime.parse(dateStr, formatter);
+        return interviewDateTime.isAfter(LocalDateTime.now());
     }
 
 }

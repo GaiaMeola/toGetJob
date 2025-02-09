@@ -187,7 +187,16 @@ public class SendAJobApplicationStudentState implements CliState {
         Printer.print("Enter salary (or leave blank to skip): ");
         String salary = scanner.nextLine();
 
-        JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean(jobTitle, jobType, role, location, workingHours, companyName, salary);
+        JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean(); // Empty
+
+        searchBean.setJobTitle(jobTitle);
+        searchBean.setJobType(jobType);
+        searchBean.setRole(role);
+        searchBean.setLocation(location);
+        searchBean.setWorkingHours(workingHours);
+        searchBean.setCompanyName(companyName);
+        searchBean.setSalary(salary);
+
 
         Printer.print("\n --- Filters you have selected ---");
         Printer.print(JOB_TITLE + (jobTitle.isEmpty() ? NOT_SPECIFIED : jobTitle));

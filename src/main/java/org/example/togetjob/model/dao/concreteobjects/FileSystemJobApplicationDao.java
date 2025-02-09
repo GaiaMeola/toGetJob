@@ -11,7 +11,7 @@ import java.util.Optional;
 public class FileSystemJobApplicationDao implements JobApplicationDao {
     @Override
     public void saveJobApplication(JobApplication jobApplication) {
-        // TODO document why this method is empty
+        /* not implemented  */
     }
 
     @Override
@@ -20,13 +20,13 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean updateJobApplication(JobApplication jobApplication) {
-        return false;
+    public void updateJobApplication(JobApplication jobApplication) {
+        /* not implemented  */
     }
 
     @Override
     public void deleteJobApplication(JobApplication jobApplication) {
-        // TODO document why this method is empty
+        /* not implemented  */
     }
 
     @Override

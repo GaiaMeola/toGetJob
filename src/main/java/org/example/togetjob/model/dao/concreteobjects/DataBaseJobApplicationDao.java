@@ -143,7 +143,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public boolean updateJobApplication(JobApplication jobApplication) {
+    public void updateJobApplication(JobApplication jobApplication) {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().getJobTitle(),
@@ -161,7 +161,6 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
                 stmt.setInt(4, jobAnnouncementIdValue);
 
                 stmt.executeUpdate();
-                return true;
             }
         } catch (SQLException | DatabaseException e) {
             throw new DatabaseException(ERROR_DATABASE);

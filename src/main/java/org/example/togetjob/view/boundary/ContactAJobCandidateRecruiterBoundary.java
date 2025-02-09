@@ -10,6 +10,7 @@ import org.example.togetjob.pattern.adapter.ContactAJobCandidateAdapter;
 import org.example.togetjob.pattern.adapter.ContactAJobCandidateController;
 import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ContactAJobCandidateRecruiterBoundary {
@@ -41,5 +42,17 @@ public class ContactAJobCandidateRecruiterBoundary {
 
     public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
         return contactAJobCandidateController.getJobAnnouncementsByRecruiter();
+    }
+
+    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean){
+        return contactAJobCandidateController.getInterviewSchedules(jobAnnouncementBean);
+    }
+
+    public boolean modifyInterview(InterviewSchedulingBean interviewScheduling) {
+        return contactAJobCandidateController.modifyInterview(interviewScheduling);
+    }
+
+    public boolean deleteInterview(InterviewSchedulingBean interviewScheduling) {
+        return contactAJobCandidateController.deleteInterview(interviewScheduling);
     }
 }

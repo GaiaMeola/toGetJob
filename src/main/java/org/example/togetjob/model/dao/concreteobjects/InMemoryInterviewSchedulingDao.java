@@ -64,7 +64,40 @@ public class InMemoryInterviewSchedulingDao implements InterviewSchedulingDao {
 
     @Override
     public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
-        return List.of();
+        String key = generateKey(student);
+
+        Map<JobAnnouncement, InterviewScheduling> jobAnnouncementMap = interviewSchedulingMap.get(key);
+
+        if (jobAnnouncementMap != null) {
+            return new ArrayList<>(jobAnnouncementMap.values());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public void deleteInterviewScheduling(InterviewScheduling interviewScheduling) {
+        String key = generateKey(interviewScheduling.getCandidate());
+
+        Map<JobAnnouncement, InterviewScheduling> jobAnnouncementMap = interviewSchedulingMap.get(key);
+        if (jobAnnouncementMap != null) {
+            jobAnnouncementMap.remove(interviewScheduling.getJobAnnouncement());
+            if (jobAnnouncementMap.isEmpty()) {
+                interviewSchedulingMap.remove(key);
+            }
+        }
+    }
+
+    @Override
+    public void updateInterviewScheduling(InterviewScheduling interviewScheduling) {
+        String key = generateKey(interviewScheduling.getCandidate());
+
+        Map<JobAnnouncement, InterviewScheduling> jobAnnouncementMap = interviewSchedulingMap.get(key);
+        if (jobAnnouncementMap != null && jobAnnouncementMap.containsKey(interviewScheduling.getJobAnnouncement())) {
+            // Update the interview scheduling in the map
+            jobAnnouncementMap.put(interviewScheduling.getJobAnnouncement(), interviewScheduling);
+        } else {
+            throw new IllegalArgumentException("Interview scheduling not found for this candidate and job announcement.");
+        }
     }
 
     private String generateKey(Student student) {

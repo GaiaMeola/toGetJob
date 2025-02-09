@@ -23,27 +23,30 @@ public class JobAnnouncementService {
         Recruiter recruiter = sessionManager.getRecruiterFromSession();
 
         if (recruiter == null) {
-
             return Collections.emptyList();
         }
 
         List<JobAnnouncement> jobAnnouncements = jobAnnouncementDao.getAllJobAnnouncements(recruiter);
 
         return jobAnnouncements.stream()
-                .map(job -> new JobAnnouncementBean(
-                        job.getJobTitle(),
-                        job.getJobType(),
-                        job.getRole(),
-                        job.getLocation(),
-                        String.valueOf(job.getWorkingHours()),  // String
-                        job.getCompanyName(),
-                        String.valueOf(job.getSalary()),        // String
-                        job.getDescription(),
-                        job.getActive(),
-                        recruiter.getUsername()
-                ))
-                .toList();
+                .map(job -> {
+                    JobAnnouncementBean jobBean = new JobAnnouncementBean(); // empty
 
+                    jobBean.setJobTitle(job.getJobTitle());
+                    jobBean.setJobType(job.getJobType());
+                    jobBean.setRole(job.getRole());
+                    jobBean.setLocation(job.getLocation());
+                    jobBean.setWorkingHours(String.valueOf(job.getWorkingHours()));  // String
+                    jobBean.setCompanyName(job.getCompanyName());
+                    jobBean.setSalary(String.valueOf(job.getSalary()));        // String
+                    jobBean.setDescription(job.getDescription());
+                    jobBean.setActive(job.getActive());
+                    jobBean.setRecruiterUsername(recruiter.getUsername());
+
+                    return jobBean;
+                })
+                .toList();
     }
+
 
 }

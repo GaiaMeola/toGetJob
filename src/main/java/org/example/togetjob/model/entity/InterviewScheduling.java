@@ -7,10 +7,10 @@ public class InterviewScheduling {
     private final String subject;
     private final String greeting;
     private final String introduction;
-    private final LocalDateTime interviewDateTime;
-    private final String location;
-    private final Student candidate;
-    private final JobAnnouncement jobAnnouncement;
+    private LocalDateTime interviewDateTime;
+    private String location;
+    private Student candidate;
+    private JobAnnouncement jobAnnouncement;
 
     public InterviewScheduling(Student candidate, JobAnnouncement jobAnnouncement, String jobTitle, String companyName, LocalDateTime interviewDateTime, String location) {
         this.subject = "Invitation for Interview – " + jobTitle + " at " + companyName;
@@ -57,4 +57,16 @@ public class InterviewScheduling {
     }
 
     public JobAnnouncement getJobAnnouncement() { return jobAnnouncement;}
+
+    public void setJobAnnouncement(JobAnnouncement jobAnnouncement) {
+        this.jobAnnouncement = jobAnnouncement;
+    }
+
+    public void setInterviewDateTime(LocalDateTime interviewDateTime) {
+        this.interviewDateTime = interviewDateTime;
+    }
+
+    public void setLocation(String location) { this.location = location; }
+
+    public void setCandidate(Student candidate) { this.candidate = candidate; }
 }

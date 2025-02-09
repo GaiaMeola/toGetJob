@@ -49,7 +49,14 @@ public class RegisterState implements CliState {
         Printer.print("Enter role (student/recruiter): ");
         String roleInput = scanner.nextLine().trim().toLowerCase();
 
-        RegisterUserBean userBean = new RegisterUserBean(username, password, name, surname, email, roleInput, checkPassword);
+        RegisterUserBean userBean = new RegisterUserBean(); // Empty
+
+        userBean.setUsername(username);
+        userBean.setPassword(password);
+        userBean.setName(name);
+        userBean.setSurname(surname);
+        userBean.setEmail(email);
+        userBean.setRoleInput(roleInput);
 
         //polymorphism
         Object infoBean;
@@ -97,16 +104,29 @@ public class RegisterState implements CliState {
         Printer.print("Enter availability: ");
         String availability = scanner.nextLine();
 
-        return new StudentInfoBean(dateOfBirth, phoneNumber, degrees, courses, certifications, workExperiences, skills, availability);
+        StudentInfoBean studentInfoBean = new StudentInfoBean();
+
+        studentInfoBean.setDateOfBirth(dateOfBirth);
+        studentInfoBean.setPhoneNumber(phoneNumber);
+        studentInfoBean.setDegrees(degrees);
+        studentInfoBean.setCoursesAttended(courses);
+        studentInfoBean.setCertifications(certifications);
+        studentInfoBean.setWorkExperiences(workExperiences);
+        studentInfoBean.setSkills(skills);
+        studentInfoBean.setAvailability(availability);
+        return studentInfoBean;
     }
 
     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
-
         Printer.print("Please, complete your recruiter profile:");
 
         Printer.print("Enter the companies you work for (comma-separated): ");
         List<String> companies = List.of(scanner.nextLine().split(","));
-        return new RecruiterInfoBean(companies);
+
+        RecruiterInfoBean recruiterInfoBean = new RecruiterInfoBean();
+        recruiterInfoBean.setCompanies(companies);
+
+        return recruiterInfoBean;
     }
 
 }

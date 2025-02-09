@@ -13,21 +13,17 @@ public class JobAnnouncementBean {
     private boolean isActive;
     private String recruiterUsername;
 
-
-    public JobAnnouncementBean(String jobTitle, String jobType, String role, String location, String workingHours, String companyName, String salary, String description, boolean isActive, String recruiterUsername) {
-        this.jobTitle = jobTitle;
-        this.jobType = jobType;
-        this.role = role;
-        this.location = location;
-        this.workingHours = workingHours;
-        this.companyName = companyName;
-        this.salary = salary;
-        this.description = description;
-        this.isActive = isActive;
-        this.recruiterUsername = recruiterUsername;
-    }
-
     public JobAnnouncementBean(){
+        this.jobTitle = null;
+        this.jobType = null;
+        this.role = null;
+        this.location = null;
+        this.workingHours = null;
+        this.companyName = null;
+        this.salary = null;
+        this.description = null;
+        this.recruiterUsername = null;
+        this.isActive = true;
     }
 
     public String getJobTitle() {

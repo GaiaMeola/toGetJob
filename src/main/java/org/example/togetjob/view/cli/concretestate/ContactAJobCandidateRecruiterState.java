@@ -199,7 +199,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             Printer.print("\n --- Candidate Details ---");
             Printer.print("Username: " + selectedCandidate.getUsername());
             Printer.print("Degree: " + selectedCandidate.getDegrees());
-            Printer.print("Courses: " + selectedCandidate.getCourseAttended());
+            Printer.print("Courses: " + selectedCandidate.getCoursesAttended());
             Printer.print("Certifications: " + selectedCandidate.getCertifications());
             Printer.print("Work Experience: " + selectedCandidate.getWorkExperiences());
             Printer.print("Skills: " + selectedCandidate.getSkills());

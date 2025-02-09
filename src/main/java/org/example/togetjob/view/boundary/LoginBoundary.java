@@ -13,7 +13,9 @@ public class LoginBoundary {
     }
 
     public boolean login(String username, String password) {
-        LoginUserBean userBean = new LoginUserBean(username, password);
+        LoginUserBean userBean = new LoginUserBean();
+        userBean.setUsername(username);
+        userBean.setPassword(password);
         return loginController.loginUser(userBean);
     }
 
