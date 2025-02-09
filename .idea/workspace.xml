@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Bean e qualche issues sistemate">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemInterviewSchedulingDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemInterviewSchedulingDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/subject/JobApplicationCollectionSubjectRecruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/subject/JobApplicationCollectionSubjectRecruiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/ContactAJobCandidateRecruiterBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/ContactAJobCandidateRecruiterBoundary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/RegisterBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/RegisterBoundary.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -394,7 +389,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739116327079</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Bean e qualche issues sistemate">
+      <option name="closed" value="true" />
+      <created>1739116801975</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1739116801975</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
