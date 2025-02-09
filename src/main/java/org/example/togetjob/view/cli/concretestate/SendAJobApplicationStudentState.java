@@ -81,7 +81,7 @@ public class SendAJobApplicationStudentState implements CliState {
         Printer.print("\n --- Your Job Applications ---");
         int index = 1;
         for (JobApplicationBean application : jobApplications) {
-            Printer.print(index + ". Your Job Application for the Job Announcement  << " + application.getJobTitle() +
+            Printer.print(index + ". Your Job Application for the Job Announcement << " + application.getJobTitle() +
                     " >> is " + application.getStatus());
             index++;
         }

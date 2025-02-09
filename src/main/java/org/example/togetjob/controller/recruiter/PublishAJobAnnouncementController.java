@@ -44,10 +44,15 @@ public class PublishAJobAnnouncementController {
                 jobAnnouncementBean.getLocation(),
                 workingHours,
                 jobAnnouncementBean.getCompanyName(),
-                salary,
-                jobAnnouncementBean.getDescription(),
-                recruiter
+                salary
         );
+
+        JobAnnouncementFactory.completeJobAnnouncement(
+                jobAnnouncement,
+                jobAnnouncementBean.getDescription(),
+                recruiter,
+                true
+        ); //default
 
         // register recruiter who publishes the job announcement
         jobAnnouncement.getJobApplicationCollection().attach(new RecruiterObserverStudent(recruiter));

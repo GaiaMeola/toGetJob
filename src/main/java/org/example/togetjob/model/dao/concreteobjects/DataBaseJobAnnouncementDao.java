@@ -7,6 +7,7 @@ import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
+import org.example.togetjob.model.factory.JobAnnouncementFactory;
 
 import java.sql.*;
 import java.util.*;
@@ -174,9 +175,9 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
                 boolean isActive = rs.getBoolean(COLUMN_IS_ACTIVE);
                 String recruiterName = rs.getString(COLUMN_RECRUITER_NAME);
 
-                JobAnnouncement jobAnnouncement = new JobAnnouncement(jobTitle, jobType, role, location,
-                        workingHours, companyName, salary, description, isActive);
-
+                JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
+                        jobTitle, jobType, role, location, workingHours, companyName, salary);
+                JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
                 jobAnnouncements.add(jobAnnouncement);
                 recruiterUsernames.add(recruiterName);
             }
@@ -244,9 +245,9 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
                 boolean isActive = rs.getBoolean(COLUMN_IS_ACTIVE);
                 String recruiterName = rs.getString(COLUMN_RECRUITER_NAME);
 
-                JobAnnouncement jobAnnouncement = new JobAnnouncement(jobTitle, jobType, role, location,
-                        workingHours, companyName, salary, description,
-                        isActive);
+                JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
+                        jobTitle, jobType, role, location, workingHours, companyName, salary);
+                JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
 
                 Optional<Recruiter> recruiterOpt = recruiterDao.getRecruiter(recruiterName);
                 if (recruiterOpt.isPresent()) {
@@ -265,18 +266,11 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     private JobAnnouncement createJobAnnouncementFromResultSet(ResultSet rs, Recruiter recruiter) throws SQLException {
-        return new JobAnnouncement(
-                rs.getString(COLUMN_JOB_TITLE),
-                rs.getString(COLUMN_JOB_TYPE),
-                rs.getString(COLUMN_ROLE),
-                rs.getString(COLUMN_LOCATION),
-                rs.getInt(COLUMN_WORKING_HOURS),
-                rs.getString(COLUMN_COMPANY_NAME),
-                rs.getDouble(COLUMN_SALARY),
-                rs.getString(COLUMN_DESCRIPTION),
-                rs.getBoolean(COLUMN_IS_ACTIVE),
-                recruiter
-        );
+
+       JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(rs.getString(COLUMN_JOB_TITLE), rs.getString(COLUMN_JOB_TYPE), rs.getString(COLUMN_ROLE), rs.getString(COLUMN_LOCATION), rs.getInt(COLUMN_WORKING_HOURS), rs.getString(COLUMN_COMPANY_NAME), rs.getDouble(COLUMN_SALARY));
+       JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, rs.getString(COLUMN_DESCRIPTION), recruiter, rs.getBoolean(COLUMN_IS_ACTIVE));
+       return jobAnnouncement;
+
     }
 
 }
