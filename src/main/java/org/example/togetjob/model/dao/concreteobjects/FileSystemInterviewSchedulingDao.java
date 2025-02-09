@@ -3,7 +3,6 @@ package org.example.togetjob.model.dao.concreteobjects;
 import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
 import org.example.togetjob.model.entity.InterviewScheduling;
 import org.example.togetjob.model.entity.JobAnnouncement;
-import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.Student;
 
 import java.util.List;

@@ -2,7 +2,6 @@ package org.example.togetjob.pattern.subject;
 
 import org.example.togetjob.model.entity.JobApplication;
 import org.example.togetjob.pattern.observer.RecruiterNotificationObserver;
-import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
 
 import java.util.ArrayList;
 import java.util.List;

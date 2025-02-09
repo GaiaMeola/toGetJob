@@ -14,7 +14,6 @@ module org.example.togetjob {
     requires java.sql;
     requires annotations;
     requires mysql.connector.j;
-    /*requires mysql.connector.j;*/
 
     opens org.example.togetjob to javafx.fxml;
     exports org.example.togetjob;

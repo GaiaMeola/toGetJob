@@ -10,7 +10,6 @@ import org.example.togetjob.pattern.adapter.ContactAJobCandidateAdapter;
 import org.example.togetjob.pattern.adapter.ContactAJobCandidateController;
 import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ContactAJobCandidateRecruiterBoundary {

@@ -13,9 +13,9 @@ public class RegisterBoundary {
 
     public boolean registerUser(RegisterUserBean userBean, Object infoBean){
 
-        if ("student".equals(userBean.getRole().toLowerCase())) {
+        if ("student".equalsIgnoreCase(userBean.getRole())) {
             registerController = new RegisterStudentController((StudentInfoBean) infoBean);
-        } else if ("recruiter".equals(userBean.getRole().toLowerCase())) {
+        } else if ("recruiter".equalsIgnoreCase(userBean.getRole())) {
             registerController = new RegisterRecruiterController((RecruiterInfoBean) infoBean);
         } else {
             return false;
