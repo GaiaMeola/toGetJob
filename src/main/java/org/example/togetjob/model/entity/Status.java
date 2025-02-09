@@ -12,8 +12,4 @@ public enum Status {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
-    }
-
 }

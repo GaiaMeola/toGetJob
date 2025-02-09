@@ -9,16 +9,12 @@ public class InterviewSchedulingBean {
     private String location;
 
     public InterviewSchedulingBean() {
+        this.studentUsername = null;
+        this.jobTitle = null;
+        this.companyName = null;
+        this.interviewDateTime = null;
+        this.location = null;
     }
-
-    public InterviewSchedulingBean(String studentUsername, String jobTitle, String companyName, String interviewDateTime, String location) {
-        this.studentUsername = studentUsername;
-        this.jobTitle = jobTitle;
-        this.companyName = companyName;
-        this.interviewDateTime = interviewDateTime;
-        this.location = location;
-    }
-
 
     public String getStudentUsername() {
         return studentUsername;

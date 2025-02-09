@@ -32,7 +32,6 @@ public class InterviewScheduling {
         this.jobAnnouncement = jobAnnouncement;
     }
 
-
     public Student getCandidate() {
         return candidate;
     }

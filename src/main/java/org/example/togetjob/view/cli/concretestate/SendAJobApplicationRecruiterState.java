@@ -2,8 +2,7 @@ package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
-import org.example.togetjob.boundary.PublishAJobAnnouncementRecruiterBoundary;
-import org.example.togetjob.boundary.SendAJobApplicationRecruiterBoundary;
+import org.example.togetjob.view.boundary.SendAJobApplicationRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -125,6 +124,5 @@ public class SendAJobApplicationRecruiterState implements CliState {
                 break;
         }
     }
-
 
 }

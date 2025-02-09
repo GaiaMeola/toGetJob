@@ -246,45 +246,4 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
     }
 
-
-   /* private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
-        return requiredDegrees == null || requiredDegrees.isEmpty() ||
-                student.getDegrees().stream()
-                        .anyMatch(degree -> requiredDegrees.stream()
-                                .anyMatch(reqDegree -> degree.toLowerCase().contains(reqDegree.toLowerCase())));
-    }
-
-    private boolean filterByCourses(Student student, List<String> requiredCourses) {
-        return requiredCourses == null || requiredCourses.isEmpty() ||
-                student.getCourseAttended().stream()
-                        .anyMatch(course -> requiredCourses.stream()
-                                .anyMatch(reqCourse -> course.toLowerCase().contains(reqCourse.toLowerCase())));
-    }
-
-    private boolean filterByCertifications(Student student, List<String> requiredCertifications) {
-        return requiredCertifications == null || requiredCertifications.isEmpty() ||
-                student.getCertifications().stream()
-                        .anyMatch(cert -> requiredCertifications.stream()
-                                .anyMatch(reqCert -> cert.toLowerCase().contains(reqCert.toLowerCase())));
-    }
-
-    private boolean filterByWorkExperiences(Student student, List<String> requiredWorkExperiences) {
-        return requiredWorkExperiences == null || requiredWorkExperiences.isEmpty() ||
-                student.getWorkExperiences().stream()
-                        .anyMatch(workExp -> requiredWorkExperiences.stream()
-                                .anyMatch(reqWorkExp -> workExp.toLowerCase().contains(reqWorkExp.toLowerCase())));
-    }
-
-    private boolean filterBySkills(Student student, List<String> requiredSkills) {
-        return requiredSkills == null || requiredSkills.isEmpty() ||
-                student.getSkills().stream()
-                        .anyMatch(skill -> requiredSkills.stream()
-                                .anyMatch(reqSkill -> skill.toLowerCase().contains(reqSkill.toLowerCase())));
-    }
-
-    private boolean filterByAvailability(Student student, String requiredAvailability) {
-        return requiredAvailability == null || requiredAvailability.isEmpty() ||
-                student.getAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
-    }*/
-
 }

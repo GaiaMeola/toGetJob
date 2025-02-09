@@ -102,21 +102,4 @@ public class JobAnnouncement {
         return jobApplicationCollection;
     }
 
-    public void setJobApplicationCollection(JobApplicationCollectionSubjectRecruiter jobApplicationCollection) {
-        this.jobApplicationCollection = jobApplicationCollection;
-    }
-
-    public void addCollaborator(Recruiter collaborator){
-        this.collaborators.add(collaborator);
-    }
-
-    public void removeCollaborator(Recruiter collaborator){
-        this.collaborators.remove(collaborator);
-    }
-
-    public List<Recruiter> getCollaborators(){
-        return this.collaborators;
-    }
-
-
 }

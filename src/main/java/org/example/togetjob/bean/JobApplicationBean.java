@@ -1,7 +1,6 @@
 package org.example.togetjob.bean;
 
 import org.example.togetjob.model.entity.Status;
-import org.example.togetjob.model.entity.Student;
 
 public class JobApplicationBean {
 
@@ -11,14 +10,14 @@ public class JobApplicationBean {
     private String recruiterUsername;
     private Status status ;
 
-    public JobApplicationBean(String jobTitle, String studentUsername, String coverLetter, String recruiterUsername) {
-        this.jobTitle = jobTitle;
-        this.studentUsername = studentUsername;
-        this.coverLetter = coverLetter;
-        this.recruiterUsername = recruiterUsername;
-    }
-
     public JobApplicationBean() {
+
+        this.jobTitle = null;
+        this.studentUsername = null;
+        this.coverLetter = null;
+        this.recruiterUsername = null;
+        this.status = null;
+
     }
 
     public String getStudentUsername() {

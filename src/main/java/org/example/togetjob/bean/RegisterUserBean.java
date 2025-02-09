@@ -17,8 +17,6 @@ public class RegisterUserBean extends LoginUserBean {
         this.checkPassword = checkPassword;  //
     }
 
-    public RegisterUserBean() {}
-
     public String getName() {
         return name;
     }
@@ -31,10 +29,6 @@ public class RegisterUserBean extends LoginUserBean {
         return surname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
     public String getRole() {
         return role;
     }
@@ -43,21 +37,8 @@ public class RegisterUserBean extends LoginUserBean {
         this.role = role;
     }
 
-    public String getCheckPassword() {
-        return checkPassword;
-    }
-
-    public void setCheckPassword(String checkPassword) {
-        this.checkPassword = checkPassword;
-    }
-
     public String getEmailAddress() {
         return emailAddress;
     }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
 
 }

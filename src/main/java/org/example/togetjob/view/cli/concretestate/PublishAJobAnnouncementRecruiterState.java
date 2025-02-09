@@ -1,7 +1,7 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
-import org.example.togetjob.boundary.PublishAJobAnnouncementRecruiterBoundary;
+import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -17,7 +17,7 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
         Printer.print("\n --- Job Announcements - Recruiter ---");
         Printer.print("Welcome, Recruiter! You can do the following:");
-        Printer.print("1. View all your job announcements");
+        Printer.print("1. View all your job announcements and job applications submitted by students");
         Printer.print("2. Create a new job announcement");
         Printer.print("3. Manage a job announcement");
         Printer.print("4. Go back");
@@ -76,8 +76,7 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
             for (int i = 0; i < jobAnnouncements.size(); i++) {
                 var job = jobAnnouncements.get(i);
-                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Location: " + job.getLocation() +
-                        " | Salary: " + job.getSalary() + " | Active: " + job.isActive());
+                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
             }
 
             Printer.print("Enter the number of the job announcement you want to manage: ");
@@ -98,26 +97,28 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
             if ("yes".equals(viewResponse)) {
                 // Display the details of the selected job announcement
                 Printer.print("Job Title: " + selectedJob.getJobTitle());
+                Printer.print("Job Type: " + selectedJob.getJobType());
                 Printer.print("Location: " + selectedJob.getLocation());
+                Printer.print("Working hours: " + selectedJob.getWorkingHours());
+                Printer.print("Company name: " + selectedJob.getCompanyName());
                 Printer.print("Salary: " + selectedJob.getSalary());
-                Printer.print("Active: " + selectedJob.isActive());
                 Printer.print("Description: " + selectedJob.getDescription());
+                Printer.print("Active: " + selectedJob.isActive());
 
-                // Ask if the recruiter wants to view job applications
-                Printer.print("Do you want to view job applications for this job announcement? (yes/no): ");
-                String response = scanner.nextLine().trim().toLowerCase();
+            }
 
-                if ("yes".equals(response)) {
+            // Ask if the recruiter wants to view job applications
+            Printer.print("Do you want to view job applications for this job announcement? (yes/no): ");
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if ("yes".equals(response)) {
                     // Pass the selected job title to the next state for managing job applications
                     context.setState(new SendAJobApplicationRecruiterState(selectedJob));
-                } else {
+            } else {
                     Printer.print("Returning to job announcements...");
                 }
-            } else {
-                Printer.print("Returning to job announcements...");
             }
         }
-    }
 
     private void createJobAnnouncement(Scanner scanner) {
         // Collect job details from the user to create a new job announcement

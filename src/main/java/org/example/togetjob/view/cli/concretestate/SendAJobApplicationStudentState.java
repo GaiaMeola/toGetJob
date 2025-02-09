@@ -3,7 +3,7 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
-import org.example.togetjob.boundary.SendAJobApplicationStudentBoundary;
+import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
 import org.example.togetjob.exceptions.JobAnnouncementNotActiveException;
 import org.example.togetjob.exceptions.JobApplicationAlreadySentException;
 import org.example.togetjob.model.entity.Status;
@@ -17,6 +17,15 @@ import java.util.Scanner;
 public class SendAJobApplicationStudentState implements CliState {
 
     private final SendAJobApplicationStudentBoundary sendAJobApplicationStudentBoundary = new SendAJobApplicationStudentBoundary();
+    private static final String CHOSE_AN_OPTION = "Choose an option: ";
+    private static final String NOT_SPECIFIED = "Not specified";
+    private static final String JOB_TITLE = "Job title: ";
+    private static final String LOCATION = "Location: ";
+    private static final String SALARY = "Salary: ";
+    private static final String WORKING_HOURS = "Working Hours: ";
+    private static final String COMPANY = "Company: ";
+    private static final String JOB_TYPE = "Job Type: ";
+    private static final String JOB_ROLE = "Job Role: ";
 
     @Override
     public void showMenu() {
@@ -27,7 +36,7 @@ public class SendAJobApplicationStudentState implements CliState {
         Printer.print("2. View sent job applications");
         Printer.print("3. Go back");
         Printer.print("4. Exit");
-        Printer.print("Choose an option: ");
+        Printer.print(CHOSE_AN_OPTION);
     }
 
     @Override
@@ -35,14 +44,13 @@ public class SendAJobApplicationStudentState implements CliState {
 
         Scanner scanner = context.getScanner();
 
-
         switch (input.toLowerCase()) {
             case "1":
-                applyFiltersAndShowJobAnnouncements(scanner);
+                applyFiltersAndShowJobAnnouncements(scanner); //show filters and job announcements
                 break;
 
             case "2":
-                viewAndManageJobApplications(scanner);
+                viewAndManageJobApplications(scanner); // view past job applications
                 break;
 
             case "3":
@@ -73,8 +81,8 @@ public class SendAJobApplicationStudentState implements CliState {
         Printer.print("\n --- Your Job Applications ---");
         int index = 1;
         for (JobApplicationBean application : jobApplications) {
-            Printer.print(index + ". Job Title: " + application.getJobTitle() +
-                    " | Status: " + application.getStatus());
+            Printer.print(index + ". Your Job Application for the Job Announcement  << " + application.getJobTitle() +
+                    " >> is " + application.getStatus());
             index++;
         }
 
@@ -97,7 +105,7 @@ public class SendAJobApplicationStudentState implements CliState {
             Printer.print("1. Modify this application");
             Printer.print("2. Delete this application");
             Printer.print("3. Go back");
-            Printer.print("Choose an option: ");
+            Printer.print(CHOSE_AN_OPTION);
 
             String action = scanner.nextLine();
             switch (action) {
@@ -113,7 +121,8 @@ public class SendAJobApplicationStudentState implements CliState {
                     Printer.print("Invalid option. Returning to main menu.");
             }
         } else {
-            Printer.print("This application has already been processed and cannot be modified or deleted.");
+            Printer.print("This application has already been processed and cannot be modified or deleted." +
+                    "\nPlease visit the ‘View sent job applications’ section to view the current status of your application.");
         }
 
     }
@@ -181,15 +190,17 @@ public class SendAJobApplicationStudentState implements CliState {
         JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean(jobTitle, jobType, role, location, workingHours, companyName, salary);
 
         Printer.print("\n --- Filters you have selected ---");
-        Printer.print("Job Title: " + (jobTitle.isEmpty() ? "Not specified" : jobTitle));
-        Printer.print("Location: " + (location.isEmpty() ? "Not specified" : location));
-        Printer.print("Salary: " + (salary.isEmpty() ? "Not specified" : salary));
-        Printer.print("Working Hours: " + (workingHours.isEmpty() ? "Not specified" : workingHours));
-        Printer.print("Company: " + (companyName.isEmpty() ? "Not specified" : companyName));
+        Printer.print(JOB_TITLE + (jobTitle.isEmpty() ? NOT_SPECIFIED : jobTitle));
+        Printer.print(JOB_TYPE + (jobType.isEmpty() ? NOT_SPECIFIED : jobType));
+        Printer.print(JOB_ROLE + (role.isEmpty() ? NOT_SPECIFIED : role));
+        Printer.print(LOCATION + (location.isEmpty() ? NOT_SPECIFIED : location));
+        Printer.print(SALARY + (salary.isEmpty() ? NOT_SPECIFIED : salary));
+        Printer.print(WORKING_HOURS  + (workingHours.isEmpty() ? NOT_SPECIFIED : workingHours));
+        Printer.print(COMPANY + (companyName.isEmpty() ? NOT_SPECIFIED : companyName));
         Printer.print("\nDo you want to proceed with these filters?");
         Printer.print("1. Proceed");
         Printer.print("2. Go back and change filters");
-        Printer.print("Choose an option: ");
+        Printer.print(CHOSE_AN_OPTION);
         String choice = scanner.nextLine();
 
         if (choice.equals("1")) {
@@ -199,7 +210,7 @@ public class SendAJobApplicationStudentState implements CliState {
             Printer.print("Returning to filter selection...");
             applyFiltersAndShowJobAnnouncements(scanner);
         } else {
-            Printer.print("Invalid choice. Please try again.");
+            Printer.print("Please try again." + CHOSE_AN_OPTION);
             applyFiltersAndShowJobAnnouncements(scanner);
         }
     }
@@ -228,7 +239,7 @@ public class SendAJobApplicationStudentState implements CliState {
         scanner.nextLine();  // Consume the newline
 
         if (jobIndex < 0 || jobIndex >= jobAnnouncements.size()) {
-            Printer.print("Invalid choice. Please try again.");
+            Printer.print("Please try again." + CHOSE_AN_OPTION);
             return;
         }
 
@@ -236,13 +247,13 @@ public class SendAJobApplicationStudentState implements CliState {
         JobAnnouncementBean jobDetails = sendAJobApplicationStudentBoundary.getJobAnnouncementDetail(selectedJob);
 
         Printer.print("\n --- Job Details ---");
-        Printer.print("Job Title: " + jobDetails.getJobTitle());
-        Printer.print("Company: " + jobDetails.getCompanyName());
-        Printer.print("Location: " + jobDetails.getLocation());
-        Printer.print("Salary: " + jobDetails.getSalary());
-        Printer.print("Working Hours: " + jobDetails.getWorkingHours());
-        Printer.print("Job Type: " + jobDetails.getJobType());
-        Printer.print("Role: " + jobDetails.getRole());
+        Printer.print(JOB_TITLE + jobDetails.getJobTitle());
+        Printer.print(JOB_TYPE+ jobDetails.getJobType());
+        Printer.print(JOB_ROLE  + jobDetails.getRole());
+        Printer.print(LOCATION + jobDetails.getLocation());
+        Printer.print(SALARY + jobDetails.getSalary());
+        Printer.print(WORKING_HOURS + jobDetails.getWorkingHours());
+        Printer.print(COMPANY+ jobDetails.getCompanyName());
         Printer.print("Job Description: " + jobDetails.getDescription());
 
 
@@ -250,7 +261,7 @@ public class SendAJobApplicationStudentState implements CliState {
         Printer.print("\nDo you want to apply for this job?");
         Printer.print("1. Send your job application");
         Printer.print("2. Go back");
-        Printer.print("Choose an option: ");
+        Printer.print(CHOSE_AN_OPTION);
         String choice = scanner.nextLine();
 
         if (choice.equals("1")) {
@@ -287,7 +298,7 @@ public class SendAJobApplicationStudentState implements CliState {
                 Printer.print("\nDo you want to submit your application?");
                 Printer.print("1. Submit");
                 Printer.print("2. Go back");
-                Printer.print("Choose an option: ");
+                Printer.print(CHOSE_AN_OPTION);
                 String submitChoice = scanner.nextLine();
 
                 if (submitChoice.equals("1")) {
@@ -308,13 +319,10 @@ public class SendAJobApplicationStudentState implements CliState {
             } else {
                 Printer.print("Failed to fill out the application form. Please try again.");
             }
-        } catch (JobAnnouncementNotActiveException e) {
+        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException e) {
             // Handle case where the job announcement is no longer active
             Printer.print("Error: " + e.getMessage());
-        } catch (JobApplicationAlreadySentException e) {
-            // Handle case where the user has already submitted an application
-            Printer.print("Error: " + e.getMessage());
-        } catch (Exception e) {
+        }  catch (Exception e) {
             // Handle any other unexpected exceptions
             Printer.print("An unexpected error occurred: " + e.getMessage());
         }

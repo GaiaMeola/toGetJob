@@ -1,4 +1,4 @@
-package org.example.togetjob.boundary;
+package org.example.togetjob.view.boundary;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;

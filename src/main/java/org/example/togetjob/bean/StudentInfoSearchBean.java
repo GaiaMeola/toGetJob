@@ -12,17 +12,13 @@ public class StudentInfoSearchBean {
     private String availability;
 
     public StudentInfoSearchBean() {
+        this.degrees = null;
+        this.coursesAttended = null;
+        this.certifications = null;
+        this.workExperiences = null;
+        this.skills = null;
+        this.availability = null;
     }
-
-    public StudentInfoSearchBean(List<String> degrees, List<String> coursesAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability) {
-        this.degrees = degrees;
-        this.coursesAttended = coursesAttended;
-        this.certifications = certifications;
-        this.workExperiences = workExperiences;
-        this.skills = skills;
-        this.availability = availability;
-    }
-
 
     public List<String> getDegrees() {
         return degrees;

@@ -1,4 +1,4 @@
-package org.example.togetjob.boundary;
+package org.example.togetjob.view.boundary;
 
 import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.controller.LoginController;

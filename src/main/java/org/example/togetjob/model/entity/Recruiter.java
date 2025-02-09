@@ -11,7 +11,7 @@ public class Recruiter extends User {
         super(name, surname, username, emailAddress, password, role);
     }
 
-
+    //Recruiter
     public Recruiter(String name, String surname, String username, String emailAddress, String password, Role role, List<String> companies) {
         super(name, surname, username, emailAddress, password, role);
         this.companies = companies;

@@ -1,6 +1,6 @@
 package org.example.togetjob.view.cli.concretestate;
 
-import org.example.togetjob.boundary.LoginBoundary;
+import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;

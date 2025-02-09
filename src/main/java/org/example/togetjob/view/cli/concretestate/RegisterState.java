@@ -3,7 +3,7 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
-import org.example.togetjob.boundary.RegisterBoundary;
+import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -20,7 +20,6 @@ public class RegisterState implements CliState {
         Printer.print("\n ---Register---");
 
     }
-
 
     @Override
     public void goNext(CliContext context, String input) {
@@ -53,7 +52,7 @@ public class RegisterState implements CliState {
         RegisterUserBean userBean = new RegisterUserBean(username, password, name, surname, email, roleInput, checkPassword);
 
         //polymorphism
-        Object infoBean = null;
+        Object infoBean;
 
         if ("student".equals(roleInput)) {
             infoBean = getStudentInfo(scanner);
@@ -73,7 +72,7 @@ public class RegisterState implements CliState {
             context.setState(new MainMenuState()); // Main Menù
         } else {
             Printer.print("Username already exists. Please try again.");
-            context.setState(new RegisterState());
+            context.setState(new MainMenuState());
         }
 
     }

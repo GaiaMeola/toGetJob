@@ -62,6 +62,11 @@ public class InMemoryInterviewSchedulingDao implements InterviewSchedulingDao {
         return jobAnnouncementMap != null && jobAnnouncementMap.containsKey(jobAnnouncement);
     }
 
+    @Override
+    public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
+        return List.of();
+    }
+
     private String generateKey(Student student) {
         return student.getUsername();
     }

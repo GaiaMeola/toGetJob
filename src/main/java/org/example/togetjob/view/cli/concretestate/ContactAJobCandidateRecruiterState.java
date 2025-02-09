@@ -4,7 +4,7 @@ import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
-import org.example.togetjob.boundary.ContactAJobCandidateRecruiterBoundary;
+import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
@@ -15,7 +15,8 @@ import java.util.Scanner;
 public class ContactAJobCandidateRecruiterState implements CliState {
 
     private final ContactAJobCandidateRecruiterBoundary boundary = new ContactAJobCandidateRecruiterBoundary();
-
+    private static final String CHOSE_AN_OPTION = "Choose an option: ";
+    private static final String NOT_SPECIFIED = "Not specified";
 
     @Override
     public void showMenu() {
@@ -23,7 +24,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
         Printer.print("Select an option:");
         Printer.print("1. View all candidates");
         Printer.print("2. Go back");
-        Printer.print("Choose an option: ");
+        Printer.print(CHOSE_AN_OPTION);
     }
 
     @Override
@@ -60,8 +61,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
 
             for (int i = 0; i < jobAnnouncements.size(); i++) {
                 var job = jobAnnouncements.get(i);
-                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Location: " + job.getLocation() +
-                        " | Salary: " + job.getSalary() + " | Active: " + job.isActive());
+                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
             }
 
             Printer.print("Enter the number of the job announcement you want to manage: ");
@@ -130,17 +130,17 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             filters.setAvailability(availability.isEmpty() ? "" : availability);
 
             Printer.print("\n --- Filters you have selected ---");
-            Printer.print("Degree: " + (degree.isEmpty() ? "Not specified" : degree));
-            Printer.print("Course: " + (course.isEmpty() ? "Not specified" : course));
-            Printer.print("Certification: " + (certification.isEmpty() ? "Not specified" : certification));
-            Printer.print("Work Experience: " + (workExperience.isEmpty() ? "Not specified" : workExperience));
-            Printer.print("Skills: " + (skills.isEmpty() ? "Not specified" : skills));
-            Printer.print("Availability: " + (availability.isEmpty() ? "Not specified" : availability));
+            Printer.print("Degree: " + (degree.isEmpty() ? NOT_SPECIFIED : degree));
+            Printer.print("Course: " + (course.isEmpty() ?  NOT_SPECIFIED : course));
+            Printer.print("Certification: " + (certification.isEmpty() ?  NOT_SPECIFIED : certification));
+            Printer.print("Work Experience: " + (workExperience.isEmpty() ?  NOT_SPECIFIED : workExperience));
+            Printer.print("Skills: " + (skills.isEmpty() ?  NOT_SPECIFIED : skills));
+            Printer.print("Availability: " + (availability.isEmpty() ?  NOT_SPECIFIED : availability));
 
             Printer.print("\nDo you want to proceed with these filters?");
             Printer.print("1. Proceed");
             Printer.print("2. Go back and change filters");
-            Printer.print("Choose an option: ");
+            Printer.print(CHOSE_AN_OPTION);
             String choice = scanner.nextLine();
 
             if ("1".equals(choice)) {
@@ -170,7 +170,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
                 Printer.print("\nDo you want to view the details of any candidate?");
                 Printer.print("1. View candidate details");
                 Printer.print("2. Go back");
-                Printer.print("Choose an option: ");
+                Printer.print(CHOSE_AN_OPTION);
                 String choice = scanner.nextLine();
 
                 if ("1".equals(choice)) {

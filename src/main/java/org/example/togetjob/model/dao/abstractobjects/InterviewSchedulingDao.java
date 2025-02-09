@@ -13,4 +13,5 @@ public interface InterviewSchedulingDao {
     Optional<InterviewScheduling> getInterviewScheduling(Student student, JobAnnouncement jobAnnouncement);
     List<InterviewScheduling> getAllInterviewScheduling(JobAnnouncement jobAnnouncement);
     boolean interviewSchedulingExists(Student student, JobAnnouncement jobAnnouncement);
+    List<InterviewScheduling> getAllInterviewScheduling(Student student);
 }

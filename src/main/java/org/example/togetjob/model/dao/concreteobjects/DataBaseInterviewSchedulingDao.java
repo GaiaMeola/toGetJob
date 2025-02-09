@@ -208,4 +208,9 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         }
     }
 
+    @Override
+    public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
+        return List.of();
+    }
+
 }
