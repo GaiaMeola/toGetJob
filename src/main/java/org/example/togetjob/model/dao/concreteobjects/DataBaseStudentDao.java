@@ -117,9 +117,24 @@
 
                     String availability = rs.getString(COLUMN_AVAILABILITY);
 
-                    Student student = new Student(user.getName(), user.getSurname(), user.getUsername(), user.getEmailAddress(), user.getPassword(), user.getRole(),
-                            dateOfBirth, phoneNumber, degrees, courseAttended, certifications,
-                            workExperiences, skills, availability, new ArrayList<>()); //NULL
+                    Student student = new Student(
+                            user.getName(),            // name
+                            user.getSurname(),         // surname
+                            user.getUsername(),        // username
+                            user.getEmailAddress(),    // emailAddress
+                            user.getPassword(),        // password
+                            user.getRole(),            // role
+                            dateOfBirth                // dateOfBirth
+                    );
+
+                    student.setPhoneNumber(phoneNumber);             // phoneNumber
+                    student.setDegrees(degrees);                     // degrees
+                    student.setCoursesAttended(courseAttended);      // courses attended
+                    student.setCertifications(certifications);       // certifications
+                    student.setWorkExperiences(workExperiences);     // work experiences
+                    student.setSkills(skills);                       // skills
+                    student.setAvailability(availability);           // availability
+                    student.setJobApplications(new ArrayList<>());     // jobApplications
 
                     if (jobApplicationDao != null) {
                         List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
@@ -175,10 +190,25 @@
                     List<String> skills = convertCsvToList(rs.getString(COLUMN_SKILLS));
                     String availability = rs.getString(COLUMN_AVAILABILITY);
 
-                    Student student = new Student(user.getName(), user.getSurname(), user.getUsername(),
-                            user.getEmailAddress(), user.getPassword(), user.getRole(), dateOfBirth, phoneNumber,
-                            degrees, courseAttended, certifications, workExperiences, skills, availability, null); // JobApplications is null
 
+                    Student student = new Student(
+                            user.getName(),             // name
+                            user.getSurname(),          // surname
+                            user.getUsername(),         // username
+                            user.getEmailAddress(),     // emailAddress
+                            user.getPassword(),         // password
+                            user.getRole(),             // role
+                            dateOfBirth                 // dateOfBirth
+                    );
+
+                    student.setPhoneNumber(phoneNumber);             // phoneNumber
+                    student.setDegrees(degrees);                     // degrees
+                    student.setCoursesAttended(courseAttended);      // courses attended
+                    student.setCertifications(certifications);       // certifications
+                    student.setWorkExperiences(workExperiences);     // work experiences
+                    student.setSkills(skills);                       // skills
+                    student.setAvailability(availability);           // availability
+                    student.setJobApplications(null);                 // jobApplications, null
                     studentMap.put(username, student);
                 }
             } catch (SQLException e) {

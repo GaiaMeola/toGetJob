@@ -85,23 +85,26 @@ public class FileSystemStudentDao implements StudentDao {
         String availability = data[13].trim();
 
         // Return the built Student object
-        return new Student(
+        Student student = new Student(
                 data[0].trim(),  // name
                 data[1].trim(),  // surname
                 data[2].trim(),  // username
                 data[3].trim(),  // emailAddress
                 data[4].trim(),  // password
-                role,  // role
-                dateOfBirth,  // date of birth
-                phoneNumber,  // phone number
-                degrees,  // degrees
-                courseAttended,  // courses attended
-                certifications,  // certifications
-                workExperiences,  // work experiences
-                skills,  // skills
-                availability,  // availability
-                new ArrayList<>()  // jobApplications, empty for now
+                role,            // role
+                dateOfBirth      // date of birth
         );
+
+        student.setPhoneNumber(phoneNumber);            // phone number
+        student.setDegrees(degrees);                    // degrees
+        student.setCoursesAttended(courseAttended);     // courses attended
+        student.setCertifications(certifications);      // certifications
+        student.setWorkExperiences(workExperiences);    // work experiences
+        student.setSkills(skills);                      // skills
+        student.setAvailability(availability);          // availability
+        student.setJobApplications(new ArrayList<>());    // jobApplications, empty for now
+
+        return student;
     }
 
     @Override

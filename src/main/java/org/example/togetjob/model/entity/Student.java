@@ -19,19 +19,10 @@ public class Student extends User{
         super(name, surname, username, emailAddress, password, role); // User
     }
 
-    public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {
+    public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth) {
         super(name, surname, username, emailAddress, password, role);
         this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.degrees = degrees;
-        this.courseAttended = courseAttended;
-        this.certifications = certifications;
-        this.workExperiences = workExperiences;
-        this.skills = skills;
-        this.availability = availability;
-        this.jobApplications = jobApplications;
     }
-
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -65,10 +56,6 @@ public class Student extends User{
         return availability;
     }
 
-    public List<JobApplication> getJobApplications() {
-        return jobApplications;
-    }
-
     @Override
     public String toString() {
         return "Student{" +
@@ -81,4 +68,19 @@ public class Student extends User{
     public void setJobApplications(List<JobApplication> jobApplications) {
         this.jobApplications = jobApplications;
     }
+
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public void setDegrees(List<String> degrees) { this.degrees = degrees; }
+
+    public void setCoursesAttended(List<String> coursesAttended) { this.courseAttended = coursesAttended; }
+
+    public void setCertifications(List<String> certifications) { this.certifications = certifications; }
+
+    public void setWorkExperiences(List<String> workExperiences) { this.workExperiences = workExperiences; }
+
+    public void setSkills(List<String> skills) { this.skills = skills; }
+
+    public void setAvailability(String availability) { this.availability = availability; }
+
 }
