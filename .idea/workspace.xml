@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Duplicazione">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -416,7 +413,31 @@
       <option name="project" value="LOCAL" />
       <updated>1739222169196</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Duplicazione">
+      <option name="closed" value="true" />
+      <created>1739223095546</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1739223095546</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Duplicazione">
+      <option name="closed" value="true" />
+      <created>1739223296491</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1739223296491</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Duplicazione">
+      <option name="closed" value="true" />
+      <created>1739223373958</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1739223373958</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

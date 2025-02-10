@@ -3,8 +3,6 @@ package org.example.togetjob.pattern.adapter;
 // Class Target in Adapter
 
 import org.example.togetjob.bean.*;
-import org.example.togetjob.exceptions.NotificationException;
-import org.example.togetjob.model.entity.User;
 
 import java.util.List;
 
