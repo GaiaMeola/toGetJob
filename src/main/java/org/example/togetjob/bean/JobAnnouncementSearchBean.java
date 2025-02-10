@@ -11,6 +11,13 @@ public class JobAnnouncementSearchBean {
     private String salary;
 
     public JobAnnouncementSearchBean() {
+
+        initializeFields();
+
+    }
+
+    private void initializeFields(){
+
         this.jobTitle = null;
         this.jobType = null;
         this.role = null;
@@ -18,6 +25,7 @@ public class JobAnnouncementSearchBean {
         this.workingHours = null;
         this.companyName = null;
         this.salary = null;
+
     }
 
     public String getJobTitle() {

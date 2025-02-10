@@ -1,6 +1,7 @@
 package org.example.togetjob.bean;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentInfoBean {
@@ -16,15 +17,20 @@ public class StudentInfoBean {
     private String availability;
 
     public StudentInfoBean(){
+
+        initializeLists();
         this.dateOfBirth = null;
         this.phoneNumber = null;
-        this.degrees = null;
-        this.coursesAttended = null;
-        this.certifications = null;
-        this.workExperiences = null;
-        this.skills = null;
         this.availability = null;
 
+    }
+
+    private void initializeLists() {
+        this.degrees = new ArrayList<>();
+        this.coursesAttended = new ArrayList<>();
+        this.certifications = new ArrayList<>();
+        this.workExperiences = new ArrayList<>();
+        this.skills = new ArrayList<>();
     }
 
     public LocalDate getDateOfBirth() {

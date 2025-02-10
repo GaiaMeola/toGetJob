@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="database dao">
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Interfacce">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoBean.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoSearchBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoSearchBean.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +35,12 @@
     &quot;assignee&quot;: &quot;GaiaMeola&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
-    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GaiaMeola/toGetJob.git",
+    "accountId": "10ff2728-a55b-45dc-b4f1-a35abedc973c"
   }
-}</component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -373,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739051085131</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Interfacce">
+      <option name="closed" value="true" />
+      <created>1739175835404</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1739175835404</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -406,7 +416,8 @@
     <MESSAGE value="Send a Job Application ok" />
     <MESSAGE value="Implementazione DATABASE DAO" />
     <MESSAGE value="Fine DAO DB che va da testare" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fine DAO DB che va da testare" />
+    <MESSAGE value="Interfacce" />
+    <option name="LAST_COMMIT_MESSAGE" value="Interfacce" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
