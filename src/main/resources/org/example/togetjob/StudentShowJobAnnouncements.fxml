@@ -32,27 +32,12 @@
                <children>
                   <VBox layoutX="6.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="437.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="6.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="442.0" style="-fx-background-color: trasparent;" text="View your profile" textAlignment="CENTER" textFill="#00aaff">
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="442.0" style="-fx-background-color: trasparent;" text="View available Job Announcements" textAlignment="CENTER" textFill="#00aaff">
                            <font>
                               <Font name="AppleGothic Regular" size="18.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="451.0" style="-fx-background-color: trasparent;" text="Vote a company" textAlignment="CENTER" textFill="#00aaff">
-                           <font>
-                              <Font name="AppleGothic Regular" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="447.0" style="-fx-background-color: trasparent;" text="Show Job Announcements " textAlignment="CENTER" textFill="#00aaff">
-                           <font>
-                              <Font name="AppleGothic Regular" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="451.0" style="-fx-background-color: trasparent;" text="View notifications" textAlignment="CENTER" textFill="#00aaff">
-                           <font>
-                              <Font name="AppleGothic Regular" size="18.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="437.0" style="-fx-background-color: trasparent;" text="Logout" textAlignment="CENTER" textFill="#00aaff">
+                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="447.0" style="-fx-background-color: trasparent;" text="View sent Job Application" textAlignment="CENTER" textFill="#00aaff">
                            <font>
                               <Font name="AppleGothic Regular" size="18.0" />
                            </font>
@@ -66,6 +51,16 @@
                   </VBox>
                </children>
             </AnchorPane>
+            <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="57.0" style="-fx-background-color: trasparent;">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@back-158491_1920.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
