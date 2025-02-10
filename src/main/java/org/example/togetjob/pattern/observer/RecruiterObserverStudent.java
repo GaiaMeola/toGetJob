@@ -1,6 +1,5 @@
 package org.example.togetjob.pattern.observer;
 
-import org.example.togetjob.model.entity.InterviewScheduling;
 import org.example.togetjob.model.entity.JobApplication;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.pattern.Notification;

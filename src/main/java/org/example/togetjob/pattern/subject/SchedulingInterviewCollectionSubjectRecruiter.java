@@ -6,7 +6,6 @@ import org.example.togetjob.pattern.observer.StudentNotificationObserver;
 import org.example.togetjob.pattern.observer.StudentObserverStudent;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SchedulingInterviewCollectionSubjectRecruiter implements SubjectStudent {
