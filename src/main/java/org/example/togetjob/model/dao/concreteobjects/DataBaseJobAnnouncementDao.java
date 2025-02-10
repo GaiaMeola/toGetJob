@@ -23,9 +23,6 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     private static final String SELECT_ALL_JOB_ANNOUNCEMENTS =
             "SELECT ID, JobTitle, JobType, RoleJob, Location, WorkingHours, CompanyName, Salary, Description, isActive, RecruiterName FROM JOBANNOUNCEMENT";
 
-    private static final String UPDATE_JOB_ANNOUNCEMENT =
-            "UPDATE JOBANNOUNCEMENT SET JobTitle = ?, JobType = ?, RoleJob = ?, Location = ?, WorkingHours = ?, CompanyName = ?, Salary = ?, Description = ?, isActive = ?, RecruiterName = ? WHERE ID = ?";
-
     private static final String DELETE_JOB_ANNOUNCEMENT =
             "DELETE FROM JOBANNOUNCEMENT WHERE ID = ?";
 
@@ -56,9 +53,10 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         this.recruiterDao = recruiterDao;
     }
 
-    private PreparedStatement prepareJobAnnouncementStatement(Connection conn, JobAnnouncement jobAnnouncement, String query) throws SQLException {
-        try {
-            PreparedStatement stmt = conn.prepareStatement(query);
+    @Override
+    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(INSERT_JOB_ANNOUNCEMENT)) {
 
             stmt.setString(1, jobAnnouncement.getJobTitle());
             stmt.setString(2, jobAnnouncement.getJobType());
@@ -71,40 +69,15 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
             stmt.setBoolean(9, jobAnnouncement.getActive());
             stmt.setString(10, jobAnnouncement.getRecruiter().getUsername());
 
-            return stmt;
-        }
-        catch (SQLException e){
-            throw new DatabaseException("Error saving job announcement to the database", e);
-        }
-    }
-
-    @Override
-    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = prepareJobAnnouncementStatement(conn, jobAnnouncement, INSERT_JOB_ANNOUNCEMENT)) {
-
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving job announcement to the database", e);
+            throw new DatabaseException("Error saving job announcement to the database");
         }
     }
 
     @Override
     public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection()) {
-
-            // Prepariamo la statement comune
-            PreparedStatement stmt = prepareJobAnnouncementStatement(conn, jobAnnouncement, UPDATE_JOB_ANNOUNCEMENT);
-
-            // Aggiungiamo l'ID del job announcement per l'aggiornamento
-            int jobId = getJobAnnouncementId(jobAnnouncement.getJobTitle(), jobAnnouncement.getRecruiter().getUsername())
-                    .orElseThrow(() -> new DatabaseException("Job announcement not found"));
-            stmt.setInt(11, jobId);  // Impostiamo l'ID come l'11° parametro
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error updating job announcement", e);
-        }
+        return false ;
     }
 
     @Override
@@ -270,10 +243,11 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
 
     private JobAnnouncement createJobAnnouncementFromResultSet(ResultSet rs, Recruiter recruiter) throws SQLException {
 
-       JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(rs.getString(COLUMN_JOB_TITLE), rs.getString(COLUMN_JOB_TYPE), rs.getString(COLUMN_ROLE), rs.getString(COLUMN_LOCATION), rs.getInt(COLUMN_WORKING_HOURS), rs.getString(COLUMN_COMPANY_NAME), rs.getDouble(COLUMN_SALARY));
-       JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, rs.getString(COLUMN_DESCRIPTION), recruiter, rs.getBoolean(COLUMN_IS_ACTIVE));
-       return jobAnnouncement;
+        JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(rs.getString(COLUMN_JOB_TITLE), rs.getString(COLUMN_JOB_TYPE), rs.getString(COLUMN_ROLE), rs.getString(COLUMN_LOCATION), rs.getInt(COLUMN_WORKING_HOURS), rs.getString(COLUMN_COMPANY_NAME), rs.getDouble(COLUMN_SALARY));
+        JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, rs.getString(COLUMN_DESCRIPTION), recruiter, rs.getBoolean(COLUMN_IS_ACTIVE));
+        return jobAnnouncement;
 
     }
 
 }
+
