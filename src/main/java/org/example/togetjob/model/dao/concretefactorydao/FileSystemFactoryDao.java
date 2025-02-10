@@ -14,25 +14,19 @@ public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
 
     @Override
     public UserDao createUserDao() { return userDao; }
-    //NOSONAR
 
     @Override
     public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
-    //NOSONAR
 
     @Override
     public StudentDao createStudentDao() { return studentDao; }
-    //NOSONAR
 
     @Override
     public RecruiterDao createRecruiterDao() { return recruiterDao; }
-    //NOSONAR
 
     @Override
     public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
-    //NOSONAR
 
     @Override
     public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
-    //NOSONAR
 }
