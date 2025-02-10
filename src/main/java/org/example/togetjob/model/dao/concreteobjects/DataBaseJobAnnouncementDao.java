@@ -56,10 +56,9 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         this.recruiterDao = recruiterDao;
     }
 
-    @Override
-    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(INSERT_JOB_ANNOUNCEMENT)) {
+    private PreparedStatement prepareJobAnnouncementStatement(Connection conn, JobAnnouncement jobAnnouncement, String query) throws SQLException {
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
 
             stmt.setString(1, jobAnnouncement.getJobTitle());
             stmt.setString(2, jobAnnouncement.getJobType());
@@ -72,35 +71,39 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
             stmt.setBoolean(9, jobAnnouncement.getActive());
             stmt.setString(10, jobAnnouncement.getRecruiter().getUsername());
 
+            return stmt;
+        }
+        catch (SQLException e){
+            throw new DatabaseException("Error saving job announcement to the database", e);
+        }
+    }
+
+    @Override
+    public boolean saveJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = prepareJobAnnouncementStatement(conn, jobAnnouncement, INSERT_JOB_ANNOUNCEMENT)) {
+
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving job announcement to the database");
+            throw new DatabaseException("Error saving job announcement to the database", e);
         }
     }
 
     @Override
     public boolean updateJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(UPDATE_JOB_ANNOUNCEMENT)) {
+        try (Connection conn = DatabaseConfig.getInstance().getConnection()) {
 
-            stmt.setString(1, jobAnnouncement.getJobTitle());
-            stmt.setString(2, jobAnnouncement.getJobType());
-            stmt.setString(3, jobAnnouncement.getRole());
-            stmt.setString(4, jobAnnouncement.getLocation());
-            stmt.setInt(5, jobAnnouncement.getWorkingHours());
-            stmt.setString(6, jobAnnouncement.getCompanyName());
-            stmt.setDouble(7, jobAnnouncement.getSalary());
-            stmt.setString(8, jobAnnouncement.getDescription());
-            stmt.setBoolean(9, jobAnnouncement.getActive());
-            stmt.setString(10, jobAnnouncement.getRecruiter().getUsername());
+            // Prepariamo la statement comune
+            PreparedStatement stmt = prepareJobAnnouncementStatement(conn, jobAnnouncement, UPDATE_JOB_ANNOUNCEMENT);
 
+            // Aggiungiamo l'ID del job announcement per l'aggiornamento
             int jobId = getJobAnnouncementId(jobAnnouncement.getJobTitle(), jobAnnouncement.getRecruiter().getUsername())
                     .orElseThrow(() -> new DatabaseException("Job announcement not found"));
+            stmt.setInt(11, jobId);  // Impostiamo l'ID come l'11° parametro
 
-            stmt.setInt(11, jobId);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error updating job announcement");
+            throw new DatabaseException("Error updating job announcement", e);
         }
     }
 
