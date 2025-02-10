@@ -4,38 +4,70 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concreteobjects.*;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
 
-    private final DataBaseUserDao userDao;
-    private final DataBaseJobAnnouncementDao jobAnnouncementDao;
-    private final DataBaseStudentDao studentDao;
-    private final DataBaseRecruiterDao recruiterDao;
-    private final DataBaseJobApplicationDao jobApplicationDao;
-    private final DataBaseInterviewSchedulingDao interviewSchedulingDao;
+
+    private final Map<Class<?>, Object> daoMap = new HashMap<>();
 
     public DataBaseFactoryDao() {
-        this.userDao = new DataBaseUserDao();
-        this.recruiterDao = new DataBaseRecruiterDao(userDao);
-        this.studentDao = new DataBaseStudentDao(userDao, null);
-        this.jobAnnouncementDao = new DataBaseJobAnnouncementDao(recruiterDao);
-        this.jobApplicationDao = new DataBaseJobApplicationDao(jobAnnouncementDao, studentDao);
-        this.interviewSchedulingDao = new DataBaseInterviewSchedulingDao(jobAnnouncementDao, studentDao);
 
-        //loop so:
-        (studentDao).setJobApplicationDao(jobApplicationDao);
+        DataBaseUserDao userDao = new DataBaseUserDao();
+        DataBaseRecruiterDao recruiterDao = new DataBaseRecruiterDao(userDao);
+        DataBaseStudentDao studentDao = new DataBaseStudentDao(userDao, null);
+        DataBaseJobAnnouncementDao jobAnnouncementDao = new DataBaseJobAnnouncementDao(recruiterDao);
+        DataBaseJobApplicationDao jobApplicationDao = new DataBaseJobApplicationDao(jobAnnouncementDao, studentDao);
+        DataBaseInterviewSchedulingDao interviewSchedulingDao = new DataBaseInterviewSchedulingDao(jobAnnouncementDao, studentDao);
 
+
+        studentDao.setJobApplicationDao(jobApplicationDao);
+
+
+        daoMap.put(UserDao.class, userDao);
+        daoMap.put(JobAnnouncementDao.class, jobAnnouncementDao);
+        daoMap.put(StudentDao.class, studentDao);
+        daoMap.put(RecruiterDao.class, recruiterDao);
+        daoMap.put(JobApplicationDao.class, jobApplicationDao);
+        daoMap.put(InterviewSchedulingDao.class, interviewSchedulingDao);
     }
 
     @Override
-    public UserDao createUserDao() { return userDao; }
+    public UserDao createUserDao() {
+        return getDao(UserDao.class);
+    }
+
     @Override
-    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
+    public JobAnnouncementDao createJobAnnouncementDao() {
+        return getDao(JobAnnouncementDao.class);
+    }
+
     @Override
-    public StudentDao createStudentDao() { return studentDao; }
+    public StudentDao createStudentDao() {
+        return getDao(StudentDao.class);
+    }
+
     @Override
-    public RecruiterDao createRecruiterDao() { return recruiterDao; }
+    public RecruiterDao createRecruiterDao() {
+        return getDao(RecruiterDao.class);
+    }
+
     @Override
-    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
+    public JobApplicationDao createJobApplicationDao() {
+        return getDao(JobApplicationDao.class);
+    }
+
     @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
+    public InterviewSchedulingDao createInterviewSchedulingDao() {
+        return getDao(InterviewSchedulingDao.class);
+    }
+
+    private <T> T getDao(Class<T> daoClass) {
+        Object dao = daoMap.get(daoClass);
+        if (dao == null) {
+            throw new IllegalStateException("DAO not found: " + daoClass.getName());
+        }
+        return daoClass.cast(dao);
+    }
 }

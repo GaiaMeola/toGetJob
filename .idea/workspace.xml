@@ -4,53 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Altra issue risolta">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/GUIContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/GUIState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/JavaFXApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeRecruiterState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterUserState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RegisterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RegisterRecruiterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RegisterStudentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/home.fxml" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Riduzione duplicazione">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/HelloController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/InterviewSchedulingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/InterviewSchedulingBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/InterviewSchedulingStudentInfoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/InterviewSchedulingStudentInfoBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobAnnouncementBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobAnnouncementBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobAnnouncementSearchBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobAnnouncementSearchBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobApplicationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/JobApplicationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/LoginUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/LoginUserBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/RecruiterInfoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/RecruiterInfoBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/RegisterUserBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/RegisterUserBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoSearchBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/bean/StudentInfoSearchBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/javafx/JavaFxInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/HomeRecruiterCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/HomeStudenteCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilteredStudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilteredStudent.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewAllYourJobAnnouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewAllYourJobAnnouncements.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewJobApplications.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewJobApplications.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewOptions.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewOptions.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewSchedulingInterviews.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterViewSchedulingInterviews.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RegistrazioneRecruiterCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/registerrecruiter.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RegistrazioneStudenteCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/registerstudent.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RegistrazioneUserCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/registeruser.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/SchermataInizialeCopia.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilteredJobAnnouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilteredJobAnnouncements.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentShowJobAnnouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentShowJobAnnouncements.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentViewOptionsfxml.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentViewOptionsfxml.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -462,7 +420,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739121725048</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Riduzione duplicazione">
+      <option name="closed" value="true" />
+      <created>1739217420103</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1739217420103</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -498,7 +464,8 @@
     <MESSAGE value="Risoluzione di qualche issues" />
     <MESSAGE value="Bean e qualche issues sistemate" />
     <MESSAGE value="Altra issue risolta" />
-    <option name="LAST_COMMIT_MESSAGE" value="Altra issue risolta" />
+    <MESSAGE value="Riduzione duplicazione" />
+    <option name="LAST_COMMIT_MESSAGE" value="Riduzione duplicazione" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
