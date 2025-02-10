@@ -4,66 +4,29 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concreteobjects.*;
 
-import java.util.Map;
-import java.util.HashMap;
-
 public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
-
-    private final Map<Class<?>, Object> daoMap = new HashMap<>();
-
-    public FileSystemFactoryDao() {
-        // Creazione degli oggetti DAO
-        FileSystemUserDao userDao = new FileSystemUserDao();
-        FileSystemRecruiterDao recruiterDao = new FileSystemRecruiterDao();
-        FileSystemStudentDao studentDao = new FileSystemStudentDao();
-        FileSystemJobAnnouncementDao jobAnnouncementDao = new FileSystemJobAnnouncementDao();
-        FileSystemJobApplicationDao jobApplicationDao = new FileSystemJobApplicationDao();
-        FileSystemInterviewSchedulingDao interviewSchedulingDao = new FileSystemInterviewSchedulingDao();
-
-        // Popolamento della mappa
-        daoMap.put(UserDao.class, userDao);
-        daoMap.put(JobAnnouncementDao.class, jobAnnouncementDao);
-        daoMap.put(StudentDao.class, studentDao);
-        daoMap.put(RecruiterDao.class, recruiterDao);
-        daoMap.put(JobApplicationDao.class, jobApplicationDao);
-        daoMap.put(InterviewSchedulingDao.class, interviewSchedulingDao);
-    }
+    private final UserDao userDao = new FileSystemUserDao();
+    private final JobAnnouncementDao jobAnnouncementDao = new FileSystemJobAnnouncementDao();
+    private final StudentDao studentDao = new FileSystemStudentDao();
+    private final RecruiterDao recruiterDao = new FileSystemRecruiterDao();
+    private final JobApplicationDao jobApplicationDao = new FileSystemJobApplicationDao();
+    private final InterviewSchedulingDao interviewSchedulingDao = new FileSystemInterviewSchedulingDao();
 
     @Override
-    public UserDao createUserDao() {
-        return getDao(UserDao.class);
-    }
+    public UserDao createUserDao() { return userDao; }
 
     @Override
-    public JobAnnouncementDao createJobAnnouncementDao() {
-        return getDao(JobAnnouncementDao.class);
-    }
+    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
 
     @Override
-    public StudentDao createStudentDao() {
-        return getDao(StudentDao.class);
-    }
+    public StudentDao createStudentDao() { return studentDao; }
 
     @Override
-    public RecruiterDao createRecruiterDao() {
-        return getDao(RecruiterDao.class);
-    }
+    public RecruiterDao createRecruiterDao() { return recruiterDao; }
 
     @Override
-    public JobApplicationDao createJobApplicationDao() {
-        return getDao(JobApplicationDao.class);
-    }
+    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
 
     @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() {
-        return getDao(InterviewSchedulingDao.class);
-    }
-
-    private <T> T getDao(Class<T> daoClass) {
-        Object dao = daoMap.get(daoClass);
-        if (dao == null) {
-            throw new IllegalStateException("DAO not found: " + daoClass.getName());
-        }
-        return daoClass.cast(dao);
-    }
+    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
 }
