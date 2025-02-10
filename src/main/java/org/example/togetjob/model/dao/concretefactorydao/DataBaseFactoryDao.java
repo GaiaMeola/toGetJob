@@ -27,15 +27,20 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     }
 
     @Override
-    public UserDao createUserDao() { return userDao; }
+    public UserDao createUserDao() { return userDao; }//NOSONAR
+
     @Override
-    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
+    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }//NOSONAR
+
     @Override
-    public StudentDao createStudentDao() { return studentDao; }
+    public StudentDao createStudentDao() { return studentDao; }//NOSONAR
+
     @Override
-    public RecruiterDao createRecruiterDao() { return recruiterDao; }
+    public RecruiterDao createRecruiterDao() { return recruiterDao; }//NOSONAR
+
     @Override
-    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
+    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }//NOSONAR
+
     @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
+    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }//NOSONAR
 }
