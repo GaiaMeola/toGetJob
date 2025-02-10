@@ -13,20 +13,26 @@ public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {
     private final InterviewSchedulingDao interviewSchedulingDao = new FileSystemInterviewSchedulingDao();
 
     @Override
-    public UserDao createUserDao() { return userDao; }//NOSONAR
+    public UserDao createUserDao() { return userDao; }
+    //NOSONAR
 
     @Override
-    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }//NOSONAR
+    public JobAnnouncementDao createJobAnnouncementDao() { return jobAnnouncementDao; }
+    //NOSONAR
 
     @Override
-    public StudentDao createStudentDao() { return studentDao; }//NOSONAR
+    public StudentDao createStudentDao() { return studentDao; }
+    //NOSONAR
 
     @Override
-    public RecruiterDao createRecruiterDao() { return recruiterDao; }//NOSONAR
+    public RecruiterDao createRecruiterDao() { return recruiterDao; }
+    //NOSONAR
 
     @Override
-    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }//NOSONAR
+    public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
+    //NOSONAR
 
     @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }//NOSONAR
+    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
+    //NOSONAR
 }
