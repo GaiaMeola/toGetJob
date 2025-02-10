@@ -1,5 +1,6 @@
 package org.example.togetjob;
 
+import javafx.application.Application;
 import org.example.togetjob.config.ConfigDaoLoader;
 import org.example.togetjob.config.ConfigUILoader;
 import org.example.togetjob.connection.DatabaseConfig;
@@ -8,6 +9,7 @@ import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingl
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.concretestate.MainMenuState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.gui.JavaFXApplication;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -85,6 +87,7 @@ public class Main {
     private static void launchGui(){
        //GUI
         Printer.print("Launching GUI...");
+        Application.launch(JavaFXApplication.class);
     }
 
 }

@@ -8,11 +8,7 @@ public class RegisterUserBean extends LoginUserBean {
     private String emailAddress;
 
     public RegisterUserBean() {
-        super();
-        this.name = null;
-        this.surname = null;
-        this.emailAddress = null;
-        this.role = null;
+        /* builder */
     }
 
     public String getName() {

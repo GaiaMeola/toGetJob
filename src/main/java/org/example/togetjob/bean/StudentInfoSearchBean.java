@@ -1,6 +1,5 @@
 package org.example.togetjob.bean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentInfoSearchBean {
@@ -13,16 +12,7 @@ public class StudentInfoSearchBean {
     private String availability;
 
     public StudentInfoSearchBean() {
-        initializeLists() ;
-        this.availability = null;
-    }
-
-    private void initializeLists(){
-        this.degrees = new ArrayList<>();
-        this.coursesAttended = new ArrayList<>();
-        this.certifications = new ArrayList<>();
-        this.workExperiences = new ArrayList<>();
-        this.skills = new ArrayList<>();
+        /* builder */
     }
 
     public List<String> getDegrees() {

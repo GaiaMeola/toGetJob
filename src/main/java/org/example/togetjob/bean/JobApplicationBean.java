@@ -11,13 +11,7 @@ public class JobApplicationBean {
     private Status status ;
 
     public JobApplicationBean() {
-
-        this.jobTitle = null;
-        this.studentUsername = null;
-        this.coverLetter = null;
-        this.recruiterUsername = null;
-        this.status = null;
-
+        /* builder */
     }
 
     public String getStudentUsername() {

@@ -6,8 +6,7 @@ public class LoginUserBean {
     private String password;
 
     public LoginUserBean() {
-        this.username = null;
-        this.password = null;
+        /* builder */
     }
 
     public String getUsername() {

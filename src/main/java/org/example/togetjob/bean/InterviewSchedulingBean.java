@@ -9,11 +9,7 @@ public class InterviewSchedulingBean {
     private String location;
 
     public InterviewSchedulingBean() {
-        this.studentUsername = null;
-        this.jobTitle = null;
-        this.companyName = null;
-        this.interviewDateTime = null;
-        this.location = null;
+        /* builder */
     }
 
     public String getStudentUsername() {

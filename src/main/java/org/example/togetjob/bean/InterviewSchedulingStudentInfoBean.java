@@ -12,15 +12,7 @@ public class InterviewSchedulingStudentInfoBean {
     private String studentUsername;
 
     public InterviewSchedulingStudentInfoBean() {
-
-        this.subject = null;
-        this.greeting = null;
-        this.introduction = null;
-        this.jobTitle = null;
-        this.companyName = null;
-        this.interviewDateTime = null;
-        this.location = null;
-        this. studentUsername = null;
+        /* builder */
     }
 
     public String getSubject() {

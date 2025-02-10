@@ -14,15 +14,6 @@ public class JobAnnouncementBean {
     private String recruiterUsername;
 
     public JobAnnouncementBean(){
-        this.jobTitle = null;
-        this.jobType = null;
-        this.role = null;
-        this.location = null;
-        this.workingHours = null;
-        this.companyName = null;
-        this.salary = null;
-        this.description = null;
-        this.recruiterUsername = null;
         this.isActive = true;
     }
 

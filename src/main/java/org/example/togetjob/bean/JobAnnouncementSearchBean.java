@@ -11,21 +11,7 @@ public class JobAnnouncementSearchBean {
     private String salary;
 
     public JobAnnouncementSearchBean() {
-
-        initializeFields();
-
-    }
-
-    private void initializeFields(){
-
-        this.jobTitle = null;
-        this.jobType = null;
-        this.role = null;
-        this.location = null;
-        this.workingHours = null;
-        this.companyName = null;
-        this.salary = null;
-
+        /* builder */
     }
 
     public String getJobTitle() {

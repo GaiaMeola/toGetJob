@@ -7,7 +7,7 @@ public class RecruiterInfoBean {
     private List<String> companies;
 
     public RecruiterInfoBean() {
-        this.companies = null;
+        /* builder */
     }
 
     public void setCompanies(List<String> companies){
