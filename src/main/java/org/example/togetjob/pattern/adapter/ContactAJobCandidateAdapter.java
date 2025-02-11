@@ -45,7 +45,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         this.schedulingInterviewCollectionSubjectRecruiter = schedulingInterviewCollectionSubjectRecruiter;
     }
 
-    public List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
+    public List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
         // Tutte le candidature
         List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
 
@@ -59,7 +59,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
         List<Student> filteredStudents = studentDao.getAllStudents()
                 .stream()
-                .filter(student -> acceptedStudentUsernames.contains(student.getUsername()))
+                .filter(student -> acceptedStudentUsernames.contains(student.obtainUsername()))
                 .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))
                 .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))
                 .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))
@@ -77,10 +77,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredDegrees == null || requiredDegrees.isEmpty()) {
             return true;
         }
-        if (student.getDegrees() == null || student.getDegrees().isEmpty()) {
+        if (student.obtainDegrees() == null || student.obtainDegrees().isEmpty()) {
             return true;
         }
-        return student.getDegrees().stream()
+        return student.obtainDegrees().stream()
                 .anyMatch(degree -> requiredDegrees.stream()
                         .anyMatch(reqDegree -> degree.toLowerCase().contains(reqDegree.toLowerCase())));
     }
@@ -89,10 +89,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredCourses == null || requiredCourses.isEmpty()) {
             return true;
         }
-        if (student.getCourseAttended() == null || student.getCourseAttended().isEmpty()) {
+        if (student.obtainCoursesAttended() == null || student.obtainCoursesAttended().isEmpty()) {
             return true;
         }
-        return student.getCourseAttended().stream()
+        return student.obtainCoursesAttended().stream()
                 .anyMatch(course -> requiredCourses.stream()
                         .anyMatch(reqCourse -> course.toLowerCase().contains(reqCourse.toLowerCase())));
     }
@@ -101,10 +101,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredCertifications == null || requiredCertifications.isEmpty()) {
             return true;
         }
-        if (student.getCertifications() == null || student.getCertifications().isEmpty()) {
+        if (student.obtainCertifications() == null || student.obtainCertifications().isEmpty()) {
             return true;
         }
-        return student.getCertifications().stream()
+        return student.obtainCertifications().stream()
                 .anyMatch(cert -> requiredCertifications.stream()
                         .anyMatch(reqCert -> cert.toLowerCase().contains(reqCert.toLowerCase())));
     }
@@ -113,10 +113,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredWorkExperiences == null || requiredWorkExperiences.isEmpty()) {
             return true;
         }
-        if (student.getWorkExperiences() == null || student.getWorkExperiences().isEmpty()) {
+        if (student.obtainWorkExperiences() == null || student.obtainWorkExperiences().isEmpty()) {
             return true;
         }
-        return student.getWorkExperiences().stream()
+        return student.obtainWorkExperiences().stream()
                 .anyMatch(workExp -> requiredWorkExperiences.stream()
                         .anyMatch(reqWorkExp -> workExp.toLowerCase().contains(reqWorkExp.toLowerCase())));
     }
@@ -125,10 +125,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredSkills == null || requiredSkills.isEmpty()) {
             return true;
         }
-        if (student.getSkills() == null || student.getSkills().isEmpty()) {
+        if (student.obtainSkills() == null || student.obtainSkills().isEmpty()) {
             return true;
         }
-        return student.getSkills().stream()
+        return student.obtainSkills().stream()
                 .anyMatch(skill -> requiredSkills.stream()
                         .anyMatch(reqSkill -> skill.toLowerCase().contains(reqSkill.toLowerCase())));
     }
@@ -137,10 +137,10 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         if (requiredAvailability == null || requiredAvailability.isEmpty()) {
             return true;
         }
-        if (student.getAvailability() == null || student.getAvailability().isEmpty()) {
+        if (student.obtainAvailability() == null || student.obtainAvailability().isEmpty()) {
             return true;
         }
-        return student.getAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
+        return student.obtainAvailability().toLowerCase().contains(requiredAvailability.toLowerCase());
     }
 
 
@@ -221,7 +221,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent() {
+    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingsForStudent() {
 
         Student student = SessionManager.getInstance().getStudentFromSession();
 
@@ -234,14 +234,14 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         return interviewSchedulings.stream()
                 .map(interviewScheduling -> {
                     InterviewSchedulingStudentInfoBean bean = new InterviewSchedulingStudentInfoBean();
-                    bean.setSubject(interviewScheduling.getSubject());
-                    bean.setGreeting(interviewScheduling.getGreeting());
-                    bean.setIntroduction(interviewScheduling.getIntroduction());
-                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().getJobTitle());
-                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().getCompanyName());
-                    bean.setInterviewDateTime(interviewScheduling.getInterviewDateTime().toString());
-                    bean.setLocation(interviewScheduling.getLocation());
-                    bean.setStudentUsername(interviewScheduling.getCandidate().getUsername());
+                    bean.setSubject(interviewScheduling.obtainSubject());
+                    bean.setGreeting(interviewScheduling.obtainGreeting());
+                    bean.setIntroduction(interviewScheduling.obtainIntroduction());
+                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().obtainJobTitle());
+                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().obtainCompanyName());
+                    bean.setInterviewDateTime(interviewScheduling.obtainInterviewDateTime().toString());
+                    bean.setLocation(interviewScheduling.obtainLocation());
+                    bean.setStudentUsername(interviewScheduling.getCandidate().obtainUsername());
                     return bean;
                 })
                 .toList();
@@ -259,11 +259,11 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         return interviewSchedulings.stream()
                 .map(interviewScheduling -> {
                     InterviewSchedulingBean bean = new InterviewSchedulingBean();
-                    bean.setStudentUsername(interviewScheduling.getCandidate().getUsername());
-                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().getJobTitle());
-                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().getCompanyName());
-                    bean.setInterviewDateTime(interviewScheduling.getInterviewDateTime().toString());
-                    bean.setLocation(interviewScheduling.getLocation());
+                    bean.setStudentUsername(interviewScheduling.getCandidate().obtainUsername());
+                    bean.setJobTitle(interviewScheduling.getJobAnnouncement().obtainJobTitle());
+                    bean.setCompanyName(interviewScheduling.getJobAnnouncement().obtainCompanyName());
+                    bean.setInterviewDateTime(interviewScheduling.obtainInterviewDateTime().toString());
+                    bean.setLocation(interviewScheduling.obtainLocation());
                     return bean;
                 })
                 .toList();
@@ -320,15 +320,15 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
         StudentInfoBean studentInfoBean = new StudentInfoBean();
 
-        studentInfoBean.setUsername(student.getUsername());
-        studentInfoBean.setDateOfBirth(student.getDateOfBirth() != null ? student.getDateOfBirth() : LocalDate.of(2000, 1, 1));
-        studentInfoBean.setPhoneNumber(student.getPhoneNumber() != null ? student.getPhoneNumber() : "No Phone Provided");
-        studentInfoBean.setDegrees(student.getDegrees() != null ? new ArrayList<>(student.getDegrees()) : new ArrayList<>());
-        studentInfoBean.setCoursesAttended(student.getCourseAttended() != null ? new ArrayList<>(student.getCourseAttended()) : new ArrayList<>());
-        studentInfoBean.setCertifications(student.getCertifications() != null ? new ArrayList<>(student.getCertifications()) : new ArrayList<>());
-        studentInfoBean.setWorkExperiences(student.getWorkExperiences() != null ? new ArrayList<>(student.getWorkExperiences()) : new ArrayList<>());
-        studentInfoBean.setSkills(student.getSkills() != null ? new ArrayList<>(student.getSkills()) : new ArrayList<>());
-        studentInfoBean.setAvailability(student.getAvailability() != null ? student.getAvailability() : "Not Specified");
+        studentInfoBean.setUsername(student.obtainUsername());
+        studentInfoBean.setDateOfBirth(student.obtainDateOfBirth() != null ? student.obtainDateOfBirth() : LocalDate.of(2000, 1, 1));
+        studentInfoBean.setPhoneNumber(student.obtainPhoneNumber() != null ? student.obtainPhoneNumber() : "No Phone Provided");
+        studentInfoBean.setDegrees(student.obtainDegrees() != null ? new ArrayList<>(student.obtainDegrees()) : new ArrayList<>());
+        studentInfoBean.setCoursesAttended(student.obtainCoursesAttended() != null ? new ArrayList<>(student.obtainCoursesAttended()) : new ArrayList<>());
+        studentInfoBean.setCertifications(student.obtainCertifications() != null ? new ArrayList<>(student.obtainCertifications()) : new ArrayList<>());
+        studentInfoBean.setWorkExperiences(student.obtainWorkExperiences() != null ? new ArrayList<>(student.obtainWorkExperiences()) : new ArrayList<>());
+        studentInfoBean.setSkills(student.obtainSkills() != null ? new ArrayList<>(student.obtainSkills()) : new ArrayList<>());
+        studentInfoBean.setAvailability(student.obtainAvailability() != null ? student.obtainAvailability() : "Not Specified");
         return studentInfoBean;
 
     }

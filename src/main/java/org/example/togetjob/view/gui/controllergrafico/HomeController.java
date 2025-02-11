@@ -3,7 +3,6 @@ package org.example.togetjob.view.gui.controllergrafico;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.view.boundary.LoginBoundary;
@@ -68,7 +67,7 @@ public class HomeController {
     }
 
     private void navigateToHome() {
-        String userRole = SessionManager.getInstance().getCurrentUser().getRole().name();
+        String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();
 
         if ("STUDENT".equalsIgnoreCase(userRole)) {
             context.setState(new HomeStudentState(context));

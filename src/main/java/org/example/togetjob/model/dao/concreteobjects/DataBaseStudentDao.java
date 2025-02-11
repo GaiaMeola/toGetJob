@@ -65,15 +65,15 @@
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(INSERT_STUDENT_SQL)) {
 
-                stmt.setString(1, student.getUsername());
-                stmt.setDate(2, Date.valueOf(student.getDateOfBirth()));
-                stmt.setString(3, student.getPhoneNumber());
-                stmt.setString(4, String.join(",", student.getDegrees()));
-                stmt.setString(5, String.join(",", student.getCourseAttended()));
-                stmt.setString(6, String.join(",", student.getCertifications()));
-                stmt.setString(7, String.join(",", student.getWorkExperiences()));
-                stmt.setString(8, String.join(",", student.getSkills()));
-                stmt.setString(9, student.getAvailability());
+                stmt.setString(1, student.obtainUsername());
+                stmt.setDate(2, Date.valueOf(student.obtainDateOfBirth()));
+                stmt.setString(3, student.obtainPhoneNumber());
+                stmt.setString(4, String.join(",", student.obtainDegrees()));
+                stmt.setString(5, String.join(",", student.obtainCoursesAttended()));
+                stmt.setString(6, String.join(",", student.obtainCertifications()));
+                stmt.setString(7, String.join(",", student.obtainWorkExperiences()));
+                stmt.setString(8, String.join(",", student.obtainSkills()));
+                stmt.setString(9, student.obtainAvailability());
 
                 stmt.executeUpdate();
             } catch (SQLException e) {
@@ -118,12 +118,12 @@
                     String availability = rs.getString(COLUMN_AVAILABILITY);
 
                     Student student = new Student(
-                            user.getName(),            // name
-                            user.getSurname(),         // surname
-                            user.getUsername(),        // username
-                            user.getEmailAddress(),    // emailAddress
-                            user.getPassword(),        // password
-                            user.getRole(),            // role
+                            user.obtainName(),            // name
+                            user.obtainSurname(),         // surname
+                            user.obtainUsername(),        // username
+                            user.obtainEmailAddress(),    // emailAddress
+                            user.obtainPassword(),        // password
+                            user.obtainRole(),            // role
                             dateOfBirth                // dateOfBirth
                     );
 
@@ -192,12 +192,12 @@
 
 
                     Student student = new Student(
-                            user.getName(),             // name
-                            user.getSurname(),          // surname
-                            user.getUsername(),         // username
-                            user.getEmailAddress(),     // emailAddress
-                            user.getPassword(),         // password
-                            user.getRole(),             // role
+                            user.obtainName(),             // name
+                            user.obtainSurname(),          // surname
+                            user.obtainUsername(),         // username
+                            user.obtainEmailAddress(),     // emailAddress
+                            user.obtainPassword(),         // password
+                            user.obtainRole(),             // role
                             dateOfBirth                 // dateOfBirth
                     );
 
@@ -220,7 +220,7 @@
 
         private User findUserByUsername(List<User> users, String username) {
             for (User user : users) {
-                if (user.getUsername().equals(username)) {
+                if (user.obtainUsername().equals(username)) {
                     return user;
                 }
             }
@@ -239,15 +239,15 @@
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT_SQL)) {
 
-                stmt.setDate(1, Date.valueOf(student.getDateOfBirth()));
-                stmt.setString(2, student.getPhoneNumber());
-                stmt.setString(3, String.join(",", student.getDegrees()));
-                stmt.setString(4, String.join(",", student.getCourseAttended()));
-                stmt.setString(5, String.join(",", student.getCertifications()));
-                stmt.setString(6, String.join(",", student.getWorkExperiences()));
-                stmt.setString(7, String.join(",", student.getSkills()));
-                stmt.setString(8, student.getAvailability());
-                stmt.setString(9, student.getUsername());
+                stmt.setDate(1, Date.valueOf(student.obtainDateOfBirth()));
+                stmt.setString(2, student.obtainPhoneNumber());
+                stmt.setString(3, String.join(",", student.obtainDegrees()));
+                stmt.setString(4, String.join(",", student.obtainCoursesAttended()));
+                stmt.setString(5, String.join(",", student.obtainCertifications()));
+                stmt.setString(6, String.join(",", student.obtainWorkExperiences()));
+                stmt.setString(7, String.join(",", student.obtainSkills()));
+                stmt.setString(8, student.obtainAvailability());
+                stmt.setString(9, student.obtainUsername());
 
                 int rowsUpdated = stmt.executeUpdate();
                 return rowsUpdated > 0;

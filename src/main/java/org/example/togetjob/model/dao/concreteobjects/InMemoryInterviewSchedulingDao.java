@@ -101,7 +101,7 @@ public class InMemoryInterviewSchedulingDao implements InterviewSchedulingDao {
     }
 
     private String generateKey(Student student) {
-        return student.getUsername();
+        return student.obtainUsername();
     }
 
 }

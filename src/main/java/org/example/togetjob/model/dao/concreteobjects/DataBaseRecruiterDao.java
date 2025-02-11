@@ -39,8 +39,8 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(INSERT_RECRUITER_SQL)) {
 
-            stmt.setString(1, recruiter.getUsername());
-            stmt.setString(2, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
+            stmt.setString(1, recruiter.obtainUsername());
+            stmt.setString(2, String.join(",", recruiter.obtainCompanies())); // Convert list to comma-separated string
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new DatabaseException("Error saving user to the database");
@@ -66,9 +66,9 @@ public class DataBaseRecruiterDao implements RecruiterDao {
                 Optional<User> userOptional = userDao.getUser(username);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
-                    Recruiter recruiter = new Recruiter(user.getName(), user.getSurname(), user.getUsername(),
-                            user.getEmailAddress(), user.getPassword(),
-                            user.getRole(), companies);
+                    Recruiter recruiter = new Recruiter(user.obtainName(), user.obtainSurname(), user.obtainUsername(),
+                            user.obtainEmailAddress(), user.obtainPassword(),
+                            user.obtainRole(), companies);
                     return Optional.of(recruiter);
                 } else {
                     return Optional.empty();
@@ -99,7 +99,7 @@ public class DataBaseRecruiterDao implements RecruiterDao {
                     User user = userOptional.get();
                     String companiesString = rs.getString("Companies");
                     List<String> companies = List.of(companiesString.split(","));
-                    Recruiter recruiter = new Recruiter(user.getName(), user.getSurname(), user.getUsername(), user.getEmailAddress(), user.getPassword(), user.getRole(), companies);
+                    Recruiter recruiter = new Recruiter(user.obtainName(), user.obtainSurname(), user.obtainUsername(), user.obtainEmailAddress(), user.obtainPassword(), user.obtainRole(), companies);
                     recruiters.add(recruiter);
                 }
             }
@@ -115,8 +115,8 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(UPDATE_RECRUITER_SQL)) {
 
-            stmt.setString(1, String.join(",", recruiter.getCompanies())); // Convert list to comma-separated string
-            stmt.setString(2, recruiter.getUsername());
+            stmt.setString(1, String.join(",", recruiter.obtainCompanies())); // Convert list to comma-separated string
+            stmt.setString(2, recruiter.obtainUsername());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;

@@ -58,16 +58,16 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(INSERT_JOB_ANNOUNCEMENT)) {
 
-            stmt.setString(1, jobAnnouncement.getJobTitle());
-            stmt.setString(2, jobAnnouncement.getJobType());
-            stmt.setString(3, jobAnnouncement.getRole());
-            stmt.setString(4, jobAnnouncement.getLocation());
-            stmt.setInt(5, jobAnnouncement.getWorkingHours());
-            stmt.setString(6, jobAnnouncement.getCompanyName());
-            stmt.setDouble(7, jobAnnouncement.getSalary());
-            stmt.setString(8, jobAnnouncement.getDescription());
-            stmt.setBoolean(9, jobAnnouncement.getActive());
-            stmt.setString(10, jobAnnouncement.getRecruiter().getUsername());
+            stmt.setString(1, jobAnnouncement.obtainJobTitle());
+            stmt.setString(2, jobAnnouncement.obtainJobType());
+            stmt.setString(3, jobAnnouncement.obtainJobRole());
+            stmt.setString(4, jobAnnouncement.obtainLocation());
+            stmt.setInt(5, jobAnnouncement.obtainWorkingHours());
+            stmt.setString(6, jobAnnouncement.obtainCompanyName());
+            stmt.setDouble(7, jobAnnouncement.obtainSalary());
+            stmt.setString(8, jobAnnouncement.obtainDescription());
+            stmt.setBoolean(9, jobAnnouncement.isJobActive());
+            stmt.setString(10, jobAnnouncement.getRecruiter().obtainUsername());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(DELETE_JOB_ANNOUNCEMENT)) {
 
-            int jobId = getJobAnnouncementId(jobAnnouncement.getJobTitle(), jobAnnouncement.getRecruiter().getUsername())
+            int jobId = getJobAnnouncementId(jobAnnouncement.obtainJobTitle(), jobAnnouncement.getRecruiter().obtainUsername())
                     .orElseThrow(() -> new DatabaseException("Job announcement not found"));
 
             stmt.setInt(1, jobId);
@@ -101,7 +101,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
              PreparedStatement stmt = conn.prepareStatement(CHECK_EXISTENCE)) {
 
             stmt.setString(1, jobTitle);
-            stmt.setString(2, recruiter.getUsername());
+            stmt.setString(2, recruiter.obtainUsername());
             ResultSet rs = stmt.executeQuery();
             return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
@@ -116,14 +116,14 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_JOB_ANNOUNCEMENTS_BY_RECRUITER)) {
 
-            stmt.setString(1, recruiter.getUsername());
+            stmt.setString(1, recruiter.obtainUsername());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     jobAnnouncements.add(createJobAnnouncementFromResultSet(rs, recruiter));
                 }
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error retrieving job announcements for recruiter: " + recruiter.getUsername());
+            throw new DatabaseException("Error retrieving job announcements for recruiter: " + recruiter.obtainUsername());
         }
 
         return jobAnnouncements;
@@ -179,7 +179,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
 
     @Override
     public Optional<JobAnnouncement> getJobAnnouncement(String jobTitle, Recruiter recruiter) throws DatabaseException {
-        return getJobAnnouncementId(jobTitle, recruiter.getUsername())
+        return getJobAnnouncementId(jobTitle, recruiter.obtainUsername())
                 .flatMap(this::getJobAnnouncementById);
     }
 

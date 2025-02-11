@@ -27,8 +27,12 @@ public class ContactAJobCandidateRecruiterBoundary {
         );
     }
 
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
+        return contactAJobCandidateController.getJobAnnouncementsByRecruiter();
+    }
+
     public List<StudentInfoBean> getFilteredCandidates(StudentInfoSearchBean searchCriteria, JobAnnouncementBean jobAnnouncement) {
-        return contactAJobCandidateController.showFiltersCandidate(searchCriteria, jobAnnouncement);
+        return contactAJobCandidateController.showFilteredCandidates(searchCriteria, jobAnnouncement);
     }
 
     public InterviewSchedulingBean getInterviewSchedulingForm(StudentInfoBean candidate, JobAnnouncementBean jobAnnouncement) {
@@ -37,10 +41,6 @@ public class ContactAJobCandidateRecruiterBoundary {
 
     public boolean inviteCandidateToInterview(InterviewSchedulingBean interviewDetails) {
         return contactAJobCandidateController.sendInterviewInvitation(interviewDetails);
-    }
-
-    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
-        return contactAJobCandidateController.getJobAnnouncementsByRecruiter();
     }
 
     public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean){

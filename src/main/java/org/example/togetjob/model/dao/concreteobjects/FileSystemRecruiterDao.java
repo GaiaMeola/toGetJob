@@ -12,13 +12,13 @@ public class FileSystemRecruiterDao implements RecruiterDao {
 
     @Override
     public void saveRecruiter(Recruiter recruiter) {
-        if (recruiterExists(recruiter.getUsername())) {
+        if (recruiterExists(recruiter.obtainUsername())) {
             return; // The recruiter with the given username already exists.
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
-            writer.write(recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
-                    recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" + recruiter.getCompanies());
+            writer.write(recruiter.obtainName() + ";" + recruiter.obtainSurname() + ";" + recruiter.obtainUsername() + ";" +
+                    recruiter.obtainEmailAddress() + ";" + recruiter.obtainPassword() + ";" + recruiter.obtainRole() + ";" + recruiter.obtainCompanies());
             writer.newLine();
         } catch (IOException | IllegalArgumentException e) {
             // Handle both IOException and IllegalArgumentException
@@ -79,11 +79,11 @@ public class FileSystemRecruiterDao implements RecruiterDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 7 && data[2].trim().equals(recruiter.getUsername())) {
+                if (data.length >= 7 && data[2].trim().equals(recruiter.obtainUsername())) {
                     // Find the recruiter row to update and replace it with the new data
-                    String updatedLine = recruiter.getName() + ";" + recruiter.getSurname() + ";" + recruiter.getUsername() + ";" +
-                            recruiter.getEmailAddress() + ";" + recruiter.getPassword() + ";" + recruiter.getRole() + ";" +
-                            String.join(",", recruiter.getCompanies()); // Concatenate companies separated by a comma
+                    String updatedLine = recruiter.obtainName() + ";" + recruiter.obtainSurname() + ";" + recruiter.obtainUsername() + ";" +
+                            recruiter.obtainEmailAddress() + ";" + recruiter.obtainPassword() + ";" + recruiter.obtainRole() + ";" +
+                            String.join(",", recruiter.obtainCompanies()); // Concatenate companies separated by a comma
                     lines.add(updatedLine); // Add the updated line
                 } else {
                     lines.add(line); // Add the unchanged line

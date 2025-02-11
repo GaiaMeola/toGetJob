@@ -18,25 +18,28 @@ public abstract class User {
         this.role = role;
     }
 
-    public String getName() {
+    public String obtainName() {
         return name;
     }
 
-    public String getUsername() {
+    public String obtainUsername() {
         return username;
     }
 
-    public String getEmailAddress() {
+    public String obtainEmailAddress() {
         return emailAddress;
     }
 
-    public String getPassword() {
+    public String obtainPassword() {
         return password;
     }
 
-    public Role getRole() {
+    public Role obtainRole() {
         return role;
     }
 
-    public String getSurname() { return surname; }
+    public String obtainSurname() { return surname; }
+
+    // public abstract void introduce() ;
+
 }

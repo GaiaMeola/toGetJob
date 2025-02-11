@@ -227,17 +227,17 @@ public class SendAJobApplicationStudentState implements CliState {
 
     private void proceedWithFilters(Scanner scanner, JobAnnouncementSearchBean searchBean) {
 
-        List<JobAnnouncementBean> jobApplications = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
+        List<JobAnnouncementBean> jobAnnouncements = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
 
-        if (jobApplications.isEmpty()) {
+        if (jobAnnouncements.isEmpty()) {
             Printer.print("No job announcements found with the specified filters.");
         } else {
-            for (int i = 0; i < jobApplications.size(); i++) {
-                JobAnnouncementBean job = jobApplications.get(i);
+            for (int i = 0; i < jobAnnouncements.size(); i++) {
+                JobAnnouncementBean job = jobAnnouncements.get(i);
                 Printer.print((i + 1) + ". Job Title: " + job.getJobTitle() + " - Location: " + job.getLocation() + " - Salary: " + job.getSalary());
             }
 
-            showJobAnnouncementDetails(scanner, jobApplications);
+            showJobAnnouncementDetails(scanner, jobAnnouncements);
         }
     }
 
@@ -253,17 +253,16 @@ public class SendAJobApplicationStudentState implements CliState {
         }
 
         JobAnnouncementBean selectedJob = jobAnnouncements.get(jobIndex);
-        JobAnnouncementBean jobDetails = sendAJobApplicationStudentBoundary.getJobAnnouncementDetail(selectedJob);
 
         Printer.print("\n --- Job Details ---");
-        Printer.print(JOB_TITLE + jobDetails.getJobTitle());
-        Printer.print(JOB_TYPE+ jobDetails.getJobType());
-        Printer.print(JOB_ROLE  + jobDetails.getRole());
-        Printer.print(LOCATION + jobDetails.getLocation());
-        Printer.print(SALARY + jobDetails.getSalary());
-        Printer.print(WORKING_HOURS + jobDetails.getWorkingHours());
-        Printer.print(COMPANY+ jobDetails.getCompanyName());
-        Printer.print("Job Description: " + jobDetails.getDescription());
+        Printer.print(JOB_TITLE + selectedJob.getJobTitle());
+        Printer.print(JOB_TYPE+ selectedJob.getJobType());
+        Printer.print(JOB_ROLE  + selectedJob.getRole());
+        Printer.print(LOCATION + selectedJob.getLocation());
+        Printer.print(SALARY + selectedJob.getSalary());
+        Printer.print(WORKING_HOURS + selectedJob.getWorkingHours());
+        Printer.print(COMPANY+ selectedJob.getCompanyName());
+        Printer.print("Job Description: " + selectedJob.getDescription());
 
 
         // Allow user to go back or apply for the job

@@ -14,21 +14,21 @@ public class FileSystemStudentDao implements StudentDao {
 
     @Override
     public void saveStudent(Student student) {
-        if (studentExists(student.getUsername())) {
+        if (studentExists(student.obtainUsername())) {
             return;  // The student already exists
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
-            writer.write(student.getName() + ";" + student.getSurname() + ";" + student.getUsername() + ";" +
-                    student.getEmailAddress() + ";" + student.getPassword() + ";" + student.getRole() + ";" +
-                    student.getDateOfBirth() + ";" +
-                    student.getPhoneNumber() + ";" +
-                    student.getDegrees() + ";" +
-                    student.getCourseAttended() + ";" +
-                    student.getCertifications() + ";" +
-                    student.getWorkExperiences() + ";" +
-                    student.getSkills() + ";" +
-                    student.getAvailability());
+            writer.write(student.obtainName() + ";" + student.obtainSurname() + ";" + student.obtainUsername() + ";" +
+                    student.obtainEmailAddress() + ";" + student.obtainPassword() + ";" + student.obtainRole() + ";" +
+                    student.obtainDateOfBirth() + ";" +
+                    student.obtainPhoneNumber() + ";" +
+                    student.obtainDegrees() + ";" +
+                    student.obtainCoursesAttended() + ";" +
+                    student.obtainCertifications() + ";" +
+                    student.obtainWorkExperiences() + ";" +
+                    student.obtainSkills() + ";" +
+                    student.obtainAvailability());
             writer.newLine();
         } catch (IOException | IllegalArgumentException | DateTimeParseException e) {
             // Handle errors during file writing
@@ -109,7 +109,7 @@ public class FileSystemStudentDao implements StudentDao {
 
     @Override
     public boolean updateStudent(Student student) {
-        if (!studentExists(student.getUsername())) {
+        if (!studentExists(student.obtainUsername())) {
             return false;  // The student does not exist
         }
 
@@ -118,17 +118,17 @@ public class FileSystemStudentDao implements StudentDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 6 && data[2].trim().equals(student.getUsername())) {
+                if (data.length >= 6 && data[2].trim().equals(student.obtainUsername())) {
                     // Replace the line with the updated student data
-                    line = student.getName() + ";" + student.getSurname() + ";" + student.getUsername() + ";" +
-                            student.getEmailAddress() + ";" + student.getPassword() + ";" + student.getRole() + ";" +
-                            student.getDateOfBirth() + ";" + student.getPhoneNumber() + ";" +
-                            String.join(",", student.getDegrees()) + ";" +
-                            String.join(",", student.getCourseAttended()) + ";" +
-                            String.join(",", student.getCertifications()) + ";" +
-                            String.join(",", student.getWorkExperiences()) + ";" +
-                            String.join(",", student.getSkills()) + ";" +
-                            student.getAvailability();
+                    line = student.obtainName() + ";" + student.obtainSurname() + ";" + student.obtainUsername() + ";" +
+                            student.obtainEmailAddress() + ";" + student.obtainPassword() + ";" + student.obtainRole() + ";" +
+                            student.obtainDateOfBirth() + ";" + student.obtainPhoneNumber() + ";" +
+                            String.join(",", student.obtainDegrees()) + ";" +
+                            String.join(",", student.obtainCoursesAttended()) + ";" +
+                            String.join(",", student.obtainCertifications()) + ";" +
+                            String.join(",", student.obtainWorkExperiences()) + ";" +
+                            String.join(",", student.obtainSkills()) + ";" +
+                            student.obtainAvailability();
                 }
                 lines.add(line);  // Add the line to the buffer
             }

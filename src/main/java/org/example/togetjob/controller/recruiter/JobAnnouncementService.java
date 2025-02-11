@@ -32,16 +32,16 @@ public class JobAnnouncementService {
                 .map(job -> {
                     JobAnnouncementBean jobBean = new JobAnnouncementBean(); // empty
 
-                    jobBean.setJobTitle(job.getJobTitle());
-                    jobBean.setJobType(job.getJobType());
-                    jobBean.setRole(job.getRole());
-                    jobBean.setLocation(job.getLocation());
-                    jobBean.setWorkingHours(String.valueOf(job.getWorkingHours()));  // String
-                    jobBean.setCompanyName(job.getCompanyName());
-                    jobBean.setSalary(String.valueOf(job.getSalary()));        // String
-                    jobBean.setDescription(job.getDescription());
-                    jobBean.setActive(job.getActive());
-                    jobBean.setRecruiterUsername(recruiter.getUsername());
+                    jobBean.setJobTitle(job.obtainJobTitle());
+                    jobBean.setJobType(job.obtainJobType());
+                    jobBean.setRole(job.obtainJobRole());
+                    jobBean.setLocation(job.obtainLocation());
+                    jobBean.setWorkingHours(String.valueOf(job.obtainWorkingHours()));  // String
+                    jobBean.setCompanyName(job.obtainCompanyName());
+                    jobBean.setSalary(String.valueOf(job.obtainSalary()));        // String
+                    jobBean.setDescription(job.obtainDescription());
+                    jobBean.setActive(job.isJobActive());
+                    jobBean.setRecruiterUsername(recruiter.obtainUsername());
 
                     return jobBean;
                 })

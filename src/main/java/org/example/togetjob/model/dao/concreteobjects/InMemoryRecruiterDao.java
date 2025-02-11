@@ -11,10 +11,10 @@ public class InMemoryRecruiterDao implements RecruiterDao {
 
     @Override
     public void saveRecruiter(Recruiter recruiter) {
-        if (recruiters.containsKey(recruiter.getUsername())) {
+        if (recruiters.containsKey(recruiter.obtainUsername())) {
             return;
         }
-        recruiters.put(recruiter.getUsername(), recruiter);
+        recruiters.put(recruiter.obtainUsername(), recruiter);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class InMemoryRecruiterDao implements RecruiterDao {
 
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
-        if (!recruiters.containsKey(recruiter.getUsername())) {
+        if (!recruiters.containsKey(recruiter.obtainUsername())) {
             return false;
         }
-        recruiters.put(recruiter.getUsername(), recruiter);
+        recruiters.put(recruiter.obtainUsername(), recruiter);
         return true;
     }
 

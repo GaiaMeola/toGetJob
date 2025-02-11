@@ -71,8 +71,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
         try {
             // Retrieve JobAnnouncement ID
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
+                    jobApplication.getJobAnnouncement().obtainJobTitle(),
+                    jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
             return jobAnnouncementId.orElseThrow(() ->
@@ -90,10 +90,10 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
              PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_JOB_APPLICATION)) {
 
             // Set the values in the PreparedStatement
-            stmt.setDate(1, Date.valueOf(jobApplication.getApplicationDate()));  // Application Date
-            stmt.setString(2, jobApplication.getStudent().getUsername());       // Student Username
-            stmt.setString(3, jobApplication.getStatus().toString());           // Status
-            stmt.setString(4, jobApplication.getCoverLetter());                 // Cover Letter
+            stmt.setDate(1, Date.valueOf(jobApplication.obtainApplicationDate()));  // Application Date
+            stmt.setString(2, jobApplication.getStudent().obtainUsername());       // Student Username
+            stmt.setString(3, jobApplication.obtainStatus().toString());           // Status
+            stmt.setString(4, jobApplication.obtainCoverLetter());                 // Cover Letter
             stmt.setInt(5, jobAnnouncementIdValue);                             // Job Announcement ID
 
             // Execute the query
@@ -109,8 +109,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     public Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement) {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getUsername()
+                    jobAnnouncement.obtainJobTitle(),
+                    jobAnnouncement.getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -119,7 +119,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_JOB_APPLICATION)) {
 
-                stmt.setString(1, student.getUsername());
+                stmt.setString(1, student.obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
 
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -146,8 +146,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     public void updateJobApplication(JobApplication jobApplication) {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
+                    jobApplication.getJobAnnouncement().obtainJobTitle(),
+                    jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -155,9 +155,9 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_JOB_APPLICATION)) {
 
-                stmt.setString(1, jobApplication.getStatus().toString());
-                stmt.setString(2, jobApplication.getCoverLetter());
-                stmt.setString(3, jobApplication.getStudent().getUsername());
+                stmt.setString(1, jobApplication.obtainStatus().toString());
+                stmt.setString(2, jobApplication.obtainCoverLetter());
+                stmt.setString(3, jobApplication.getStudent().obtainUsername());
                 stmt.setInt(4, jobAnnouncementIdValue);
 
                 stmt.executeUpdate();
@@ -171,8 +171,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     public void deleteJobApplication(JobApplication jobApplication) {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobApplication.getJobAnnouncement().getJobTitle(),
-                    jobApplication.getJobAnnouncement().getRecruiter().getUsername()
+                    jobApplication.getJobAnnouncement().obtainJobTitle(),
+                    jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -180,7 +180,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_JOB_APPLICATION)) {
 
-                stmt.setString(1, jobApplication.getStudent().getUsername());
+                stmt.setString(1, jobApplication.getStudent().obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
                 stmt.executeUpdate();
             }
@@ -193,8 +193,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getUsername()
+                    jobAnnouncement.obtainJobTitle(),
+                    jobAnnouncement.getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -202,7 +202,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_JOB_APPLICATION_EXISTS)) {
 
-                stmt.setString(1, student.getUsername());
+                stmt.setString(1, student.obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
 
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -217,7 +217,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {
         List<JobApplication> jobApplications = new ArrayList<>();
-        String username = student.getUsername();
+        String username = student.obtainUsername();
         Map<JobApplication, Integer> jobApplicationToAnnouncementId = new HashMap<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
@@ -271,8 +271,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
         int jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                jobAnnouncement.getJobTitle(),
-                jobAnnouncement.getRecruiter().getUsername()
+                jobAnnouncement.obtainJobTitle(),
+                jobAnnouncement.getRecruiter().obtainUsername()
         ).orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
 
 

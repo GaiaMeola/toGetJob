@@ -88,11 +88,11 @@ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     private String generateKey(JobAnnouncement jobAnnouncement) {
-        return jobAnnouncement.getJobTitle() + "-" + jobAnnouncement.getRecruiter().getUsername();
+        return jobAnnouncement.obtainJobTitle() + "-" + jobAnnouncement.getRecruiter().obtainUsername();
     }
 
     private String generateKey(String jobTitle, Recruiter recruiter) {
-        return jobTitle + "-" + recruiter.getUsername();
+        return jobTitle + "-" + recruiter.obtainUsername();
     }
 
 }

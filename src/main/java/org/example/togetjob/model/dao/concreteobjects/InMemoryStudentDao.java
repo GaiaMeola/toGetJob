@@ -11,10 +11,10 @@ public class InMemoryStudentDao implements StudentDao {
 
     @Override
     public void saveStudent(Student student) {
-        if(students.containsKey(student.getUsername())){
+        if(students.containsKey(student.obtainUsername())){
             return;
         }
-        students.put(student.getUsername(), student);
+        students.put(student.obtainUsername(), student);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class InMemoryStudentDao implements StudentDao {
 
     @Override
     public boolean updateStudent(Student student) {
-        if(!students.containsKey(student.getUsername())){
+        if(!students.containsKey(student.obtainUsername())){
             return false;
         }
-        students.put(student.getUsername(),student);
+        students.put(student.obtainUsername(),student);
         return true;
     }
 

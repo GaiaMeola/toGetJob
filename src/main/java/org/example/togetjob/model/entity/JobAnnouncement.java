@@ -6,7 +6,7 @@ public class JobAnnouncement {
 
     private final String jobTitle;
     private final String jobType;
-    private final String role;
+    private final String jobRole;
     private final String location;
     private final int workingHours;
     private final String companyName;
@@ -16,11 +16,11 @@ public class JobAnnouncement {
     private Recruiter recruiter;
     private final JobApplicationCollectionSubjectRecruiter jobApplicationCollection;
 
-    public JobAnnouncement(String jobTitle, String jobType, String role, String location,
+    public JobAnnouncement(String jobTitle, String jobType, String jobRole, String location,
                            int workingHours, String companyName, double salary) {
         this.jobTitle = jobTitle;
         this.jobType = jobType;
-        this.role = role;
+        this.jobRole = jobRole;
         this.location = location;
         this.workingHours = workingHours;
         this.companyName = companyName;
@@ -34,39 +34,39 @@ public class JobAnnouncement {
         this.recruiter = recruiter;
     }
 
-    public String getJobTitle() {
+    public String obtainJobTitle() {
         return jobTitle;
     }
 
-    public String getJobType() {
+    public String obtainJobType() {
         return jobType;
     }
 
-    public String getRole() {
-        return role;
+    public String obtainJobRole() {
+        return jobRole;
     }
 
-    public String getLocation() {
+    public String obtainLocation() {
         return location;
     }
 
-    public int getWorkingHours() {
+    public int obtainWorkingHours() {
         return workingHours;
     }
 
-    public String getCompanyName() {
+    public String obtainCompanyName() {
         return companyName;
     }
 
-    public double getSalary() {
+    public double obtainSalary() {
         return salary;
     }
 
-    public String getDescription() {
+    public String obtainDescription() {
         return description;
     }
 
-    public Boolean getActive() {
+    public Boolean isJobActive() {
         return isActive;
     }
 

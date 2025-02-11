@@ -78,11 +78,11 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
 
     private String generateKey(Student student , JobAnnouncement jobAnnouncement){
 
-        return student.getUsername() + "-" + jobAnnouncement.getJobTitle() + "-" + jobAnnouncement.getRecruiter().getUsername() ;
+        return student.obtainUsername() + "-" + jobAnnouncement.obtainJobTitle() + "-" + jobAnnouncement.getRecruiter().obtainUsername() ;
     }
 
     private String generateKey(JobApplication jobApplication) {
-        return jobApplication.getStudent().getUsername() + "-" + jobApplication.getJobAnnouncement().getJobTitle() + "-" + jobApplication.getJobAnnouncement().getRecruiter().getUsername() ;
+        return jobApplication.getStudent().obtainUsername() + "-" + jobApplication.getJobAnnouncement().obtainJobTitle() + "-" + jobApplication.getJobAnnouncement().getRecruiter().obtainUsername() ;
     }
 
 }

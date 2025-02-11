@@ -11,10 +11,10 @@ public class InMemoryUserDao implements UserDao {
 
     @Override
     public boolean saveUser(User user) {
-        if (users.containsKey(user.getUsername())) {
+        if (users.containsKey(user.obtainUsername())) {
             return false; // Username exists
         }
-        users.put(user.getUsername(), user);
+        users.put(user.obtainUsername(), user);
         return true;
     }
 
@@ -30,11 +30,11 @@ public class InMemoryUserDao implements UserDao {
 
     @Override
     public boolean updateUser(User user) {
-        if (!users.containsKey(user.getUsername())) {
+        if (!users.containsKey(user.obtainUsername())) {
             return false; // User does not exist
         }
 
-        users.put(user.getUsername(), user);
+        users.put(user.obtainUsername(), user);
         return true;
     }
 

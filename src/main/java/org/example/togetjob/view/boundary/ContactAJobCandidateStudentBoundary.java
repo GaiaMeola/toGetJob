@@ -26,7 +26,7 @@ public class ContactAJobCandidateStudentBoundary {
     }
 
     public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent() {
-        return contactAJobCandidateController.getAllInterviewSchedulingForStudent();
+        return contactAJobCandidateController.getAllInterviewSchedulingsForStudent();
     }
 
 }

@@ -8,7 +8,7 @@ public class Student extends User{
     private LocalDate dateOfBirth;
     private String phoneNumber;
     private List<String> degrees;
-    private List<String> courseAttended;
+    private List<String> coursesAttended;
     private List<String> certifications;
     private List<String> workExperiences;
     private List<String> skills;
@@ -24,45 +24,40 @@ public class Student extends User{
         this.dateOfBirth = dateOfBirth;
     }
 
-    public LocalDate getDateOfBirth() {
+    public LocalDate obtainDateOfBirth() {
         return dateOfBirth;
     }
 
-    public String getPhoneNumber() {
+    public String obtainPhoneNumber() {
         return phoneNumber;
     }
 
-    public List<String> getDegrees() {
+    public List<String> obtainDegrees() {
         return degrees;
     }
 
-    public List<String> getCourseAttended() {
-        return courseAttended;
+    public List<String> obtainCoursesAttended() {
+        return coursesAttended;
     }
 
-    public List<String> getCertifications() {
+    public List<String> obtainCertifications() {
         return certifications;
     }
 
-    public List<String> getWorkExperiences() {
+    public List<String> obtainWorkExperiences() {
         return workExperiences;
     }
 
-    public List<String> getSkills() {
+    public List<String> obtainSkills() {
         return skills;
     }
 
-    public String getAvailability() {
+    public String obtainAvailability() {
         return availability;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "username='" + getUsername() + '\'' +
-                ", email='" + getEmailAddress() + '\'' +
-                ", degrees=" + degrees +
-                '}';
+    public List<JobApplication> obtainJobApplications() {
+        return jobApplications;
     }
 
     public void setJobApplications(List<JobApplication> jobApplications) {
@@ -73,7 +68,7 @@ public class Student extends User{
 
     public void setDegrees(List<String> degrees) { this.degrees = degrees; }
 
-    public void setCoursesAttended(List<String> coursesAttended) { this.courseAttended = coursesAttended; }
+    public void setCoursesAttended(List<String> coursesAttended) { this.coursesAttended = coursesAttended; }
 
     public void setCertifications(List<String> certifications) { this.certifications = certifications; }
 
@@ -82,5 +77,9 @@ public class Student extends User{
     public void setSkills(List<String> skills) { this.skills = skills; }
 
     public void setAvailability(String availability) { this.availability = availability; }
+
+    //public void removeJobApplication(JobApplication jobApplication){}
+
+    //public void addJobApplication(JobApplication jobApplication){}
 
 }

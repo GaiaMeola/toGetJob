@@ -48,15 +48,15 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         try {
 
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    interviewScheduling.getJobAnnouncement().getJobTitle(),
-                    interviewScheduling.getJobAnnouncement().getRecruiter().getUsername()
+                    interviewScheduling.getJobAnnouncement().obtainJobTitle(),
+                    interviewScheduling.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
 
 
-            Student candidate = studentDao.getStudent(interviewScheduling.getCandidate().getUsername())
+            Student candidate = studentDao.getStudent(interviewScheduling.getCandidate().obtainUsername())
                     .orElseThrow(() -> new DatabaseException(STUDENT_NOT_FOUND));
 
 
@@ -64,12 +64,12 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                  PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_INTERVIEW_SCHEDULING)) {
 
 
-                stmt.setString(1, interviewScheduling.getSubject());
-                stmt.setString(2, interviewScheduling.getGreeting());
-                stmt.setString(3, interviewScheduling.getIntroduction());
-                stmt.setDate(4, Date.valueOf(interviewScheduling.getInterviewDateTime().toLocalDate())); // Usa `Date` per solo la data
-                stmt.setString(5, interviewScheduling.getLocation());
-                stmt.setString(6, candidate.getUsername());
+                stmt.setString(1, interviewScheduling.obtainSubject());
+                stmt.setString(2, interviewScheduling.obtainGreeting());
+                stmt.setString(3, interviewScheduling.obtainIntroduction());
+                stmt.setDate(4, Date.valueOf(interviewScheduling.obtainInterviewDateTime().toLocalDate())); // Usa `Date` per solo la data
+                stmt.setString(5, interviewScheduling.obtainLocation());
+                stmt.setString(6, candidate.obtainUsername());
                 stmt.setInt(7, jobAnnouncementIdValue);
 
                 stmt.executeUpdate();
@@ -84,8 +84,8 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         try {
 
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getUsername()
+                    jobAnnouncement.obtainJobTitle(),
+                    jobAnnouncement.getRecruiter().obtainUsername()
             );
 
 
@@ -96,7 +96,7 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                  PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_INTERVIEW_SCHEDULING)) {
 
 
-                stmt.setString(1, student.getUsername());
+                stmt.setString(1, student.obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
 
 
@@ -130,8 +130,8 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         try {
             // 1. Ottenere l'ID del JobAnnouncement
             int jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getUsername()
+                    jobAnnouncement.obtainJobTitle(),
+                    jobAnnouncement.getRecruiter().obtainUsername()
             ).orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
 
             // 2. Recuperare gli interview scheduling (senza gli studenti, ma salvando i candidateUsername)
@@ -196,8 +196,8 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         try {
 
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.getJobTitle(),
-                    jobAnnouncement.getRecruiter().getUsername()
+                    jobAnnouncement.obtainJobTitle(),
+                    jobAnnouncement.getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -207,7 +207,7 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                  PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_INTERVIEW_SCHEDULING_EXISTS)) {
 
 
-                stmt.setString(1, student.getUsername());
+                stmt.setString(1, student.obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
 
 
@@ -228,7 +228,7 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL_INTERVIEW_SCHEDULING_BY_STUDENT)) {
 
-            stmt.setString(1, student.getUsername());
+            stmt.setString(1, student.obtainUsername());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -262,8 +262,8 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
     public void deleteInterviewScheduling(InterviewScheduling interviewScheduling) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    interviewScheduling.getJobAnnouncement().getJobTitle(),
-                    interviewScheduling.getJobAnnouncement().getRecruiter().getUsername()
+                    interviewScheduling.getJobAnnouncement().obtainJobTitle(),
+                    interviewScheduling.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -271,7 +271,7 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_INTERVIEW_SCHEDULING)) {
 
-                stmt.setString(1, interviewScheduling.getCandidate().getUsername());
+                stmt.setString(1, interviewScheduling.getCandidate().obtainUsername());
                 stmt.setInt(2, jobAnnouncementIdValue);
 
                 int rowsAffected = stmt.executeUpdate();
@@ -288,8 +288,8 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
     public void updateInterviewScheduling(InterviewScheduling interviewScheduling) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    interviewScheduling.getJobAnnouncement().getJobTitle(),
-                    interviewScheduling.getJobAnnouncement().getRecruiter().getUsername()
+                    interviewScheduling.getJobAnnouncement().obtainJobTitle(),
+                    interviewScheduling.getJobAnnouncement().getRecruiter().obtainUsername()
             );
 
             int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -297,12 +297,12 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_INTERVIEW_SCHEDULING)) {
 
-                stmt.setString(1, interviewScheduling.getSubject());
-                stmt.setString(2, interviewScheduling.getGreeting());
-                stmt.setString(3, interviewScheduling.getIntroduction());
-                stmt.setTimestamp(4, Timestamp.valueOf(interviewScheduling.getInterviewDateTime()));
-                stmt.setString(5, interviewScheduling.getLocation());
-                stmt.setString(6, interviewScheduling.getCandidate().getUsername());
+                stmt.setString(1, interviewScheduling.obtainSubject());
+                stmt.setString(2, interviewScheduling.obtainGreeting());
+                stmt.setString(3, interviewScheduling.obtainIntroduction());
+                stmt.setTimestamp(4, Timestamp.valueOf(interviewScheduling.obtainInterviewDateTime()));
+                stmt.setString(5, interviewScheduling.obtainLocation());
+                stmt.setString(6, interviewScheduling.getCandidate().obtainUsername());
                 stmt.setInt(7, jobAnnouncementIdValue);
 
                 int rowsAffected = stmt.executeUpdate();

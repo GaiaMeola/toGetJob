@@ -10,13 +10,13 @@ public class CLINotification implements Notification{
 
     @Override
     public void showJobApplicationNotification(JobApplication jobApplication) {
-        Printer.print("New Job Application from: " + jobApplication.getStudent().getName());
+        Printer.print("New Job Application from: " + jobApplication.getStudent().obtainName());
         Printer.print("You have a new application. Please review it at your convenience.");
     }
 
     @Override
     public void showInterviewNotification(InterviewScheduling interviewScheduling) {
-        Printer.print("CLI: Interview scheduled for student: " + interviewScheduling.getCandidate().getName());
+        Printer.print("CLI: Interview scheduled for student: " + interviewScheduling.getCandidate().obtainName());
     }
 
     @Override

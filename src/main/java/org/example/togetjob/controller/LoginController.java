@@ -20,12 +20,19 @@ public class LoginController {
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
 
-        if(user == null || !(user.getPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
+        if(user == null || !(user.obtainPassword().equalsIgnoreCase(loginUserBean.getPassword()))){
             return false;
         }
 
         SessionManager.getInstance().setCurrentUser(user);
         return true;
     }
+
+    /*
+    public boolean isUserLogged(){
+
+
+
+    }*/
 
 }

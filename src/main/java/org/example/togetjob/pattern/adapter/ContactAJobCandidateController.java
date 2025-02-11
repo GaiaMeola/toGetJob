@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ContactAJobCandidateController {
 
-    List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean);
+    List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean);
 
     InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);
 
@@ -16,7 +16,7 @@ public interface ContactAJobCandidateController {
 
     List<JobAnnouncementBean> getJobAnnouncementsByRecruiter();
 
-    List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent();
+    List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingsForStudent();
 
     List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean);
 

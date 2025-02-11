@@ -27,12 +27,12 @@ public class DataBaseUserDao implements UserDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_USER)) {
 
-            stmt.setString(1, user.getUsername());
-            stmt.setString(2, user.getName());
-            stmt.setString(3, user.getSurname());
-            stmt.setString(4, user.getEmailAddress());
-            stmt.setString(5, user.getPassword());
-            stmt.setString(6, user.getRole().toString());
+            stmt.setString(1, user.obtainUsername());
+            stmt.setString(2, user.obtainName());
+            stmt.setString(3, user.obtainSurname());
+            stmt.setString(4, user.obtainEmailAddress());
+            stmt.setString(5, user.obtainPassword());
+            stmt.setString(6, user.obtainRole().toString());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -127,12 +127,12 @@ public class DataBaseUserDao implements UserDao {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_USER)) {
 
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getSurname());
-            stmt.setString(3, user.getEmailAddress());
-            stmt.setString(4, user.getPassword());
-            stmt.setString(5, user.getRole().name());
-            stmt.setString(6, user.getUsername());
+            stmt.setString(1, user.obtainName());
+            stmt.setString(2, user.obtainSurname());
+            stmt.setString(3, user.obtainEmailAddress());
+            stmt.setString(4, user.obtainPassword());
+            stmt.setString(5, user.obtainRole().name());
+            stmt.setString(6, user.obtainUsername());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;

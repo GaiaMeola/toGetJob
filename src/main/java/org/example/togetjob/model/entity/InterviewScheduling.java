@@ -14,7 +14,7 @@ public class InterviewScheduling {
 
     public InterviewScheduling(Student candidate, JobAnnouncement jobAnnouncement, String jobTitle, String companyName, LocalDateTime interviewDateTime, String location) {
         this.subject = "Invitation for Interview – " + jobTitle + " at " + companyName;
-        this.greeting = "Dear " + candidate.getName() + ",";
+        this.greeting = "Dear " + candidate.obtainName() + ",";
         this.introduction = "We are pleased to inform you that after reviewing your application for the " + jobTitle + " position, we would like to invite you to an interview.";
         this.interviewDateTime = interviewDateTime;
         this.location = location;
@@ -36,23 +36,23 @@ public class InterviewScheduling {
         return candidate;
     }
 
-    public String getLocation() {
+    public String obtainLocation() {
         return location;
     }
 
-    public LocalDateTime getInterviewDateTime() {
+    public LocalDateTime obtainInterviewDateTime() {
         return interviewDateTime;
     }
 
-    public String getIntroduction() {
+    public String obtainIntroduction() {
         return introduction;
     }
 
-    public String getGreeting() {
+    public String obtainGreeting() {
         return greeting;
     }
 
-    public String getSubject() {
+    public String obtainSubject() {
         return subject;
     }
 

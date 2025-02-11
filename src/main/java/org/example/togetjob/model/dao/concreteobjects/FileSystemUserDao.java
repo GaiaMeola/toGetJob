@@ -12,13 +12,13 @@ public class FileSystemUserDao implements UserDao {
 
     @Override
     public boolean saveUser(User user) {
-        if (userExists(user.getUsername())) {
+        if (userExists(user.obtainUsername())) {
             return false; // The user with this username already exists
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
-            writer.write(user.getName() + ";" + user.getSurname() + ";" + user.getUsername() + ";" +
-                    user.getEmailAddress() + ";" + user.getPassword() + ";" + user.getRole());
+            writer.write(user.obtainName() + ";" + user.obtainSurname() + ";" + user.obtainUsername() + ";" +
+                    user.obtainEmailAddress() + ";" + user.obtainPassword() + ";" + user.obtainRole());
             writer.newLine();
             return true;
         } catch (IOException | IllegalArgumentException e) {
@@ -77,10 +77,10 @@ public class FileSystemUserDao implements UserDao {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
-                if (data.length >= 6 && data[2].trim().equals(user.getUsername())) {
+                if (data.length >= 6 && data[2].trim().equals(user.obtainUsername())) {
                     // Find the user's line to update and replace it with the new data
-                    line = user.getName() + "," + user.getSurname() + "," + user.getUsername() + "," +
-                            user.getEmailAddress() + "," + user.getPassword() + "," + user.getRole();
+                    line = user.obtainName() + "," + user.obtainSurname() + "," + user.obtainUsername() + "," +
+                            user.obtainEmailAddress() + "," + user.obtainPassword() + "," + user.obtainRole();
                 }
                 lines.add(line); // Add the line to the buffer
             }

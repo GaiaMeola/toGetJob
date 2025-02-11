@@ -8,7 +8,7 @@ import org.example.togetjob.controller.registration.RegisterRecruiterController;
 import org.example.togetjob.controller.registration.RegisterStudentController;
 
 public class RegisterBoundary {
-
+    //polymorphism
     AbstractRegisterController registerController;
 
     public boolean registerUser(RegisterUserBean userBean, Object infoBean){

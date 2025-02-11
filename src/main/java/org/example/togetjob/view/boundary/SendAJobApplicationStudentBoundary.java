@@ -19,10 +19,6 @@ public class SendAJobApplicationStudentBoundary {
         return controller.showFilteredJobAnnouncements(jobAnnouncementSearchBean);
     }
 
-    public JobAnnouncementBean getJobAnnouncementDetail(JobAnnouncementBean jobAnnouncementBean){
-        return controller.showJobAnnouncementDetails(jobAnnouncementBean);
-    }
-
     public JobApplicationBean fillJobApplicationForm(JobAnnouncementBean jobAnnouncementBean){
         return controller.showJobApplicationForm(jobAnnouncementBean);
     }

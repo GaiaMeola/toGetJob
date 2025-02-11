@@ -17,7 +17,7 @@ public class InterviewSchedulingFactory {
                                             Student candidate,
                                             JobAnnouncement jobAnnouncement){
 
-        if (candidate == null || jobAnnouncement == null || jobAnnouncement.getJobTitle() == null || jobAnnouncement.getCompanyName() == null ||
+        if (candidate == null || jobAnnouncement == null || jobAnnouncement.obtainJobTitle() == null || jobAnnouncement.obtainCompanyName() == null ||
                 interviewDateTime == null || location == null) {
             throw new IllegalArgumentException("All fields must be provided.");
         }
@@ -25,8 +25,8 @@ public class InterviewSchedulingFactory {
         return new InterviewScheduling(
                 candidate,
                 jobAnnouncement,
-                jobAnnouncement.getJobTitle(),
-                jobAnnouncement.getCompanyName(),
+                jobAnnouncement.obtainJobTitle(),
+                jobAnnouncement.obtainCompanyName(),
                 interviewDateTime,
                 location
         );

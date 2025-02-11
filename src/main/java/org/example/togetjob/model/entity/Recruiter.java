@@ -17,7 +17,7 @@ public class Recruiter extends User {
         this.companies = companies;
     }
 
-    public List<String> getCompanies() {
+    public List<String> obtainCompanies() {
         return this.companies;
     }
 

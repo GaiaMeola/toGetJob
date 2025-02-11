@@ -24,7 +24,7 @@ public class LoginBoundary {
     }
 
     public String getUserRole() {
-        return SessionManager.getInstance().getCurrentUser().getRole().name();
+        return SessionManager.getInstance().getCurrentUser().obtainRole().name();
     }
 
 }

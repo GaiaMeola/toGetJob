@@ -57,19 +57,19 @@ public class SendAJobApplication {
 
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
 
-        jobAnnouncementBean.setJobTitle(jobAnnouncement.getJobTitle() != null ? jobAnnouncement.getJobTitle() : "Unknown Title");
-        jobAnnouncementBean.setJobType(jobAnnouncement.getJobType() != null ? jobAnnouncement.getJobType() : "Unknown Type");
-        jobAnnouncementBean.setRole(jobAnnouncement.getRole() != null ? jobAnnouncement.getRole() : "Unknown Role");
-        jobAnnouncementBean.setLocation(jobAnnouncement.getLocation() != null ? jobAnnouncement.getLocation() : "Unknown Location");
-        jobAnnouncementBean.setCompanyName(jobAnnouncement.getCompanyName() != null ? jobAnnouncement.getCompanyName() : "Unknown Company");
-        jobAnnouncementBean.setDescription(jobAnnouncement.getDescription() != null ? jobAnnouncement.getDescription() : "No Description");
+        jobAnnouncementBean.setJobTitle(jobAnnouncement.obtainJobTitle() != null ? jobAnnouncement.obtainJobTitle() : "Unknown Title");
+        jobAnnouncementBean.setJobType(jobAnnouncement.obtainJobType() != null ? jobAnnouncement.obtainJobType() : "Unknown Type");
+        jobAnnouncementBean.setRole(jobAnnouncement.obtainJobRole() != null ? jobAnnouncement.obtainJobRole() : "Unknown Role");
+        jobAnnouncementBean.setLocation(jobAnnouncement.obtainLocation() != null ? jobAnnouncement.obtainLocation() : "Unknown Location");
+        jobAnnouncementBean.setCompanyName(jobAnnouncement.obtainCompanyName() != null ? jobAnnouncement.obtainCompanyName() : "Unknown Company");
+        jobAnnouncementBean.setDescription(jobAnnouncement.obtainDescription() != null ? jobAnnouncement.obtainDescription() : "No Description");
 
 
         //map
-        jobAnnouncementBean.setActive(jobAnnouncement.getActive() != null && jobAnnouncement.getActive());
-        jobAnnouncementBean.setRecruiterUsername(jobAnnouncement.getRecruiter().getUsername());
-        jobAnnouncementBean.setWorkingHours(jobAnnouncement.getWorkingHours() != 0 ? String.valueOf(jobAnnouncement.getWorkingHours()) : "Not Defined");
-        jobAnnouncementBean.setSalary(jobAnnouncement.getSalary() != 0.0 ? String.valueOf(jobAnnouncement.getSalary()) : "Not Defined");
+        jobAnnouncementBean.setActive(jobAnnouncement.isJobActive() != null && jobAnnouncement.isJobActive());
+        jobAnnouncementBean.setRecruiterUsername(jobAnnouncement.getRecruiter().obtainUsername());
+        jobAnnouncementBean.setWorkingHours(jobAnnouncement.obtainWorkingHours() != 0 ? String.valueOf(jobAnnouncement.obtainWorkingHours()) : "Not Defined");
+        jobAnnouncementBean.setSalary(jobAnnouncement.obtainSalary() != 0.0 ? String.valueOf(jobAnnouncement.obtainSalary()) : "Not Defined");
 
         return jobAnnouncementBean;
 
@@ -81,36 +81,15 @@ public class SendAJobApplication {
         for (JobApplication jobApplication : jobApplications) {
             JobApplicationBean jobApplicationBean = new JobApplicationBean();
 
-            jobApplicationBean.setJobTitle(jobApplication.getJobAnnouncement().getJobTitle());
-            jobApplicationBean.setStudentUsername(jobApplication.getStudent().getUsername());
-            jobApplicationBean.setCoverLetter(jobApplication.getCoverLetter());
-            jobApplicationBean.setRecruiterUsername(jobApplication.getJobAnnouncement().getRecruiter().getUsername());
-            jobApplicationBean.setStatus(jobApplication.getStatus());
+            jobApplicationBean.setJobTitle(jobApplication.getJobAnnouncement().obtainJobTitle());
+            jobApplicationBean.setStudentUsername(jobApplication.getStudent().obtainUsername());
+            jobApplicationBean.setCoverLetter(jobApplication.obtainCoverLetter());
+            jobApplicationBean.setRecruiterUsername(jobApplication.getJobAnnouncement().getRecruiter().obtainUsername());
+            jobApplicationBean.setStatus(jobApplication.obtainStatus());
             jobApplicationBeans.add(jobApplicationBean);
         }
 
         return jobApplicationBeans;
-    }
-
-
-    public JobAnnouncementBean showJobAnnouncementDetails(JobAnnouncementBean jobAnnouncementBean) throws RecruiterNotFoundException {
-
-        String recruiterUsername = jobAnnouncementBean.getRecruiterUsername();
-        Optional<Recruiter> recruiterOpt = recruiterDao.getRecruiter(recruiterUsername);
-
-        if (recruiterOpt.isEmpty()) {
-            throw new RecruiterNotFoundException("Recruiter not found for username: " + recruiterUsername);
-        }
-
-        Recruiter recruiter = recruiterOpt.get();
-
-        Optional<JobAnnouncement> jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
-
-        if (jobAnnouncement.isPresent()) {
-            return convertToJobAnnouncementBean(jobAnnouncement.get());
-        } else {
-            throw new JobAnnouncementNotFoundException("Job Announcement Not Found");
-        }
     }
 
     public JobApplicationBean showJobApplicationForm(JobAnnouncementBean jobAnnouncementBean) {
@@ -120,7 +99,7 @@ public class SendAJobApplication {
         form.setJobTitle(jobAnnouncementBean.getJobTitle());
         form.setRecruiterUsername(jobAnnouncementBean.getRecruiterUsername());
         form.setStatus(Status.PENDING);
-        form.setStudentUsername(SessionManager.getInstance().getStudentFromSession().getUsername());
+        form.setStudentUsername(SessionManager.getInstance().getStudentFromSession().obtainUsername());
 
         form.setCoverLetter("");
         return form;
@@ -141,7 +120,7 @@ public class SendAJobApplication {
                 .orElseThrow(() -> new IllegalArgumentException("Error: JobAnnouncement not found.")); // Job Announcement Found
 
         // Check if the job announcement is still active
-        if (jobAnnouncement.getActive() == null || !jobAnnouncement.getActive()) {
+        if (jobAnnouncement.isJobActive() == null || !jobAnnouncement.isJobActive()) {
             throw new JobAnnouncementNotActiveException("This job announcement is no longer active.");
         }
 
@@ -210,7 +189,7 @@ public class SendAJobApplication {
 
         JobApplication jobApplication = jobApplicationOPT.get();
 
-        if (!jobApplication.getStatus().equals(Status.PENDING)) {
+        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
             return false; //job application already managed
         }
 
@@ -246,13 +225,13 @@ public class SendAJobApplication {
 
         List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
         Optional<JobApplication> jobApplicationOpt = jobApplications.stream()
-                .filter(jobApplication -> jobApplication.getStudent().getUsername().equals(jobApplicationBean.getStudentUsername()))
+                .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))
                 .findFirst();
         if (jobApplicationOpt.isEmpty()) {
             throw new IllegalArgumentException("Error: Job Application not found for the specified student.");
         }
         JobApplication jobApplication = jobApplicationOpt.get();
-        if (!jobApplication.getStatus().equals(Status.PENDING)) {
+        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
             return false; // Already Managed
         }
         jobApplication.setStatus(status); // (ACCEPTED or REJECTED)
@@ -309,26 +288,26 @@ public class SendAJobApplication {
         }
 
         JobApplication jobApplication = jobApplicationOpt.get();
-        return jobApplication.getStatus();
+        return jobApplication.obtainStatus();
 
     }
 
     //method to filter
 
     private boolean filterByTitle(JobAnnouncement announcement, String jobTitle) {
-        return jobTitle == null || jobTitle.isEmpty() || announcement.getJobTitle().toLowerCase().contains(jobTitle.toLowerCase());
+        return jobTitle == null || jobTitle.isEmpty() || announcement.obtainJobTitle().toLowerCase().contains(jobTitle.toLowerCase());
     }
 
     private boolean filterByLocation(JobAnnouncement announcement, String location) {
-        return location == null || location.isEmpty() || announcement.getLocation().toLowerCase().contains(location.toLowerCase());
+        return location == null || location.isEmpty() || announcement.obtainLocation().toLowerCase().contains(location.toLowerCase());
     }
 
     private boolean filterByRole(JobAnnouncement announcement, String role) {
-        return role == null || role.isEmpty() || announcement.getRole().toLowerCase().contains(role.toLowerCase());
+        return role == null || role.isEmpty() || announcement.obtainJobRole().toLowerCase().contains(role.toLowerCase());
     }
 
     private boolean filterByJobType(JobAnnouncement announcement, String jobType) {
-        return jobType == null || jobType.isEmpty() || announcement.getJobType().toLowerCase().contains(jobType.toLowerCase());
+        return jobType == null || jobType.isEmpty() || announcement.obtainJobType().toLowerCase().contains(jobType.toLowerCase());
     }
 
     private boolean filterBySalary(JobAnnouncement announcement, String salary) {
@@ -337,7 +316,7 @@ public class SendAJobApplication {
         }
         try {
             double salaryFilter = Double.parseDouble(salary);
-            return announcement.getSalary() >= salaryFilter;
+            return announcement.obtainSalary() >= salaryFilter;
         } catch (NumberFormatException e) {
             return false;
         }
@@ -349,14 +328,14 @@ public class SendAJobApplication {
         }
         try {
             int workingHoursFilter = Integer.parseInt(workingHours);
-            return announcement.getWorkingHours() >= workingHoursFilter;
+            return announcement.obtainWorkingHours() >= workingHoursFilter;
         } catch (NumberFormatException e) {
             return false;
         }
     }
 
     private boolean filterByCompanyName(JobAnnouncement announcement, String companyName) {
-        return companyName == null || companyName.isEmpty() || announcement.getCompanyName().toLowerCase().contains(companyName.toLowerCase());
+        return companyName == null || companyName.isEmpty() || announcement.obtainCompanyName().toLowerCase().contains(companyName.toLowerCase());
     }
 
 }

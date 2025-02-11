@@ -42,7 +42,7 @@ public class JobApplication {
         this.jobAnnouncement = jobAnnouncement;
     }
 
-    public LocalDate getApplicationDate() {
+    public LocalDate obtainApplicationDate() {
         return applicationDate;
     }
 
@@ -54,7 +54,7 @@ public class JobApplication {
         this.student = student;
     }
 
-    public Status getStatus() {
+    public Status obtainStatus() {
         return status;
     }
 
@@ -62,7 +62,7 @@ public class JobApplication {
         this.status = status;
     }
 
-    public String getCoverLetter() {
+    public String obtainCoverLetter() {
         return coverLetter;
     }
 
