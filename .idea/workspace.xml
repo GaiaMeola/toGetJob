@@ -99,14 +99,6 @@
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
     </task>
-    <task id="LOCAL-00002" summary="Primo Commit">
-      <option name="closed" value="true" />
-      <created>1735663831106</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1735663831106</updated>
-    </task>
     <task id="LOCAL-00003" summary="Primo Commit">
       <option name="closed" value="true" />
       <created>1735663851839</created>
@@ -491,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739286252186</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="commit">
+      <option name="closed" value="true" />
+      <created>1739286944297</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1739286944297</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
