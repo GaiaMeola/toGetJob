@@ -2,6 +2,8 @@ package org.example.togetjob.view.boundary;
 
 import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.controller.LoginController;
+import org.example.togetjob.exceptions.UserNotFoundException;
+import org.example.togetjob.exceptions.WrongPasswordException;
 import org.example.togetjob.session.SessionManager;
 
 public class LoginBoundary {
@@ -12,7 +14,7 @@ public class LoginBoundary {
         this.loginController = new LoginController();
     }
 
-    public boolean login(String username, String password) {
+    public boolean login(String username, String password) throws UserNotFoundException, WrongPasswordException {
         LoginUserBean userBean = new LoginUserBean();
         userBean.setUsername(username);
         userBean.setPassword(password);

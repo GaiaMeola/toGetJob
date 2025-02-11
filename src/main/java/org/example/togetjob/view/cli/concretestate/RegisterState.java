@@ -3,6 +3,7 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
+import org.example.togetjob.exceptions.UsernameTakeException;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
@@ -72,14 +73,34 @@ public class RegisterState implements CliState {
         }
 
         RegisterBoundary registerBoundary = new RegisterBoundary();
-        boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
+        try {
+            // Attempt to register the user
+            boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 
-        if (registrationSuccess) {
-            Printer.print("Registration successful!");
-            context.setState(new MainMenuState()); // Main Menù
-        } else {
-            Printer.print("Username already exists. Please try again.");
-            context.setState(new MainMenuState());
+            if (registrationSuccess) {
+                Printer.print("Registration successful!");
+                context.setState(new MainMenuState()); // Main Menu
+            } else {
+                Printer.print("Username already exists. Please try again.");
+                context.setState(new RegisterState()); // Retry registration
+            }
+
+        } catch (UsernameTakeException e) {
+            // Specific handling for the UsernameTakeException
+            Printer.print("Error: The username is already taken. Please choose a different username.");
+            Printer.print("Would you like to try again with a different username? (yes/no)");
+            String response = scanner.nextLine().trim().toLowerCase();
+
+            if ("yes".equalsIgnoreCase(response)) {
+                context.setState(new RegisterState()); // Retry registration with new username
+            } else {
+                context.setState(new MainMenuState()); // Go to Main Menu
+            }
+
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            Printer.print("An unexpected error occurred: " + e.getMessage());
+            context.setState(new MainMenuState()); // Go to Main Menu
         }
 
     }
