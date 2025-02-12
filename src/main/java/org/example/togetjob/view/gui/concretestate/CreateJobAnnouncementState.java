@@ -2,44 +2,48 @@ package org.example.togetjob.view.gui.concretestate;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.togetjob.bean.JobAnnouncementBean;
+import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
-import org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController;
+import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;
 
 import java.io.IOException;
 
-public class HomeRecruiterState implements GUIState {
+public class CreateJobAnnouncementState implements GUIState {
 
     GUIContext context;
 
-    public HomeRecruiterState(GUIContext context) {
-        this.context = context;
+    public CreateJobAnnouncementState(GUIContext context ){
+
+        this.context = context ;
+
     }
 
     @Override
     public void showMenu() {
 
         try {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homerecruiter.fxml"));
+            Printer.print("Showing CreateJobAnnouncementState...");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
 
-            HomeRecruiterController controller = fxmlLoader.getController();
+            CreateJobAnnouncementController controller = fxmlLoader.getController();
             controller.setContext(context);
 
             Stage stage = context.getStage();
 
-            if(stage == null){
+            if (stage == null) {
                 stage = new Stage();
                 context.setStage(stage);
             }
 
-            stage.setTitle("Home Recruiter");
+            stage.setTitle("Create Job Announcement");
             stage.setScene(scene);
 
-            //listener to close the application
             stage.setOnCloseRequest(event -> {
                 Platform.exit();  // JavaFX
                 System.exit(0);   // process
@@ -50,9 +54,7 @@ public class HomeRecruiterState implements GUIState {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
     @Override
     public GUIContext getContext() {
         return this.context;

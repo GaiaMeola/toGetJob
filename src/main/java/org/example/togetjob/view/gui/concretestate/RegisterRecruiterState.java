@@ -62,6 +62,6 @@ public class RegisterRecruiterState implements GUIState {
 
     @Override
     public GUIContext getContext() {
-        return null;
+        return context;
     }
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeRegisterController">
+<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -65,7 +65,7 @@
                   <Glow />
                </effect>
             </Separator>
-            <Button layoutX="173.0" layoutY="228.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
+            <Button layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
@@ -80,7 +80,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Label>
-            <Button layoutX="176.0" layoutY="330.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate">
+            <Button layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleContactAJobCandidate" onMouseClicked="#handleContactAJobCandidate" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
