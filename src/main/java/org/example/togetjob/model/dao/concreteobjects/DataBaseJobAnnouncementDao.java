@@ -159,7 +159,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
             }
 
         } catch (SQLException e) {
-            throw new DatabaseConnectionException("Error retrieving job announcements from the database", e);
+            throw new DatabaseConnectionException("Error retrieving job announcements from the database");
         }
 
         for (int i = 0; i < jobAnnouncements.size(); i++) {

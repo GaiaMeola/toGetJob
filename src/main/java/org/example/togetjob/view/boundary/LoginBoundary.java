@@ -3,6 +3,7 @@ package org.example.togetjob.view.boundary;
 import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.controller.LoginController;
 import org.example.togetjob.exceptions.UserNotFoundException;
+import org.example.togetjob.exceptions.UserNotLoggedException;
 import org.example.togetjob.exceptions.WrongPasswordException;
 import org.example.togetjob.session.SessionManager;
 
@@ -28,5 +29,7 @@ public class LoginBoundary {
     public String getUserRole() {
         return SessionManager.getInstance().getCurrentUser().obtainRole().name();
     }
+
+    public boolean isUserLogged() throws UserNotLoggedException{ return loginController.isUserLogged(); }
 
 }
