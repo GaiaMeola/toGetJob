@@ -5,6 +5,7 @@ import javafx.scene.control.TextField;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.gui.GUIContext;
+import org.example.togetjob.view.gui.concretestate.FilteredJobAnnouncementsState;
 import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 
 public class FilterJobAnnouncementStudentController {
@@ -50,6 +51,9 @@ public class FilterJobAnnouncementStudentController {
         jobAnnouncementSearchBean.setWorkingHours(workingHours);
         jobAnnouncementSearchBean.setSalary(salary);
         jobAnnouncementSearchBean.setRole(role);
+
+        context.setState(new FilteredJobAnnouncementsState(context, jobAnnouncementSearchBean));
+        context.showMenu();
     }
 
     @FXML
