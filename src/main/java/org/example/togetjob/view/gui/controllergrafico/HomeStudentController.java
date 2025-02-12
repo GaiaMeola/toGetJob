@@ -162,10 +162,14 @@ public class HomeStudentController {
                     Text jobTitleText = new Text(app.getJobTitle());
                     jobTitleText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
 
-                    Text statusText = new Text(" - Status: " + app.getStatus());
-                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; " + getStatusColorStyle(String.valueOf(app.getStatus())));
 
-                    hbox.getChildren().addAll(jobTitleText, statusText);
+                    Text statusLabelText = new Text(" - Status:");
+                    statusLabelText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; -fx-fill: #2980b9;");
+
+                    Text statusText = new Text(app.getStatus().toString());
+                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; " +  getStatusColorStyle(String.valueOf(app.getStatus())));
+
+                    hbox.getChildren().addAll(jobTitleText, statusLabelText, statusText);
 
                     HBox buttonBox = createButtonsForApplication(app);
                     hbox.getChildren().add(buttonBox);
