@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilteredJobAnnouncementsState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilteredJobAnnouncementsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobAnnouncementStudentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobAnnouncementStudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobAnnouncementStudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilteredJobAnnouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentShowJobAnnouncements.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentViewOptionsfxml.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilters.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/studentdisplayfilters.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,10 +93,10 @@
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml" />
       <recent name="$PROJECT_DIR$/target/classes/org/example/togetjob" />
       <recent name="$PROJECT_DIR$/target/classes/org/example/togetjob/view" />
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
+      <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -111,6 +111,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Terzo Commit: Aggiunta Entity">
+      <option name="closed" value="true" />
+      <created>1738086982811</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738086982811</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Terzo Commit: Prova Database">
+      <option name="closed" value="true" />
+      <created>1738142978544</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738142978544</updated>
     </task>
     <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
       <option name="closed" value="true" />
@@ -488,23 +504,7 @@
       <option name="project" value="LOCAL" />
       <updated>1739360704404</updated>
     </task>
-    <task id="LOCAL-00057" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739369599813</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1739369599814</updated>
-    </task>
-    <task id="LOCAL-00058" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739372968591</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1739372968591</updated>
-    </task>
-    <option name="localTasksCounter" value="59" />
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -19,7 +19,6 @@ import java.util.List;
 
 public class HomeStudentController {
 
-
     @FXML
     private TitledPane pendingApplicationsPane;
     @FXML
@@ -131,7 +130,6 @@ public class HomeStudentController {
             listView.getItems().addAll(applications);
             listView.setCellFactory(param -> createJobApplicationCell());
         }
-
     }
 
     private ListView<JobApplicationBean> getListViewForPane(TitledPane pane) {

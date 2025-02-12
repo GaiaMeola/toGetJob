@@ -11,11 +11,11 @@ import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementCont
 
 import java.io.IOException;
 
-public class CreateJobAnnouncementState implements GUIState {
+public class RecruiterDisplayFiltersState implements GUIState {
 
     GUIContext context;
 
-    public CreateJobAnnouncementState(GUIContext context){
+    public RecruiterDisplayFiltersState(GUIContext context ){
 
         this.context = context ;
 
@@ -25,8 +25,8 @@ public class CreateJobAnnouncementState implements GUIState {
     public void showMenu() {
 
         try {
-            Printer.print("Showing CreateJobAnnouncementState...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruitercreatejobannouncement.fxml"));
+            Printer.print("Showing RecruiterDisplayFiltersState...");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
 
             CreateJobAnnouncementController controller = fxmlLoader.getController();
@@ -39,7 +39,7 @@ public class CreateJobAnnouncementState implements GUIState {
                 context.setStage(stage);
             }
 
-            stage.setTitle("Create Job Announcement");
+            stage.setTitle("Display Filters");
             stage.setScene(scene);
 
             stage.setOnCloseRequest(event -> {
