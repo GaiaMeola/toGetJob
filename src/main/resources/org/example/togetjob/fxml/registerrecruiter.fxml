@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,24 +32,13 @@
             <Glow />
          </effect>
       </Label>
-      <TextField fx:id="companiesField" layoutX="102.0" layoutY="90.0" prefHeight="26.0" prefWidth="358.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="15.0">
+      <TextField fx:id="companiesField" layoutX="101.0" layoutY="89.0" prefHeight="26.0" prefWidth="377.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;">
          <font>
             <Font name="AppleGothic Regular" size="12.0" />
          </font>
       </TextField>
-      <StackPane layoutX="170.0" layoutY="-23.0">
-         <children>
-            <ImageView fitHeight="96.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
-               <image>
-                  <Image url="@../logo-removebg-preview.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D minY="-10.0" />
-               </viewport>
-            </ImageView>
-         </children>
-      </StackPane>
-      <Button fx:id="continueButton" layoutX="174.0" layoutY="130.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
+      <StackPane layoutX="170.0" layoutY="-23.0" />
+      <Button fx:id="continueButton" layoutX="182.0" layoutY="152.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
@@ -64,10 +54,21 @@
                      <image>
                         <Image url="@../back-158491_1920.png" />
                      </image>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
                   </ImageView>
                </graphic>
             </Button>
          </children>
       </StackPane>
+      <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="180.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../logo-removebg-preview.png" />
+         </image>
+         <viewport>
+            <Rectangle2D minY="-10.0" />
+         </viewport>
+      </ImageView>
    </children>
 </AnchorPane>
