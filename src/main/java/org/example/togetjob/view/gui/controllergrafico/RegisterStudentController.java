@@ -1,7 +1,6 @@
 package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.StudentInfoBean;
@@ -9,6 +8,7 @@ import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.view.gui.GUIContext;
+import org.example.togetjob.view.gui.concretestate.HomeState;
 import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,15 +24,10 @@ public class RegisterStudentController {
     @FXML private TextField certificationsField;
     @FXML private TextField workExperienceField;
     @FXML private TextField skillsField;
-    @FXML private Button continueButton;
 
     private GUIContext context;
     private RegisterUserBean userBean;
     private final RegisterBoundary registerBoundary = new RegisterBoundary();
-
-    public RegisterStudentController() {
-        /* */
-    }
 
     public void setContext(GUIContext context) {
         this.context = context;
@@ -43,22 +38,18 @@ public class RegisterStudentController {
     }
 
     @FXML
-    private void handleContinueButton() {
-
+    private void handleContinue() {
         String phone = phoneField.getText();
         String availability = availabilityField.getText();
-
-        StudentInfoBean studentInfoBean = getStudentInfoBean(phone, availability);
-
 
         if (phone.isEmpty() || availability.isEmpty()) {
             Printer.print("Phone and availability fields must be filled out!");
             return;
         }
 
+        StudentInfoBean studentInfoBean = getStudentInfoBean(phone, availability);
 
         boolean registrationSuccess = registerBoundary.registerUser(userBean, studentInfoBean);
-
 
         if (registrationSuccess) {
             Printer.print("Student successfully registered: " + studentInfoBean);
@@ -77,7 +68,6 @@ public class RegisterStudentController {
         List<String> workExperiences = List.of(workExperienceField.getText().split(","));
         List<String> skills = List.of(skillsField.getText().split(","));
 
-
         StudentInfoBean studentInfoBean = new StudentInfoBean();
         studentInfoBean.setUsername(userBean.getUsername());
         studentInfoBean.setDateOfBirth(birthDateField.getValue());
@@ -89,5 +79,11 @@ public class RegisterStudentController {
         studentInfoBean.setWorkExperiences(workExperiences);
         studentInfoBean.setSkills(skills);
         return studentInfoBean;
+    }
+
+    @FXML
+    private void handleBackButton() {
+        context.setState(new HomeState(context));
+        context.showMenu();
     }
 }

@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
+import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
 import org.example.togetjob.view.gui.controllergrafico.RegisterStudentController;
@@ -15,11 +16,11 @@ import java.io.IOException;
 
 public class RegisterStudentState implements GUIState {
 
-    RegisterUserBean registerUserBean;
+    RegisterUserBean userBean;
     GUIContext context;
 
-    public RegisterStudentState(RegisterUserBean registerUserBean, GUIContext context) {
-        this.registerUserBean = registerUserBean;
+    public RegisterStudentState(RegisterUserBean userBean, GUIContext context) {
+        this.userBean = userBean;
         this.context = context;
     }
 
@@ -31,9 +32,8 @@ public class RegisterStudentState implements GUIState {
             Parent root = fxmlLoader.load();
 
             RegisterStudentController registerStudentController = fxmlLoader.getController();
-
             registerStudentController.setContext(context);
-            registerStudentController.setUserBean(registerUserBean);
+            registerStudentController.setUserBean(userBean);
 
             Scene scene = new Scene(root);
             Stage stage = context.getStage();
@@ -41,6 +41,7 @@ public class RegisterStudentState implements GUIState {
             if(stage == null){
                 stage = new Stage();
                 context.setStage(stage);
+
             }
 
             stage.setTitle("Register Student");
@@ -52,7 +53,6 @@ public class RegisterStudentState implements GUIState {
                 System.exit(0);   // process
             });
 
-            stage.setTitle("Register User");
             stage.show();
 
         } catch (IOException e) {

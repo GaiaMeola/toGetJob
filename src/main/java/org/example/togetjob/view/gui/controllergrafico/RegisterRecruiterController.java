@@ -9,13 +9,13 @@ import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
+import org.example.togetjob.view.gui.concretestate.HomeState;
 
 import java.util.List;
 
 public class RegisterRecruiterController {
 
     @FXML private TextField companiesField;
-    @FXML private Button continueButton;
 
     private GUIContext context;
     private RegisterUserBean userBean;
@@ -52,5 +52,12 @@ public class RegisterRecruiterController {
             Printer.print("Registration failed!");
         }
     }
+
+    @FXML
+    private void handleBackButton() {
+        context.setState(new HomeState(context));
+        context.showMenu();
+    }
+
 }
 

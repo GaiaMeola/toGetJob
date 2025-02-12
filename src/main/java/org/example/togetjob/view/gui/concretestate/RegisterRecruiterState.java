@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
 import org.example.togetjob.view.gui.controllergrafico.RegisterRecruiterController;
@@ -27,6 +28,7 @@ public class RegisterRecruiterState implements GUIState {
     public void showMenu() {
 
         try {
+            Printer.print("Showing RegisterStudentState...");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/registerrecruiter.fxml"));
             Parent root = fxmlLoader.load();
 

@@ -1,7 +1,6 @@
 package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
@@ -9,6 +8,7 @@ import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.concretestate.HomeState;
 import org.example.togetjob.view.gui.concretestate.RegisterRecruiterState;
 import org.example.togetjob.view.gui.concretestate.RegisterStudentState;
+
 
 public class RegisterController {
 
@@ -61,7 +61,7 @@ public class RegisterController {
     }
 
     @FXML
-    private void handleContinueButton() {
+    private void handleContinue() {
         if (context == null) {
             Printer.print("Cannot continue, context is NULL!");
             return;
@@ -94,10 +94,10 @@ public class RegisterController {
         user.setEmail(email);
         Printer.print("User created: " + user);
 
-        if (role.equalsIgnoreCase("Student")) {
+        if (role.equalsIgnoreCase("student")) {
             Printer.print("Redirecting to Student registration...");
             context.setState(new RegisterStudentState(user, context));
-        } else if (role.equalsIgnoreCase("Recruiter")) {
+        } else if (role.equalsIgnoreCase("recruiter")) {
             Printer.print("Redirecting to Recruiter registration...");
             context.setState(new RegisterRecruiterState(user, context));
         } else {

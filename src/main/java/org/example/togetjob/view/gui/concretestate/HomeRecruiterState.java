@@ -32,7 +32,7 @@ public class HomeRecruiterState implements GUIState {
                 context.setStage(stage);
             }
 
-            stage.setTitle("Home Student");
+            stage.setTitle("Home Recruiter");
             stage.setScene(scene);
 
             //listener to close the application
