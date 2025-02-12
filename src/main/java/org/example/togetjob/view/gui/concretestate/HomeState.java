@@ -26,7 +26,6 @@ public class HomeState implements GUIState {
             Parent root = loader.load();
 
             HomeController controller = loader.getController();
-
             controller.initialize(context);
 
             Scene scene = new Scene(root);

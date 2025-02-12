@@ -19,6 +19,7 @@ import java.util.List;
 
 public class HomeStudentController {
 
+
     @FXML
     private TitledPane pendingApplicationsPane;
     @FXML
@@ -35,6 +36,9 @@ public class HomeStudentController {
     @FXML
     private ListView<JobApplicationBean> rejectedApplicationsList;
 
+    private static final String PENDING = "PENDING";
+    private static final String ACCEPTED = "ACCEPTED";
+    private static final String REJECTED = "REJECTED";
 
     private GUIContext context;
     private final LoginBoundary loginBoundary = new LoginBoundary();
@@ -49,7 +53,7 @@ public class HomeStudentController {
 
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> acceptedApplications = allApplications.stream()
-                .filter(app -> "ACCEPTED".equalsIgnoreCase(String.valueOf(app.getStatus())))
+                .filter(app -> ACCEPTED.equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Accepted applications: " + acceptedApplications);
@@ -64,7 +68,7 @@ public class HomeStudentController {
 
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> rejectedApplications = allApplications.stream()
-                .filter(app -> "REJECTED".equalsIgnoreCase(String.valueOf(app.getStatus())))
+                .filter(app -> REJECTED .equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Rejected applications: " + rejectedApplications);
@@ -79,7 +83,7 @@ public class HomeStudentController {
 
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> pendingApplications = allApplications.stream()
-                .filter(app -> "PENDING".equalsIgnoreCase(String.valueOf(app.getStatus())))
+                .filter(app -> PENDING.equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Pending applications: " + pendingApplications);
@@ -127,6 +131,7 @@ public class HomeStudentController {
             listView.getItems().addAll(applications);
             listView.setCellFactory(param -> createJobApplicationCell());
         }
+
     }
 
     private ListView<JobApplicationBean> getListViewForPane(TitledPane pane) {
@@ -176,13 +181,13 @@ public class HomeStudentController {
     private String getStatusColorStyle(String status) {
 
         switch (status.toUpperCase()) {
-            case "PENDING" -> {
+            case PENDING -> {
                 return "-fx-fill: #2980b9;";
             }
-            case "ACCEPTED" -> {
+            case ACCEPTED -> {
                 return "-fx-fill: #28A745;";
             }
-            case "REJECTED" -> {
+            case REJECTED  -> {
                 return "-fx-fill: #DC3545;";
             }
             default -> {
@@ -195,7 +200,7 @@ public class HomeStudentController {
     private HBox createButtonsForApplication(JobApplicationBean app) {
         HBox hbox = new HBox(10);
 
-        if ("PENDING".equalsIgnoreCase(String.valueOf(app.getStatus()))) {
+        if (PENDING.equalsIgnoreCase(String.valueOf(app.getStatus()))) {
             Button modifyButton = new Button("Modify");
             modifyButton.setOnAction(event -> modifyApplication(app));
 

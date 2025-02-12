@@ -24,7 +24,7 @@
       <Cursor fx:constant="SE_RESIZE" />
    </cursor>
    <children>
-      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+      <AnchorPane onMouseMoved="#handleAcceptedApplications" prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
             <Button layoutX="170.0" layoutY="332.0" mnemonicParsing="false" onAction="#sendAJobApplication" onMouseClicked="#sendAJobApplication" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Send a Job Application">
                <font>
@@ -76,7 +76,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView fx:id="pendingApplicationsList" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="pendingApplicationsList" onMouseMoved="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
 
@@ -85,7 +85,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView fx:id="acceptedApplicationsList" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="acceptedApplicationsList" onMouseMoved="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
 
@@ -94,7 +94,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="rejectedApplicationsList" onMouseMoved="#handleRejectedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
                </children>

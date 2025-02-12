@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
+import org.example.togetjob.view.gui.controllergrafico.HomeController;
+import org.example.togetjob.view.gui.controllergrafico.HomeStudentController;
 
 import java.io.IOException;
 
@@ -25,6 +27,8 @@ public class HomeStudentState implements GUIState {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homestudent.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
 
+            HomeStudentController controller = fxmlLoader.getController();
+            controller.setContext(context);
 
             Stage stage = context.getStage();
 
