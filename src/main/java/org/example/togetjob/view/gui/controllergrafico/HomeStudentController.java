@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.LoginBoundary;
@@ -18,9 +17,6 @@ import java.util.List;
 
 
 public class HomeStudentController {
-
-    @FXML
-    private VBox applicationsVBox;
 
     @FXML
     private TitledPane pendingApplicationsPane;
@@ -128,7 +124,7 @@ public class HomeStudentController {
             content.getChildren().add(applicationLabel);
 
 
-            if ("PENDING".equalsIgnoreCase(app.getStatus())) {
+            if ("PENDING".equalsIgnoreCase(String.valueOf(app.getStatus()))) {
                 Button modifyButton = new Button("Modify");
                 modifyButton.setOnAction(event -> modifyApplication(app));
 
@@ -140,7 +136,16 @@ public class HomeStudentController {
         }
     }
 
+    private void modifyApplication(JobApplicationBean application) {
+        Printer.print("Modify application: " + application.getJobTitle());
+    }
 
+    private void deleteApplication(JobApplicationBean application) {
 
-
+        Printer.print("Delete application: " + application.getJobTitle());
+        sendAJobApplicationStudentBoundary.deleteAJobApplication(application);
+        handlePendingApplications();
+        handleAcceptedApplications();
+        handleRejectedApplications();
+    }
 }
