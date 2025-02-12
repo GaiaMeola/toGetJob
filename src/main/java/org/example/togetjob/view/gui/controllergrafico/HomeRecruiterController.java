@@ -15,6 +15,7 @@ import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;
+import org.example.togetjob.view.gui.concretestate.FilterJobCandidateState;
 import org.example.togetjob.view.gui.concretestate.HomeState;
 
 import java.util.List;
@@ -148,7 +149,8 @@ public class HomeRecruiterController {
 
     private void handleContactJobCandidate(JobAnnouncementBean jobAnnouncement) {
         Printer.print("Contacting Job Candidate for: " + jobAnnouncement.getJobTitle());
-        // Implement the logic for contacting the job candidate
+        context.setState(new FilterJobCandidateState(context, jobAnnouncement));
+        context.showMenu();
     }
 
     private List<JobAnnouncementBean> fetchJobAnnouncements() {

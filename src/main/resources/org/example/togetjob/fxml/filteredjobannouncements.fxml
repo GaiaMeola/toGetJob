@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.RegisterController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.ContactAJobCandidateController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -23,7 +23,7 @@
       <Cursor fx:constant="SE_RESIZE" />
    </cursor>
    <children>
-      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+      <AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
             <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
                <font>
@@ -49,24 +49,21 @@
                   </Button>
                </children>
             </StackPane>
-            <StackPane accessibleRole="BUTTON" layoutX="156.0" layoutY="-10.0" mouseTransparent="true" onMouseClicked="#handleHomeButton" prefHeight="52.0" prefWidth="156.0" AnchorPane.bottomAnchor="330.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="-15.0">
-               <children>
-                  <ImageView fitHeight="71.0" fitWidth="115.0" mouseTransparent="true" onMouseClicked="#handleHomeButton" pickOnBounds="true" preserveRatio="true" y="-7.0">
-                     <image>
-                        <Image url="@../logo-removebg-preview.png" />
-                     </image>
-                     <viewport>
-                        <Rectangle2D minY="-10.0" />
-                     </viewport>
-                  </ImageView>
-               </children>
-            </StackPane>
-            <TableView editable="true" layoutX="1.0" layoutY="52.0" prefHeight="334.0" prefWidth="449.0" style="-fx-background-color: 00aaff;">
+            <TableView fx:id="candidatesTable" editable="true" layoutX="18.0" layoutY="73.0" prefHeight="369.0" prefWidth="529.0" style="-fx-background-color: 00aaff;">
                <columns>
-                  <TableColumn fx:id="jobAnnouncementTitle" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic;" text="Title" />
-                  <TableColumn prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="View Options" />
+                  <TableColumn fx:id="nameColumn" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic; -fx-text-fill: #b3d9ff;" text="Username" />
+                  <TableColumn fx:id="degreeColumn" prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="Degrees" />
+                  <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
                </columns>
             </TableView>
+            <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="217.0" layoutY="-1.0" mouseTransparent="true" onMouseClicked="#handleHomeButton" pickOnBounds="true" preserveRatio="true" y="-7.0">
+               <image>
+                  <Image url="@../logo-removebg-preview.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D minY="-10.0" />
+               </viewport>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>
