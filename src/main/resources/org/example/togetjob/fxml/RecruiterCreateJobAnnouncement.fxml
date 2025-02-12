@@ -109,7 +109,7 @@
             <Font name="AppleGothic Regular" size="12.0" />
          </font>
       </TextField>
-      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleGoBack" onMouseClicked="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: transparent;">
+      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: transparent;">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
