@@ -26,7 +26,7 @@ public class HomeController {
         this.loginBoundary = new LoginBoundary();
     }
 
-   public void initialize(GUIContext context){
+    public void initialize(GUIContext context){
         this.context = context;
    }
 

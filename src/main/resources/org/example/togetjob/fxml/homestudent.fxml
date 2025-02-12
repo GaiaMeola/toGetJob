@@ -25,7 +25,7 @@
    <children>
       <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
-            <Button layoutX="170.0" layoutY="332.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Send a Job Application">
+            <Button layoutX="170.0" layoutY="332.0" mnemonicParsing="false" onAction="#sendAJobApplication" onMouseClicked="#sendAJobApplication" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Send a Job Application">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
@@ -50,13 +50,13 @@
                </font>
             </Button>
 
-            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="230.0">
+            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewNotifications" onMouseClicked="#handleViewNotifications" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="230.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
 
-            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
+            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleLogout" onMouseClicked="#handleLogout" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
@@ -68,11 +68,11 @@
                </font>
             </Label>
 
-            <VBox layoutX="163.0" layoutY="31.0" prefHeight="253.0" prefWidth="268.0">
+            <VBox fx:id="applicationsVBox" layoutX="163.0" layoutY="31.0" prefHeight="253.0" prefWidth="268.0">
                <children>
-                  <TitledPane animated="false" prefWidth="255.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Pending Job Applications">
+                  <TitledPane fx:id="pendingApplicationsPane" animated="false" onMouseClicked="#handlePendingApplications" prefWidth="255.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Pending Job Applications">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane fx:id="pendingApplicationsPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                      <font>
                         <Font name="AppleGothic Regular" size="14.0" />
@@ -81,17 +81,20 @@
 
                   <TitledPane animated="false" onMouseClicked="#handleAcceptedApplications" prefWidth="293.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Accepted Job Applications">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane fx:id="acceptedApplicationsPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                      <font>
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                   </TitledPane>
 
-                  <TitledPane onMouseClicked="#handleRejectedApplications" onMouseDragEntered="#handleRejectedApplications" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Rejected Job Applications">
+                  <TitledPane fx:id="rejectedApplicationsPane" onMouseClicked="#handleRejectedApplications" onMouseDragEntered="#handleRejectedApplications" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Rejected Job Applications">
                      <font>
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
+                     <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+                     </content>
                   </TitledPane>
                </children>
             </VBox>
