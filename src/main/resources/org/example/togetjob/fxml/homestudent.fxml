@@ -76,7 +76,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView fx:id="pendingApplicationsList" onMouseMoved="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="pendingApplicationsList" onMouseEntered="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
 
@@ -85,7 +85,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView fx:id="acceptedApplicationsList" onMouseMoved="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="acceptedApplicationsList" onMouseEntered="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
 
@@ -94,7 +94,7 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <content>
-                        <ListView fx:id="rejectedApplicationsList" onMouseMoved="#handleRejectedApplications" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="rejectedApplicationsList" onMouseEntered="#handleRejectedApplications" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </TitledPane>
                </children>

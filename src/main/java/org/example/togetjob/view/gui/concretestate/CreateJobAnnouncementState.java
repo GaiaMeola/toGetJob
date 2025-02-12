@@ -2,10 +2,8 @@ package org.example.togetjob.view.gui.concretestate;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
@@ -28,7 +26,7 @@ public class CreateJobAnnouncementState implements GUIState {
 
         try {
             Printer.print("Showing CreateJobAnnouncementState...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruitercreatejobannouncement.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
 
             CreateJobAnnouncementController controller = fxmlLoader.getController();
