@@ -25,7 +25,7 @@ public class HomeStudentState implements GUIState {
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homestudent.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             HomeStudentController controller = fxmlLoader.getController();
             controller.setContext(context);

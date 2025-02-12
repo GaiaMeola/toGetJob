@@ -24,7 +24,7 @@ public class HomeRecruiterState implements GUIState {
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homerecruiter.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             HomeRecruiterController controller = fxmlLoader.getController();
             controller.setContext(context);

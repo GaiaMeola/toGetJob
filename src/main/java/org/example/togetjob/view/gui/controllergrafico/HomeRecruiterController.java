@@ -64,7 +64,6 @@ public class HomeRecruiterController {
         }
     }
 
-
     private void populateJobAnnouncements(List<JobAnnouncementBean> jobAnnouncements) {
         if (jobAnnouncements != null && !jobAnnouncements.isEmpty()) {
             jobAnnouncementBeanListView.getItems().clear();
@@ -74,7 +73,6 @@ public class HomeRecruiterController {
             Printer.print("No job announcements to display.");
         }
     }
-
 
     private ListCell<JobAnnouncementBean> createJobAnnouncementCell() {
         return new ListCell<JobAnnouncementBean>() {
@@ -101,6 +99,7 @@ public class HomeRecruiterController {
 
                     hbox.getChildren().addAll(jobTitleText, statusLabelText, statusText);
 
+                    // Create the button panel with the two buttons "Manage" and "Contact a Job Candidate"
                     HBox buttonBox = createButtonsForJobAnnouncement(jobAnnouncement);
                     hbox.getChildren().add(buttonBox);
 
@@ -114,18 +113,15 @@ public class HomeRecruiterController {
         return isActive ? "-fx-fill: #28A745;" : "-fx-fill: #DC3545;";
     }
 
-
     private HBox createButtonsForJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
         HBox hbox = new HBox(10);
 
-        Button activeButton = new Button("Activate");
-        Button deactivateButton = new Button("Deactivate");
-        Button deleteButton = new Button("Delete");
-        Button contactButton = new Button("Contact a Job Candidate");
+        // Button 1: "Manage"
+        Button manageButton = new Button("Manage");
+        manageButton.setOnAction(event -> handleManageJobAnnouncement(jobAnnouncement));
 
-        activeButton.setOnAction(event -> handleActivateJobAnnouncement(jobAnnouncement));
-        deactivateButton.setOnAction(event -> handleDeactivateJobAnnouncement(jobAnnouncement));
-        deleteButton.setOnAction(event -> handleDeleteJobAnnouncement(jobAnnouncement));
+        // Button 2: "Contact a Job Candidate"
+        Button contactButton = new Button("Contact a Job Candidate");
         contactButton.setOnAction(event -> handleContactJobCandidate(jobAnnouncement));
 
         String buttonStyle = "-fx-background-color: #b3d9ff; " +
@@ -135,43 +131,24 @@ public class HomeRecruiterController {
                 "-fx-border-width: 2; " +
                 "-fx-cursor: hand; " +
                 "-fx-font-weight: bold; " +
-                "-fx-background-radius: 5;"+
+                "-fx-background-radius: 5;" +
                 "-fx-font-size: 11px;";
 
-        activeButton.setStyle(buttonStyle);
-        deactivateButton.setStyle(buttonStyle);
-        deleteButton.setStyle(buttonStyle);
+        manageButton.setStyle(buttonStyle);
         contactButton.setStyle(buttonStyle);
 
-        hbox.getChildren().addAll(activeButton, deactivateButton, deleteButton, contactButton);
+        hbox.getChildren().addAll(manageButton, contactButton);
         return hbox;
     }
 
-
-    private void handleActivateJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
-        Printer.print("Activating Job Announcement: " + jobAnnouncement.getJobTitle());
-        publishAJobAnnouncementRecruiterBoundary.activateJobAnnouncement(jobAnnouncement);
-        initialize();
+    private void handleManageJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
+        Printer.print("Managing Job Announcement: " + jobAnnouncement.getJobTitle());
+        // Implement the logic for managing the job announcement (e.g., editing or reviewing it)
     }
-
-
-    private void handleDeactivateJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
-        Printer.print("Deactivating Job Announcement: " + jobAnnouncement.getJobTitle());
-        publishAJobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncement);
-        initialize();
-    }
-
-
-    private void handleDeleteJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
-        Printer.print("Deleting Job Announcement: " + jobAnnouncement.getJobTitle());
-        publishAJobAnnouncementRecruiterBoundary.deleteJobAnnouncement(jobAnnouncement);
-        initialize();
-    }
-
 
     private void handleContactJobCandidate(JobAnnouncementBean jobAnnouncement) {
         Printer.print("Contacting Job Candidate for: " + jobAnnouncement.getJobTitle());
-
+        // Implement the logic for contacting the job candidate
     }
 
     private List<JobAnnouncementBean> fetchJobAnnouncements() {

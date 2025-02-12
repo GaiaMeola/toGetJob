@@ -27,7 +27,7 @@ public class FilteredJobAnnouncementsState implements GUIState {
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobannouncements.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             FilteredJobAnnouncementsController controller = fxmlLoader.getController();
             controller.setContext(context);

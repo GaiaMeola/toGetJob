@@ -19,26 +19,26 @@
             <Font name="AppleGothic Regular" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="48.0" style="-fx-text-fill: #1D3557;" text="Please complete your recruiter profile : " textFill="#1d3557" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="55.0">
+      <Label layoutX="13.0" layoutY="48.0" style="-fx-text-fill: #1D3557;" text="Please complete your recruiter profile : " textFill="#1d3557" AnchorPane.leftAnchor="13.0" AnchorPane.topAnchor="50.0">
          <font>
-            <Font name="AppleGothic Regular" size="16.0" />
+            <Font name="AppleGothic Regular" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Companies :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Companies :" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="90.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <TextField fx:id="companiesField" layoutX="101.0" layoutY="89.0" prefHeight="26.0" prefWidth="488.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;">
+      <TextField fx:id="companiesField" layoutX="101.0" layoutY="89.0" prefHeight="26.0" prefWidth="488.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="90.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="16.0" />
          </font>
       </TextField>
       <StackPane layoutX="170.0" layoutY="-23.0" />
-      <Button fx:id="continueButton" layoutX="241.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
+      <Button fx:id="continueButton" layoutX="241.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="42.0" prefWidth="97.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff" AnchorPane.bottomAnchor="20.0">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
@@ -52,12 +52,12 @@
             <Rectangle2D minY="-10.0" />
          </viewport>
       </ImageView>
-      <Button layoutX="11.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
+      <Button layoutX="11.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleBackButton" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </Button>
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleGoBack" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../back-158491_1920.png" />
          </image>

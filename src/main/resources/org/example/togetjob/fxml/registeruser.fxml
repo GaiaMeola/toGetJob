@@ -12,24 +12,24 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.RegisterController">
    <children>
       <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
          <font>
             <Font name="AppleGothic Regular" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="160.0" style="-fx-text-fill: #1D3557;" text="Password :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="160.0" style="-fx-text-fill: #1D3557;" text="Password :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="170.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="13.0" layoutY="230.0" style="-fx-text-fill: #1D3557;" text="Surname :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="230.0" style="-fx-text-fill: #1D3557;" text="Surname :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="250.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
@@ -37,82 +37,82 @@
       </Label>
       <Label layoutX="13.0" layoutY="48.0" style="-fx-text-fill: #1D3557;" text="Fill the following fields : " textFill="#1d3557">
          <font>
-            <Font name="AppleGothic Regular" size="16.0" />
+            <Font name="AppleGothic Regular" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Username :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Username :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="90.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="13.0" layoutY="125.0" style="-fx-text-fill: #1D3557;" text="Password :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="125.0" style="-fx-text-fill: #1D3557;" text="Password :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="130.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="13.0" layoutY="265.0" style="-fx-text-fill: #1D3557;" text="Email :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="265.0" style="-fx-text-fill: #1D3557;" text="Email :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="290.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="13.0" layoutY="300.0" style="-fx-text-fill: #1D3557;" text="Role :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="300.0" style="-fx-text-fill: #1D3557;" text="Role :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="330.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="13.0" layoutY="195.0" style="-fx-text-fill: #1D3557;" text="Name :" AnchorPane.leftAnchor="10.0">
+      <Label layoutX="13.0" layoutY="195.0" style="-fx-text-fill: #1D3557;" text="Name :" textFill="#b3d9ff" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="210.0">
          <font>
-            <Font name="AppleGothic Regular" size="14.0" />
+            <Font name="AppleGothic Regular" size="18.0" />
          </font>
          <effect>
             <Glow />
          </effect>
       </Label>
-      <TextField fx:id="usernameField" layoutX="96.0" layoutY="90.0" prefHeight="26.0" prefWidth="490.0" promptText="Enter username" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="usernameField" layoutX="96.0" layoutY="90.0" prefHeight="26.0" prefWidth="490.0" promptText="Enter username" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="90.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="passwordField" layoutX="92.0" layoutY="125.0" prefHeight="26.0" prefWidth="490.0" promptText="Enter password" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="17.0">
+      <TextField fx:id="passwordField" layoutX="92.0" layoutY="125.0" prefHeight="26.0" prefWidth="490.0" promptText="Enter password" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="130.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="confirmPasswordField" layoutX="92.0" layoutY="160.0" prefHeight="26.0" prefWidth="490.0" promptText="Confirm password" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="confirmPasswordField" layoutX="92.0" layoutY="160.0" prefHeight="26.0" prefWidth="490.0" promptText="Confirm password" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="170.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="nameField" layoutX="68.0" layoutY="195.0" prefHeight="26.0" prefWidth="518.0" promptText="Enter name" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="nameField" layoutX="68.0" layoutY="195.0" prefHeight="26.0" prefWidth="518.0" promptText="Enter name" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="210.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="surnameField" layoutX="87.0" layoutY="230.0" prefHeight="26.0" prefWidth="498.0" promptText="Enter surname" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="surnameField" layoutX="87.0" layoutY="230.0" prefHeight="26.0" prefWidth="498.0" promptText="Enter surname" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="250.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="emailField" layoutX="63.0" layoutY="265.0" prefHeight="26.0" prefWidth="524.0" promptText="Enter your email (example@domain.com)" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="emailField" layoutX="63.0" layoutY="265.0" prefHeight="26.0" prefWidth="524.0" promptText="Enter your email (example@domain.com)" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="290.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="roleField" layoutX="56.0" layoutY="300.0" prefHeight="26.0" prefWidth="530.0" promptText="Enter role (student/recruiter)" style="-fx-border-radius: 5;" AnchorPane.rightAnchor="16.0">
+      <TextField fx:id="roleField" layoutX="56.0" layoutY="300.0" prefHeight="26.0" prefWidth="530.0" promptText="Enter role (student/recruiter)" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="330.0">
          <font>
-            <Font name="AppleGothic Regular" size="12.0" />
+            <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </TextField>
       <StackPane layoutX="-8.0" layoutY="5.0" onMouseClicked="#handleBackButton">
@@ -134,7 +134,7 @@
             </Button>
          </children>
       </StackPane>
-      <Button fx:id="continueButton" layoutX="233.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleContinue" onMouseClicked="#handleContinue" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
+      <Button fx:id="continueButton" layoutX="233.0" layoutY="400.0" mnemonicParsing="false" onAction="#handleContinue" onMouseClicked="#handleContinue" prefHeight="42.0" prefWidth="97.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff" AnchorPane.bottomAnchor="20.0">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>

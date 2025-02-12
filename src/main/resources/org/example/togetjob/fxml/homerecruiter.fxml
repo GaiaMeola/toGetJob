@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -24,9 +24,9 @@
       <Cursor fx:constant="SE_RESIZE" />
    </cursor>
    <children>
-      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+      <AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
-            <ImageView fitHeight="113.0" fitWidth="126.0" layoutX="16.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="30.0">
+            <ImageView fitHeight="113.0" fitWidth="126.0" layoutX="16.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="50.0">
                <image>
                   <Image url="@../imagerecruiterprogile.jpg" />
                </image>
@@ -38,50 +38,40 @@
                   </DropShadow>
                </effect>
             </ImageView>
-            <Button layoutX="16.0" layoutY="192.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="View Profile" AnchorPane.topAnchor="170.0">
+            <Button layoutX="16.0" layoutY="192.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="View Profile" AnchorPane.topAnchor="200.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="230.0">
+            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="250.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
+            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="300.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <TitledPane fx:id="titledPaneField" animated="false" layoutX="170.0" layoutY="28.0" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+            <TitledPane fx:id="jobAnnouncementField" animated="false" layoutX="170.0" layoutY="16.0" prefHeight="345.0" prefWidth="377.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements Published">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="listViewField" prefHeight="200.0" prefWidth="455.0" />
+                  <ListView fx:id="jobAnnouncementBeanListView" prefHeight="293.0" prefWidth="373.0" />
                </content>
             </TitledPane>
-            <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
+            <Separator layoutX="143.0" layoutY="-3.0" opacity="0.5" orientation="VERTICAL" prefHeight="473.0" prefWidth="11.0" style="-fx-background-color: #2980b9;">
                <effect>
                   <Glow />
                </effect>
             </Separator>
-            <Button layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
-               <font>
-                  <Font name="AppleGothic Regular" size="14.0" />
-               </font>
-            </Button>
-            <Label layoutX="156.0" layoutY="187.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? ">
+            <Label layoutX="211.0" layoutY="301.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? " AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="220.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="169.0" layoutY="289.0" style="-fx-text-fill: #2980b9;" text="Do you want to contact a job candidate? ">
-               <font>
-                  <Font name="AppleGothic Regular" size="14.0" />
-               </font>
-            </Label>
-            <Button layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleContactAJobCandidate" onMouseClicked="#handleContactAJobCandidate" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate">
+            <Button layoutX="236.0" layoutY="344.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish a Job Announcement" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="398.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>

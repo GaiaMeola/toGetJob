@@ -27,7 +27,7 @@ public class CreateJobAnnouncementState implements GUIState {
         try {
             Printer.print("Showing CreateJobAnnouncementState...");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruitercreatejobannouncement.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             CreateJobAnnouncementController controller = fxmlLoader.getController();
             controller.setContext(context);

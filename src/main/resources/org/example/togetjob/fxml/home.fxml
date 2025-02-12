@@ -10,19 +10,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeController">
    <children>
-      <Button fx:id="registerButton" layoutX="234.0" layoutY="418.0" mnemonicParsing="false" onAction="#handleRegister" onMouseClicked="#handleRegister" prefHeight="42.0" prefWidth="97.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold;" text="REGISTER">
+      <Button fx:id="registerButton" layoutX="234.0" layoutY="418.0" mnemonicParsing="false" onAction="#handleRegister" prefHeight="42.0" prefWidth="97.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold;" text="REGISTER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="234.0">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </Button>
-      <Label layoutX="153.0" layoutY="354.0" style="-fx-text-fill: #2980b9;" text="Do you want to create a new one? ">
+      <Label layoutX="153.0" layoutY="354.0" style="-fx-text-fill: #2980b9;" text="Do you want to create a new one? " AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="160.0">
          <font>
             <Font name="AppleGothic Regular" size="16.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="5.0" layoutX="70.0" layoutY="14.0" prefHeight="52.0" prefWidth="407.0" style="-fx-text-fill: #2980b9;" text="Welcome to toGetJob !" textAlignment="CENTER" textOverrun="CLIP">
+      <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="5.0" layoutX="70.0" layoutY="14.0" prefHeight="52.0" prefWidth="407.0" style="-fx-text-fill: #2980b9;" text="Welcome to toGetJob !" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="11.0">
          <font>
             <Font name="AppleGothic Regular" size="36.0" />
          </font>
@@ -30,34 +30,29 @@
             <Glow />
          </effect>
       </Label>
-      <AnchorPane layoutX="64.0" layoutY="101.0" prefHeight="204.0" prefWidth="455.0" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20; -fx-border-color: #2980b9;">
+      <AnchorPane layoutX="15.0" layoutY="76.0" prefHeight="270.0" prefWidth="573.0" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20; -fx-border-color: #2980b9;">
          <children>
-            <Button fx:id="loginButton" layoutX="350.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleLogin" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold;" text="LOGIN" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="300.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="140.0">
+            <Label layoutX="42.0" layoutY="22.0" prefHeight="23.0" prefWidth="295.0" style="-fx-text-fill: #2980b9;" text="Do you already have an account?" textFill="#1d3557" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="91.0" AnchorPane.topAnchor="-10.0">
                <font>
-                  <Font name="AppleGothic Regular" size="15.0" />
-               </font>
-            </Button>
-            <Label layoutX="42.0" layoutY="22.0" prefHeight="23.0" prefWidth="295.0" style="-fx-text-fill: #2980b9;" text="Do you already have an account?" textFill="#1d3557" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="91.0" AnchorPane.topAnchor="-20.0">
-               <font>
-                  <Font name="AppleGothic Regular" size="16.0" />
+                  <Font name="AppleGothic Regular" size="25.0" />
                </font>
                <effect>
                   <Glow />
                </effect>
             </Label>
-            <Label layoutX="16.0" layoutY="49.0" style="-fx-text-fill: #1D3557;" text="Username" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="-10.0">
+            <Label layoutX="32.0" layoutY="63.0" prefHeight="72.0" prefWidth="109.0" style="-fx-text-fill: #1D3557;" text="Username" textFill="#b3d9ff" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="20.0">
                <font>
-                  <Font name="AppleGothic Regular" size="14.0" />
+                  <Font name="AppleGothic Regular" size="20.0" />
                </font>
             </Label>
-            <Label layoutX="13.0" layoutY="114.0" style="-fx-text-fill: #1D3557;" text="Password" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="-10.0">
+            <Label layoutX="13.0" layoutY="114.0" style="-fx-text-fill: #1D3557;" text="Password" textFill="#b3d9ff" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="-10.0" AnchorPane.topAnchor="100.0">
                <font>
-                  <Font name="AppleGothic Regular" size="14.0" />
+                  <Font name="AppleGothic Regular" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="usernameField" layoutX="15.0" layoutY="72.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your username" style="-fx-border-radius: 40;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="-10.0">
+            <TextField fx:id="usernameField" layoutX="15.0" layoutY="72.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your username" style="-fx-border-radius: 40;" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="70.0">
                <font>
-                  <Font name="AppleGothic Regular" size="12.0" />
+                  <Font name="AppleGothic Regular" size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="W_RESIZE" />
@@ -66,14 +61,19 @@
                   <DropShadow />
                </effect>
             </TextField>
-            <PasswordField fx:id="passwordField" layoutX="14.0" layoutY="142.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your password" style="-fx-border-radius: 40;" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="-10.0">
+            <PasswordField fx:id="passwordField" layoutX="14.0" layoutY="142.0" prefHeight="26.0" prefWidth="350.0" promptText="Enter your password" style="-fx-border-radius: 40;" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="150.0">
                <font>
-                  <Font name="AppleGothic Regular" size="12.0" />
+                  <Font name="AppleGothic Regular" size="18.0" />
                </font>
                <effect>
                   <DropShadow />
                </effect>
             </PasswordField>
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleLogin" prefHeight="42.0" prefWidth="97.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold;" text="LOGIN" AnchorPane.bottomAnchor="-12.0" AnchorPane.leftAnchor="440.0">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
          </children>
          <effect>
             <DropShadow />
