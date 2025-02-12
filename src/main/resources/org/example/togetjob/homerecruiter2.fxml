@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -22,17 +25,9 @@
    <children>
       <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
-            <ImageView fitHeight="113.0" fitWidth="161.0" layoutX="145.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0" AnchorPane.topAnchor="-30.0">
-               <image>
-                  <Image url="@../../../../../../../../../Downloads/Archivio/logo-removebg-preview.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D minY="-10.0" />
-               </viewport>
-            </ImageView>
             <ImageView fitHeight="113.0" fitWidth="126.0" layoutX="16.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="30.0">
                <image>
-                  <Image url="@../../../../../../../../imagerecruiterprogile.jpg" />
+                  <Image url="@imagerecruiterprogile.jpg" />
                </image>
                <effect>
                   <DropShadow blurType="ONE_PASS_BOX" height="20.0" radius="9.5" width="20.0">
@@ -53,6 +48,39 @@
                </font>
             </Button>
             <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
+            <TitledPane animated="false" layoutX="170.0" layoutY="28.0" onMouseClicked="#handlePendingApplications" onMouseDragEntered="#handlePendingApplications" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="264.0" />
+               </content>
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </TitledPane>
+            <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
+               <effect>
+                  <Glow />
+               </effect>
+            </Separator>
+            <Button fx:id="searchForAJobButton" layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleSearchForJob" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement...">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="156.0" layoutY="187.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? ">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="169.0" layoutY="289.0" style="-fx-text-fill: #2980b9;" text="Do you want to contact a job candidate? ">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="searchForAJobButton1" layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleSearchForJob" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate...">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
