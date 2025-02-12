@@ -53,12 +53,12 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <TitledPane fx:id="jobAnnouncementField" animated="false" layoutX="170.0" layoutY="28.0" onMouseClicked="#initialize" prefHeight="253.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+            <TitledPane fx:id="titledPaneField" animated="false" layoutX="170.0" layoutY="28.0" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="jobAnnouncementBeanListView" onMouseClicked="#initialize" prefHeight="160.0" prefWidth="260.0" />
+                  <ListView fx:id="listViewField" prefHeight="200.0" prefWidth="455.0" />
                </content>
             </TitledPane>
             <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
@@ -66,12 +66,22 @@
                   <Glow />
                </effect>
             </Separator>
+            <Button layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="156.0" layoutY="187.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? ">
+               <font>
+                  <Font name="AppleGothic Regular" size="14.0" />
+               </font>
+            </Label>
             <Label layoutX="169.0" layoutY="289.0" style="-fx-text-fill: #2980b9;" text="Do you want to contact a job candidate? ">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Label>
-            <Button layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
+            <Button layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleContactAJobCandidate" onMouseClicked="#handleContactAJobCandidate" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>

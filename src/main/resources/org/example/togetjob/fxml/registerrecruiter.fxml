@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.RegisterRecruiterController">
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.RegisterRecruiterController">
    <children>
       <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
          <font>
@@ -32,43 +32,38 @@
             <Glow />
          </effect>
       </Label>
-      <TextField fx:id="companiesField" layoutX="101.0" layoutY="89.0" prefHeight="26.0" prefWidth="377.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;">
+      <TextField fx:id="companiesField" layoutX="101.0" layoutY="89.0" prefHeight="26.0" prefWidth="488.0" promptText="Enter company (company1,company2, ...)" style="-fx-border-radius: 5;">
          <font>
             <Font name="AppleGothic Regular" size="12.0" />
          </font>
       </TextField>
       <StackPane layoutX="170.0" layoutY="-23.0" />
-      <Button fx:id="continueButton" layoutX="182.0" layoutY="152.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
+      <Button fx:id="continueButton" layoutX="241.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-border-radius: 15; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #2980b9; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </Button>
-      <StackPane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="433.0">
-         <children>
-            <Button mnemonicParsing="false" mouseTransparent="true" onAction="#handleBackButton" onMouseClicked="#handleBackButton" prefHeight="43.0" prefWidth="55.0" style="-fx-background-color: trasparent;">
-               <font>
-                  <Font name="AppleGothic Regular" size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../back-158491_1920.png" />
-                     </image>
-                     <effect>
-                        <InnerShadow />
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
-      </StackPane>
-      <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="180.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+      <StackPane layoutX="10.0" layoutY="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="433.0" />
+      <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="235.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../logo-removebg-preview.png" />
          </image>
          <viewport>
             <Rectangle2D minY="-10.0" />
          </viewport>
+      </ImageView>
+      <Button layoutX="11.0" layoutY="6.0" mnemonicParsing="false" onAction="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
+         <font>
+            <Font name="AppleGothic Regular" size="14.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleGoBack" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../back-158491_1920.png" />
+         </image>
+         <effect>
+            <InnerShadow />
+         </effect>
       </ImageView>
    </children>
 </AnchorPane>
