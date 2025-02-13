@@ -8,7 +8,6 @@ import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.factory.JobAnnouncementFactory;
-import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.*;
@@ -66,10 +65,7 @@ public class PublishAJobAnnouncementController {
                 true
         ); //default
 
-        // register recruiter who publishes the job announcement
-        jobAnnouncement.getJobApplicationCollection().attach(new RecruiterObserverStudent(recruiter));
         return jobAnnouncementDao.saveJobAnnouncement(jobAnnouncement);
-
     }
 
     private Recruiter getRecruiterFromSession() {

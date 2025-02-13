@@ -43,7 +43,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="250.0">
+            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewNotifications" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="250.0">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>

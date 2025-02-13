@@ -10,9 +10,6 @@ import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
 import org.example.togetjob.model.dao.abstractobjects.StudentDao;
 import org.example.togetjob.model.entity.*;
 import org.example.togetjob.model.factory.InterviewSchedulingFactory;
-import org.example.togetjob.model.factory.NotificationFactory;
-import org.example.togetjob.pattern.observer.StudentObserverStudent;
-import org.example.togetjob.pattern.subject.SchedulingInterviewCollectionSubjectRecruiter;
 import org.example.togetjob.session.SessionManager;
 
 
@@ -33,15 +30,13 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     private final JobAnnouncementDao jobAnnouncementDao;
     private final JobApplicationDao jobApplicationDao;
     private final InterviewSchedulingDao interviewSchedulingDao;
-    private final SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter;
 
-    public ContactAJobCandidateAdapter(SendAJobApplication adapt, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao, SchedulingInterviewCollectionSubjectRecruiter schedulingInterviewCollectionSubjectRecruiter) {
+    public ContactAJobCandidateAdapter(SendAJobApplication adapt, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao) {
         this.adapt = adapt;
         this.studentDao = studentDao;
         this.jobAnnouncementDao = jobAnnouncementDao;
         this.jobApplicationDao = jobApplicationDao;
         this.interviewSchedulingDao = interviewSchedulingDao;
-        this.schedulingInterviewCollectionSubjectRecruiter = schedulingInterviewCollectionSubjectRecruiter;
     }
 
     public List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) throws DatabaseException{
@@ -189,29 +184,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
                 jobAnnouncement
         );
         interviewSchedulingDao.saveInterviewScheduling(interviewScheduling);
-        try {
-            schedulingInterviewCollectionSubjectRecruiter.attach(new StudentObserverStudent(student, NotificationFactory.createNotification("You have an interview scheduling!")));
-        } catch (ConfigException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            sendNotification(interviewScheduling);
-        } catch (NotificationException e) {
-           throw new NotificationException(e.getMessage()) ;
-        }
         return true;
-    }
-
-
-    private void sendNotification(InterviewScheduling interviewScheduling) throws NotificationException {
-
-        try{
-            schedulingInterviewCollectionSubjectRecruiter.addInterviewScheduling(interviewScheduling);
-
-        } catch (NotificationException e) {
-            throw new NotificationException("Error during the configuration", e);
-        }
-
     }
 
     @Override

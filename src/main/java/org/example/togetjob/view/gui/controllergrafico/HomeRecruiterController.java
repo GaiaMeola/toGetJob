@@ -17,6 +17,7 @@ import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;
 import org.example.togetjob.view.gui.concretestate.FilterJobCandidateState;
 import org.example.togetjob.view.gui.concretestate.HomeState;
+import org.example.togetjob.view.gui.concretestate.SendAJobApplicationRecruiterState;
 
 import java.util.List;
 
@@ -156,4 +157,11 @@ public class HomeRecruiterController {
     private List<JobAnnouncementBean> fetchJobAnnouncements() {
         return publishAJobAnnouncementRecruiterBoundary.getJobAnnouncements();
     }
+
+    public void handleViewNotifications() {
+        Printer.print("View notifications ...");
+        context.setState(new SendAJobApplicationRecruiterState(context));
+        context.showMenu();
+    }
+
 }

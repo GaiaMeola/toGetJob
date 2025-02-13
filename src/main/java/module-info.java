@@ -2,7 +2,6 @@ module org.example.togetjob {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
@@ -21,7 +20,6 @@ module org.example.togetjob {
     exports org.example.togetjob.view.gui.controllergrafico;
     exports org.example.togetjob.bean;
     opens org.example.togetjob.view.gui.controllergrafico to javafx.fxml;
-
     exports org.example.togetjob.view.gui;
     opens org.example.togetjob.view.gui to javafx.fxml;
 }

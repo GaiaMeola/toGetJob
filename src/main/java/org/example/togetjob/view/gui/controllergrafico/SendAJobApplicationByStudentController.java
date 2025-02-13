@@ -29,6 +29,7 @@ public class SendAJobApplicationByStudentController {
             "-fx-border-width: 2; " +
             "-fx-cursor: hand; " +
             "-fx-font-weight: bold; " +
+            "-fx-font-size: 12px; " +
             "-fx-background-radius: 10;";
 
     @FXML
@@ -153,10 +154,19 @@ public class SendAJobApplicationByStudentController {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
                 applicationBean.setCoverLetter(coverLetterField.getText());
-                boolean success = boundary.sendAJobApplication(applicationBean);
-                showAlert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR,
-                        success ? "Application submitted successfully!" : "Failed to submit application.");
-                return applicationBean;
+
+                try {
+
+                    boolean success = boundary.sendAJobApplication(applicationBean);
+
+
+                    showAlert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR,
+                            success ? "Application submitted successfully!" : "Failed to submit application.");
+
+                } catch (Exception e) {
+                    showAlert(Alert.AlertType.ERROR, "Error: " + e.getMessage());
+                    e.printStackTrace(); // Per il debug
+                }
             }
             return null;
         });
@@ -164,11 +174,11 @@ public class SendAJobApplicationByStudentController {
         dialog.showAndWait();
     }
 
-
-    private void showAlert(Alert.AlertType type, String message) {
-        Alert alert = new Alert(type, message);
-        alert.setTitle("Job Application");
+    private void showAlert(Alert.AlertType alertType, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Job Application Status");
         alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 

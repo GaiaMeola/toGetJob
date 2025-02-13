@@ -105,7 +105,8 @@ public class SendAJobApplication {
         return form;
     }
 
-    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException , DatabaseException{
+    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException {
+
 
         // Student who wants to send a job application to a job announcement
         Student student = SessionManager.getInstance().getStudentFromSession();
@@ -147,7 +148,7 @@ public class SendAJobApplication {
         return true;
     }
 
-    public List<JobApplicationBean> getAllJobApplication() throws DatabaseException{
+    public List<JobApplicationBean> getAllJobApplication(){
 
         Student student = SessionManager.getInstance().getStudentFromSession();
 
@@ -178,27 +179,24 @@ public class SendAJobApplication {
     }
 
 
-    public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException{
-        try {
-            Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);
+    public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) {
 
-            if (jobApplicationOPT.isEmpty()) {
-                return false;
-            }
+        Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);
 
-            JobApplication jobApplication = jobApplicationOPT.get();
-
-            if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
-                return false; //job application already managed
-            }
-
-            jobApplicationDao.deleteJobApplication(jobApplication);
-            jobApplicationCollection.removeJobApplication(jobApplication);
-
-            return true;
-        }catch(DatabaseException e){
-            throw new DatabaseException(e.getMessage());
+        if (jobApplicationOPT.isEmpty()) {
+            return false;
         }
+
+        JobApplication jobApplication = jobApplicationOPT.get();
+
+        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
+            return false; //job application already managed
+        }
+
+        jobApplicationDao.deleteJobApplication(jobApplication);
+        jobApplicationCollection.removeJobApplication(jobApplication);
+
+        return true;
 
     }
 
@@ -220,29 +218,26 @@ public class SendAJobApplication {
     }
 
 
-    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) throws JobApplicationNotFoundException , DatabaseException {
+    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) throws JobApplicationNotFoundException {
 
-        try {
-            JobAnnouncement jobAnnouncement = getJobAnnouncementFromBean(jobApplicationBean);
 
-            List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
-            Optional<JobApplication> jobApplicationOpt = jobApplications.stream()
-                    .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))
-                    .findFirst();
-            if (jobApplicationOpt.isEmpty()) {
-                throw new JobApplicationNotFoundException("Error: Job Application not found for the specified student.");
-            }
-            JobApplication jobApplication = jobApplicationOpt.get();
-            if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
-                return false; // Already Managed
-            }
-            jobApplication.setStatus(status); // (ACCEPTED or REJECTED)
-            jobApplicationDao.updateJobApplication(jobApplication);
+        JobAnnouncement jobAnnouncement = getJobAnnouncementFromBean(jobApplicationBean);
 
-            return true;
-        }catch (DatabaseException e){
-            throw new DatabaseException(e.getMessage());
+        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
+        Optional<JobApplication> jobApplicationOpt = jobApplications.stream()
+                .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))
+                .findFirst();
+        if (jobApplicationOpt.isEmpty()) {
+            throw new JobApplicationNotFoundException("Error: Job Application not found for the specified student.");
         }
+        JobApplication jobApplication = jobApplicationOpt.get();
+        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
+            return false; // Already Managed
+        }
+        jobApplication.setStatus(status); // (ACCEPTED or REJECTED)
+        jobApplicationDao.updateJobApplication(jobApplication);
+
+        return true;
 
     }
 
