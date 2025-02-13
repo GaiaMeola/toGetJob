@@ -47,117 +47,123 @@ public class ContactAJobCandidateRecruiterState implements CliState {
                 showMenu();
                 break;
         }
-
     }
 
     private void viewJobAnnouncements(Scanner scanner) {
-        // Call the boundary method to fetch job announcements
-        var jobAnnouncements = boundary.getJobAnnouncementsByRecruiter();
+        try {
+            // Call the boundary method to fetch job announcements
+            var jobAnnouncements = boundary.getJobAnnouncementsByRecruiter();
 
-        if (jobAnnouncements.isEmpty()) {
-            Printer.print("No job announcements found.");
-        } else {
-            // Display the announcements
-            Printer.print("Here are the job announcements you have created or are collaborating on:");
+            if (jobAnnouncements.isEmpty()) {
+                Printer.print("No job announcements found.");
+            } else {
+                // Display the announcements
+                Printer.print("Here are the job announcements you have created or are collaborating on:");
 
-            for (int i = 0; i < jobAnnouncements.size(); i++) {
-                var job = jobAnnouncements.get(i);
-                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
+                for (int i = 0; i < jobAnnouncements.size(); i++) {
+                    var job = jobAnnouncements.get(i);
+                    Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
+                }
+
+                Printer.print("Enter the number of the job announcement you want to manage: ");
+                int jobSelection = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character after the number input
+
+                // Validate the input
+                if (jobSelection < 1 || jobSelection > jobAnnouncements.size()) {
+                    Printer.print("Invalid selection. Please try again.");
+                    return; // Exit the method to let the user try again
+                }
+
+                var selectedJob = jobAnnouncements.get(jobSelection - 1);
+
+                Printer.print("Do you want to view the details of this job announcement? (yes/no): ");
+                String viewResponse = scanner.nextLine().trim().toLowerCase();
+
+                if ("yes".equals(viewResponse)) {
+                    // Display the details of the selected job announcement
+                    Printer.print("Job Title: " + selectedJob.getJobTitle());
+                    Printer.print("Location: " + selectedJob.getLocation());
+                    Printer.print("Salary: " + selectedJob.getSalary());
+                    Printer.print("Active: " + selectedJob.isActive());
+                    Printer.print("Description: " + selectedJob.getDescription());
+                }
+
+                Printer.print("Do you want to contact a job candidate? (yes/no): ");
+                viewResponse = scanner.nextLine().trim().toLowerCase();
+
+                if ("yes".equals(viewResponse)) {
+                    applyFiltersAndShowCandidates(scanner, selectedJob); // Pass selected job to filter candidates
+                }
             }
-
-            Printer.print("Enter the number of the job announcement you want to manage: ");
-            int jobSelection = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character after the number input
-
-            // Validate the input
-            if (jobSelection < 1 || jobSelection > jobAnnouncements.size()) {
-                Printer.print("Invalid selection. Please try again.");
-                return; // Exit the method to let the user try again
-            }
-
-            var selectedJob = jobAnnouncements.get(jobSelection - 1);
-
-            Printer.print("Do you want to view the details of this job announcement? (yes/no): ");
-            String viewResponse = scanner.nextLine().trim().toLowerCase();
-
-            if ("yes".equals(viewResponse)) {
-                // Display the details of the selected job announcement
-                Printer.print("Job Title: " + selectedJob.getJobTitle());
-                Printer.print("Location: " + selectedJob.getLocation());
-                Printer.print("Salary: " + selectedJob.getSalary());
-                Printer.print("Active: " + selectedJob.isActive());
-                Printer.print("Description: " + selectedJob.getDescription());
-            }
-
-            Printer.print("Do you want to contact a job candidate? (yes/no): ");
-            viewResponse = scanner.nextLine().trim().toLowerCase();
-
-            if ("yes".equals(viewResponse)) {
-                applyFiltersAndShowCandidates(scanner, selectedJob); // Pass selected job to filter candidates
-            }
+        }catch(DatabaseException e){
+            Printer.print(e.getMessage());
         }
     }
 
 
     private void applyFiltersAndShowCandidates(Scanner scanner, JobAnnouncementBean selectedJob) {
-        Printer.print("\nEnter the filters you'd like to apply:");
+        try {
+            Printer.print("\nEnter the filters you'd like to apply:");
 
-        // filters to the recruiter
-        Printer.print("Enter degree (or leave blank to skip): ");
-        String degree = scanner.nextLine();
+            // filters to the recruiter
+            Printer.print("Enter degree (or leave blank to skip): ");
+            String degree = scanner.nextLine();
 
-        Printer.print("Enter course attended (or leave blank to skip): ");
-        String course = scanner.nextLine();
+            Printer.print("Enter course attended (or leave blank to skip): ");
+            String course = scanner.nextLine();
 
-        Printer.print("Enter certifications (or leave blank to skip): ");
-        String certification = scanner.nextLine();
+            Printer.print("Enter certifications (or leave blank to skip): ");
+            String certification = scanner.nextLine();
 
-        Printer.print("Enter work experience (or leave blank to skip): ");
-        String workExperience = scanner.nextLine();
+            Printer.print("Enter work experience (or leave blank to skip): ");
+            String workExperience = scanner.nextLine();
 
-        Printer.print("Enter skills (or leave blank to skip): ");
-        String skills = scanner.nextLine();
+            Printer.print("Enter skills (or leave blank to skip): ");
+            String skills = scanner.nextLine();
 
-        Printer.print("Enter availability (or leave blank to skip): ");
-        String availability = scanner.nextLine();
+            Printer.print("Enter availability (or leave blank to skip): ");
+            String availability = scanner.nextLine();
 
 
-        StudentInfoSearchBean filters = new StudentInfoSearchBean();
-        filters.setDegrees(List.of(degree.isEmpty() ? "" : degree));
-        filters.setCoursesAttended(List.of(course.isEmpty() ? "" : course));
-        filters.setCertifications(List.of(certification.isEmpty() ? "" : certification));
-        filters.setWorkExperiences(List.of(workExperience.isEmpty() ? "" : workExperience));
-        filters.setSkills(List.of(skills.isEmpty() ? "" : skills));
-        filters.setAvailability(availability.isEmpty() ? "" : availability);
+            StudentInfoSearchBean filters = new StudentInfoSearchBean();
+            filters.setDegrees(List.of(degree.isEmpty() ? "" : degree));
+            filters.setCoursesAttended(List.of(course.isEmpty() ? "" : course));
+            filters.setCertifications(List.of(certification.isEmpty() ? "" : certification));
+            filters.setWorkExperiences(List.of(workExperience.isEmpty() ? "" : workExperience));
+            filters.setSkills(List.of(skills.isEmpty() ? "" : skills));
+            filters.setAvailability(availability.isEmpty() ? "" : availability);
 
-        Printer.print("\n --- Filters you have selected ---");
-        Printer.print("Degree: " + (degree.isEmpty() ? NOT_SPECIFIED : degree));
-        Printer.print("Course: " + (course.isEmpty() ?  NOT_SPECIFIED : course));
-        Printer.print("Certification: " + (certification.isEmpty() ?  NOT_SPECIFIED : certification));
-        Printer.print("Work Experience: " + (workExperience.isEmpty() ?  NOT_SPECIFIED : workExperience));
-        Printer.print("Skills: " + (skills.isEmpty() ?  NOT_SPECIFIED : skills));
-        Printer.print("Availability: " + (availability.isEmpty() ?  NOT_SPECIFIED : availability));
+            Printer.print("\n --- Filters you have selected ---");
+            Printer.print("Degree: " + (degree.isEmpty() ? NOT_SPECIFIED : degree));
+            Printer.print("Course: " + (course.isEmpty() ? NOT_SPECIFIED : course));
+            Printer.print("Certification: " + (certification.isEmpty() ? NOT_SPECIFIED : certification));
+            Printer.print("Work Experience: " + (workExperience.isEmpty() ? NOT_SPECIFIED : workExperience));
+            Printer.print("Skills: " + (skills.isEmpty() ? NOT_SPECIFIED : skills));
+            Printer.print("Availability: " + (availability.isEmpty() ? NOT_SPECIFIED : availability));
 
-        Printer.print("\nDo you want to proceed with these filters?");
-        Printer.print("1. Proceed");
-        Printer.print("2. Go back and change filters");
-        Printer.print(CHOSE_AN_OPTION);
-        String choice = scanner.nextLine();
+            Printer.print("\nDo you want to proceed with these filters?");
+            Printer.print("1. Proceed");
+            Printer.print("2. Go back and change filters");
+            Printer.print(CHOSE_AN_OPTION);
+            String choice = scanner.nextLine();
 
-        if ("1".equals(choice)) {
-            Printer.print("\nProceeding with the selected filters...");
-            List<StudentInfoBean> filteredCandidates = boundary.getFilteredCandidates(filters, selectedJob); // Candidates filtered
-            displayCandidates(scanner, filteredCandidates, selectedJob);
-        } else if ("2".equals(choice)) {
-            Printer.print("Returning to filter selection...");
-            applyFiltersAndShowCandidates(scanner, selectedJob);
-        } else {
-            Printer.print("Invalid choice. Please try again.");
-            applyFiltersAndShowCandidates(scanner, selectedJob);
+            if ("1".equals(choice)) {
+                Printer.print("\nProceeding with the selected filters...");
+                List<StudentInfoBean> filteredCandidates = boundary.getFilteredCandidates(filters, selectedJob); // Candidates filtered
+                displayCandidates(scanner, filteredCandidates, selectedJob);
+            } else if ("2".equals(choice)) {
+                Printer.print("Returning to filter selection...");
+                applyFiltersAndShowCandidates(scanner, selectedJob);
+            } else {
+                Printer.print("Invalid choice. Please try again.");
+                applyFiltersAndShowCandidates(scanner, selectedJob);
+            }
+        }catch(DatabaseException e){
+            Printer.print(e.getMessage());
         }
 
     }
-
 
     private void displayCandidates(Scanner scanner, List<StudentInfoBean> candidatesList, JobAnnouncementBean selectedJob) {
         if (candidatesList.isEmpty()) {
@@ -241,8 +247,7 @@ public class ContactAJobCandidateRecruiterState implements CliState {
                 }
             } catch (DateNotValidException e) {
                 Printer.print( e.getMessage() + ". Please enter a valid date.");
-            }catch (StudentNotFoundException | JobAnnouncementNotFoundException | JobApplicationNotFoundException |
-                    InterviewSchedulingAlreadyExistsException | NotificationException e) {
+            }catch (StudentNotFoundException | JobAnnouncementNotFoundException | JobApplicationNotFoundException | InterviewSchedulingAlreadyExistsException | NotificationException | DatabaseException e) {
                 Printer.print(e.getMessage());
                 return; // Esce dal metodo
             }
@@ -250,4 +255,3 @@ public class ContactAJobCandidateRecruiterState implements CliState {
     }
 
 }
-

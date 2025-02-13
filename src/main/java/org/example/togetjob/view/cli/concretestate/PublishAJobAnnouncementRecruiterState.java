@@ -1,6 +1,7 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
@@ -122,46 +123,46 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
     }
 
+
     private void createJobAnnouncement(Scanner scanner) {
-        // Collect job details from the user to create a new job announcement
-        Printer.print("Enter the details for the new job announcement:");
+        try {
+            Printer.print("Enter the details for the new job announcement:");
 
-        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
+            JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
 
-        Printer.print("Enter Job Title: ");
-        jobAnnouncementBean.setJobTitle(scanner.nextLine());
+            jobAnnouncementBean.setJobTitle(getValidInput(scanner, "Enter Job Title: "));
+            jobAnnouncementBean.setJobType(getValidInput(scanner, "Enter Job Type: "));
+            jobAnnouncementBean.setRole(getValidInput(scanner, "Enter Role: "));
+            jobAnnouncementBean.setLocation(getValidInput(scanner, "Enter Location: "));
+            jobAnnouncementBean.setWorkingHours(getValidInput(scanner, "Enter Working Hours: "));
+            jobAnnouncementBean.setCompanyName(getValidInput(scanner, "Enter Company Name: "));
+            jobAnnouncementBean.setSalary(getValidInput(scanner, "Enter Salary: "));
+            jobAnnouncementBean.setDescription(getValidInput(scanner, "Enter Description: "));
 
-        Printer.print("Enter Job Type: ");
-        jobAnnouncementBean.setJobType(scanner.nextLine());
+            // Call the boundary method to publish the job announcement
+            boolean success = publishAJobAnnouncementRecruiterBoundary.publishJobAnnouncement(jobAnnouncementBean);
 
-        Printer.print("Enter Role: ");
-        jobAnnouncementBean.setRole(scanner.nextLine());
-
-        Printer.print("Enter Location: ");
-        jobAnnouncementBean.setLocation(scanner.nextLine());
-
-        Printer.print("Enter Working Hours: ");
-        jobAnnouncementBean.setWorkingHours(scanner.nextLine());
-
-        Printer.print("Enter Company Name: ");
-        jobAnnouncementBean.setCompanyName(scanner.nextLine());
-
-        Printer.print("Enter Salary: ");
-        jobAnnouncementBean.setSalary(scanner.nextLine());
-
-        Printer.print("Enter Description: ");
-        jobAnnouncementBean.setDescription(scanner.nextLine());
-
-        // Call the boundary method to publish the job announcement
-        boolean success = publishAJobAnnouncementRecruiterBoundary.publishJobAnnouncement(jobAnnouncementBean);
-
-        if (success) {
-            Printer.print("Job announcement created successfully.");
-        } else {
-            Printer.print("Failed to create job announcement.");
+            if (success) {
+                Printer.print("Job announcement created successfully.");
+            } else {
+                Printer.print("Failed to create job announcement.");
+            }
+        } catch (JobAnnouncementAlreadyExists | InvalidWorkingHourException | InvalidSalaryException | UserNotLoggedException e) {
+            Printer.print(e.getMessage());
         }
     }
 
+    private String getValidInput(Scanner scanner, String prompt) {
+        String input;
+        do {
+            Printer.print(prompt);
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                Printer.print("This field cannot be empty. Please enter a valid value.");
+            }
+        } while (input.isEmpty());
+        return input;
+    }
 
     private void manageJobAnnouncement(Scanner scanner) {
         // This method will allow the recruiter to manage (deactivate, activate, or delete) a job announcement
@@ -203,11 +204,15 @@ public class PublishAJobAnnouncementRecruiterState implements CliState {
 
         switch (action) {
             case "1": // Deactivate
-                success = publishAJobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
-                if (success) {
-                    Printer.print("Job announcement deactivated successfully.");
-                } else {
-                    Printer.print("Failed to deactivate job announcement.");
+                try {
+                    success = publishAJobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
+                    if (success) {
+                        Printer.print("Job announcement deactivated successfully.");
+                    } else {
+                        Printer.print("Failed to deactivate job announcement.");
+                    }
+                } catch (DatabaseException e) {
+                    Printer.print(e.getMessage());
                 }
                 break;
 

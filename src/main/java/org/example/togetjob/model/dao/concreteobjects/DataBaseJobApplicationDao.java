@@ -59,7 +59,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public void saveJobApplication(JobApplication jobApplication) {
+    public void saveJobApplication(JobApplication jobApplication) throws DatabaseException{
         // Retrieve the JobAnnouncement ID
         int jobAnnouncementIdValue = getJobAnnouncementId(jobApplication);
 
@@ -106,7 +106,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement) {
+    public Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement)throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.obtainJobTitle(),
@@ -143,7 +143,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public void updateJobApplication(JobApplication jobApplication) {
+    public void updateJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -168,7 +168,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public void deleteJobApplication(JobApplication jobApplication) {
+    public void deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -215,7 +215,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public List<JobApplication> getAllJobApplications(Student student) {
+    public List<JobApplication> getAllJobApplications(Student student) throws DatabaseException {
         List<JobApplication> jobApplications = new ArrayList<>();
         String username = student.obtainUsername();
         Map<JobApplication, Integer> jobApplicationToAnnouncementId = new HashMap<>();
@@ -265,7 +265,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
+    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
         List<JobApplication> jobApplications = new ArrayList<>();
         Set<String> studentUsernames = new HashSet<>();
 
@@ -319,9 +319,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     }
 
 
-    private Map<String, Student> getStudentsByUsernames(Set<String> studentUsernames) {
+    private Map<String, Student> getStudentsByUsernames(Set<String> studentUsernames) throws DatabaseException {
         Map<String, Student> studentCache = new HashMap<>();
-
 
         for (String username : studentUsernames) {
             Optional<Student> studentOpt = dataBaseStudentDao.getStudent(username);

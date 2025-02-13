@@ -4,18 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/ContactAJobCandidateState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobCandidateState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/ContactAJobCandidateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobCandidateRecruiterController.java" afterDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Exception">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilteredStudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobcandidates.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filterjobcandidatesrecruiter.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/JobAnnouncementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/JobAnnouncementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/PublishAJobAnnouncementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/PublishAJobAnnouncementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/registration/RegisterRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/registration/RegisterRecruiterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobApplicationDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobApplicationDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseRecruiterDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseRecruiterDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseStudentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseStudentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/ContactAJobCandidateRecruiterBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/ContactAJobCandidateRecruiterBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/PublishAJobAnnouncementRecruiterBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/PublishAJobAnnouncementRecruiterBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/SendAJobApplicationRecruiterBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/SendAJobApplicationRecruiterBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/SendAJobApplicationStudentBoundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/boundary/SendAJobApplicationStudentBoundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,14 +125,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
-      <option name="closed" value="true" />
-      <created>1738152156784</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1738152156784</updated>
     </task>
     <task id="LOCAL-00011" summary="Quarto Commit: Connection riuscita">
       <option name="closed" value="true" />
@@ -509,7 +510,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739397926768</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Exception">
+      <option name="closed" value="true" />
+      <created>1739452755125</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1739452755125</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -547,7 +556,8 @@
     <MESSAGE value="commit" />
     <MESSAGE value="Prova: aggiunta di alcune eccezioni" />
     <MESSAGE value="Registrazione e Login interfacce ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="Registrazione e Login interfacce ok" />
+    <MESSAGE value="Exception" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exception" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

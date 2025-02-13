@@ -3,11 +3,8 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
-import org.example.togetjob.exceptions.JobAnnouncementNotFoundException;
-import org.example.togetjob.exceptions.RecruiterNotFoundException;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
-import org.example.togetjob.exceptions.JobAnnouncementNotActiveException;
-import org.example.togetjob.exceptions.JobApplicationAlreadySentException;
 import org.example.togetjob.model.entity.Status;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
@@ -72,59 +69,62 @@ public class SendAJobApplicationStudentState implements CliState {
     }
 
     private void viewAndManageJobApplications(Scanner scanner){
+        try {
+            List<JobApplicationBean> jobApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
 
-        List<JobApplicationBean> jobApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
-
-        if (jobApplications.isEmpty()) {
-            Printer.print("You haven't sent any job applications yet.");
-            return;
-        }
-
-        Printer.print("\n --- Your Job Applications ---");
-        int index = 1;
-        for (JobApplicationBean application : jobApplications) {
-            Printer.print(index + ". Your Job Application for the Job Announcement << " + application.getJobTitle() +
-                    " >> is " + application.getStatus());
-            index++;
-        }
-
-        Printer.print("\nSelect an application to manage, or enter 0 to go back:");
-        int choice = Integer.parseInt(scanner.nextLine());
-
-        if (choice == 0) {
-            return; // Go back
-        }
-
-        if (choice < 1 || choice > jobApplications.size()) {
-            Printer.print("Invalid selection. Please try again.");
-            return;
-        }
-
-        JobApplicationBean selectedApplication = jobApplications.get(choice - 1);
-
-        if (selectedApplication.getStatus() == Status.PENDING) {
-            Printer.print("\nWhat would you like to do?");
-            Printer.print("1. Modify this application");
-            Printer.print("2. Delete this application");
-            Printer.print("3. Go back");
-            Printer.print(CHOSE_AN_OPTION);
-
-            String action = scanner.nextLine();
-            switch (action) {
-                case "1":
-                    modifyJobApplication(scanner, selectedApplication);
-                    break;
-                case "2":
-                    deleteJobApplication(scanner, selectedApplication);
-                    break;
-                case "3":
-                    return;
-                default:
-                    Printer.print("Invalid option. Returning to main menu.");
+            if (jobApplications.isEmpty()) {
+                Printer.print("You haven't sent any job applications yet.");
+                return;
             }
-        } else {
-            Printer.print("This application has already been processed and cannot be modified or deleted." +
-                    "\nPlease visit the ‘View sent job applications’ section to view the current status of your application.");
+
+            Printer.print("\n --- Your Job Applications ---");
+            int index = 1;
+            for (JobApplicationBean application : jobApplications) {
+                Printer.print(index + ". Your Job Application for the Job Announcement << " + application.getJobTitle() +
+                        " >> is " + application.getStatus());
+                index++;
+            }
+
+            Printer.print("\nSelect an application to manage, or enter 0 to go back:");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            if (choice == 0) {
+                return; // Go back
+            }
+
+            if (choice < 1 || choice > jobApplications.size()) {
+                Printer.print("Invalid selection. Please try again.");
+                return;
+            }
+
+            JobApplicationBean selectedApplication = jobApplications.get(choice - 1);
+
+            if (selectedApplication.getStatus() == Status.PENDING) {
+                Printer.print("\nWhat would you like to do?");
+                Printer.print("1. Modify this application");
+                Printer.print("2. Delete this application");
+                Printer.print("3. Go back");
+                Printer.print(CHOSE_AN_OPTION);
+
+                String action = scanner.nextLine();
+                switch (action) {
+                    case "1":
+                        modifyJobApplication(scanner, selectedApplication);
+                        break;
+                    case "2":
+                        deleteJobApplication(scanner, selectedApplication);
+                        break;
+                    case "3":
+                        return;
+                    default:
+                        Printer.print("Invalid option. Returning to main menu.");
+                }
+            } else {
+                Printer.print("This application has already been processed and cannot be modified or deleted." +
+                        "\nPlease visit the ‘View sent job applications’ section to view the current status of your application.");
+            }
+        }catch(DatabaseException e){
+            Printer.print(e.getMessage());
         }
 
     }
@@ -145,22 +145,24 @@ public class SendAJobApplicationStudentState implements CliState {
     }
 
     private void deleteJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean){
+        try {
+            Printer.print("Are you sure you want to delete this application? (yes/no)");
+            String confirmation = scanner.nextLine().toLowerCase();
 
-        Printer.print("Are you sure you want to delete this application? (yes/no)");
-        String confirmation = scanner.nextLine().toLowerCase();
+            if (!confirmation.equals("yes")) {
+                Printer.print("Deletion canceled.");
+                return;
+            }
 
-        if (!confirmation.equals("yes")) {
-            Printer.print("Deletion canceled.");
-            return;
+            boolean success = sendAJobApplicationStudentBoundary.deleteAJobApplication(jobApplicationBean);
+            if (success) {
+                Printer.print("Job application successfully deleted!");
+            } else {
+                Printer.print("Error deleting the job application. It may have already been processed.");
+            }
+        }catch (DatabaseException e){
+            Printer.print(e.getMessage());
         }
-
-        boolean success = sendAJobApplicationStudentBoundary.deleteAJobApplication(jobApplicationBean);
-        if (success) {
-            Printer.print("Job application successfully deleted!");
-        } else {
-            Printer.print("Error deleting the job application. It may have already been processed.");
-        }
-
     }
 
 
@@ -329,7 +331,7 @@ public class SendAJobApplicationStudentState implements CliState {
             } else {
                 Printer.print("Failed to fill out the application form. Please try again.");
             }
-        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException | RecruiterNotFoundException | JobAnnouncementNotFoundException e) {
+        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException | RecruiterNotFoundException | JobAnnouncementNotFoundException | DatabaseException e) {
             Printer.print(e.getMessage());
         }  catch (Exception e) {
             // Handle any other unexpected exceptions

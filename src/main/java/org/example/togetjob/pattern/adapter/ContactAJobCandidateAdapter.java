@@ -44,32 +44,36 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         this.schedulingInterviewCollectionSubjectRecruiter = schedulingInterviewCollectionSubjectRecruiter;
     }
 
-    public List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
-        // Tutte le candidature
-        List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
+    public List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) throws DatabaseException{
+        try {
+            // Tutte le candidature
+            List<JobApplicationBean> jobApplications = adapt.getJobApplicationsForRecruiter(jobAnnouncementBean);
 
-        List<JobApplicationBean> acceptedApplications = jobApplications.stream()
-                .filter(application -> Status.ACCEPTED.equals(application.getStatus()))
-                .toList();
+            List<JobApplicationBean> acceptedApplications = jobApplications.stream()
+                    .filter(application -> Status.ACCEPTED.equals(application.getStatus()))
+                    .toList();
 
-        Set<String> acceptedStudentUsernames = acceptedApplications.stream()
-                .map(JobApplicationBean::getStudentUsername)
-                .collect(Collectors.toSet());
+            Set<String> acceptedStudentUsernames = acceptedApplications.stream()
+                    .map(JobApplicationBean::getStudentUsername)
+                    .collect(Collectors.toSet());
 
-        List<Student> filteredStudents = studentDao.getAllStudents()
-                .stream()
-                .filter(student -> acceptedStudentUsernames.contains(student.obtainUsername()))
-                .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))
-                .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))
-                .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))
-                .filter(student -> filterByWorkExperiences(student, studentInfoSearchBean.getWorkExperiences()))
-                .filter(student -> filterBySkills(student, studentInfoSearchBean.getSkills()))
-                .filter(student -> filterByAvailability(student, studentInfoSearchBean.getAvailability()))
-                .toList();
+            List<Student> filteredStudents = studentDao.getAllStudents()
+                    .stream()
+                    .filter(student -> acceptedStudentUsernames.contains(student.obtainUsername()))
+                    .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))
+                    .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))
+                    .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))
+                    .filter(student -> filterByWorkExperiences(student, studentInfoSearchBean.getWorkExperiences()))
+                    .filter(student -> filterBySkills(student, studentInfoSearchBean.getSkills()))
+                    .filter(student -> filterByAvailability(student, studentInfoSearchBean.getAvailability()))
+                    .toList();
 
-        return filteredStudents.stream()
-                .map(this::convertToStudentInfoBean)
-                .toList();
+            return filteredStudents.stream()
+                    .map(this::convertToStudentInfoBean)
+                    .toList();
+        }catch (DatabaseException e){
+            throw new DatabaseException(e.getMessage()) ;
+        }
     }
 
     private boolean filterByDegrees(Student student, List<String> requiredDegrees) {
@@ -160,7 +164,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
 
     @Override
-    public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) throws DateNotValidException , StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException {
+    public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) throws DateNotValidException , StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException , DatabaseException {
         if (isDateFuture(interviewSchedulingBean.getInterviewDateTime())) {
             throw new DateNotValidException("The date must be in the future.");
         }
@@ -211,7 +215,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() throws DatabaseException {
         JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
 
         List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();

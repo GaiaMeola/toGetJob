@@ -7,6 +7,7 @@ import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.Role;
 import org.example.togetjob.model.entity.Student;
 import org.example.togetjob.model.entity.User;
+import org.example.togetjob.printer.Printer;
 
 import java.sql.*;
 import java.util.ArrayList;

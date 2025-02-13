@@ -1,6 +1,7 @@
 package org.example.togetjob.controller.recruiter;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
@@ -19,7 +20,7 @@ public class JobAnnouncementService {
         this.sessionManager = SessionManager.getInstance();
     }
 
-    public List<JobAnnouncementBean> getJobAnnouncementsForCurrentRecruiter() {
+    public List<JobAnnouncementBean> getJobAnnouncementsForCurrentRecruiter() throws DatabaseException {
         Recruiter recruiter = sessionManager.getRecruiterFromSession();
 
         if (recruiter == null) {

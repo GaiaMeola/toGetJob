@@ -6,6 +6,7 @@ import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.User;
+import org.example.togetjob.printer.Printer;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class DataBaseRecruiterDao implements RecruiterDao {
     }
 
     @Override
-    public void saveRecruiter(Recruiter recruiter) {
+    public void saveRecruiter(Recruiter recruiter) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(INSERT_RECRUITER_SQL)) {
 

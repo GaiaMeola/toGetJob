@@ -212,7 +212,7 @@ public class SendAJobApplicationRecruiterState implements CliState {
                     Printer.print("Invalid option. Please try again.");
                     break;
             }
-        } catch (JobApplicationNotFoundException e) {
+        } catch (JobApplicationNotFoundException | DatabaseException e) {
             Printer.print(e.getMessage());
         }
     }

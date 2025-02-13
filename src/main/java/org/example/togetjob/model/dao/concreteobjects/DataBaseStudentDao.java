@@ -61,7 +61,7 @@
 
 
         @Override
-        public void saveStudent(Student student) {
+        public void saveStudent(Student student) throws DatabaseException {
             try (Connection conn = DatabaseConfig.getInstance().getConnection();
                  PreparedStatement stmt = conn.prepareStatement(INSERT_STUDENT_SQL)) {
 
@@ -151,18 +151,21 @@
 
 
         @Override
-        public List<Student> getAllStudents() {
-            List<Student> students = new ArrayList<>();
-            List<User> users = userDao.getAllUsers();
-            Map<String, Student> studentMap = getStudentsDetails(users);
+        public List<Student> getAllStudents() throws DatabaseException {
+            try {
+                List<Student> students = new ArrayList<>();
+                List<User> users = userDao.getAllUsers();
+                Map<String, Student> studentMap = getStudentsDetails(users);
 
-            for (Student student : studentMap.values()) {
-                List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
-                student.setJobApplications(jobApplications);
-                students.add(student);
+                for (Student student : studentMap.values()) {
+                    List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);
+                    student.setJobApplications(jobApplications);
+                    students.add(student);
+                }
+                return students;
+            }catch(DatabaseException e){
+                throw new DatabaseException(e.getMessage()) ;
             }
-
-            return students;
         }
 
         private Map<String, Student> getStudentsDetails(List<User> users) throws DatabaseException{

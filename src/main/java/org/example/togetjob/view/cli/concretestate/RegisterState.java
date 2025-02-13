@@ -25,34 +25,33 @@ public class RegisterState implements CliState {
 
     @Override
     public void goNext(CliContext context, String input) {
-
         Scanner scanner = context.getScanner();
 
         Printer.print("Welcome to toGetJob! Fill the following fields: ");
-        Printer.print("Enter username: ");
-        String username = scanner.nextLine();
-        Printer.print("Enter password: ");
-        String password = scanner.nextLine();
-        Printer.print("Confirm password: ");
-        String checkPassword = scanner.nextLine();
 
-        if (!password.equals(checkPassword)) {
+        String username = getValidInput(scanner, "Enter username: ");
+        String password = getValidInput(scanner, "Enter password: ");
+        String checkPassword = getValidInput(scanner, "Confirm password: ");
+
+        while (!password.equals(checkPassword)) {
             Printer.print("Passwords do not match. Please try again.");
-            context.setState(new RegisterState());
-            return;
+            password = getValidInput(scanner, "Enter password: ");
+            checkPassword = getValidInput(scanner, "Confirm password: ");
         }
 
-        Printer.print("Enter name: ");
-        String name = scanner.nextLine();
-        Printer.print("Enter surname: ");
-        String surname = scanner.nextLine();
-        Printer.print("Enter email: ");
-        String email = scanner.nextLine();
-        Printer.print("Enter role (student/recruiter): ");
-        String roleInput = scanner.nextLine().trim().toLowerCase();
+        String name = getValidInput(scanner, "Enter name: ");
+        String surname = getValidInput(scanner, "Enter surname: ");
+        String email = getValidInput(scanner, "Enter email: ");
 
-        RegisterUserBean userBean = new RegisterUserBean(); // Empty
+        String roleInput;
+        do {
+            roleInput = getValidInput(scanner, "Enter role (student/recruiter): ").trim().toLowerCase();
+            if (!roleInput.equals("student") && !roleInput.equals("recruiter")) {
+                Printer.print("Invalid role. Please enter 'student' or 'recruiter'.");
+            }
+        } while (!roleInput.equals("student") && !roleInput.equals("recruiter"));
 
+        RegisterUserBean userBean = new RegisterUserBean();
         userBean.setUsername(username);
         userBean.setPassword(password);
         userBean.setName(name);
@@ -60,53 +59,48 @@ public class RegisterState implements CliState {
         userBean.setEmail(email);
         userBean.setRoleInput(roleInput);
 
-        //polymorphism
-        Object infoBean;
-
-        if ("student".equals(roleInput)) {
-            infoBean = getStudentInfo(scanner);
-        } else if ("recruiter".equals(roleInput)) {
-            infoBean = getRecruiterInfo(scanner);
-        } else {
-            Printer.print("Invalid role. Please try again.");
-            context.setState(new RegisterState());
-            return;
-        }
+        // Polymorphism
+        Object infoBean = "student".equals(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
 
         RegisterBoundary registerBoundary = new RegisterBoundary();
         try {
-            // Attempt to register the user
             boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 
             if (registrationSuccess) {
                 Printer.print("Registration successful!");
-                context.setState(new MainMenuState()); // Main Menu
+                context.setState(new MainMenuState());
             } else {
                 Printer.print("Username already exists. Please try again.");
-                context.setState(new RegisterState()); // Retry registration
+                context.setState(new RegisterState());
             }
-
         } catch (UsernameTakeException e) {
-            // Specific handling for the UsernameTakeException
             Printer.print("Error: The username is already taken. Please choose a different username.");
             Printer.print("Would you like to try again with a different username? (yes/no)");
-            String response = scanner.nextLine().trim().toLowerCase();
-
-            if ("yes".equalsIgnoreCase(response)) {
-                context.setState(new RegisterState()); // Retry registration with new username
+            if (scanner.nextLine().trim().equalsIgnoreCase("yes")) {
+                context.setState(new RegisterState());
             } else {
-                context.setState(new MainMenuState()); // Go to Main Menu
+                context.setState(new MainMenuState());
             }
-
-        } catch (DatabaseException e){
+        } catch (DatabaseException e) {
             Printer.print(e.getMessage());
             context.setState(new ExitState());
         } catch (Exception e) {
-            // Handle any other unexpected exceptions
             Printer.print("An unexpected error occurred: " + e.getMessage());
-            context.setState(new MainMenuState()); // Go to Main Menu
+            context.setState(new MainMenuState());
         }
+    }
 
+    // Metodo per validare l'input ed evitare campi vuoti
+    private String getValidInput(Scanner scanner, String prompt) {
+        String input;
+        do {
+            Printer.print(prompt);
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                Printer.print("This field cannot be empty. Please enter a valid value.");
+            }
+        } while (input.isEmpty());
+        return input;
     }
 
     private StudentInfoBean getStudentInfo(Scanner scanner) {

@@ -4,10 +4,7 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
-import org.example.togetjob.exceptions.JobAnnouncementNotActiveException;
-import org.example.togetjob.exceptions.JobAnnouncementNotFoundException;
-import org.example.togetjob.exceptions.JobApplicationAlreadySentException;
-import org.example.togetjob.exceptions.RecruiterNotFoundException;
+import org.example.togetjob.exceptions.*;
 
 import java.util.List;
 
@@ -27,11 +24,11 @@ public class SendAJobApplicationStudentBoundary {
         return controller.showJobApplicationForm(jobAnnouncementBean);
     }
 
-    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException {
+    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException , DatabaseException {
         return controller.sendAJobApplication(jobApplicationBean);
     }
 
-    public List<JobApplicationBean> getJobApplicationsByStudent() {
+    public List<JobApplicationBean> getJobApplicationsByStudent() throws DatabaseException {
         return controller.getAllJobApplication();
     }
 
@@ -39,7 +36,7 @@ public class SendAJobApplicationStudentBoundary {
         return controller.modifyJobApplication(jobApplicationBean);
     }
 
-    public boolean deleteAJobApplication(JobApplicationBean jobApplicationBean){
+    public boolean deleteAJobApplication(JobApplicationBean jobApplicationBean)throws DatabaseException{
         return controller.deleteJobApplication(jobApplicationBean);
     }
 }

@@ -110,7 +110,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
+    public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) throws DatabaseException {
         List<JobAnnouncement> jobAnnouncements = new ArrayList<>();
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();

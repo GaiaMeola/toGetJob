@@ -2,10 +2,7 @@ package org.example.togetjob.view.boundary;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.controller.recruiter.PublishAJobAnnouncementController;
-import org.example.togetjob.exceptions.InvalidSalaryException;
-import org.example.togetjob.exceptions.InvalidWorkingHourException;
-import org.example.togetjob.exceptions.JobAnnouncementAlreadyExists;
-import org.example.togetjob.exceptions.UserNotLoggedException;
+import org.example.togetjob.exceptions.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class PublishAJobAnnouncementRecruiterBoundary {
         return controller.publishJobAnnouncement(jobAnnouncementBean);
     }
 
-    public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) throws UserNotLoggedException{
+    public boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) throws UserNotLoggedException , DatabaseException {
         return controller.changeJobAnnouncementStatus(jobAnnouncementBean, false);
     }
 

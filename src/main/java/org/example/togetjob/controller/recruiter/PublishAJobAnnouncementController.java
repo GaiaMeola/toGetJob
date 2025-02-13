@@ -2,10 +2,7 @@ package org.example.togetjob.controller.recruiter;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.controller.LoginController;
-import org.example.togetjob.exceptions.InvalidSalaryException;
-import org.example.togetjob.exceptions.InvalidWorkingHourException;
-import org.example.togetjob.exceptions.JobAnnouncementAlreadyExists;
-import org.example.togetjob.exceptions.UserNotLoggedException;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
@@ -26,7 +23,7 @@ public class PublishAJobAnnouncementController {
       this.loginController = new LoginController();
     }
 
-    public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
+    public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean)throws DatabaseException,JobAnnouncementAlreadyExists,InvalidSalaryException,InvalidWorkingHourException {
 
         Recruiter recruiter = getRecruiterFromSession();
         int workingHours ;
@@ -79,7 +76,7 @@ public class PublishAJobAnnouncementController {
         return SessionManager.getInstance().getRecruiterFromSession();
     }
 
-    public boolean changeJobAnnouncementStatus(JobAnnouncementBean jobAnnouncementBean, boolean isActive){
+    public boolean changeJobAnnouncementStatus(JobAnnouncementBean jobAnnouncementBean, boolean isActive) throws DatabaseException{
 
         if(isUserLogged()){
             throw new UserNotLoggedException();

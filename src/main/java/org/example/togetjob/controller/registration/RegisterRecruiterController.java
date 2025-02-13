@@ -27,7 +27,7 @@ public class RegisterRecruiterController extends AbstractRegisterController{
     }
 
     @Override
-    protected void saveUserSpecificData(User user) {
+    protected void saveUserSpecificData(User user) throws DatabaseException {
         recruiterDao.saveRecruiter((Recruiter) user);
     }
 }

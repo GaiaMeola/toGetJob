@@ -28,11 +28,11 @@ public class ContactAJobCandidateRecruiterBoundary {
         );
     }
 
-    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() {
+    public List<JobAnnouncementBean> getJobAnnouncementsByRecruiter() throws DatabaseException {
         return contactAJobCandidateController.getJobAnnouncementsByRecruiter();
     }
 
-    public List<StudentInfoBean> getFilteredCandidates(StudentInfoSearchBean searchCriteria, JobAnnouncementBean jobAnnouncement) {
+    public List<StudentInfoBean> getFilteredCandidates(StudentInfoSearchBean searchCriteria, JobAnnouncementBean jobAnnouncement) throws DatabaseException{
         return contactAJobCandidateController.showFilteredCandidates(searchCriteria, jobAnnouncement);
     }
 
@@ -40,7 +40,7 @@ public class ContactAJobCandidateRecruiterBoundary {
         return contactAJobCandidateController.showInterviewSchedulingForm(candidate, jobAnnouncement);
     }
 
-    public boolean inviteCandidateToInterview(InterviewSchedulingBean interviewDetails) throws DateNotValidException, StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException {
+    public boolean inviteCandidateToInterview(InterviewSchedulingBean interviewDetails) throws DateNotValidException, StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException , DatabaseException {
         return contactAJobCandidateController.sendInterviewInvitation(interviewDetails);
     }
 
