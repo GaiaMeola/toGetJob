@@ -71,8 +71,7 @@ public class Main {
         } else {
             Printer.print("DAO not found");
         }
-
-
+        
         if ("cli".equalsIgnoreCase(uiType)){
             CliContext context = new CliContext(new MainMenuState());
             context.startCLI();

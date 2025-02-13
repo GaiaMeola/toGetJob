@@ -11,6 +11,8 @@ import org.example.togetjob.view.cli.abstractstate.CliState;
 import org.example.togetjob.view.cli.contextstate.CliContext;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,6 +44,8 @@ public class RegisterState implements CliState {
         String name = getValidInput(scanner, "Enter name: ");
         String surname = getValidInput(scanner, "Enter surname: ");
         String email = getValidInput(scanner, "Enter email: ");
+
+
 
         String roleInput;
         do {
@@ -90,24 +94,34 @@ public class RegisterState implements CliState {
         }
     }
 
-    // Metodo per validare l'input ed evitare campi vuoti
     private String getValidInput(Scanner scanner, String prompt) {
         String input;
         do {
             Printer.print(prompt);
             input = scanner.nextLine().trim();
+
             if (input.isEmpty()) {
                 Printer.print("This field cannot be empty. Please enter a valid value.");
+                continue;
             }
-        } while (input.isEmpty());
+
+            // Controllo specifico per l'email
+            if (prompt.toLowerCase().contains("email") && !input.contains("@")) {
+                Printer.print("Invalid email format. Please enter a valid email containing '@'.");
+                continue;
+            }
+
+            break; // Se il controllo è superato, esce dal ciclo
+        } while (true);
+
         return input;
     }
+
 
     private StudentInfoBean getStudentInfo(Scanner scanner) {
         Printer.print("Please, complete your student profile:");
 
-        Printer.print("Enter date of birth (yyyy-mm-dd): ");
-        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());
+        LocalDate dateOfBirth = getValidDate(scanner);
         Printer.print("Enter phone number: ");
         String phoneNumber = scanner.nextLine();
         Printer.print("Enter degrees (comma-separated): ");
@@ -135,6 +149,26 @@ public class RegisterState implements CliState {
         studentInfoBean.setAvailability(availability);
         return studentInfoBean;
     }
+
+    private LocalDate getValidDate(Scanner scanner) {
+        LocalDate date = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        boolean valid = false;
+
+        do {
+            try {
+                Printer.print("Enter date of birth (yyyy-mm-dd): ");
+                String input = scanner.nextLine().trim();
+                date = LocalDate.parse(input, formatter);
+                valid = true; // Uscita dal loop
+            } catch (DateTimeParseException e) {
+                Printer.print("Invalid date format. Please enter a valid date (yyyy-MM-dd).");
+            }
+        } while (!valid);
+
+        return date;
+    }
+
 
     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
         Printer.print("Please, complete your recruiter profile:");
