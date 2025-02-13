@@ -3,6 +3,8 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
+import org.example.togetjob.exceptions.JobAnnouncementNotFoundException;
+import org.example.togetjob.exceptions.RecruiterNotFoundException;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
 import org.example.togetjob.exceptions.JobAnnouncementNotActiveException;
 import org.example.togetjob.exceptions.JobApplicationAlreadySentException;
@@ -327,9 +329,8 @@ public class SendAJobApplicationStudentState implements CliState {
             } else {
                 Printer.print("Failed to fill out the application form. Please try again.");
             }
-        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException e) {
-            // Handle case where the job announcement is no longer active
-            Printer.print("Error: " + e.getMessage());
+        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException | RecruiterNotFoundException | JobAnnouncementNotFoundException e) {
+            Printer.print(e.getMessage());
         }  catch (Exception e) {
             // Handle any other unexpected exceptions
             Printer.print("An unexpected error occurred: " + e.getMessage());

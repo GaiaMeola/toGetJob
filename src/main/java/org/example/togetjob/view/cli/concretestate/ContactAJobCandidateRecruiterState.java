@@ -4,6 +4,7 @@ import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.cli.abstractstate.CliState;
@@ -217,24 +218,34 @@ public class ContactAJobCandidateRecruiterState implements CliState {
 
 
     private void scheduleInterview(Scanner scanner, StudentInfoBean selectedCandidate, JobAnnouncementBean selectedJob) {
+        boolean validDate = false;
 
-        Printer.print("Enter the interview date and time (e.g., 2025-02-10T10:00): ");
-        String interviewDateTime = scanner.nextLine();
+        while (!validDate) {
+            try {
+                Printer.print("Enter the interview date and time (e.g., 2025-02-10T10:00): ");
+                String interviewDateTime = scanner.nextLine();
 
-        Printer.print("Enter the location for the interview: ");
-        String location = scanner.nextLine();
+                Printer.print("Enter the location for the interview: ");
+                String location = scanner.nextLine();
 
-        InterviewSchedulingBean interviewDetails = boundary.getInterviewSchedulingForm(selectedCandidate, selectedJob);
+                InterviewSchedulingBean interviewDetails = boundary.getInterviewSchedulingForm(selectedCandidate, selectedJob);
+                interviewDetails.setInterviewDateTime(interviewDateTime);
+                interviewDetails.setLocation(location);
 
-        interviewDetails.setInterviewDateTime(interviewDateTime);
-        interviewDetails.setLocation(location);
-
-        boolean success = boundary.inviteCandidateToInterview(interviewDetails);
-
-        if (success) {
-            Printer.print("The interview invitation has been sent successfully.");
-        } else {
-            Printer.print("There was an issue sending the interview invitation. Please try again.");
+                boolean success = boundary.inviteCandidateToInterview(interviewDetails);
+                if (success) {
+                    Printer.print("The interview invitation has been sent successfully.");
+                    validDate = true;
+                } else {
+                    Printer.print("There was an issue sending the interview invitation. Please try again.");
+                }
+            } catch (DateNotValidException e) {
+                Printer.print( e.getMessage() + ". Please enter a valid date.");
+            }catch (StudentNotFoundException | JobAnnouncementNotFoundException | JobApplicationNotFoundException |
+                    InterviewSchedulingAlreadyExistsException | NotificationException e) {
+                Printer.print(e.getMessage());
+                return; // Esce dal metodo
+            }
         }
     }
 

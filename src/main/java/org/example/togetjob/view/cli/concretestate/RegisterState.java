@@ -3,6 +3,7 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.exceptions.UsernameTakeException;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.printer.Printer;
@@ -97,6 +98,9 @@ public class RegisterState implements CliState {
                 context.setState(new MainMenuState()); // Go to Main Menu
             }
 
+        } catch (DatabaseException e){
+            Printer.print(e.getMessage());
+            context.setState(new ExitState());
         } catch (Exception e) {
             // Handle any other unexpected exceptions
             Printer.print("An unexpected error occurred: " + e.getMessage());

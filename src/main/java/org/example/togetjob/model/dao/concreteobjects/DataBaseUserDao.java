@@ -36,7 +36,7 @@ public class DataBaseUserDao implements UserDao {
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving user to the database");
+            throw new DatabaseException("Error saving user to the database , try again later");
         }
     }
 

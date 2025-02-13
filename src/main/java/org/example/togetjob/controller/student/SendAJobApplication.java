@@ -105,7 +105,7 @@ public class SendAJobApplication {
         return form;
     }
 
-    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) {
+    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException {
 
 
         // Student who wants to send a job application to a job announcement
@@ -113,11 +113,11 @@ public class SendAJobApplication {
 
         //Recruiter who publishes the job announcement
         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Error: Recruiter not found."));
+                .orElseThrow(() -> new RecruiterNotFoundException("Error: Recruiter not found."));
 
         // Job Announcement
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException("Error: JobAnnouncement not found.")); // Job Announcement Found
+                .orElseThrow(() -> new JobAnnouncementNotFoundException("Error: JobAnnouncement not found.")); // Job Announcement Found
 
         // Check if the job announcement is still active
         if (jobAnnouncement.isJobActive() == null || !jobAnnouncement.isJobActive()) {
@@ -218,7 +218,7 @@ public class SendAJobApplication {
     }
 
 
-    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) {
+    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) throws JobApplicationNotFoundException {
 
 
         JobAnnouncement jobAnnouncement = getJobAnnouncementFromBean(jobApplicationBean);
@@ -228,7 +228,7 @@ public class SendAJobApplication {
                 .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))
                 .findFirst();
         if (jobApplicationOpt.isEmpty()) {
-            throw new IllegalArgumentException("Error: Job Application not found for the specified student.");
+            throw new JobApplicationNotFoundException("Error: Job Application not found for the specified student.");
         }
         JobApplication jobApplication = jobApplicationOpt.get();
         if (!jobApplication.obtainStatus().equals(Status.PENDING)) {

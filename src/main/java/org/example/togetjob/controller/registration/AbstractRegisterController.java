@@ -1,6 +1,7 @@
 package org.example.togetjob.controller.registration;
 
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.exceptions.UsernameTakeException;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.UserDao;
@@ -14,7 +15,7 @@ public abstract class AbstractRegisterController {
         this.userDao = AbstractFactoryDaoSingleton.getFactoryDao().createUserDao();
     }
 
-    public boolean registerUser(RegisterUserBean userBean) throws UsernameTakeException {
+    public boolean registerUser(RegisterUserBean userBean) throws UsernameTakeException , DatabaseException {
         if(userDao.userExists(userBean.getUsername())){
             throw new UsernameTakeException("Sorry, username " + userBean.getUsername() + " is already taken. Please select another one !"); //User already exists
         }

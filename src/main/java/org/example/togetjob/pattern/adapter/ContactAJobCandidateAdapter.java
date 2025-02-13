@@ -3,8 +3,7 @@ package org.example.togetjob.pattern.adapter;
 import org.example.togetjob.bean.*;
 import org.example.togetjob.controller.recruiter.JobAnnouncementService;
 import org.example.togetjob.controller.student.SendAJobApplication;
-import org.example.togetjob.exceptions.ConfigException;
-import org.example.togetjob.exceptions.NotificationException;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
 import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
@@ -26,8 +25,8 @@ import java.util.stream.Collectors;
 public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
-    public static final String JOB_ANNOUNCEMENT_NOT_FOUND_ERROR = "Error: Job Announcement not found.";
-    public static final String STUDENT_NOT_FOUND_ERROR = "Error: Student not found.";
+    public static final String JOB_ANNOUNCEMENT_NOT_FOUND_ERROR = "Error:Job Announcement not found.";
+    public static final String STUDENT_NOT_FOUND_ERROR = "Error:Student not found.";
 
     private final SendAJobApplication adapt;
     private final StudentDao studentDao;
@@ -161,21 +160,21 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
 
     @Override
-    public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
+    public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) throws DateNotValidException , StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException {
         if (isDateFuture(interviewSchedulingBean.getInterviewDateTime())) {
-            throw new IllegalArgumentException("Error: The date must be in the future.");
+            throw new DateNotValidException("The date must be in the future.");
         }
 
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
-                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND_ERROR));
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new JobAnnouncementNotFoundException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
         if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isEmpty()) {
-            throw new IllegalArgumentException("Error: Job application not found.");
+            throw new JobApplicationNotFoundException("Error: Job application not found.");
         }
         if (interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement).isPresent()) {
-            throw new IllegalArgumentException("Error: Interview Scheduling already exists.");
+            throw new InterviewSchedulingAlreadyExistsException("Error: An Interview Scheduling already exists.");
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
@@ -194,7 +193,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
         try {
             sendNotification(interviewScheduling);
         } catch (NotificationException e) {
-            return false;
+           throw new NotificationException(e.getMessage()) ;
         }
         return true;
     }
@@ -221,7 +220,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingsForStudent() {
+    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingsForStudent() throws IllegalStateException {
 
         Student student = SessionManager.getInstance().getStudentFromSession();
 
@@ -248,11 +247,11 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean) {
+    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean) throws JobAnnouncementNotFoundException {
 
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new JobAnnouncementNotFoundException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
 
         List<InterviewScheduling> interviewSchedulings = interviewSchedulingDao.getAllInterviewScheduling(jobAnnouncement);
 
@@ -270,22 +269,21 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public boolean modifyInterview(InterviewSchedulingBean interviewSchedulingBean) {
+    public boolean modifyInterview(InterviewSchedulingBean interviewSchedulingBean) throws DateNotValidException , StudentNotFoundException , JobAnnouncementNotFoundException , InterviewSchedulingNotFoundException{
 
         if (isDateFuture(interviewSchedulingBean.getInterviewDateTime())) {
-            throw new IllegalArgumentException("Error: The date must be in the future.");
+            throw new DateNotValidException("The date must be in the future.");
         }
-
 
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
 
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
-                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND_ERROR));
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new JobAnnouncementNotFoundException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
 
         InterviewScheduling interviewScheduling = interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement)
-                .orElseThrow(() -> new IllegalArgumentException("Error: Interview not found."));
+                .orElseThrow(() -> new InterviewSchedulingNotFoundException("Interview not found."));
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
@@ -299,17 +297,17 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     }
 
     @Override
-    public boolean deleteInterview(InterviewSchedulingBean interviewSchedulingBean) {
+    public boolean deleteInterview(InterviewSchedulingBean interviewSchedulingBean) throws StudentNotFoundException , JobAnnouncementNotFoundException , InterviewSchedulingNotFoundException {
 
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
-                .orElseThrow(() -> new IllegalArgumentException(STUDENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new StudentNotFoundException(STUDENT_NOT_FOUND_ERROR));
         JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)
-                .orElseThrow(() -> new IllegalArgumentException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new JobAnnouncementNotFoundException(JOB_ANNOUNCEMENT_NOT_FOUND_ERROR));
 
 
         InterviewScheduling interviewScheduling = interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement)
-                .orElseThrow(() -> new IllegalArgumentException("Error: Interview not found."));
+                .orElseThrow(() -> new InterviewSchedulingNotFoundException("Error: Interview not found."));
 
         interviewSchedulingDao.deleteInterviewScheduling(interviewScheduling);
 
@@ -333,7 +331,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
 
     }
 
-    public boolean isDateFuture(String dateStr) {
+    private boolean isDateFuture(String dateStr) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
         LocalDateTime interviewDateTime = LocalDateTime.parse(dateStr, formatter);
         return interviewDateTime.isAfter(LocalDateTime.now());

@@ -25,7 +25,7 @@ public class ContactAJobCandidateStudentBoundary {
         );
     }
 
-    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent() {
+    public List<InterviewSchedulingStudentInfoBean> getAllInterviewSchedulingForStudent() throws IllegalStateException {
         return contactAJobCandidateController.getAllInterviewSchedulingsForStudent();
     }
 

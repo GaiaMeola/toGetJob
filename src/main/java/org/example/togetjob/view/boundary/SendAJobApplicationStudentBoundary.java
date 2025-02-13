@@ -4,6 +4,10 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
+import org.example.togetjob.exceptions.JobAnnouncementNotActiveException;
+import org.example.togetjob.exceptions.JobAnnouncementNotFoundException;
+import org.example.togetjob.exceptions.JobApplicationAlreadySentException;
+import org.example.togetjob.exceptions.RecruiterNotFoundException;
 
 import java.util.List;
 
@@ -23,7 +27,7 @@ public class SendAJobApplicationStudentBoundary {
         return controller.showJobApplicationForm(jobAnnouncementBean);
     }
 
-    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean){
+    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException {
         return controller.sendAJobApplication(jobApplicationBean);
     }
 

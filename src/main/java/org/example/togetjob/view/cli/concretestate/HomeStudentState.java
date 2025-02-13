@@ -30,42 +30,46 @@ public class HomeStudentState implements CliState {
 
     @Override
     public void goNext(CliContext context, String input) {
+        try {
+            switch (input.toLowerCase()) {
+                case "1": // View profile
+                    Printer.print("Displaying your profile...");
+                    break;
+                case "2": // Vote a company
+                    Printer.print("Voting a company...");
+                    break;
+                case "3": // Show job announcements
+                    Printer.print("Showing job announcements...");
+                    context.setState(new SendAJobApplicationStudentState());
+                    break;
+                case "4": // View notifications
+                    Printer.print("Viewing notifications...");
+                    List<InterviewSchedulingStudentInfoBean> interviewSchedulingList =
+                            contactAJobCandidateStudentBoundary.getAllInterviewSchedulingForStudent();
 
-        switch (input.toLowerCase()) {
-            case "1": // View profile
-                Printer.print("Displaying your profile...");
-                break;
-            case "2": // Vote a company
-                Printer.print("Voting a company...");
-                break;
-            case "3": // Show job announcements
-                Printer.print("Showing job announcements...");
-                context.setState(new SendAJobApplicationStudentState());
-                break;
-            case "4": // View notifications
-                Printer.print("Viewing notifications...");
-                List<InterviewSchedulingStudentInfoBean> interviewSchedulingList =
-                        contactAJobCandidateStudentBoundary.getAllInterviewSchedulingForStudent();
-
-                if (interviewSchedulingList.isEmpty()) {
-                    Printer.print("You have no scheduled interviews at the moment.");
-                } else {
-                    printInterviewScheduling(interviewSchedulingList);
-                }
-                break;
-            case "5": // Logout
-                Printer.print("Logging out...");
-                loginBoundary.logout();
-                context.setState(new MainMenuState());// Go to Main Menù
-                break;
-            case "6": // Exit
-                Printer.print("Exiting application...");
-                context.setState(new ExitState());  // Go to Exit State
-                break;
-            default:
-                Printer.print("Invalid option. Please try again.");
-                context.setState(new HomeStudentState()); // Home Student
-                break;
+                    if (interviewSchedulingList.isEmpty()) {
+                        Printer.print("You have no scheduled interviews at the moment.");
+                    } else {
+                        printInterviewScheduling(interviewSchedulingList);
+                    }
+                    break;
+                case "5": // Logout
+                    Printer.print("Logging out...");
+                    loginBoundary.logout();
+                    context.setState(new MainMenuState()); // Go to Main Menu
+                    break;
+                case "6": // Exit
+                    Printer.print("Exiting application...");
+                    context.setState(new ExitState());  // Go to Exit State
+                    break;
+                default:
+                    Printer.print("Invalid option. Please try again.");
+                    context.setState(new HomeStudentState()); // Home Student
+                    break;
+            }
+        } catch (IllegalStateException e) {
+            Printer.print("An error occurred: " + e.getMessage());
+            context.setState(new MainMenuState()); // Reset to main menu if there's an illegal state
         }
     }
 

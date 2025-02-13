@@ -6,7 +6,4 @@ public class JobAnnouncementNotFoundException extends RuntimeException {
         super(message);
     }
 
-    public JobAnnouncementNotFoundException(String message, Throwable cause) {
-    super(message, cause);
-  }
 }

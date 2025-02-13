@@ -5,6 +5,7 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.pattern.adapter.ContactAJobCandidateAdapter;
 import org.example.togetjob.pattern.adapter.ContactAJobCandidateController;
@@ -39,19 +40,19 @@ public class ContactAJobCandidateRecruiterBoundary {
         return contactAJobCandidateController.showInterviewSchedulingForm(candidate, jobAnnouncement);
     }
 
-    public boolean inviteCandidateToInterview(InterviewSchedulingBean interviewDetails) {
+    public boolean inviteCandidateToInterview(InterviewSchedulingBean interviewDetails) throws DateNotValidException, StudentNotFoundException , JobAnnouncementNotFoundException , JobApplicationNotFoundException , InterviewSchedulingAlreadyExistsException , NotificationException {
         return contactAJobCandidateController.sendInterviewInvitation(interviewDetails);
     }
 
-    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean){
+    public List<InterviewSchedulingBean> getInterviewSchedules(JobAnnouncementBean jobAnnouncementBean) throws JobAnnouncementNotFoundException{
         return contactAJobCandidateController.getInterviewSchedules(jobAnnouncementBean);
     }
 
-    public boolean modifyInterview(InterviewSchedulingBean interviewScheduling) {
+    public boolean modifyInterview(InterviewSchedulingBean interviewScheduling) throws DateNotValidException , StudentNotFoundException , JobAnnouncementNotFoundException , InterviewSchedulingNotFoundException {
         return contactAJobCandidateController.modifyInterview(interviewScheduling);
     }
 
-    public boolean deleteInterview(InterviewSchedulingBean interviewScheduling) {
+    public boolean deleteInterview(InterviewSchedulingBean interviewScheduling) throws StudentNotFoundException , JobAnnouncementNotFoundException , InterviewSchedulingNotFoundException{
         return contactAJobCandidateController.deleteInterview(interviewScheduling);
     }
 }

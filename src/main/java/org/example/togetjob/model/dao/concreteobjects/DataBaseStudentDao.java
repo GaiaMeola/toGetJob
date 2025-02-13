@@ -165,7 +165,7 @@
             return students;
         }
 
-        private Map<String, Student> getStudentsDetails(List<User> users) {
+        private Map<String, Student> getStudentsDetails(List<User> users) throws DatabaseException{
             Map<String, Student> studentMap = new HashMap<>();
 
             try (Connection conn = DatabaseConfig.getInstance().getConnection();

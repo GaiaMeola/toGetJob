@@ -2,6 +2,7 @@ package org.example.togetjob.controller.registration;
 
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.Recruiter;
@@ -13,7 +14,7 @@ public class RegisterRecruiterController extends AbstractRegisterController{
     private final RecruiterDao recruiterDao;
     private final RecruiterInfoBean recruiterInfoBean;
 
-    public RegisterRecruiterController(RecruiterInfoBean recruiterInfoBean){
+    public RegisterRecruiterController(RecruiterInfoBean recruiterInfoBean) throws DatabaseException {
         this.recruiterDao = AbstractFactoryDaoSingleton.getFactoryDao().createRecruiterDao();
         this.recruiterInfoBean = recruiterInfoBean;
     }

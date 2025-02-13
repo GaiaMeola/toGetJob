@@ -3,6 +3,7 @@ package org.example.togetjob.view.cli.concretestate;
 import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
 import org.example.togetjob.view.boundary.SendAJobApplicationRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
@@ -36,26 +37,29 @@ public class SendAJobApplicationRecruiterState implements CliState {
 
     @Override
     public void goNext(CliContext context, String input) {
-
         Scanner scanner = context.getScanner();
 
-        switch (input.toLowerCase()) {
-            case "1": // View job applications for a specific job announcement
-                viewJobApplicationsForJobAnnouncement(scanner);
-                break;
+        try {
+            switch (input.toLowerCase()) {
+                case "1": // View job applications for a specific job announcement
+                    viewJobApplicationsForJobAnnouncement(scanner);
+                    break;
 
-            case "2": // View and manage interview schedules for the job announcement
-                viewInterviewSchedules(scanner);
-                break;
+                case "2": // View and manage interview schedules for the job announcement
+                    viewInterviewSchedules(scanner);
+                    break;
 
-            case "3": // Go back to previous state
-                Printer.print("Returning to job announcement management...");
-                context.setState(new PublishAJobAnnouncementRecruiterState());
-                break;
+                case "3": // Go back to previous state
+                    Printer.print("Returning to job announcement management...");
+                    context.setState(new PublishAJobAnnouncementRecruiterState());
+                    break;
 
-            default:
-                Printer.print("Please try again." + CHOOSE_AN_OPTION);
-                break;
+                default:
+                    Printer.print("Please try again." + CHOOSE_AN_OPTION);
+                    break;
+            }
+        } catch (JobAnnouncementNotFoundException e) {
+            Printer.print(e.getMessage());
         }
     }
 
@@ -93,31 +97,35 @@ public class SendAJobApplicationRecruiterState implements CliState {
 
     }
 
-    private void viewInterviewSchedules(Scanner scanner) {
-        List<InterviewSchedulingBean> interviewSchedulings = contactAJobCandidateRecruiterBoundary.getInterviewSchedules(jobAnnouncementBean);
+    private void viewInterviewSchedules(Scanner scanner) throws JobAnnouncementNotFoundException{
+        try {
+            List<InterviewSchedulingBean> interviewSchedulings = contactAJobCandidateRecruiterBoundary.getInterviewSchedules(jobAnnouncementBean);
 
-        if (interviewSchedulings.isEmpty()) {
-            Printer.print("No interviews scheduled for this job announcement.");
-        } else {
-            Printer.print("Here are the scheduled interviews for the job announcement: " + jobAnnouncementBean.getJobTitle());
-            for (int i = 0; i < interviewSchedulings.size(); i++) {
-                InterviewSchedulingBean interviewScheduling = interviewSchedulings.get(i);
-                Printer.print((i + 1) + ". Candidate: " + interviewScheduling.getStudentUsername() +
-                        " | Date: " + interviewScheduling.getInterviewDateTime());
+            if (interviewSchedulings.isEmpty()) {
+                Printer.print("No interviews scheduled for this job announcement.");
+            } else {
+                Printer.print("Here are the scheduled interviews for the job announcement: " + jobAnnouncementBean.getJobTitle());
+                for (int i = 0; i < interviewSchedulings.size(); i++) {
+                    InterviewSchedulingBean interviewScheduling = interviewSchedulings.get(i);
+                    Printer.print((i + 1) + ". Candidate: " + interviewScheduling.getStudentUsername() +
+                            " | Date: " + interviewScheduling.getInterviewDateTime());
+                }
             }
-        }
 
-        Printer.print("Enter the number of the interview you want to manage, or 0 to go back: ");
-        int selection = scanner.nextInt();
-        scanner.nextLine();
+            Printer.print("Enter the number of the interview you want to manage, or 0 to go back: ");
+            int selection = scanner.nextInt();
+            scanner.nextLine();
 
-        if (selection > 0 && selection <= interviewSchedulings.size()) {
-            InterviewSchedulingBean selectedInterview = interviewSchedulings.get(selection - 1);
-            manageInterview(scanner, selectedInterview);
-        } else if (selection == 0) {
-            Printer.print("Returning to the job announcement menu...");
-        } else {
-            Printer.print("Invalid selection. Please try again.");
+            if (selection > 0 && selection <= interviewSchedulings.size()) {
+                InterviewSchedulingBean selectedInterview = interviewSchedulings.get(selection - 1);
+                manageInterview(scanner, selectedInterview);
+            } else if (selection == 0) {
+                Printer.print("Returning to the job announcement menu...");
+            } else {
+                Printer.print("Invalid selection. Please try again.");
+            }
+        } catch (JobAnnouncementNotFoundException e) {
+            Printer.print(e.getMessage());
         }
     }
 
@@ -132,20 +140,28 @@ public class SendAJobApplicationRecruiterState implements CliState {
         boolean success;
         switch (action) {
             case "1": // Modify the interview
-                success = contactAJobCandidateRecruiterBoundary.modifyInterview(selectedInterview);
-                if (success) {
-                    Printer.print("Interview modified successfully.");
-                } else {
-                    Printer.print("Failed to modify the interview.");
+                try {
+                    success = contactAJobCandidateRecruiterBoundary.modifyInterview(selectedInterview);
+                    if (success) {
+                        Printer.print("Interview modified successfully.");
+                    } else {
+                        Printer.print("Failed to modify the interview.");
+                    }
+                } catch (DateNotValidException | StudentNotFoundException | JobAnnouncementNotFoundException | InterviewSchedulingNotFoundException e) {
+                    Printer.print(e.getMessage());
                 }
                 break;
 
             case "2": // Delete the interview
-                success = contactAJobCandidateRecruiterBoundary.deleteInterview(selectedInterview);
-                if (success) {
-                    Printer.print("Interview deleted successfully.");
-                } else {
-                    Printer.print("Failed to delete the interview.");
+                try {
+                    success = contactAJobCandidateRecruiterBoundary.deleteInterview(selectedInterview);
+                    if (success) {
+                        Printer.print("Interview deleted successfully.");
+                    } else {
+                        Printer.print("Failed to delete the interview.");
+                    }
+                }catch (StudentNotFoundException | JobAnnouncementNotFoundException | InterviewSchedulingNotFoundException e){
+                    Printer.print(e.getMessage());
                 }
                 break;
 
@@ -159,7 +175,7 @@ public class SendAJobApplicationRecruiterState implements CliState {
         }
     }
 
-    private void manageApplication(Scanner scanner, JobApplicationBean selectedApplication) {
+    private void manageApplication(Scanner scanner, JobApplicationBean selectedApplication){
         Printer.print("Managing application from " + selectedApplication.getStudentUsername());
         Printer.print("1. Accept this application");
         Printer.print("2. Reject this application");
@@ -168,33 +184,38 @@ public class SendAJobApplicationRecruiterState implements CliState {
         String action = scanner.nextLine();
 
         boolean success;
-        switch (action) {
-            case "1": // Accept the application
-                success = sendAJobApplicationRecruiterBoundary.acceptJobApplication(selectedApplication);
-                if (success) {
-                    Printer.print("Application accepted successfully.");
-                } else {
-                    Printer.print("Failed to accept the application.");
-                }
-                break;
+        try {
+            switch (action) {
+                case "1": // Accept the application
+                    success = sendAJobApplicationRecruiterBoundary.acceptJobApplication(selectedApplication);
+                    if (success) {
+                        Printer.print("Application accepted successfully.");
+                    } else {
+                        Printer.print("Failed to accept the application.");
+                    }
+                    break;
 
-            case "2": // Reject the application
-                success = sendAJobApplicationRecruiterBoundary.rejectJobApplication(selectedApplication);
-                if (success) {
-                    Printer.print("Application rejected successfully.");
-                } else {
-                    Printer.print("Failed to reject the application.");
-                }
-                break;
+                case "2": // Reject the application
+                    success = sendAJobApplicationRecruiterBoundary.rejectJobApplication(selectedApplication);
+                    if (success) {
+                        Printer.print("Application rejected successfully.");
+                    } else {
+                        Printer.print("Failed to reject the application.");
+                    }
+                    break;
 
-            case "3": // Go back to the applications list
-                Printer.print("Returning to job applications...");
-                break;
+                case "3": // Go back to the applications list
+                    Printer.print("Returning to job applications...");
+                    break;
 
-            default:
-                Printer.print("Invalid option. Please try again.");
-                break;
+                default:
+                    Printer.print("Invalid option. Please try again.");
+                    break;
+            }
+        } catch (JobApplicationNotFoundException e) {
+            Printer.print(e.getMessage());
         }
     }
+
 
 }
