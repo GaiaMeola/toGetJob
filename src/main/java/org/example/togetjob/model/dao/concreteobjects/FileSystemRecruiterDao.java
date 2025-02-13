@@ -9,151 +9,115 @@ import java.util.*;
 
 public class FileSystemRecruiterDao implements RecruiterDao {
     private static final String PATH_NAME = "src/main/resources/files_txt/Recruiter.txt";
+    private static final String DELIMITER = ";";
+    private static final String COMPANY_SEPARATOR = ",";
 
     @Override
     public void saveRecruiter(Recruiter recruiter) {
         if (recruiterExists(recruiter.obtainUsername())) {
-            return; // The recruiter with the given username already exists.
+            return;
         }
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
-            writer.write(recruiter.obtainName() + ";" + recruiter.obtainSurname() + ";" + recruiter.obtainUsername() + ";" +
-                    recruiter.obtainEmailAddress() + ";" + recruiter.obtainPassword() + ";" + recruiter.obtainRole() + ";" + recruiter.obtainCompanies());
+            writer.write(formatRecruiterData(recruiter));
             writer.newLine();
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
+        } catch (IOException e) {
+            // Handle exception
         }
     }
 
     @Override
     public Optional<Recruiter> getRecruiter(String username) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data.length >= 7 && data[2].trim().equals(username)) {
-                    // Find the recruiter corresponding to the username
-                    Role role = Role.valueOf(data[5].trim());
-                    if (role == Role.RECRUITER) {
-                        List<String> companies = Arrays.asList(data[6].split(","));
-                        Recruiter recruiter = new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role, companies);
-                        return Optional.of(recruiter);
-                    }
-                }
-            }
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
-        }
-
-        return Optional.empty();
+        return getRecruitersFromFile().stream()
+                .filter(recruiter -> recruiter.obtainUsername().equals(username))
+                .findFirst();
     }
 
     @Override
     public List<Recruiter> getAllRecruiter() {
-        List<Recruiter> recruiters = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data.length >= 7) { // Ensure there are at least 7 columns
-                    Role role = Role.valueOf(data[5].trim());
-                    if (role == Role.RECRUITER) {
-                        // Retrieve the list of companies (separated by commas)
-                        List<String> companies = Arrays.asList(data[6].split(","));
-
-                        Recruiter recruiter = new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role, companies);
-                        recruiters.add(recruiter);
-                    }
-                }
-            }
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
-        }
-        return recruiters;
+        return getRecruitersFromFile();
     }
 
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data.length >= 7 && data[2].trim().equals(recruiter.obtainUsername())) {
-                    // Find the recruiter row to update and replace it with the new data
-                    String updatedLine = recruiter.obtainName() + ";" + recruiter.obtainSurname() + ";" + recruiter.obtainUsername() + ";" +
-                            recruiter.obtainEmailAddress() + ";" + recruiter.obtainPassword() + ";" + recruiter.obtainRole() + ";" +
-                            String.join(",", recruiter.obtainCompanies()); // Concatenate companies separated by a comma
-                    lines.add(updatedLine); // Add the updated line
-                } else {
-                    lines.add(line); // Add the unchanged line
-                }
+        List<Recruiter> recruiters = getRecruitersFromFile();
+        boolean updated = false;
+
+        for (int i = 0; i < recruiters.size(); i++) {
+            if (recruiters.get(i).obtainUsername().equals(recruiter.obtainUsername())) {
+                recruiters.set(i, recruiter);
+                updated = true;
+                break;
             }
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
-            return false;
         }
 
-        // Rewrite the file with the updated data
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine(); // Write a new line
-            }
-            return true;
-        } catch (IOException e) {
-            // Handle file writing error
-            return false;
-        }
+        return updated && rewriteRecruitersFile(recruiters);
     }
 
     @Override
     public boolean deleteRecruiter(String username) {
-        if (!recruiterExists(username)) {
-            return false; // The recruiter does not exist, so we cannot delete them.
-        }
-
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data.length >= 7 && !data[2].trim().equals(username)) {
-                    // Add only the lines that do not correspond to the recruiter to delete
-                    lines.add(line);
-                }
-            }
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
-            return false;
-        }
-
-        // Rewrite the file without the deleted recruiter
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine(); // Write a new line
-            }
-            return true;
-        } catch (IOException e) {
-            // Handle file writing error
-            return false;
-        }
+        List<Recruiter> recruiters = getRecruitersFromFile();
+        boolean removed = recruiters.removeIf(r -> r.obtainUsername().equals(username));
+        return removed && rewriteRecruitersFile(recruiters);
     }
 
     @Override
     public boolean recruiterExists(String username) {
+        return getRecruitersFromFile().stream()
+                .anyMatch(recruiter -> recruiter.obtainUsername().equals(username));
+    }
+
+    private List<Recruiter> getRecruitersFromFile() {
+        List<Recruiter> recruiters = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] data = line.split(";");
-                if (data.length >= 7 && data[2].trim().equals(username)) {  // username is at the third position
-                    return true;  // Recruiter found
-                }
+                parseRecruiterData(line).ifPresent(recruiters::add);
             }
-        } catch (IOException | IllegalArgumentException e) {
-            // Handle both IOException and IllegalArgumentException
+        } catch (IOException e) {
+            // Handle exception
         }
-        return false;  // Recruiter not found
+        return recruiters;
+    }
+
+    private Optional<Recruiter> parseRecruiterData(String line) {
+        String[] data = line.split(DELIMITER);
+        if (data.length >= 7) {
+            try {
+                Role role = Role.valueOf(data[5].trim());
+                if (role == Role.RECRUITER) {
+                    List<String> companies = Arrays.asList(data[6].split(COMPANY_SEPARATOR));
+                    return Optional.of(new Recruiter(
+                            data[0].trim(), data[1].trim(), data[2].trim(),
+                            data[3].trim(), data[4].trim(), role, companies));
+                }
+            } catch (IllegalArgumentException e) {
+                // Handle invalid role exception
+            }
+        }
+        return Optional.empty();
+    }
+
+    private String formatRecruiterData(Recruiter recruiter) {
+        return String.join(DELIMITER,
+                recruiter.obtainName(),
+                recruiter.obtainSurname(),
+                recruiter.obtainUsername(),
+                recruiter.obtainEmailAddress(),
+                recruiter.obtainPassword(),
+                recruiter.obtainRole().toString(),
+                String.join(COMPANY_SEPARATOR, recruiter.obtainCompanies()));
+    }
+
+    private boolean rewriteRecruitersFile(List<Recruiter> recruiters) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+            for (Recruiter recruiter : recruiters) {
+                writer.write(formatRecruiterData(recruiter));
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            // Handle exception
+            return false;
+        }
     }
 }
