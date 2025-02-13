@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.ContactAJobCandidateController">
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -30,14 +30,14 @@
                   <Font name="AppleGothic Regular" size="36.0" />
                </font>
             </Label>
-            <StackPane layoutX="-8.0" layoutY="5.0" onMouseClicked="#handleBackButton">
+            <StackPane layoutX="-8.0" layoutY="5.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleBackButton" onMouseClicked="#handleBackButton" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
+                  <Button mnemonicParsing="false" onAction="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
                      <font>
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView accessibleRole="BUTTON" fitHeight="30.0" fitWidth="30.0" mouseTransparent="true" onMouseClicked="#handleBackButton" pickOnBounds="true" preserveRatio="true">
+                        <ImageView accessibleRole="BUTTON" fitHeight="30.0" fitWidth="30.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../back-158491_1920.png" />
                            </image>
@@ -49,14 +49,14 @@
                   </Button>
                </children>
             </StackPane>
-            <TableView fx:id="candidatesTable" editable="true" layoutX="18.0" layoutY="73.0" prefHeight="369.0" prefWidth="529.0" style="-fx-background-color: 00aaff;">
+            <TableView fx:id="jobsTable" editable="true" layoutX="18.0" layoutY="73.0" prefHeight="369.0" prefWidth="529.0" style="-fx-background-color: 00aaff;">
                <columns>
-                  <TableColumn fx:id="nameColumn" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic; -fx-text-fill: #b3d9ff;" text="Username" />
-                  <TableColumn fx:id="degreeColumn" prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="Degrees" />
-                  <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
+                  <TableColumn fx:id="jobTitleColumn" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic; -fx-text-fill: #b3d9ff;" text="JOB TITLE" />
+                  <TableColumn fx:id="companyColumn" prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="COMPANY" />
+                  <TableColumn fx:id="actionsColumn" prefWidth="75.0" text="ACTION" />
                </columns>
             </TableView>
-            <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="217.0" layoutY="-1.0" mouseTransparent="true" onMouseClicked="#handleHomeButton" pickOnBounds="true" preserveRatio="true" y="-7.0">
+            <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="217.0" layoutY="-1.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" y="-7.0">
                <image>
                   <Image url="@../logo-removebg-preview.png" />
                </image>

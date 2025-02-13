@@ -3,11 +3,12 @@ package org.example.togetjob.view.gui.concretestate;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.view.gui.GUIContext;
 import org.example.togetjob.view.gui.GUIState;
-import org.example.togetjob.view.gui.controllergrafico.FilteredJobAnnouncementsController;
+import org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController;
 
 import java.io.IOException;
 
@@ -27,9 +28,11 @@ public class FilteredJobAnnouncementsState implements GUIState {
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobannouncements.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
-            FilteredJobAnnouncementsController controller = fxmlLoader.getController();
+            VBox root = fxmlLoader.load();
+            Scene scene = new Scene(root, 600, 500);
+
+            SendAJobApplicationByStudentController controller = fxmlLoader.getController();
             controller.setContext(context);
             controller.setJobAnnouncementSearchBean(jobAnnouncementSearchBean);
 
@@ -40,7 +43,7 @@ public class FilteredJobAnnouncementsState implements GUIState {
                 context.setStage(stage);
             }
 
-            stage.setTitle("Home Student");
+            stage.setTitle("Filtered Job Announcements by Student");
             stage.setScene(scene);
 
             //listener to close the application

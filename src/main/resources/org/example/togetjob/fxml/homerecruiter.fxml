@@ -58,7 +58,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="jobAnnouncementBeanListView" prefHeight="293.0" prefWidth="373.0" />
+                  <ListView fx:id="jobAnnouncementBeanListView" prefHeight="291.0" prefWidth="373.0" />
                </content>
             </TitledPane>
             <Separator layoutX="143.0" layoutY="-3.0" opacity="0.5" orientation="VERTICAL" prefHeight="473.0" prefWidth="11.0" style="-fx-background-color: #2980b9;">
