@@ -10,9 +10,6 @@ import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
 import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.*;
 import org.example.togetjob.model.factory.JobApplicationFactory;
-import org.example.togetjob.model.factory.NotificationFactory;
-import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
-import org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;
 import org.example.togetjob.session.SessionManager;
 
 import java.util.ArrayList;
@@ -24,13 +21,11 @@ public class SendAJobApplication {
     private final JobAnnouncementDao jobAnnouncementDao;
     private final JobApplicationDao jobApplicationDao;
     private final RecruiterDao recruiterDao;
-    private final JobApplicationCollectionSubjectRecruiter jobApplicationCollection;
 
     public SendAJobApplication() {
         this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
         this.jobApplicationDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobApplicationDao();
         this.recruiterDao = AbstractFactoryDaoSingleton.getFactoryDao().createRecruiterDao();
-        this.jobApplicationCollection = new JobApplicationCollectionSubjectRecruiter();
     }
 
     public List<JobAnnouncementBean> showFilteredJobAnnouncements(JobAnnouncementSearchBean jobAnnouncementSearchBean) {
@@ -132,18 +127,7 @@ public class SendAJobApplication {
         JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
         jobApplicationDao.saveJobApplication(jobApplication); // Persistence
 
-        try {
-            RecruiterObserverStudent recruiterObserver = new RecruiterObserverStudent(recruiter, NotificationFactory.createNotification("A new job application has been submitted!"));
-            jobApplicationCollection.attach(recruiterObserver);
-        } catch (ConfigException e) {
-            throw new RuntimeException(e);
-        }
 
-        try {
-            sendNotificationToRecruiter(jobApplication);
-        } catch (NotificationException e) {
-            return false;
-        }
 
         return true;
     }
@@ -194,7 +178,6 @@ public class SendAJobApplication {
         }
 
         jobApplicationDao.deleteJobApplication(jobApplication);
-        jobApplicationCollection.removeJobApplication(jobApplication);
 
         return true;
 
@@ -257,16 +240,6 @@ public class SendAJobApplication {
     }
 
 
-
-    private void sendNotificationToRecruiter(JobApplication jobApplication) throws NotificationException {
-
-        try {
-            jobApplicationCollection.addJobApplication(jobApplication); // notify
-        } catch (NotificationException e) {
-            throw new NotificationException("Error during the configuration", e);
-        }
-
-    }
 
     private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {
         Student student = SessionManager.getInstance().getStudentFromSession();
