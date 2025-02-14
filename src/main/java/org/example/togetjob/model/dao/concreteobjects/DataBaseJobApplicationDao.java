@@ -143,7 +143,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public void updateJobApplication(JobApplication jobApplication) throws DatabaseException {
+    public boolean updateJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -165,10 +165,12 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
         } catch (SQLException | DatabaseException e) {
             throw new DatabaseException(ERROR_DATABASE);
         }
+
+        return true;
     }
 
     @Override
-    public void deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
+    public boolean deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -187,6 +189,8 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
         } catch (SQLException | DatabaseException e) {
             throw new DatabaseException(ERROR_DATABASE);
         }
+
+        return true;
     }
 
     @Override
@@ -265,7 +269,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
+    public List<JobApplication> getJobApplicationsByJobAnnouncement(JobAnnouncement jobAnnouncement) throws DatabaseException {
         List<JobApplication> jobApplications = new ArrayList<>();
         Set<String> studentUsernames = new HashSet<>();
 

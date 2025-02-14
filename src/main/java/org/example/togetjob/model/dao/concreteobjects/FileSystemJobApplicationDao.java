@@ -20,12 +20,12 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public void updateJobApplication(JobApplication jobApplication) {
+    public boolean updateJobApplication(JobApplication jobApplication) {
         /* not implemented  */
     }
 
     @Override
-    public void deleteJobApplication(JobApplication jobApplication) {
+    public boolean deleteJobApplication(JobApplication jobApplication) {
         /* not implemented  */
     }
 
@@ -40,7 +40,7 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
+    public List<JobApplication> getJobApplicationsByJobAnnouncement(JobAnnouncement jobAnnouncement) {
         return List.of();
     }
 }

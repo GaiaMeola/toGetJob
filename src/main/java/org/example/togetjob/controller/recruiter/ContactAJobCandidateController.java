@@ -1,7 +1,6 @@
-package org.example.togetjob.pattern.adapter;
+package org.example.togetjob.controller.recruiter;
 
 import org.example.togetjob.bean.*;
-import org.example.togetjob.controller.recruiter.JobAnnouncementService;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
@@ -19,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
+public class ContactAJobCandidateController implements ContactAJobCandidate {
 
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm";
     public static final String JOB_ANNOUNCEMENT_NOT_FOUND_ERROR = "Error:Job Announcement not found.";
@@ -31,7 +30,7 @@ public class ContactAJobCandidateAdapter implements ContactAJobCandidateControll
     private final JobApplicationDao jobApplicationDao;
     private final InterviewSchedulingDao interviewSchedulingDao;
 
-    public ContactAJobCandidateAdapter(SendAJobApplication adapt, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao) {
+    public ContactAJobCandidateController(SendAJobApplication adapt, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao) {
         this.adapt = adapt;
         this.studentDao = studentDao;
         this.jobAnnouncementDao = jobAnnouncementDao;

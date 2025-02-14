@@ -77,16 +77,6 @@ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
                 .toList();
     }
 
-    @Override
-    public Optional<Integer> getJobAnnouncementId(String jobTitle, String recruiterName) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<JobAnnouncement> getJobAnnouncementById(int jobAnnouncementId) {
-        return Optional.empty();
-    }
-
     private String generateKey(JobAnnouncement jobAnnouncement) {
         return jobAnnouncement.obtainJobTitle() + "-" + jobAnnouncement.getRecruiter().obtainUsername();
     }

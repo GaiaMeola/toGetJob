@@ -9,15 +9,15 @@ import java.util.*;
 
 public class InMemoryJobApplicationDao implements JobApplicationDao {
 
-    private static final Map<String, Map<Student, JobApplication>> jobApplicationsMap = new HashMap<>();
+    private static final Map<String, Map<Student, JobApplication>> jobApplications = new HashMap<>();
 
     @Override
     public void saveJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
-        Map<Student, JobApplication> studentMap = jobApplicationsMap.getOrDefault(key, new HashMap<>());
+        Map<Student, JobApplication> studentMap = jobApplications.getOrDefault(key, new HashMap<>());
 
         studentMap.put(jobApplication.getStudent(), jobApplication);
-        jobApplicationsMap.put(key, studentMap);
+        jobApplications.put(key, studentMap);
 
     }
 
@@ -25,51 +25,55 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
     public Optional<JobApplication> getJobApplication(Student student , JobAnnouncement jobAnnouncement ) {
         String key = generateKey(student, jobAnnouncement);
 
-        Map<Student, JobApplication> studentMap = jobApplicationsMap.get(key);
+        Map<Student, JobApplication> studentMap = jobApplications.get(key);
         return studentMap != null ? Optional.ofNullable(studentMap.get(student)) : Optional.empty();
     }
 
     @Override
-    public void updateJobApplication(JobApplication jobApplication) {
+    public boolean updateJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
-        Map<Student, JobApplication> studentMap = jobApplicationsMap.get(key);
+        Map<Student, JobApplication> studentMap = jobApplications.get(key);
 
         if (studentMap != null && studentMap.containsKey(jobApplication.getStudent())) {
             studentMap.put(jobApplication.getStudent(), jobApplication);
         }
 
+        return true;
+
     }
 
     @Override
-    public void deleteJobApplication(JobApplication jobApplication) {
+    public boolean deleteJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
-        Map<Student, JobApplication> studentMap = jobApplicationsMap.get(key);
+        Map<Student, JobApplication> studentMap = jobApplications.get(key);
 
         if (studentMap != null) {
             studentMap.remove(jobApplication.getStudent());
         }
+
+        return true;
 
     }
 
     @Override
     public boolean jobApplicationExists(Student student , JobAnnouncement jobAnnouncement ) {
         String key = generateKey(student, jobAnnouncement);
-        Map<Student, JobApplication> studentMap = jobApplicationsMap.get(key);
+        Map<Student, JobApplication> studentMap = jobApplications.get(key);
         return studentMap != null && studentMap.containsKey(student);
     }
 
 
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {
-        return jobApplicationsMap.values().stream()
+        return jobApplications.values().stream()
                 .map(map -> map.get(student)) //
                 .filter(Objects::nonNull)
                 .toList();
     }
 
     @Override
-    public List<JobApplication> getJobApplicationsByAnnouncement(JobAnnouncement jobAnnouncement) {
-        return jobApplicationsMap.values().stream() //
+    public List<JobApplication> getJobApplicationsByJobAnnouncement(JobAnnouncement jobAnnouncement) {
+        return jobApplications.values().stream() //
                 .flatMap(studentMap -> studentMap.values().stream())
                 .filter(application -> application.getJobAnnouncement().equals(jobAnnouncement))
                 .toList();

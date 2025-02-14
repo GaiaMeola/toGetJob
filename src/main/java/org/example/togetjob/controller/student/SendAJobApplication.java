@@ -193,7 +193,7 @@ public class SendAJobApplication {
         JobAnnouncement jobAnnouncement = jobAnnouncementOpt.get();
 
         // all the job applications sent to the job announcement
-        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
+        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByJobAnnouncement(jobAnnouncement);
         return convertToJobApplicationBeans(jobApplications);
 
     }
@@ -204,7 +204,7 @@ public class SendAJobApplication {
 
         JobAnnouncement jobAnnouncement = getJobAnnouncementFromBean(jobApplicationBean);
 
-        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);
+        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByJobAnnouncement(jobAnnouncement);
         Optional<JobApplication> jobApplicationOpt = jobApplications.stream()
                 .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))
                 .findFirst();

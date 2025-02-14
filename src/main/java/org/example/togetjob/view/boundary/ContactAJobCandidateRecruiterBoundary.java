@@ -7,17 +7,17 @@ import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.pattern.adapter.ContactAJobCandidateAdapter;
-import org.example.togetjob.pattern.adapter.ContactAJobCandidateController;
+import org.example.togetjob.controller.recruiter.ContactAJobCandidateController;
+import org.example.togetjob.controller.recruiter.ContactAJobCandidate;
 
 import java.util.List;
 
 public class ContactAJobCandidateRecruiterBoundary {
 
-    private final ContactAJobCandidateController contactAJobCandidateController;
+    private final ContactAJobCandidate contactAJobCandidateController;
 
     public ContactAJobCandidateRecruiterBoundary() {
-        this.contactAJobCandidateController = new ContactAJobCandidateAdapter(
+        this.contactAJobCandidateController = new ContactAJobCandidateController(
                 new SendAJobApplication(),
                 AbstractFactoryDaoSingleton.getFactoryDao().createStudentDao(),
                 AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao(),

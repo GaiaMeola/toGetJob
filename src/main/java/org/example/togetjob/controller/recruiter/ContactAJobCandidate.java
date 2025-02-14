@@ -1,4 +1,4 @@
-package org.example.togetjob.pattern.adapter;
+package org.example.togetjob.controller.recruiter;
 
 // Class Target in Adapter
 
@@ -6,7 +6,7 @@ import org.example.togetjob.bean.*;
 
 import java.util.List;
 
-public interface ContactAJobCandidateController {
+public interface ContactAJobCandidate {
 
     List<StudentInfoBean> showFilteredCandidates(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean);
 
