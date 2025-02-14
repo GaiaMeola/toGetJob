@@ -14,10 +14,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ContactAJobCandidateRecruiterState implements CliState {
-
     private final ContactAJobCandidateRecruiterBoundary boundary = new ContactAJobCandidateRecruiterBoundary();
     private static final String CHOSE_AN_OPTION = "Choose an option: ";
-    private static final String NOT_SPECIFIED = "Not specified";
 
     @Override
     public void showMenu() {
@@ -30,12 +28,9 @@ public class ContactAJobCandidateRecruiterState implements CliState {
 
     @Override
     public void goNext(CliContext context, String input) {
-
         Scanner scanner = context.getScanner();
-
         switch (input) {
             case "1":
-                // all candidates
                 Printer.print("Fetching candidates...");
                 viewJobAnnouncements(scanner);
                 break;
@@ -51,80 +46,76 @@ public class ContactAJobCandidateRecruiterState implements CliState {
 
     private void viewJobAnnouncements(Scanner scanner) {
         try {
-            // Call the boundary method to fetch job announcements
             var jobAnnouncements = boundary.getJobAnnouncementsByRecruiter();
+            var selectedJob = selectJobAnnouncement(scanner, jobAnnouncements);
+            if (selectedJob == null) return;
 
-            if (jobAnnouncements.isEmpty()) {
-                Printer.print("No job announcements found.");
-            } else {
-                // Display the announcements
-                Printer.print("Here are the job announcements you have created or are collaborating on:");
-
-                for (int i = 0; i < jobAnnouncements.size(); i++) {
-                    var job = jobAnnouncements.get(i);
-                    Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
-                }
-
-                Printer.print("Enter the number of the job announcement you want to manage: ");
-                int jobSelection = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character after the number input
-
-                // Validate the input
-                if (jobSelection < 1 || jobSelection > jobAnnouncements.size()) {
-                    Printer.print("Invalid selection. Please try again.");
-                    return; // Exit the method to let the user try again
-                }
-
-                var selectedJob = jobAnnouncements.get(jobSelection - 1);
-
-                Printer.print("Do you want to view the details of this job announcement? (yes/no): ");
-                String viewResponse = scanner.nextLine().trim().toLowerCase();
-
-                if ("yes".equals(viewResponse)) {
-                    // Display the details of the selected job announcement
-                    Printer.print("Job Title: " + selectedJob.getJobTitle());
-                    Printer.print("Location: " + selectedJob.getLocation());
-                    Printer.print("Salary: " + selectedJob.getSalary());
-                    Printer.print("Active: " + selectedJob.isActive());
-                    Printer.print("Description: " + selectedJob.getDescription());
-                }
-
-                Printer.print("Do you want to contact a job candidate? (yes/no): ");
-                viewResponse = scanner.nextLine().trim().toLowerCase();
-
-                if ("yes".equals(viewResponse)) {
-                    applyFiltersAndShowCandidates(scanner, selectedJob); // Pass selected job to filter candidates
-                }
+            Printer.print("Do you want to view the details of this job announcement? (yes/no): ");
+            String viewResponse = scanner.nextLine().trim().toLowerCase();
+            if ("yes".equals(viewResponse)) {
+                Printer.print("Job Title: " + selectedJob.getJobTitle());
+                Printer.print("Location: " + selectedJob.getLocation());
+                Printer.print("Salary: " + selectedJob.getSalary());
+                Printer.print("Active: " + selectedJob.isActive());
+                Printer.print("Description: " + selectedJob.getDescription());
             }
-        }catch(DatabaseException e){
+
+            Printer.print("Do you want to contact a job candidate? (yes/no): ");
+            viewResponse = scanner.nextLine().trim().toLowerCase();
+            if ("yes".equals(viewResponse)) {
+                applyFiltersAndShowCandidates(scanner, selectedJob);
+            }
+
+        } catch (DatabaseException e) {
             Printer.print(e.getMessage());
         }
     }
 
+    private JobAnnouncementBean selectJobAnnouncement(Scanner scanner, List<JobAnnouncementBean> jobAnnouncements) {
+        if (jobAnnouncements.isEmpty()) {
+            Printer.print("No job announcements found.");
+            return null;
+        }
+
+        Printer.print("Here are the job announcements you have created or are collaborating on:");
+        for (int i = 0; i < jobAnnouncements.size(); i++) {
+            var job = jobAnnouncements.get(i);
+            Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
+        }
+
+        Printer.print("Enter the number of the job announcement you want to manage: ");
+        int jobSelection;
+        try {
+            jobSelection = scanner.nextInt();
+            scanner.nextLine();
+            if (jobSelection < 1 || jobSelection > jobAnnouncements.size()) {
+                Printer.print("Invalid selection. Please try again.");
+                return null;
+            }
+        } catch (Exception e) {
+            Printer.print("Invalid input. Please enter a valid number.");
+            scanner.nextLine();
+            return null;
+        }
+
+        return jobAnnouncements.get(jobSelection - 1);
+    }
 
     private void applyFiltersAndShowCandidates(Scanner scanner, JobAnnouncementBean selectedJob) {
         try {
             Printer.print("\nEnter the filters you'd like to apply:");
-
-            // filters to the recruiter
             Printer.print("Enter degree (or leave blank to skip): ");
             String degree = scanner.nextLine();
-
             Printer.print("Enter course attended (or leave blank to skip): ");
             String course = scanner.nextLine();
-
             Printer.print("Enter certifications (or leave blank to skip): ");
             String certification = scanner.nextLine();
-
             Printer.print("Enter work experience (or leave blank to skip): ");
             String workExperience = scanner.nextLine();
-
             Printer.print("Enter skills (or leave blank to skip): ");
             String skills = scanner.nextLine();
-
             Printer.print("Enter availability (or leave blank to skip): ");
             String availability = scanner.nextLine();
-
 
             StudentInfoSearchBean filters = new StudentInfoSearchBean();
             filters.setDegrees(List.of(degree.isEmpty() ? "" : degree));
@@ -134,35 +125,13 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             filters.setSkills(List.of(skills.isEmpty() ? "" : skills));
             filters.setAvailability(availability.isEmpty() ? "" : availability);
 
-            Printer.print("\n --- Filters you have selected ---");
-            Printer.print("Degree: " + (degree.isEmpty() ? NOT_SPECIFIED : degree));
-            Printer.print("Course: " + (course.isEmpty() ? NOT_SPECIFIED : course));
-            Printer.print("Certification: " + (certification.isEmpty() ? NOT_SPECIFIED : certification));
-            Printer.print("Work Experience: " + (workExperience.isEmpty() ? NOT_SPECIFIED : workExperience));
-            Printer.print("Skills: " + (skills.isEmpty() ? NOT_SPECIFIED : skills));
-            Printer.print("Availability: " + (availability.isEmpty() ? NOT_SPECIFIED : availability));
+            Printer.print("\nProceeding with the selected filters...");
+            List<StudentInfoBean> filteredCandidates = boundary.getFilteredCandidates(filters, selectedJob);
+            displayCandidates(scanner, filteredCandidates, selectedJob);
 
-            Printer.print("\nDo you want to proceed with these filters?");
-            Printer.print("1. Proceed");
-            Printer.print("2. Go back and change filters");
-            Printer.print(CHOSE_AN_OPTION);
-            String choice = scanner.nextLine();
-
-            if ("1".equals(choice)) {
-                Printer.print("\nProceeding with the selected filters...");
-                List<StudentInfoBean> filteredCandidates = boundary.getFilteredCandidates(filters, selectedJob); // Candidates filtered
-                displayCandidates(scanner, filteredCandidates, selectedJob);
-            } else if ("2".equals(choice)) {
-                Printer.print("Returning to filter selection...");
-                applyFiltersAndShowCandidates(scanner, selectedJob);
-            } else {
-                Printer.print("Invalid choice. Please try again.");
-                applyFiltersAndShowCandidates(scanner, selectedJob);
-            }
-        }catch(DatabaseException e){
+        } catch (DatabaseException e) {
             Printer.print(e.getMessage());
         }
-
     }
 
     private void displayCandidates(Scanner scanner, List<StudentInfoBean> candidatesList, JobAnnouncementBean selectedJob) {
@@ -170,32 +139,25 @@ public class ContactAJobCandidateRecruiterState implements CliState {
             Printer.print("No candidates found.");
         } else {
             for (int i = 0; i < candidatesList.size(); i++) {
-                StudentInfoBean candidate = candidatesList.get(i);
-                Printer.print((i + 1) + ". " + candidate.getUsername());
+                Printer.print((i + 1) + ". " + candidatesList.get(i).getUsername());
             }
 
             Printer.print("\nDo you want to view the details of any candidate?");
             Printer.print("1. View candidate details");
             Printer.print("2. Go back");
             Printer.print(CHOSE_AN_OPTION);
-            String choice = scanner.nextLine();
 
+            String choice = scanner.nextLine();
             if ("1".equals(choice)) {
                 viewCandidateDetails(scanner, candidatesList, selectedJob);
-            } else if ("2".equals(choice)) {
-                showMenu();
-            } else {
-                Printer.print("Invalid option. Please try again.");
-                displayCandidates(scanner, candidatesList, selectedJob);
             }
         }
     }
 
-
     private void viewCandidateDetails(Scanner scanner, List<StudentInfoBean> candidatesList, JobAnnouncementBean selectedJob) {
         Printer.print("Enter the number of the candidate to view details: ");
         int candidateIndex = scanner.nextInt() - 1;
-        scanner.nextLine(); // Consume the newline
+        scanner.nextLine();
 
         if (candidateIndex < 0 || candidateIndex >= candidatesList.size()) {
             Printer.print("Invalid choice. Please try again.");
@@ -211,26 +173,20 @@ public class ContactAJobCandidateRecruiterState implements CliState {
         Printer.print("Work Experience: " + selectedCandidate.getWorkExperiences());
         Printer.print("Skills: " + selectedCandidate.getSkills());
         Printer.print("Availability: " + selectedCandidate.getAvailability());
-        Printer.print("Do you want to schedule an interview with this candidate? (yes/no): ");
-        String response = scanner.nextLine().trim().toLowerCase();
 
-        if ("yes".equals(response)) {
+        Printer.print("Do you want to schedule an interview with this candidate? (yes/no): ");
+        String viewResponse = scanner.nextLine().trim();
+        if ("yes".equalsIgnoreCase(viewResponse)) {
             scheduleInterview(scanner, selectedCandidate, selectedJob);
-        } else {
-            Printer.print("Returning to candidate list...");
-            displayCandidates(scanner, candidatesList, selectedJob); // Go back to the list of candidates
         }
     }
 
-
     private void scheduleInterview(Scanner scanner, StudentInfoBean selectedCandidate, JobAnnouncementBean selectedJob) {
         boolean validDate = false;
-
         while (!validDate) {
             try {
                 Printer.print("Enter the interview date and time (e.g., 2025-02-10T10:00): ");
                 String interviewDateTime = scanner.nextLine();
-
                 Printer.print("Enter the location for the interview: ");
                 String location = scanner.nextLine();
 
@@ -238,20 +194,14 @@ public class ContactAJobCandidateRecruiterState implements CliState {
                 interviewDetails.setInterviewDateTime(interviewDateTime);
                 interviewDetails.setLocation(location);
 
-                boolean success = boundary.inviteCandidateToInterview(interviewDetails);
-                if (success) {
+                if (boundary.inviteCandidateToInterview(interviewDetails)) {
                     Printer.print("The interview invitation has been sent successfully.");
                     validDate = true;
-                } else {
-                    Printer.print("There was an issue sending the interview invitation. Please try again.");
                 }
+
             } catch (DateNotValidException e) {
-                Printer.print( e.getMessage() + ". Please enter a valid date.");
-            }catch (StudentNotFoundException | JobAnnouncementNotFoundException | JobApplicationNotFoundException | InterviewSchedulingAlreadyExistsException | NotificationException | DatabaseException e) {
                 Printer.print(e.getMessage());
-                return; // Esce dal metodo
             }
         }
     }
-
 }

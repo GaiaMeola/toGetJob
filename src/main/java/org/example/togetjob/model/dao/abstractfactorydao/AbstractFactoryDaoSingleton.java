@@ -42,7 +42,7 @@ AbstractFactoryDaoSingleton {
                case "jdbc":
                    factoryDao = new DataBaseFactoryDao();
                    break;
-               case "json":
+               case "file system":
                    factoryDao = new FileSystemFactoryDao();
                    break;
                default:

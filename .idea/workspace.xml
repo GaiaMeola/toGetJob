@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/abstractfactorydao/AbstractFactoryDaoSingleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/files_txt/Recruiter.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/files_txt/Recruiter.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/files_txt/User.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/files_txt/User.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,14 +112,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Quinto Commit: Fine Db">
-      <option name="closed" value="true" />
-      <created>1738157742126</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1738157742126</updated>
     </task>
     <task id="LOCAL-00013" summary="Sesto Commit: Pattern State CLI prova">
       <option name="closed" value="true" />
@@ -497,7 +497,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739478277362</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Registrazione e Login interfacce ok">
+      <option name="closed" value="true" />
+      <created>1739489655695</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1739489655695</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

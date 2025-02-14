@@ -1,2 +1,3 @@
 name;surname;pppp;email;pass;RECRUITER;[visa, apple]
 Gaia;Meola;Gaia;gaia.meola@gmail.com;password;RECRUITER;[DGS]
+Nadia;Gentili;Nadia;nadia.gentili@gmail.com;password;RECRUITER;dgs
