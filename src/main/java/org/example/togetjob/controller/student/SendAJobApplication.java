@@ -176,7 +176,6 @@ public class SendAJobApplication {
         }
 
         jobApplicationDao.deleteJobApplication(jobApplication);
-
         return true;
 
     }

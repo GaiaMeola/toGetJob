@@ -22,11 +22,13 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     @Override
     public boolean updateJobApplication(JobApplication jobApplication) {
         /* not implemented  */
+        return false;
     }
 
     @Override
     public boolean deleteJobApplication(JobApplication jobApplication) {
         /* not implemented  */
+        return false;
     }
 
     @Override

@@ -18,6 +18,8 @@ import java.util.Scanner;
 
 public class RegisterState implements CliState {
 
+    private static final String STUDENT = "student";
+
     @Override
     public void showMenu() {
 
@@ -46,14 +48,13 @@ public class RegisterState implements CliState {
         String email = getValidInput(scanner, "Enter email: ");
 
 
-
         String roleInput;
         do {
             roleInput = getValidInput(scanner, "Enter role (student/recruiter): ").trim().toLowerCase();
-            if (!roleInput.equals("student") && !roleInput.equals("recruiter")) {
+            if (!roleInput.equalsIgnoreCase(STUDENT) && !roleInput.equalsIgnoreCase("recruiter")) {
                 Printer.print("Invalid role. Please enter 'student' or 'recruiter'.");
             }
-        } while (!roleInput.equals("student") && !roleInput.equals("recruiter"));
+        } while (!roleInput.equals(STUDENT) && !roleInput.equals("recruiter"));
 
         RegisterUserBean userBean = new RegisterUserBean();
         userBean.setUsername(username);
@@ -64,7 +65,7 @@ public class RegisterState implements CliState {
         userBean.setRoleInput(roleInput);
 
         // Polymorphism
-        Object infoBean = "student".equals(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
+        Object infoBean = STUDENT.equalsIgnoreCase(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
 
         RegisterBoundary registerBoundary = new RegisterBoundary();
         try {
@@ -105,13 +106,12 @@ public class RegisterState implements CliState {
                 continue;
             }
 
-            // Controllo specifico per l'email
             if (prompt.toLowerCase().contains("email") && !input.contains("@")) {
                 Printer.print("Invalid email format. Please enter a valid email containing '@'.");
                 continue;
             }
 
-            break; // Se il controllo è superato, esce dal ciclo
+            break;
         } while (true);
 
         return input;
@@ -160,7 +160,7 @@ public class RegisterState implements CliState {
                 Printer.print("Enter date of birth (yyyy-mm-dd): ");
                 String input = scanner.nextLine().trim();
                 date = LocalDate.parse(input, formatter);
-                valid = true; // Uscita dal loop
+                valid = true;
             } catch (DateTimeParseException e) {
                 Printer.print("Invalid date format. Please enter a valid date (yyyy-MM-dd).");
             }

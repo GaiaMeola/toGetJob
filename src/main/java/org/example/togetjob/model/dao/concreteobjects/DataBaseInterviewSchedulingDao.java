@@ -116,7 +116,6 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                 }
             }
         } catch (SQLException e) {
-
             throw new DatabaseException("Database error while retrieving interview scheduling: " + e.getMessage(), e);
         }
         return Optional.empty();
@@ -128,13 +127,12 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
         List<InterviewScheduling> interviewSchedulings = new ArrayList<>();
 
         try {
-            // 1. Ottenere l'ID del JobAnnouncement
+
             int jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.obtainJobTitle(),
                     jobAnnouncement.getRecruiter().obtainUsername()
             ).orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
 
-            // 2. Recuperare gli interview scheduling (senza gli studenti, ma salvando i candidateUsername)
             Set<String> candidateUsernames = new HashSet<>();
             Map<String, InterviewScheduling> schedulingMap = new HashMap<>();
 
@@ -152,10 +150,9 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                         String location = rs.getString(COLUMN_LOCATION);
                         String candidateUsername = rs.getString(COLUMN_CANDIDATE);
 
-                        // Memorizzo gli username dei candidati
+
                         candidateUsernames.add(candidateUsername);
 
-                        // Creo un InterviewScheduling senza candidato (lo assegneremo dopo)
                         InterviewScheduling interviewScheduling = new InterviewScheduling(
                                 subject, greeting, introduction, interviewDateTime, location, null, jobAnnouncement
                         );
@@ -164,7 +161,6 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                 }
             }
 
-            // 3. Recuperare gli studenti in un'unica chiamata a StudentDAO
             Map<String, Student> studentsMap = new HashMap<>();
             for (String username : candidateUsernames) {
                 Optional<Student> studentOpt = studentDao.getStudent(username);
@@ -172,7 +168,6 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
                 studentsMap.put(username, student);
             }
 
-            // 4. Assegnare gli studenti agli InterviewScheduling e costruire la lista finale
             for (Map.Entry<String, InterviewScheduling> entry : schedulingMap.entrySet()) {
                 String username = entry.getKey();
                 InterviewScheduling scheduling = entry.getValue();

@@ -18,10 +18,12 @@ import java.sql.SQLException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
+    static CliContext context;
+    static ConfigDaoLoader loaderDaoConfig;
+    static ConfigUILoader loaderUIConfig;
+
     public static void main(String[] args) throws RuntimeException {
 
-        ConfigDaoLoader loaderDaoConfig;
-        ConfigUILoader loaderUIConfig;
 
         //CONFIGURATION DAO
         try {
@@ -73,7 +75,7 @@ public class Main {
         }
         
         if ("cli".equalsIgnoreCase(uiType)){
-            CliContext context = new CliContext(new MainMenuState());
+            context = new CliContext(new MainMenuState());
             context.startCLI();
         } else if("gui".equalsIgnoreCase(uiType)){
             launchGui();
