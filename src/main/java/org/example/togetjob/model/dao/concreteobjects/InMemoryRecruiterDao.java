@@ -23,11 +23,6 @@ public class InMemoryRecruiterDao implements RecruiterDao {
     }
 
     @Override
-    public List<Recruiter> getAllRecruiter() {
-        return new ArrayList<>(recruiters.values());
-    }
-
-    @Override
     public boolean updateRecruiter(Recruiter recruiter) {
         if (!recruiters.containsKey(recruiter.obtainUsername())) {
             return false;

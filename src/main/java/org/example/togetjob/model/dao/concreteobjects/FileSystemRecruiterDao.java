@@ -33,11 +33,6 @@ public class FileSystemRecruiterDao implements RecruiterDao {
     }
 
     @Override
-    public List<Recruiter> getAllRecruiter() {
-        return getRecruitersFromFile();
-    }
-
-    @Override
     public boolean updateRecruiter(Recruiter recruiter) {
         List<Recruiter> recruiters = getRecruitersFromFile();
         boolean updated = false;

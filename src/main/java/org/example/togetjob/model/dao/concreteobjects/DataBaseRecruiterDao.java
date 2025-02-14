@@ -81,35 +81,6 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         return Optional.empty();
     }
 
-
-
-    @Override
-    public List<Recruiter> getAllRecruiter() {
-        List<Recruiter> recruiters = new ArrayList<>();
-
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SELECT_ALL_RECRUITERS_SQL);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String username = rs.getString("Username");
-
-                Optional<User> userOptional = dataBaseUserDao.getUser(username);
-                if (userOptional.isPresent()) {
-                    User user = userOptional.get();
-                    String companiesString = rs.getString("Companies");
-                    List<String> companies = List.of(companiesString.split(","));
-                    Recruiter recruiter = new Recruiter(user.obtainName(), user.obtainSurname(), user.obtainUsername(), user.obtainEmailAddress(), user.obtainPassword(), user.obtainRole(), companies);
-                    recruiters.add(recruiter);
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Error obtaining all recruiters from database");
-        }
-
-        return recruiters;
-    }
-
     @Override
     public boolean updateRecruiter(Recruiter recruiter) {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
