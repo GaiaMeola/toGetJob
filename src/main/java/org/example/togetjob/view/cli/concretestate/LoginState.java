@@ -2,14 +2,15 @@ package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.exceptions.UserNotFoundException;
 import org.example.togetjob.exceptions.WrongPasswordException;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.abstractstate.CliState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.CliContext;
 
 import java.util.Scanner;
 
-public class LoginState implements CliState {
+public class LoginState implements State {
 
     private final LoginBoundary loginBoundary = new LoginBoundary();
 
@@ -19,7 +20,9 @@ public class LoginState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+            CliContext context = (CliContext) contextState;
 
             Scanner scanner = context.getScanner();
 

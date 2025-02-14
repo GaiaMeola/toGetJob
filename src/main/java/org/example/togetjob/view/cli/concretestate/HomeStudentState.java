@@ -1,16 +1,17 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.bean.InterviewSchedulingStudentInfoBean;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
 import org.example.togetjob.view.boundary.ContactAJobCandidateStudentBoundary;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.abstractstate.CliState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.CliContext;
 
 import java.util.List;
 
 
-public class HomeStudentState implements CliState {
+public class HomeStudentState implements State{
 
     private final LoginBoundary loginBoundary = new LoginBoundary();
     private final ContactAJobCandidateStudentBoundary contactAJobCandidateStudentBoundary = new ContactAJobCandidateStudentBoundary();
@@ -29,7 +30,10 @@ public class HomeStudentState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+        CliContext context = (CliContext) contextState;
+
         try {
             switch (input.toLowerCase()) {
                 case "1": // View profile

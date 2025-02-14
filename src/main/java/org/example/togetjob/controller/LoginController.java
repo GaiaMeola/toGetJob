@@ -3,8 +3,8 @@ package org.example.togetjob.controller;
 import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.exceptions.UserNotFoundException;
 import org.example.togetjob.exceptions.WrongPasswordException;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.model.dao.abstractobjects.UserDao;
+import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import org.example.togetjob.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.User;
 import org.example.togetjob.session.SessionManager;
 

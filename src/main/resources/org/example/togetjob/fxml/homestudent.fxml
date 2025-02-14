@@ -38,7 +38,7 @@
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewNotifications" onMouseClicked="#handleViewNotifications" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="250.0">
+      <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleViewNotifications" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="250.0">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>
@@ -60,7 +60,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="pendingApplicationsList" onEditStart="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="pendingApplicationsList" onMouseClicked="#handleAcceptedApplications" prefHeight="200.0" prefWidth="200.0" />
                </content>
             </TitledPane>
             <TitledPane fx:id="acceptedApplicationsPane" animated="false" onMouseClicked="#handleAcceptedApplications" prefHeight="159.0" prefWidth="440.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Accepted Job Applications">
@@ -68,7 +68,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="acceptedApplicationsList" onEditStart="#handleAcceptedApplications" prefHeight="200.0" prefWidth="436.0" />
+                  <ListView fx:id="acceptedApplicationsList" onMouseClicked="#handleAcceptedApplications" prefHeight="200.0" prefWidth="436.0" />
                </content>
             </TitledPane>
             <TitledPane fx:id="rejectedApplicationsPane" onMouseClicked="#handleRejectedApplications" onMouseDragEntered="#handleRejectedApplications" prefHeight="160.0" prefWidth="440.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Rejected Job Applications">
@@ -76,7 +76,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="rejectedApplicationsList" onEditStart="#handleRejectedApplications" prefHeight="96.0" prefWidth="436.0" />
+                  <ListView fx:id="rejectedApplicationsList" onMouseClicked="#handleRejectedApplications" prefHeight="96.0" prefWidth="436.0" />
                </content>
             </TitledPane>
          </children>

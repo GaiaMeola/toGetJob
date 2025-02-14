@@ -2,8 +2,8 @@ package org.example.togetjob.controller.registration;
 
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.model.dao.abstractobjects.StudentDao;
+import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import org.example.togetjob.dao.abstractobjects.StudentDao;
 import org.example.togetjob.model.entity.Role;
 import org.example.togetjob.model.entity.Student;
 import org.example.togetjob.model.entity.User;

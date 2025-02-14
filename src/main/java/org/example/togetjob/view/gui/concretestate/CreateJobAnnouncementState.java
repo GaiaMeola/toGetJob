@@ -5,13 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.GUIState;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;
 
 import java.io.IOException;
 
-public class CreateJobAnnouncementState implements GUIState {
+public class CreateJobAnnouncementState implements State {
     private final GUIContext context;
 
     public CreateJobAnnouncementState(GUIContext context) {
@@ -21,7 +22,7 @@ public class CreateJobAnnouncementState implements GUIState {
     @Override
     public void showMenu() {
         try {
-            Printer.print("Showing CreateJobAnnouncementState...");
+            Printer.print("Showing Create Job Announcement...");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruitercreatejobannouncement.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
@@ -35,12 +36,8 @@ public class CreateJobAnnouncementState implements GUIState {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            Printer.print("Error loading FXML: " + e.getMessage());
         }
-    }
-
-    @Override
-    public GUIContext getContext() {
-        return this.context;
     }
 
     private Stage getStage() {
@@ -54,8 +51,31 @@ public class CreateJobAnnouncementState implements GUIState {
 
     private void setCloseRequestListener(Stage stage) {
         stage.setOnCloseRequest(e -> {
-            Platform.exit();  // Exits JavaFX
-            System.exit(0);   // Terminates the process
+            Platform.exit();
+            System.exit(0);
         });
+    }
+
+    @Override
+    public void goNext(Context context, String event) {
+        GUIContext guiContext = (GUIContext) context;
+
+        switch (event) {
+            case "jobPublished":
+                Printer.print("Job published successfully, returning to home...");
+                guiContext.setState(new HomeRecruiterState(guiContext));
+                break;
+
+            case "homeRecruiter":
+                guiContext.setState(new HomeRecruiterState(guiContext));
+                break;
+
+            default:
+                Printer.print("Event not managed.");
+        }
+    }
+
+    public GUIContext getContext() {
+        return this.context;
     }
 }

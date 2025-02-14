@@ -2,7 +2,7 @@ package org.example.togetjob.controller.recruiter;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.exceptions.DatabaseException;
-import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
+import org.example.togetjob.dao.abstractobjects.JobAnnouncementDao;
 import org.example.togetjob.model.entity.JobAnnouncement;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.session.SessionManager;

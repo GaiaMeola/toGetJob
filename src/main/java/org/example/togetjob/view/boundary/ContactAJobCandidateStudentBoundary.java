@@ -3,7 +3,7 @@ package org.example.togetjob.view.boundary;
 
 import org.example.togetjob.bean.InterviewSchedulingStudentInfoBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.controller.recruiter.ContactAJobCandidateController;
 import org.example.togetjob.controller.recruiter.ContactAJobCandidate;
 

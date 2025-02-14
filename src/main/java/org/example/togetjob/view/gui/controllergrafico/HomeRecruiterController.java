@@ -13,11 +13,7 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;
-import org.example.togetjob.view.gui.concretestate.FilterJobCandidateState;
-import org.example.togetjob.view.gui.concretestate.HomeState;
-import org.example.togetjob.view.gui.concretestate.SendAJobApplicationRecruiterState;
+import org.example.togetjob.view.GUIContext;
 
 import java.util.List;
 
@@ -25,15 +21,14 @@ public class HomeRecruiterController {
 
     @FXML
     private TitledPane jobAnnouncementField;
-
     @FXML
     private ListView<JobAnnouncementBean> jobAnnouncementBeanListView;
 
     private GUIContext context;
     private final LoginBoundary loginBoundary = new LoginBoundary();
-    private final PublishAJobAnnouncementRecruiterBoundary publishAJobAnnouncementRecruiterBoundary = new PublishAJobAnnouncementRecruiterBoundary();
+    private final PublishAJobAnnouncementRecruiterBoundary publishBoundary = new PublishAJobAnnouncementRecruiterBoundary();
 
-    public void setContext(GUIContext context){
+    public void setContext(GUIContext context) {
         this.context = context;
     }
 
@@ -44,11 +39,10 @@ public class HomeRecruiterController {
     }
 
     @FXML
-    private void handlePublishJobAnnouncementButton(){
+    private void handlePublishJobAnnouncementButton() {
         if (context != null) {
             Printer.print("Going to CreateJobAnnouncement...");
-            context.setState(new CreateJobAnnouncementState(context));
-            context.showMenu();
+            context.goNext("publishJobAnnouncement");
         } else {
             Printer.print("Context is NOT initialized in HomeRecruiter!");
         }
@@ -57,10 +51,8 @@ public class HomeRecruiterController {
     @FXML
     private void handleLogout() {
         if (context != null) {
-            Printer.print("Context is initialized!");
             loginBoundary.logout();
-            context.setState(new HomeState(context));
-            context.showMenu();
+            context.goNext("logout");
         } else {
             Printer.print("Context is not initialized!");
         }
@@ -91,19 +83,13 @@ public class HomeRecruiterController {
                     hbox.setPadding(new Insets(5, 10, 5, 10));
 
                     Text jobTitleText = new Text(jobAnnouncement.getJobTitle());
-                    jobTitleText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
-
-                    Text statusLabelText = new Text(" - Status:");
-                    statusLabelText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; -fx-fill: #2980b9;");
+                    jobTitleText.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
 
                     Text statusText = new Text(jobAnnouncement.isActive() ? "ACTIVE" : "INACTIVE");
-                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; " + getStatusColorStyle(jobAnnouncement.isActive()));
+                    statusText.setStyle(getStatusColorStyle(jobAnnouncement.isActive()));
 
-                    hbox.getChildren().addAll(jobTitleText, statusLabelText, statusText);
-
-                    // Create the button panel with the two buttons "Manage" and "Contact a Job Candidate"
-                    HBox buttonBox = createButtonsForJobAnnouncement(jobAnnouncement);
-                    hbox.getChildren().add(buttonBox);
+                    hbox.getChildren().addAll(jobTitleText, statusText);
+                    hbox.getChildren().add(createButtonsForJobAnnouncement(jobAnnouncement));
 
                     setGraphic(hbox);
                 }
@@ -118,22 +104,15 @@ public class HomeRecruiterController {
     private HBox createButtonsForJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
         HBox hbox = new HBox(10);
 
-        // Button 1: "Manage"
         Button manageButton = new Button("Manage");
         manageButton.setOnAction(event -> handleManageJobAnnouncement(jobAnnouncement));
 
-        // Button 2: "Contact a Job Candidate"
         Button contactButton = new Button("Contact a Job Candidate");
         contactButton.setOnAction(event -> handleContactJobCandidate(jobAnnouncement));
 
-        String buttonStyle = "-fx-background-color: #b3d9ff; " +
-                "-fx-text-fill: #2980b9; " +
-                "-fx-border-radius: 5; " +
-                "-fx-border-color: #2980b9; " +
-                "-fx-border-width: 2; " +
-                "-fx-cursor: hand; " +
-                "-fx-font-weight: bold; " +
-                "-fx-background-radius: 5;" +
+        String buttonStyle = "-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; " +
+                "-fx-border-radius: 5; -fx-border-color: #2980b9; -fx-border-width: 2; " +
+                "-fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 5;" +
                 "-fx-font-size: 11px;";
 
         manageButton.setStyle(buttonStyle);
@@ -145,23 +124,21 @@ public class HomeRecruiterController {
 
     private void handleManageJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
         Printer.print("Managing Job Announcement: " + jobAnnouncement.getJobTitle());
-        // Implement the logic for managing the job announcement (e.g., editing or reviewing it)
     }
 
     private void handleContactJobCandidate(JobAnnouncementBean jobAnnouncement) {
         Printer.print("Contacting Job Candidate for: " + jobAnnouncement.getJobTitle());
-        context.setState(new FilterJobCandidateState(context, jobAnnouncement));
-        context.showMenu();
+
+        context.set("jobAnnouncement", jobAnnouncement);
+
+        context.goNext("contactJobCandidate");
     }
 
     private List<JobAnnouncementBean> fetchJobAnnouncements() {
-        return publishAJobAnnouncementRecruiterBoundary.getJobAnnouncements();
+        return publishBoundary.getJobAnnouncements();
     }
 
     public void handleViewNotifications() {
-        Printer.print("View notifications ...");
-        context.setState(new SendAJobApplicationRecruiterState(context));
-        context.showMenu();
+        context.goNext("viewNotifications");
     }
-
 }

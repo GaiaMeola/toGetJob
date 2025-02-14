@@ -6,13 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.GUIState;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController;
 
 import java.io.IOException;
 
-public class FilteredJobAnnouncementsState implements GUIState {
+public class FilteredJobAnnouncementsState implements State {
 
     private final GUIContext context;
     private final JobAnnouncementSearchBean jobAnnouncementSearchBean;
@@ -61,7 +62,10 @@ public class FilteredJobAnnouncementsState implements GUIState {
     }
 
     @Override
+    public void goNext(Context context, String event) {
+        //**//
+    }
     public GUIContext getContext() {
-        return this.context;
+        return context;
     }
 }

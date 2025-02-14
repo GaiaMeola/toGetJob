@@ -10,12 +10,9 @@ import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.FilterJobAnnouncementStudentState;
-import org.example.togetjob.view.gui.concretestate.HomeState;
+import org.example.togetjob.view.GUIContext;
 
 import java.util.List;
-
 
 public class HomeStudentController {
 
@@ -49,60 +46,45 @@ public class HomeStudentController {
 
     @FXML
     private void handleAcceptedApplications() {
-
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> acceptedApplications = allApplications.stream()
                 .filter(app -> ACCEPTED.equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Accepted applications: " + acceptedApplications);
-
         populateApplications(acceptedApplications, acceptedApplicationsPane);
-
     }
-
 
     @FXML
     private void handleRejectedApplications() {
-
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> rejectedApplications = allApplications.stream()
-                .filter(app -> REJECTED .equalsIgnoreCase(String.valueOf(app.getStatus())))
+                .filter(app -> REJECTED.equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Rejected applications: " + rejectedApplications);
-
         populateApplications(rejectedApplications, rejectedApplicationsPane);
-
-
     }
 
     @FXML
     private void handlePendingApplications() {
-
         List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
         List<JobApplicationBean> pendingApplications = allApplications.stream()
                 .filter(app -> PENDING.equalsIgnoreCase(String.valueOf(app.getStatus())))
                 .toList();
 
         Printer.print("Pending applications: " + pendingApplications);
-
         populateApplications(pendingApplications, pendingApplicationsPane);
-
     }
-
 
     @FXML
     private void sendAJobApplication() {
         if (context != null) {
             Printer.print("Context is initialized!");
-            context.setState(new FilterJobAnnouncementStudentState(context));
-            context.showMenu();
+            context.goNext("filter_jobs");
         } else {
             Printer.print("Context is not initialized!");
         }
-
-
     }
 
     @FXML
@@ -110,17 +92,15 @@ public class HomeStudentController {
         if (context != null) {
             Printer.print("Context is initialized!");
             loginBoundary.logout();
-            context.setState(new HomeState(context));
-            context.showMenu();
+            context.goNext("logout");
         } else {
             Printer.print("Context is not initialized!");
         }
     }
 
-
     @FXML
     private void handleViewNotifications() {
-        /**/
+        // ** //
     }
 
     private void populateApplications(List<JobApplicationBean> applications, TitledPane pane) {
@@ -153,7 +133,6 @@ public class HomeStudentController {
                     setText(null);
                     setGraphic(null);
                 } else {
-
                     HBox hbox = new HBox(10);
                     hbox.setAlignment(Pos.CENTER_LEFT);
                     hbox.setPadding(new Insets(5, 10, 5, 10));
@@ -162,12 +141,11 @@ public class HomeStudentController {
                     Text jobTitleText = new Text(app.getJobTitle());
                     jobTitleText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
 
-
                     Text statusLabelText = new Text(" - Status:");
                     statusLabelText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; -fx-fill: #2980b9;");
 
                     Text statusText = new Text(app.getStatus().toString());
-                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; " +  getStatusColorStyle(String.valueOf(app.getStatus())));
+                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; " + getStatusColorStyle(String.valueOf(app.getStatus())));
 
                     hbox.getChildren().addAll(jobTitleText, statusLabelText, statusText);
 
@@ -181,7 +159,6 @@ public class HomeStudentController {
     }
 
     private String getStatusColorStyle(String status) {
-
         switch (status.toUpperCase()) {
             case PENDING -> {
                 return "-fx-fill: #2980b9;";
@@ -189,7 +166,7 @@ public class HomeStudentController {
             case ACCEPTED -> {
                 return "-fx-fill: #28A745;";
             }
-            case REJECTED  -> {
+            case REJECTED -> {
                 return "-fx-fill: #DC3545;";
             }
             default -> {
@@ -197,7 +174,6 @@ public class HomeStudentController {
             }
         }
     }
-
 
     private HBox createButtonsForApplication(JobApplicationBean app) {
         HBox hbox = new HBox(10);
@@ -232,7 +208,6 @@ public class HomeStudentController {
     }
 
     private void deleteApplication(JobApplicationBean application) {
-
         Printer.print("Delete application: " + application.getJobTitle());
         sendAJobApplicationStudentBoundary.deleteAJobApplication(application);
         handlePendingApplications();

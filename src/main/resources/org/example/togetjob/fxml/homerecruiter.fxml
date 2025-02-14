@@ -53,7 +53,7 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <TitledPane fx:id="jobAnnouncementField" animated="false" layoutX="170.0" layoutY="16.0" prefHeight="345.0" prefWidth="377.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements Published">
+            <TitledPane fx:id="jobAnnouncement" animated="false" layoutX="170.0" layoutY="16.0" prefHeight="345.0" prefWidth="377.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements Published">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>

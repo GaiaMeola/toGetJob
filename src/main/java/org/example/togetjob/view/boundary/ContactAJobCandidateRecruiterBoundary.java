@@ -6,7 +6,7 @@ import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.controller.student.SendAJobApplication;
 import org.example.togetjob.exceptions.*;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.controller.recruiter.ContactAJobCandidateController;
 import org.example.togetjob.controller.recruiter.ContactAJobCandidate;
 

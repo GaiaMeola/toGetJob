@@ -1,10 +1,11 @@
 package org.example.togetjob.view.cli.concretestate;
 
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.contextstate.CliContext;
-import org.example.togetjob.view.cli.abstractstate.CliState;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
+import org.example.togetjob.view.CliContext;
 
-public class MainMenuState implements CliState {
+public class MainMenuState implements State{
 
     @Override
     public void showMenu() {
@@ -16,7 +17,9 @@ public class MainMenuState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+        CliContext context = (CliContext) contextState;
 
         switch (input) { // View Login
             case "1":

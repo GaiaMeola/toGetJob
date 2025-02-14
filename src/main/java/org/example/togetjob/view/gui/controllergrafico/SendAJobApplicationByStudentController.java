@@ -12,7 +12,7 @@ import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
-import org.example.togetjob.view.gui.GUIContext;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 
 import java.util.List;

@@ -5,9 +5,7 @@ import javafx.scene.control.TextField;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.ContactAJobCandidateState;
-import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
+import org.example.togetjob.view.GUIContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,20 +26,22 @@ public class FilterJobCandidateRecruiterController {
     private TextField availabilityField;
 
     private GUIContext context;
-    private JobAnnouncementBean jobAnnouncementBean;
 
     public void setContext(GUIContext context) {
         this.context = context;
     }
 
-    public void setJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
-        this.jobAnnouncementBean = jobAnnouncementBean;
-    }
-
     @FXML
     private void handleProceedButton() {
+        if (context == null) {
+            Printer.print("ERROR: context is NULL in FilterJobCandidateRecruiterController!");
+            return;
+        }
+
+        JobAnnouncementBean jobAnnouncementBean = (JobAnnouncementBean) context.get("jobAnnouncement");
+
         if (jobAnnouncementBean == null) {
-            Printer.print("ERROR: jobAnnouncementBean is NULL in FilterJobCandidateRecruiterController!");
+            Printer.print("ERROR: JobAnnouncementBean is NULL in context!");
             return;
         }
 
@@ -60,21 +60,18 @@ public class FilterJobCandidateRecruiterController {
         studentInfoSearchBean.setSkills(parseTextFieldInput(skillsInput));
         studentInfoSearchBean.setAvailability(availabilityInput);
 
-        if (context == null) {
-            Printer.print("ERROR: context is NULL in FilterJobCandidateRecruiterController!");
-            return;
-        }
 
-        context.setState(new ContactAJobCandidateState(context, studentInfoSearchBean, jobAnnouncementBean));
-        context.showMenu();
+        context.set("studentInfoSearch", studentInfoSearchBean);
+
+
+        context.goNext("contactJobCandidate");
     }
 
     @FXML
     private void handleGoBack() {
         if (context != null) {
-            Printer.print("Going back to RecruiterHome...");
-            context.setState(new HomeRecruiterState(context));
-            context.showMenu();
+            Printer.print("Going back to HomeRecruiter...");
+            context.goNext("homeRecruiter");
         } else {
             Printer.print("Context is NOT initialized in FilterJobCandidateRecruiterController!");
         }

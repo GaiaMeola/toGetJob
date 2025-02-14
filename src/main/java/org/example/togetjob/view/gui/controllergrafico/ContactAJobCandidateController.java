@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import org.example.togetjob.bean.*;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
-import org.example.togetjob.view.gui.GUIContext;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.concretestate.FilterJobCandidateState;
 
 import java.util.List;

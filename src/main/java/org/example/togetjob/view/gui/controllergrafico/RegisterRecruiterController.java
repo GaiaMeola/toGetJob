@@ -1,15 +1,12 @@
 package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
-import org.example.togetjob.view.gui.concretestate.HomeState;
+import org.example.togetjob.view.GUIContext;
 
 import java.util.List;
 
@@ -46,8 +43,8 @@ public class RegisterRecruiterController {
 
         if (registrationSuccess) {
             Printer.print("Recruiter successfully registered: " + recruiterInfoBean);
-            context.setState(new HomeRecruiterState(context));
-            context.showMenu();
+            context.set("recruiterInfo", recruiterInfoBean);
+            context.goNext("go_home_recruiter");
         } else {
             Printer.print("Registration failed!");
         }
@@ -55,9 +52,11 @@ public class RegisterRecruiterController {
 
     @FXML
     private void handleBackButton() {
-        context.setState(new HomeState(context));
-        context.showMenu();
+        if (context != null) {
+            Printer.print("Going back to Home...");
+            context.goNext("go_home");
+        } else {
+            Printer.print("Context is NOT initialized in RegisterRecruiterController!");
+        }
     }
-
 }
-

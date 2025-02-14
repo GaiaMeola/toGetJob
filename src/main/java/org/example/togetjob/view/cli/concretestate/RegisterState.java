@@ -5,10 +5,11 @@ import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.exceptions.UsernameTakeException;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.abstractstate.CliState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.CliContext;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -16,7 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
-public class RegisterState implements CliState {
+public class RegisterState implements State {
 
     private static final String STUDENT = "student";
 
@@ -28,7 +29,10 @@ public class RegisterState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+        CliContext context = (CliContext) contextState;
+
         Scanner scanner = context.getScanner();
 
         Printer.print("Welcome to toGetJob! Fill the following fields: ");

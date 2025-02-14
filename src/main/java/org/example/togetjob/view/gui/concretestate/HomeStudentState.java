@@ -4,16 +4,17 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.GUIState;
-import org.example.togetjob.view.gui.controllergrafico.HomeController;
+import org.example.togetjob.printer.Printer;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.HomeStudentController;
 
 import java.io.IOException;
 
-public class HomeStudentState implements GUIState {
+public class HomeStudentState implements State {
 
-    GUIContext context;
+    private final GUIContext context;
 
     public HomeStudentState(GUIContext context) {
         this.context = context;
@@ -21,9 +22,7 @@ public class HomeStudentState implements GUIState {
 
     @Override
     public void showMenu() {
-
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homestudent.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
@@ -32,7 +31,7 @@ public class HomeStudentState implements GUIState {
 
             Stage stage = context.getStage();
 
-            if(stage == null){
+            if (stage == null) {
                 stage = new Stage();
                 context.setStage(stage);
             }
@@ -40,7 +39,6 @@ public class HomeStudentState implements GUIState {
             stage.setTitle("Home Student");
             stage.setScene(scene);
 
-            //listener to close the application
             stage.setOnCloseRequest(event -> {
                 Platform.exit();  // JavaFX
                 System.exit(0);   // process
@@ -51,11 +49,33 @@ public class HomeStudentState implements GUIState {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
+    public void goNext(Context contextState, String event) {
+        // Cast GUIContext
+        GUIContext contextGUI = (GUIContext) contextState;
+
+        switch (event) {
+            case "logout":
+                contextGUI.setState(new HomeState(contextGUI));
+                contextGUI.showMenu();
+                break;
+
+            case "filter_jobs":
+
+                contextGUI.setState(new FilterJobAnnouncementStudentState(contextGUI));
+                contextGUI.showMenu();
+                break;
+
+            default:
+
+                Printer.print("Event not managed: " + event);
+                break;
+        }
+    }
+
     public GUIContext getContext() {
-        return this.context;
+        return context;
     }
 }

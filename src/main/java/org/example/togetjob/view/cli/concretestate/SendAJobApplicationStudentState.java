@@ -4,16 +4,17 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.exceptions.*;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
 import org.example.togetjob.model.entity.Status;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.abstractstate.CliState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class SendAJobApplicationStudentState implements CliState {
+public class SendAJobApplicationStudentState implements State {
 
     private final SendAJobApplicationStudentBoundary sendAJobApplicationStudentBoundary = new SendAJobApplicationStudentBoundary();
     private static final String CHOSE_AN_OPTION = "Choose an option: ";
@@ -39,7 +40,9 @@ public class SendAJobApplicationStudentState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+        CliContext context = (CliContext) contextState;
 
         Scanner scanner = context.getScanner();
 

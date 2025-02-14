@@ -5,13 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.GUIState;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
+import org.example.togetjob.view.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.FilterJobAnnouncementStudentController;
 
 import java.io.IOException;
 
-public class FilterJobAnnouncementStudentState implements GUIState {
+public class FilterJobAnnouncementStudentState implements State {
 
     private final GUIContext context;
 
@@ -54,7 +55,10 @@ public class FilterJobAnnouncementStudentState implements GUIState {
     }
 
     @Override
+    public void goNext(Context context, String event) {
+        //**//
+    }
     public GUIContext getContext() {
-        return this.context;
+        return context;
     }
 }

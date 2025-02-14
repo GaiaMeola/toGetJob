@@ -7,9 +7,7 @@ import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.HomeState;
-import org.example.togetjob.view.gui.concretestate.HomeStudentState;
+import org.example.togetjob.view.GUIContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -53,8 +51,7 @@ public class RegisterStudentController {
 
         if (registrationSuccess) {
             Printer.print("Student successfully registered: " + studentInfoBean);
-            context.setState(new HomeStudentState(context));
-            context.showMenu();
+            context.goNext("register_student_complete");
         } else {
             Printer.print("Registration failed!");
         }
@@ -83,7 +80,11 @@ public class RegisterStudentController {
 
     @FXML
     private void handleBackButton() {
-        context.setState(new HomeState(context));
-        context.showMenu();
+        if (context != null) {
+            Printer.print("Going back to Home...");
+            context.goNext("go_home");
+        } else {
+            Printer.print("Context is NOT initialized in RegisterStudentController!");
+        }
     }
 }

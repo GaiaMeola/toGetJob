@@ -3,8 +3,8 @@ package org.example.togetjob.controller.registration;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.exceptions.UsernameTakeException;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
-import org.example.togetjob.model.dao.abstractobjects.UserDao;
+import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
+import org.example.togetjob.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.User;
 
 public abstract class AbstractRegisterController {

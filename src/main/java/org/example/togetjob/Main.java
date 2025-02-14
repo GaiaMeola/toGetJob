@@ -1,94 +1,83 @@
 package org.example.togetjob;
 
 import javafx.application.Application;
-import org.example.togetjob.config.ConfigDaoLoader;
-import org.example.togetjob.config.ConfigUILoader;
+import org.example.togetjob.config.AppConfig;
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.exceptions.ConfigException;
-import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.printer.Printer;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.CliContext;
 import org.example.togetjob.view.cli.concretestate.MainMenuState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
-import org.example.togetjob.view.gui.JavaFXApplication;
+import org.example.togetjob.view.GUIContext;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    private static Context context;
 
-    static CliContext context;
-    static ConfigDaoLoader loaderDaoConfig;
-    static ConfigUILoader loaderUIConfig;
-
-    public static void main(String[] args) throws RuntimeException {
-
-
-        //CONFIGURATION DAO
+    public static void main(String[] args) {
         try {
-            loaderDaoConfig = new ConfigDaoLoader("dao.config.properties");
+            AppConfig.loadConfigs();
         } catch (ConfigException e) {
-            Printer.print("Error DAO Configuration: " + e.getMessage());
-            return;
-        }
-        String daoType = loaderDaoConfig.getProperty("dao.type");
-        Printer.print("Type of DAO: " + daoType);
-
-        AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);
-
-        //CONFIGURATION UI
-        try {
-            loaderUIConfig = new ConfigUILoader("ui.config.properties");
-        } catch (ConfigException e) {
-           Printer.print("Error UI Configuration: " + e.getMessage());
+            Printer.print("Error during configuration: " + e.getMessage());
             return;
         }
 
-        String uiType = loaderUIConfig.getProperty("ui.type");
-        Printer.print("Type of UI: " + uiType);
+        setupDatabase();
+        launchUI();
+    }
 
+    private static void setupDatabase() {
+        String daoType = AppConfig.getDaoType();
 
         if ("jdbc".equalsIgnoreCase(daoType)) {
             DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
-            databaseConfig.setConfigLoader(loaderDaoConfig);
+            databaseConfig.setConfigLoader(AppConfig.getDaoConfig());
 
-            try {
-                Connection connection = databaseConfig.getConnection();
+            try (Connection connection = databaseConfig.getConnection()) {
                 if (connection != null) {
-                    Printer.print("Connection ...");
+                    Printer.print("Database connection successful.");
                 } else {
-                    Printer.print("Error Connection.");
+                    Printer.print("Error during connection.");
                 }
             } catch (SQLException e) {
-                Printer.print("Error Connection: " + e.getMessage());
-                return;
+                Printer.print("Error during connection: " + e.getMessage());
             }
         } else if ("in memory".equalsIgnoreCase(daoType)) {
-            //In memory
-            Printer.print("DAO In-Memory");
+            Printer.print("DAO In-Memory.");
         } else if ("file system".equalsIgnoreCase(daoType)) {
-           //file system
-            Printer.print("DAO FileSystem");
+            Printer.print("DAO FileSystem.");
         } else {
-            Printer.print("DAO not found");
+            Printer.print("DAO not found.");
+            System.exit(0);
         }
-        
-        if ("cli".equalsIgnoreCase(uiType)){
-            context = new CliContext(new MainMenuState());
-            context.startCLI();
-        } else if("gui".equalsIgnoreCase(uiType)){
+
+    }
+
+    private static void launchUI() {
+        String uiType = AppConfig.getUiType();
+
+        if ("cli".equalsIgnoreCase(uiType)) {
+            launchCli();
+        } else if ("gui".equalsIgnoreCase(uiType)) {
             launchGui();
-        } else{
-            Printer.print("UI not found");
+        } else {
+            Printer.print("UI not found.");
         }
-
     }
 
-    private static void launchGui(){
-       //GUI
-        Printer.print("Launching GUI...");
-        Application.launch(JavaFXApplication.class);
+    private static void launchCli() {
+        context = new CliContext();
+        Printer.print("CLI...");
+        context.setState(new MainMenuState());
+        context.initialize();
     }
 
+    private static void launchGui() {
+        context = new GUIContext();
+        Printer.print("GUI...");
+        Application.launch(GUIContext.class);
+    }
 }

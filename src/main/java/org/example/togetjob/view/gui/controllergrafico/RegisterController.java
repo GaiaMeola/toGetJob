@@ -4,11 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.HomeState;
-import org.example.togetjob.view.gui.concretestate.RegisterRecruiterState;
-import org.example.togetjob.view.gui.concretestate.RegisterStudentState;
-
+import org.example.togetjob.view.GUIContext;
 
 public class RegisterController {
 
@@ -42,8 +38,7 @@ public class RegisterController {
     private void handleBackButton() {
         if (context != null) {
             Printer.print("Going back to Home...");
-            context.setState(new HomeState(context));
-            context.showMenu();
+            context.goNext("go_home");
         } else {
             Printer.print("Context is NOT initialized in RegisterController!");
         }
@@ -53,8 +48,7 @@ public class RegisterController {
     private void handleHomeButton() {
         if (context != null) {
             Printer.print("Going to Home screen...");
-            context.setState(new HomeState(context));
-            context.showMenu();
+            context.goNext("go_home");
         } else {
             Printer.print("Context is NOT initialized in RegisterController!");
         }
@@ -94,17 +88,16 @@ public class RegisterController {
         user.setEmail(email);
         Printer.print("User created: " + user);
 
+        context.set("user", user);
+
         if (role.equalsIgnoreCase("student")) {
             Printer.print("Redirecting to Student registration...");
-            context.setState(new RegisterStudentState(user, context));
+            context.goNext("register_student");
         } else if (role.equalsIgnoreCase("recruiter")) {
             Printer.print("Redirecting to Recruiter registration...");
-            context.setState(new RegisterRecruiterState(user, context));
+            context.goNext("register_recruiter");
         } else {
             Printer.print("Invalid role selected!");
-            return;
         }
-
-        context.showMenu();
     }
 }

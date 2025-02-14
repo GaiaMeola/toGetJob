@@ -4,16 +4,17 @@ import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.exceptions.*;
+import org.example.togetjob.view.Context;
+import org.example.togetjob.view.State;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
 import org.example.togetjob.view.boundary.SendAJobApplicationRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.abstractstate.CliState;
-import org.example.togetjob.view.cli.contextstate.CliContext;
+import org.example.togetjob.view.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class SendAJobApplicationRecruiterState implements CliState {
+public class SendAJobApplicationRecruiterState implements State{
 
     private final SendAJobApplicationRecruiterBoundary sendAJobApplicationRecruiterBoundary = new SendAJobApplicationRecruiterBoundary();
     private final ContactAJobCandidateRecruiterBoundary contactAJobCandidateRecruiterBoundary = new ContactAJobCandidateRecruiterBoundary();
@@ -36,7 +37,9 @@ public class SendAJobApplicationRecruiterState implements CliState {
     }
 
     @Override
-    public void goNext(CliContext context, String input) {
+    public void goNext(Context contextState, String input) {
+
+        CliContext context = (CliContext) contextState;
         Scanner scanner = context.getScanner();
 
         try {

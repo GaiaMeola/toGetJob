@@ -14,12 +14,13 @@ module org.example.togetjob {
     requires annotations;
     requires mysql.connector.j;
     requires java.desktop;
+    requires java.naming;
 
     opens org.example.togetjob to javafx.fxml;
     exports org.example.togetjob;
     exports org.example.togetjob.view.gui.controllergrafico;
     exports org.example.togetjob.bean;
     opens org.example.togetjob.view.gui.controllergrafico to javafx.fxml;
-    exports org.example.togetjob.view.gui;
-    opens org.example.togetjob.view.gui to javafx.fxml;
+    exports org.example.togetjob.view;
+    opens org.example.togetjob.view to javafx.fxml;
 }

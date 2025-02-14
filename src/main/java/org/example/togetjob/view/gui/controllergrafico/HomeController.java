@@ -6,10 +6,7 @@ import javafx.scene.control.TextField;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.view.boundary.LoginBoundary;
-import org.example.togetjob.view.gui.GUIContext;
-import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
-import org.example.togetjob.view.gui.concretestate.HomeStudentState;
-import org.example.togetjob.view.gui.concretestate.RegisterUserState;
+import org.example.togetjob.view.GUIContext;
 
 public class HomeController {
 
@@ -21,14 +18,13 @@ public class HomeController {
     private final LoginBoundary loginBoundary;
     private GUIContext context;
 
-
     public HomeController(){
         this.loginBoundary = new LoginBoundary();
     }
 
     public void initialize(GUIContext context){
         this.context = context;
-   }
+    }
 
     public void setContext(GUIContext context) {
         this.context = context;
@@ -39,7 +35,6 @@ public class HomeController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-
         if (username.isEmpty() || password.isEmpty()) {
             Printer.print("Username or password cannot be empty!");
             return;
@@ -49,7 +44,15 @@ public class HomeController {
 
         if (loginSuccess) {
             Printer.print("Login successful!");
-            navigateToHome();
+
+            String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();
+            if ("STUDENT".equalsIgnoreCase(userRole)) {
+                context.goNext("student_home");
+            } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
+                context.goNext("recruiter_home");
+            } else {
+                Printer.print("Unknown user role: " + userRole);
+            }
         } else {
             Printer.print("Login failed!");
         }
@@ -59,26 +62,9 @@ public class HomeController {
     private void handleRegister() {
         if (context != null) {
             Printer.print("Context is initialized!");
-            context.setState(new RegisterUserState(context));
-            context.showMenu();
+            context.goNext("register");
         } else {
             Printer.print("Context is not initialized!");
         }
     }
-
-    private void navigateToHome() {
-        String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();
-
-        if ("STUDENT".equalsIgnoreCase(userRole)) {
-            context.setState(new HomeStudentState(context));
-        } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
-            context.setState(new HomeRecruiterState(context));
-        } else {
-            Printer.print("Unknown user role: " + userRole);
-            return;
-        }
-
-        context.showMenu();
-    }
-
 }
