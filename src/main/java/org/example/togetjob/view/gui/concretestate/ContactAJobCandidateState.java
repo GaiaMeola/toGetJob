@@ -13,10 +13,9 @@ import org.example.togetjob.view.gui.controllergrafico.ContactAJobCandidateContr
 import java.io.IOException;
 
 public class ContactAJobCandidateState implements GUIState {
-
-    GUIContext context;
-    StudentInfoSearchBean studentInfoSearchBean;
-    JobAnnouncementBean jobAnnouncementBean;
+    private final GUIContext context;
+    private final StudentInfoSearchBean studentInfoSearchBean;
+    private final JobAnnouncementBean jobAnnouncementBean;
 
     public ContactAJobCandidateState(GUIContext context, StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
         this.context = context;
@@ -26,39 +25,39 @@ public class ContactAJobCandidateState implements GUIState {
 
     @Override
     public void showMenu() {
-
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobcandidates.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
-
             ContactAJobCandidateController controller = fxmlLoader.getController();
             controller.setContext(context);
             controller.setStudentInfoSearchBean(studentInfoSearchBean);
             controller.setJobAnnouncementBean(jobAnnouncementBean);
 
             Stage stage = context.getStage();
-
-            if(stage == null){
-                stage = new Stage();
-                context.setStage(stage);
+            if (stage == null) {
+                stage = createNewStage();
             }
 
             stage.setTitle("Contact a Job Candidate");
             stage.setScene(scene);
-
-            //listener to close the application
-            stage.setOnCloseRequest(event -> {
-                Platform.exit();  // JavaFX
-                System.exit(0);   // process
-            });
-
+            setCloseRequestListener(stage);
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    private Stage createNewStage() {
+        Stage stage = new Stage();
+        context.setStage(stage);
+        return stage;
+    }
+
+    private void setCloseRequestListener(Stage stage) {
+        stage.setOnCloseRequest(e -> {
+            Platform.exit();  // Exits JavaFX
+            System.exit(0);   // Terminates the process
+        });
     }
 
     @Override
