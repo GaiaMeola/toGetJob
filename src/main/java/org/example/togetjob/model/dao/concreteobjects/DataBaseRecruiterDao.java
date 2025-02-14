@@ -6,7 +6,6 @@ import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.User;
-import org.example.togetjob.printer.Printer;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,10 +28,10 @@ public class DataBaseRecruiterDao implements RecruiterDao {
     private static final String CHECK_RECRUITER_EXISTS_SQL =
             "SELECT COUNT(*) FROM RECRUITER WHERE Username = ?";
 
-    private final UserDao userDao;
+    private final UserDao dataBaseUserDao;
 
-    public DataBaseRecruiterDao(UserDao userDao) {
-        this.userDao = userDao;
+    public DataBaseRecruiterDao(UserDao dataBaseUserDao) {
+        this.dataBaseUserDao = dataBaseUserDao;
     }
 
     @Override
@@ -64,7 +63,7 @@ public class DataBaseRecruiterDao implements RecruiterDao {
                         .map(String::trim)
                         .toList();
 
-                Optional<User> userOptional = userDao.getUser(username);
+                Optional<User> userOptional = dataBaseUserDao.getUser(username);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     Recruiter recruiter = new Recruiter(user.obtainName(), user.obtainSurname(), user.obtainUsername(),
@@ -95,7 +94,7 @@ public class DataBaseRecruiterDao implements RecruiterDao {
             while (rs.next()) {
                 String username = rs.getString("Username");
 
-                Optional<User> userOptional = userDao.getUser(username);
+                Optional<User> userOptional = dataBaseUserDao.getUser(username);
                 if (userOptional.isPresent()) {
                     User user = userOptional.get();
                     String companiesString = rs.getString("Companies");

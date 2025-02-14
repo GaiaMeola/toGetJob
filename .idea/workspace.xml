@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/abstractobjects/JobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/abstractobjects/JobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/DataBaseFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/FileSystemFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concretefactorydao/InMemoryFactoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobAnnouncementDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobApplicationDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseJobApplicationDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseRecruiterDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseRecruiterDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseStudentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseStudentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/dao/concreteobjects/DataBaseUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,12 +44,12 @@
     &quot;assignee&quot;: &quot;GaiaMeola&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
-    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/GaiaMeola/toGetJob.git",
+    "accountId": "10ff2728-a55b-45dc-b4f1-a35abedc973c"
   }
-}</component>
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -107,6 +116,46 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
+      <option name="closed" value="true" />
+      <created>1738152156784</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738152156784</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Quarto Commit: Connection riuscita">
+      <option name="closed" value="true" />
+      <created>1738152567157</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738152567157</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Quinto Commit: Fine Db">
+      <option name="closed" value="true" />
+      <created>1738157742126</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1738157742126</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Sesto Commit: Pattern State CLI prova">
+      <option name="closed" value="true" />
+      <created>1738179850232</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1738179850233</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Settimo Commit: prova Caso d'uso Registrazione">
+      <option name="closed" value="true" />
+      <created>1738233820826</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1738233820826</updated>
     </task>
     <task id="LOCAL-00015" summary="Settimo Commit: prova Caso d'uso Registrazione">
       <option name="closed" value="true" />
@@ -460,47 +509,7 @@
       <option name="project" value="LOCAL" />
       <updated>1739397926768</updated>
     </task>
-    <task id="LOCAL-00059" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739475538320</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1739475538321</updated>
-    </task>
-    <task id="LOCAL-00060" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739478277362</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1739478277362</updated>
-    </task>
-    <task id="LOCAL-00061" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739489655695</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1739489655695</updated>
-    </task>
-    <task id="LOCAL-00062" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739491919520</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1739491919520</updated>
-    </task>
-    <task id="LOCAL-00063" summary="Registrazione e Login interfacce ok">
-      <option name="closed" value="true" />
-      <created>1739492503904</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1739492503904</updated>
-    </task>
-    <option name="localTasksCounter" value="64" />
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

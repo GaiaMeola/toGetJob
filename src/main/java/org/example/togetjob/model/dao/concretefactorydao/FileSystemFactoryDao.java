@@ -2,6 +2,8 @@ package org.example.togetjob.model.dao.concretefactorydao;
 
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.*;
+import org.example.togetjob.model.dao.abstractobjects.UserDao;
+import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.dao.concreteobjects.*;
 
 public class FileSystemFactoryDao extends AbstractFactoryDaoSingleton {

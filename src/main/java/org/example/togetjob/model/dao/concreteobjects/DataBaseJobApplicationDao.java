@@ -50,12 +50,12 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             + "FROM `JOBAPPLICATION` "
             + "WHERE `JobAnnouncementID` = ?";
 
-    DataBaseJobAnnouncementDao dataBaseJobAnnouncementDao;
-    DataBaseStudentDao dataBaseStudentDao;
+    private final DataBaseJobAnnouncementDao jobAnnouncementDao;
+    private final DataBaseStudentDao studentDao;
 
-    public DataBaseJobApplicationDao(DataBaseJobAnnouncementDao dataBaseJobAnnouncementDao, DataBaseStudentDao dataBaseStudentDao) {
-        this.dataBaseJobAnnouncementDao = dataBaseJobAnnouncementDao;
-        this.dataBaseStudentDao = dataBaseStudentDao;
+    public DataBaseJobApplicationDao(DataBaseJobAnnouncementDao jobAnnouncementDao, DataBaseStudentDao StudentDao) {
+        this.jobAnnouncementDao = jobAnnouncementDao;
+        this.studentDao = StudentDao;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     private int getJobAnnouncementId(JobApplication jobApplication) {
         try {
             // Retrieve JobAnnouncement ID
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
                     jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
@@ -108,7 +108,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public Optional<JobApplication> getJobApplication(Student student, JobAnnouncement jobAnnouncement)throws DatabaseException {
         try {
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.obtainJobTitle(),
                     jobAnnouncement.getRecruiter().obtainUsername()
             );
@@ -145,7 +145,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public void updateJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
                     jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
@@ -170,7 +170,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public void deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
                     jobApplication.getJobAnnouncement().getRecruiter().obtainUsername()
             );
@@ -192,7 +192,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     @Override
     public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
         try {
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobAnnouncement.obtainJobTitle(),
                     jobAnnouncement.getRecruiter().obtainUsername()
             );
@@ -249,7 +249,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
         Map<Integer, JobAnnouncement> jobAnnouncementMap = new HashMap<>();
         for (int jobAnnouncementId : new HashSet<>(jobApplicationToAnnouncementId.values())) {
-            dataBaseJobAnnouncementDao.getJobAnnouncementById(jobAnnouncementId)
+            jobAnnouncementDao.getJobAnnouncementById(jobAnnouncementId)
                     .ifPresent(jobAnnouncement -> jobAnnouncementMap.put(jobAnnouncementId, jobAnnouncement));
         }
 
@@ -270,7 +270,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
         Set<String> studentUsernames = new HashSet<>();
 
 
-        int jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
+        int jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                 jobAnnouncement.obtainJobTitle(),
                 jobAnnouncement.getRecruiter().obtainUsername()
         ).orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
@@ -323,7 +323,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
         Map<String, Student> studentCache = new HashMap<>();
 
         for (String username : studentUsernames) {
-            Optional<Student> studentOpt = dataBaseStudentDao.getStudent(username);
+            Optional<Student> studentOpt = studentDao.getStudent(username);
             if (studentOpt.isPresent()) {
                 studentCache.put(username, studentOpt.get());
             } else {

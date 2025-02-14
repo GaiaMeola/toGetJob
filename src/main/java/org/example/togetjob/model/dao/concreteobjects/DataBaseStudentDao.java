@@ -2,9 +2,7 @@
 
     import org.example.togetjob.connection.DatabaseConfig;
     import org.example.togetjob.exceptions.DatabaseException;
-    import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
     import org.example.togetjob.model.dao.abstractobjects.StudentDao;
-    import org.example.togetjob.model.dao.abstractobjects.UserDao;
     import org.example.togetjob.model.entity.JobApplication;
     import org.example.togetjob.model.entity.Student;
     import org.example.togetjob.model.entity.User;
@@ -47,11 +45,11 @@
         private static final String COLUMN_SKILLS = "Skills";
         private static final String COLUMN_AVAILABILITY = "Availability";
 
-        private final UserDao userDao;
-        private JobApplicationDao jobApplicationDao;
+        private final DataBaseUserDao dataBaseUserDao;
+        private DataBaseJobApplicationDao jobApplicationDao;
 
-        public DataBaseStudentDao(UserDao userDao, JobApplicationDao jobApplicationDao) {
-            this.userDao = userDao;
+        public DataBaseStudentDao(DataBaseUserDao dataBaseUserDao, DataBaseJobApplicationDao jobApplicationDao) {
+            this.dataBaseUserDao = dataBaseUserDao;
             this.jobApplicationDao = jobApplicationDao;
         }
 
@@ -83,7 +81,7 @@
 
         @Override
         public Optional<Student> getStudent(String username) {
-            Optional<User> userOptional = userDao.getUser(username);
+            Optional<User> userOptional = dataBaseUserDao.getUser(username);
 
             if (userOptional.isEmpty()) {
                 return Optional.empty();
@@ -154,7 +152,7 @@
         public List<Student> getAllStudents() throws DatabaseException {
             try {
                 List<Student> students = new ArrayList<>();
-                List<User> users = userDao.getAllUsers();
+                List<User> users = dataBaseUserDao.getAllUsers();
                 Map<String, Student> studentMap = getStudentsDetails(users);
 
                 for (Student student : studentMap.values()) {

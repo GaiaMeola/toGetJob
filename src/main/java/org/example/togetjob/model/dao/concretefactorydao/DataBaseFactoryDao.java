@@ -3,6 +3,7 @@ package org.example.togetjob.model.dao.concretefactorydao;
 import org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.model.dao.concreteobjects.*;
+import org.example.togetjob.model.dao.concreteobjects.DataBaseRecruiterDao;
 
 public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
 
@@ -36,7 +37,7 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     public StudentDao createStudentDao() { return studentDao; }
 
     @Override
-    public RecruiterDao createRecruiterDao() { return recruiterDao; }
+    public DataBaseRecruiterDao createRecruiterDao() { return recruiterDao; }
 
     @Override
     public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }

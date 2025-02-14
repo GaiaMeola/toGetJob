@@ -47,9 +47,9 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     private static final String COLUMN_IS_ACTIVE = "isActive";
     private static final String COLUMN_RECRUITER_NAME = "RecruiterName";
 
-    private final RecruiterDao recruiterDao;
+    private final DataBaseRecruiterDao recruiterDao;
 
-    public DataBaseJobAnnouncementDao(RecruiterDao recruiterDao) {
+    public DataBaseJobAnnouncementDao(DataBaseRecruiterDao recruiterDao) {
         this.recruiterDao = recruiterDao;
     }
 
@@ -183,7 +183,6 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
                 .flatMap(this::getJobAnnouncementById);
     }
 
-    @Override
     public Optional<Integer> getJobAnnouncementId(String jobTitle, String recruiterName) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_JOB_ID)) {
@@ -200,7 +199,6 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
         return Optional.empty();
     }
 
-    @Override
     public Optional<JobAnnouncement> getJobAnnouncementById(int jobAnnouncementId) throws DatabaseException {
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SELECT_JOB_ANNOUNCEMENT_BY_ID)) {
