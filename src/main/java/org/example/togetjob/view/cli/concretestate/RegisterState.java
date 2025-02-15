@@ -20,6 +20,7 @@ import java.util.Scanner;
 public class RegisterState implements State {
 
     private static final String STUDENT = "student";
+    private final RegisterBoundary registerBoundary = new RegisterBoundary();
 
     @Override
     public void showMenu() {
@@ -71,7 +72,6 @@ public class RegisterState implements State {
         // Polymorphism
         Object infoBean = STUDENT.equalsIgnoreCase(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
 
-        RegisterBoundary registerBoundary = new RegisterBoundary();
         try {
             boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 

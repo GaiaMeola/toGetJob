@@ -3,8 +3,6 @@ package org.example.togetjob.dao.concretefactorydao;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.dao.abstractobjects.*;
 import org.example.togetjob.dao.concreteobjects.*;
-import org.example.togetjob.model.dao.abstractobjects.*;
-import org.example.togetjob.model.dao.concreteobjects.*;
 
 public class InMemoryFactoryDao extends AbstractFactoryDaoSingleton {
 

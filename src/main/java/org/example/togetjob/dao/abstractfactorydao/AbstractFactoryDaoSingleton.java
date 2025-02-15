@@ -2,7 +2,6 @@ package org.example.togetjob.dao.abstractfactorydao;
 
 import org.example.togetjob.config.ConfigDaoLoader;
 import org.example.togetjob.dao.abstractobjects.*;
-import org.example.togetjob.model.dao.abstractobjects.*;
 import org.example.togetjob.dao.concretefactorydao.DataBaseFactoryDao;
 import org.example.togetjob.dao.concretefactorydao.FileSystemFactoryDao;
 import org.example.togetjob.dao.concretefactorydao.InMemoryFactoryDao;
