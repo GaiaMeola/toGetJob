@@ -5,6 +5,8 @@ import org.example.togetjob.exceptions.UsernameTakeException;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 
+//username già presente ,email già presente,data errata, campi vuoti)
+
 public class Testing {
 
     private final RegisterBoundary registerBoundary = new RegisterBoundary();
