@@ -51,9 +51,9 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
     private final DataBaseJobAnnouncementDao jobAnnouncementDao;
     private final DataBaseStudentDao studentDao;
 
-    public DataBaseJobApplicationDao(DataBaseJobAnnouncementDao jobAnnouncementDao, DataBaseStudentDao StudentDao) {
+    public DataBaseJobApplicationDao(DataBaseJobAnnouncementDao jobAnnouncementDao, DataBaseStudentDao studentDao) {
         this.jobAnnouncementDao = jobAnnouncementDao;
-        this.studentDao = StudentDao;
+        this.studentDao = studentDao;
     }
 
     @Override
