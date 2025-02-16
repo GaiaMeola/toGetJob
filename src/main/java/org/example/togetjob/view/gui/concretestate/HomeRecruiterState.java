@@ -47,7 +47,7 @@ public class HomeRecruiterState implements State {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading FXML for Recruiter Job Application View: " + e.getMessage());
         }
     }
 
