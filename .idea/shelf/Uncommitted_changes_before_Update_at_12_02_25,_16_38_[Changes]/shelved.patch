@@ -1,0 +1,1080 @@
+Index: src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.gui.concretestate;\n\nimport javafx.application.Platform;\nimport javafx.fxml.FXMLLoader;\nimport javafx.scene.Parent;\nimport javafx.scene.Scene;\nimport javafx.stage.Stage;\nimport org.example.togetjob.bean.JobAnnouncementBean;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.gui.GUIContext;\nimport org.example.togetjob.view.gui.GUIState;\nimport org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;\n\nimport java.io.IOException;\n\npublic class CreateJobAnnouncementState implements GUIState {\n\n    GUIContext context;\n\n    public CreateJobAnnouncementState(GUIContext context ){\n\n        this.context = context ;\n\n    }\n\n    @Override\n    public void showMenu() {\n\n        try {\n            Printer.print(\"Showing CreateJobAnnouncementState...\");\n            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(\"/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml\"));\n            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);\n\n            CreateJobAnnouncementController controller = fxmlLoader.getController();\n            controller.setContext(context);\n\n            Stage stage = context.getStage();\n\n            if (stage == null) {\n                stage = new Stage();\n                context.setStage(stage);\n            }\n\n            stage.setTitle(\"Create Job Announcement\");\n            stage.setScene(scene);\n\n            stage.setOnCloseRequest(event -> {\n                Platform.exit();  // JavaFX\n                System.exit(0);   // process\n            });\n\n            stage.show();\n\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n    @Override\n    public GUIContext getContext() {\n        return this.context;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java b/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java
+--- a/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ b/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java	(date 1739372487927)
+@@ -17,7 +17,7 @@
+ 
+     GUIContext context;
+ 
+-    public CreateJobAnnouncementState(GUIContext context ){
++    public CreateJobAnnouncementState(GUIContext context){
+ 
+         this.context = context ;
+ 
+@@ -55,8 +55,10 @@
+             e.printStackTrace();
+         }
+     }
++
+     @Override
+     public GUIContext getContext() {
+         return this.context;
+     }
++
+ }
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ /dev/null	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
+@@ -1,432 +0,0 @@
+-Index: src/main/java/org/example/togetjob/model/factory/NotificationFactory.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.factory;\n\nimport org.example.togetjob.config.ConfigUILoader;\nimport org.example.togetjob.exceptions.ConfigException;\nimport org.example.togetjob.pattern.CLINotification;\nimport org.example.togetjob.pattern.GUINotification;\nimport org.example.togetjob.pattern.Notification;\n\npublic class NotificationFactory {\n\n    private static final String CONFIG_FILE = \"ui.config.properties\";\n\n    private NotificationFactory() {\n        //To not create instance\n    }\n\n    public static Notification createNotification() throws ConfigException {\n        ConfigUILoader uiLoader;\n\n        try {\n            uiLoader = new ConfigUILoader(CONFIG_FILE);\n        } catch (ConfigException e) {\n            throw new ConfigException(\"Error during the configuration\", e);\n        }\n\n        String uiType = uiLoader.getProperty(\"ui.type\");\n\n        return switch (uiType.toLowerCase()) {\n            case \"cli\" -> new CLINotification();\n            case \"gui\" -> new GUINotification();\n            default -> throw new ConfigException(\"UI not found: \" + uiType);\n        };\n    }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java b/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java
+---- a/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java	(date 1738767687022)
+-@@ -14,7 +14,7 @@
+-         //To not create instance
+-     }
+- 
+--    public static Notification createNotification() throws ConfigException {
+-+    public static Notification createNotification(String message) throws ConfigException {
+-         ConfigUILoader uiLoader;
+- 
+-         try {
+-@@ -25,10 +25,15 @@
+- 
+-         String uiType = uiLoader.getProperty("ui.type");
+- 
+--        return switch (uiType.toLowerCase()) {
+-+        Notification notification = switch (uiType.toLowerCase()) {
+-             case "cli" -> new CLINotification();
+-             case "gui" -> new GUINotification();
+-             default -> throw new ConfigException("UI not found: " + uiType);
+-         };
+-+
+-+        notification.setMessage(message);
+-+        return notification;
+-+
+-     }
+-+
+- }
+-Index: src/main/java/org/example/togetjob/pattern/CLINotification.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.pattern;\n\nimport org.example.togetjob.model.entity.JobApplication;\nimport org.example.togetjob.printer.Printer;\n\npublic class CLINotification implements Notification{\n    @Override\n    public void showNotification(JobApplication jobApplication) {\n        Printer.print(\"New Job Application from: \" + jobApplication.getStudent().getName());\n        Printer.print(\"You have a new application. Please review it at your convenience.\");\n    }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/CLINotification.java b/src/main/java/org/example/togetjob/pattern/CLINotification.java
+---- a/src/main/java/org/example/togetjob/pattern/CLINotification.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/pattern/CLINotification.java	(date 1738767839705)
+-@@ -1,12 +1,26 @@
+- package org.example.togetjob.pattern;
+- 
+-+import org.example.togetjob.model.entity.InterviewScheduling;
+- import org.example.togetjob.model.entity.JobApplication;
+- import org.example.togetjob.printer.Printer;
+- 
+- public class CLINotification implements Notification{
+-+
+-+    private String message;
+-+
+-     @Override
+-     public void showNotification(JobApplication jobApplication) {
+-         Printer.print("New Job Application from: " + jobApplication.getStudent().getName());
+-         Printer.print("You have a new application. Please review it at your convenience.");
+-     }
+-+
+-+    @Override
+-+    public void showInterviewNotification(InterviewScheduling interviewScheduling) {
+-+
+-+    }
+-+
+-+    @Override
+-+    public void setMessage(String message) {
+-+        this.message = message;
+-+    }
+- }
+-Index: src/main/java/org/example/togetjob/pattern/GUINotification.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.pattern;\n\nimport org.example.togetjob.model.entity.JobApplication;\n\npublic class GUINotification implements Notification{\n    @Override\n    public void showNotification(JobApplication jobApplication) {\n\n    }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/GUINotification.java b/src/main/java/org/example/togetjob/pattern/GUINotification.java
+---- a/src/main/java/org/example/togetjob/pattern/GUINotification.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/pattern/GUINotification.java	(date 1738767922256)
+-@@ -1,10 +1,25 @@
+- package org.example.togetjob.pattern;
+- 
+-+import org.example.togetjob.model.entity.InterviewScheduling;
+- import org.example.togetjob.model.entity.JobApplication;
+-+import org.example.togetjob.printer.Printer;
+- 
+- public class GUINotification implements Notification{
+-+
+-+    private String message;
+-+
+-     @Override
+-     public void showNotification(JobApplication jobApplication) {
+-+        Printer.print("CLI Notification: You have successfully applied for the job.");
+-+    }
+- 
+-+    @Override
+-+    public void showInterviewNotification(InterviewScheduling interviewScheduling) {
+-+        Printer.print("CLI Notification: Your interview has been scheduled on \" + interviewScheduling.getInterviewDateTime() + \" at \" + interviewScheduling.getLocation()");
+-+    }
+-+
+-+    @Override
+-+    public void setMessage(String message) {
+-+        this.message = message;
+-     }
+- }
+-Index: src/main/java/org/example/togetjob/pattern/Notification.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.pattern;\n\nimport org.example.togetjob.model.entity.JobApplication;\n\npublic interface Notification {\n    void showNotification(JobApplication jobApplication);\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/Notification.java b/src/main/java/org/example/togetjob/pattern/Notification.java
+---- a/src/main/java/org/example/togetjob/pattern/Notification.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/pattern/Notification.java	(date 1738767839708)
+-@@ -1,7 +1,10 @@
+- package org.example.togetjob.pattern;
+- 
+-+import org.example.togetjob.model.entity.InterviewScheduling;
+- import org.example.togetjob.model.entity.JobApplication;
+- 
+- public interface Notification {
+-     void showNotification(JobApplication jobApplication);
+-+    void showInterviewNotification(InterviewScheduling interviewScheduling);
+-+    void setMessage(String message);
+- }
+-Index: src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.pattern.adapter;\n\nimport org.example.togetjob.bean.*;\nimport org.example.togetjob.controller.student.SendAJobApplication;\nimport org.example.togetjob.exceptions.StudentNotFoundException;\nimport org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;\nimport org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;\nimport org.example.togetjob.model.dao.abstractobjects.StudentDao;\nimport org.example.togetjob.model.entity.InterviewScheduling;\nimport org.example.togetjob.model.entity.JobAnnouncement;\nimport org.example.togetjob.model.entity.Recruiter;\nimport org.example.togetjob.model.entity.Student;\n\nimport java.time.LocalDate;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Optional;\nimport java.util.Set;\nimport java.util.stream.Collectors;\n\npublic class ContactAJobCandidateAdapter implements ContactAJobCandidateController{\n\n    private final SendAJobApplication adaptee;\n    private final StudentDao studentDao;\n    private final JobAnnouncementDao jobAnnouncementDao;\n    private final JobApplicationDao jobApplicationDao;\n\n    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao) {\n        this.adaptee = adaptee;\n        this.studentDao = studentDao;\n        this.jobAnnouncementDao = jobAnnouncementDao;\n        this.jobApplicationDao = jobApplicationDao;\n    }\n\n\n    @Override\n    public List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {\n\n        List<JobApplicationBean> jobApplications = adaptee.getJobApplicationsForRecruiter(jobAnnouncementBean);\n\n        Set<String> studentUsernames = jobApplications.stream()\n                .map(JobApplicationBean::getStudentUsername)\n                .collect(Collectors.toSet());\n\n        List<Student> filteredStudents = studentDao.getAllStudents()\n                .stream()\n                .filter(student -> studentUsernames.contains(student.getUsername())) // Studenti che hanno applicato\n                .filter(student -> filterByDegrees(student, studentInfoSearchBean.getDegrees()))\n                .filter(student -> filterByCourses(student, studentInfoSearchBean.getCoursesAttended()))\n                .filter(student -> filterByCertifications(student, studentInfoSearchBean.getCertifications()))\n                .filter(student -> filterByWorkExperiences(student, studentInfoSearchBean.getWorkExperiences()))\n                .filter(student -> filterBySkills(student, studentInfoSearchBean.getSkills()))\n                .filter(student -> filterByAvailability(student, studentInfoSearchBean.getAvailability()))\n                .toList();\n\n        return filteredStudents.stream()\n                .map(this::convertToStudentInfoBean)\n                .toList();\n\n    }\n\n    @Override\n    public StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) throws StudentNotFoundException {\n\n        String candidateUsername = studentInfoBean.getUsername();\n        List<JobApplicationBean> jobApplications = adaptee.getJobApplicationsForRecruiter(jobAnnouncementBean);\n\n        boolean hasApplied = jobApplications.stream()\n                .anyMatch(app -> app.getStudentUsername().equals(candidateUsername));\n\n        if (!hasApplied) {\n            throw new StudentNotFoundException(\"No job application found for candidate: \" + candidateUsername);\n        }\n\n        Optional<Student> studentOpt = studentDao.getStudent(candidateUsername);\n\n        if (studentOpt.isEmpty()) {\n            throw new StudentNotFoundException(\"Student not found for username: \" + candidateUsername);\n        }\n\n        return convertToStudentInfoBean(studentOpt.get());\n    }\n\n    @Override\n    public InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean) {\n\n        InterviewSchedulingBean form = new InterviewSchedulingBean();\n\n        form.setStudentUsername(studentInfoBean.getUsername());\n        form.setJobTitle(jobAnnouncementBean.getJobTitle());\n        form.setCompanyName(jobAnnouncementBean.getCompanyName());\n\n        form.setInterviewDateTime(\"\");\n        form.setLocation(\"\");\n\n        return form;\n    }\n\n\n    @Override\n    public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {\n\n        /*Recruiter recruiter = adaptee.getLoggedRecruiter();\n\n        Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())\n                .orElseThrow(() -> new IllegalArgumentException(\"Error: Student not found.\"));\n\n        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(interviewSchedulingBean.getJobTitle(), recruiter)\n                .orElseThrow(() -> new IllegalArgumentException(\"Error: Job Announcement not found.\"));\n\n        if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isEmpty()) {\n            throw new IllegalArgumentException(\"Student not exists.\");\n        }\n\n        boolean interviewAlreadyScheduled = checkIfInterviewScheduled(interviewSchedulingBean.getStudentUsername());\n\n        if (interviewAlreadyScheduled) {\n            throw new IllegalArgumentException(\"Il colloquio per questo studente è già stato programmato.\");\n        }\n\n        InterviewScheduling interviewScheduling = InterviewSchedulingFactory.createInterviewScheduling(\n                recruiter, student, interviewSchedulingBean.getInterviewDateTime(), interviewSchedulingBean.getLocation(), jobAnnouncement\n        );\n\n        interviewSchedulingDao.saveInterviewScheduling(interviewScheduling);\n         */\n        return true;\n    }\n\n    /*private boolean checkIfInterviewScheduled(String studentUsername) {\n\n        List<InterviewSchedulingBean> scheduledInterviews = adaptee.getScheduledInterviewsForStudent(studentUsername);\n        return scheduledInterviews.stream().anyMatch(interview -> interview.getStudentUsername().equals(studentUsername));\n\n    }*/\n\n\n    private StudentInfoBean convertToStudentInfoBean(Student student) {\n\n        StudentInfoBean studentInfoBean = new StudentInfoBean();\n\n        studentInfoBean.setUsername(student.getUsername());\n        studentInfoBean.setDateOfBirth(student.getDateOfBirth() != null ? student.getDateOfBirth() : LocalDate.of(2000, 1, 1));\n        studentInfoBean.setPhoneNumber(student.getPhoneNumber() != null ? student.getPhoneNumber() : \"No Phone Provided\");\n        studentInfoBean.setDegrees(student.getDegrees() != null ? new ArrayList<>(student.getDegrees()) : new ArrayList<>());\n        studentInfoBean.setCourseAttended(student.getCourseAttended() != null ? new ArrayList<>(student.getCourseAttended()) : new ArrayList<>());\n        studentInfoBean.setCertifications(student.getCertifications() != null ? new ArrayList<>(student.getCertifications()) : new ArrayList<>());\n        studentInfoBean.setWorkExperiences(student.getWorkExperiences() != null ? new ArrayList<>(student.getWorkExperiences()) : new ArrayList<>());\n        studentInfoBean.setSkills(student.getSkills() != null ? new ArrayList<>(student.getSkills()) : new ArrayList<>());\n        studentInfoBean.setAvailability(student.getAvailability() != null ? student.getAvailability() : \"Not Specified\");\n        return studentInfoBean;\n\n    }\n\n\n    private boolean filterByDegrees(Student student, List<String> requiredDegrees) {\n        return requiredDegrees == null || requiredDegrees.isEmpty() ||\n                student.getDegrees().stream().anyMatch(requiredDegrees::contains);\n    }\n\n    private boolean filterByCourses(Student student, List<String> requiredCourses) {\n        return requiredCourses == null || requiredCourses.isEmpty() ||\n                student.getCourseAttended().stream().anyMatch(requiredCourses::contains);\n    }\n\n    private boolean filterByCertifications(Student student, List<String> requiredCertifications) {\n        return requiredCertifications == null || requiredCertifications.isEmpty() ||\n                student.getCertifications().stream().anyMatch(requiredCertifications::contains);\n    }\n\n    private boolean filterByWorkExperiences(Student student, List<String> requiredWorkExperiences) {\n        return requiredWorkExperiences == null || requiredWorkExperiences.isEmpty() ||\n                student.getWorkExperiences().stream().anyMatch(requiredWorkExperiences::contains);\n    }\n\n    private boolean filterBySkills(Student student, List<String> requiredSkills) {\n        return requiredSkills == null || requiredSkills.isEmpty() ||\n                student.getSkills().stream().anyMatch(requiredSkills::contains);\n    }\n\n    private boolean filterByAvailability(Student student, String requiredAvailability) {\n        return requiredAvailability == null || requiredAvailability.isEmpty() ||\n                student.getAvailability().equalsIgnoreCase(requiredAvailability);\n    }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java b/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java
+---- a/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java	(date 1738767742933)
+-@@ -2,20 +2,23 @@
+- 
+- import org.example.togetjob.bean.*;
+- import org.example.togetjob.controller.student.SendAJobApplication;
+-+import org.example.togetjob.exceptions.ConfigException;
+-+import org.example.togetjob.exceptions.NotificationException;
+- import org.example.togetjob.exceptions.StudentNotFoundException;
+-+import org.example.togetjob.model.dao.abstractobjects.InterviewSchedulingDao;
+- import org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;
+- import org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;
+- import org.example.togetjob.model.dao.abstractobjects.StudentDao;
+--import org.example.togetjob.model.entity.InterviewScheduling;
+--import org.example.togetjob.model.entity.JobAnnouncement;
+--import org.example.togetjob.model.entity.Recruiter;
+--import org.example.togetjob.model.entity.Student;
+-+import org.example.togetjob.model.entity.*;
+-+import org.example.togetjob.model.factory.InterviewSchedulingFactory;
+-+import org.example.togetjob.model.factory.NotificationFactory;
+-+import org.example.togetjob.pattern.Notification;
+-+import org.example.togetjob.pattern.subject.JobApplicationCollectionSubject;
+- 
+- import java.time.LocalDate;
+--import java.util.ArrayList;
+--import java.util.List;
+--import java.util.Optional;
+--import java.util.Set;
+-+import java.time.LocalDateTime;
+-+import java.time.format.DateTimeFormatter;
+-+import java.util.*;
+- import java.util.stream.Collectors;
+- 
+- public class ContactAJobCandidateAdapter implements ContactAJobCandidateController{
+-@@ -24,14 +27,17 @@
+-     private final StudentDao studentDao;
+-     private final JobAnnouncementDao jobAnnouncementDao;
+-     private final JobApplicationDao jobApplicationDao;
+-+    private final InterviewSchedulingDao interviewSchedulingDao;
+-+    private final JobApplicationCollectionSubject jobApplicationCollectionSubject;
+- 
+--    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao) {
+-+    public ContactAJobCandidateAdapter(SendAJobApplication adaptee, StudentDao studentDao, JobAnnouncementDao jobAnnouncementDao, JobApplicationDao jobApplicationDao, InterviewSchedulingDao interviewSchedulingDao, JobApplicationCollectionSubject jobApplicationCollectionSubject) {
+-         this.adaptee = adaptee;
+-         this.studentDao = studentDao;
+-         this.jobAnnouncementDao = jobAnnouncementDao;
+-         this.jobApplicationDao = jobApplicationDao;
+-+        this.interviewSchedulingDao = interviewSchedulingDao;
+-+        this.jobApplicationCollectionSubject = jobApplicationCollectionSubject;
+-     }
+--
+- 
+-     @Override
+-     public List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
+-@@ -100,7 +106,7 @@
+-     @Override
+-     public boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean) {
+- 
+--        /*Recruiter recruiter = adaptee.getLoggedRecruiter();
+-+        Recruiter recruiter = adaptee.getLoggedRecruiter();
+- 
+-         Student student = studentDao.getStudent(interviewSchedulingBean.getStudentUsername())
+-                 .orElseThrow(() -> new IllegalArgumentException("Error: Student not found."));
+-@@ -109,30 +115,50 @@
+-                 .orElseThrow(() -> new IllegalArgumentException("Error: Job Announcement not found."));
+- 
+-         if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isEmpty()) {
+--            throw new IllegalArgumentException("Student not exists.");
+-+            throw new IllegalArgumentException("Error: Student has not applied for this job.");
+-         }
+- 
+--        boolean interviewAlreadyScheduled = checkIfInterviewScheduled(interviewSchedulingBean.getStudentUsername());
+--
+--        if (interviewAlreadyScheduled) {
+--            throw new IllegalArgumentException("Il colloquio per questo studente è già stato programmato.");
+-+        if (interviewSchedulingDao.getInterviewScheduling(student, jobAnnouncement).isPresent()) {
+-+            throw new IllegalArgumentException("Error: An interview for this student has already been scheduled.");
+-         }
+-+
+-+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+-+        LocalDateTime interviewDateTime = LocalDateTime.parse(interviewSchedulingBean.getInterviewDateTime(), formatter);
+- 
+-         InterviewScheduling interviewScheduling = InterviewSchedulingFactory.createInterviewScheduling(
+--                recruiter, student, interviewSchedulingBean.getInterviewDateTime(), interviewSchedulingBean.getLocation(), jobAnnouncement
+-+                interviewDateTime,
+-+                interviewSchedulingBean.getLocation(), student,
+-+                jobAnnouncement
+-         );
+- 
+-         interviewSchedulingDao.saveInterviewScheduling(interviewScheduling);
+--         */
+-+        //observer adapter
+-+
+-+        try {
+-+            sendNotification(recruiter, "An interview has been scheduled for the student: " + student.getName());
+-+            sendNotification(student, "Your interview has been scheduled for: " + interviewDateTime);
+-+
+-+        } catch (NotificationException e) {
+-+            return false;
+-+        }
+-         return true;
+-     }
+- 
+--    /*private boolean checkIfInterviewScheduled(String studentUsername) {
+-+    @Override
+-+    public void sendNotification(User user, String message) throws NotificationException {
+-+
+-+        try{
+- 
+--        List<InterviewSchedulingBean> scheduledInterviews = adaptee.getScheduledInterviewsForStudent(studentUsername);
+--        return scheduledInterviews.stream().anyMatch(interview -> interview.getStudentUsername().equals(studentUsername));
+-+            Notification notification = NotificationFactory.createNotification(message);
+-+            Observer observer = new UserObserver(user, notification);
+- 
+--    }*/
+-+            jobApplicationCollectionSubject.attach(observer);
+-+            jobApplicationCollectionSubject.notify();
+-+
+-+        } catch (ConfigException e) {
+-+            throw new NotificationException("Error during the configuration", e);
+-+        }
+-+    }
+- 
+- 
+-     private StudentInfoBean convertToStudentInfoBean(Student student) {
+-Index: src/main/java/org/example/togetjob/pattern/observer/StudentObserver.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/observer/StudentObserver.java b/src/main/java/org/example/togetjob/pattern/observer/StudentObserver.java
+-new file mode 100644
+---- /dev/null	(date 1738767046239)
+-+++ b/src/main/java/org/example/togetjob/pattern/observer/StudentObserver.java	(date 1738767046239)
+-@@ -0,0 +1,10 @@
+-+package org.example.togetjob.pattern.observer;
+-+
+-+import org.example.togetjob.model.entity.JobApplication;
+-+
+-+public class StudentObserver implements NotificationObserver{
+-+    @Override
+-+    public void update(JobApplication jobApplication) {
+-+
+-+    }
+-+}
+-Index: src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.pattern.adapter;\n\n// Class Target in Adapter\n\nimport org.example.togetjob.bean.InterviewSchedulingBean;\nimport org.example.togetjob.bean.JobAnnouncementBean;\nimport org.example.togetjob.bean.StudentInfoBean;\nimport org.example.togetjob.bean.StudentInfoSearchBean;\n\nimport java.util.List;\n\npublic interface ContactAJobCandidateController {\n\n    List<StudentInfoBean> showFiltersCandidate(StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean);\n    StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);\n    InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);\n    boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean);\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java b/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java
+---- a/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java	(date 1738766229870)
+-@@ -6,6 +6,8 @@
+- import org.example.togetjob.bean.JobAnnouncementBean;
+- import org.example.togetjob.bean.StudentInfoBean;
+- import org.example.togetjob.bean.StudentInfoSearchBean;
+-+import org.example.togetjob.exceptions.NotificationException;
+-+import org.example.togetjob.model.entity.User;
+- 
+- import java.util.List;
+- 
+-@@ -15,4 +17,5 @@
+-     StudentInfoBean showCandidateDetails(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);
+-     InterviewSchedulingBean showInterviewSchedulingForm(StudentInfoBean studentInfoBean, JobAnnouncementBean jobAnnouncementBean);
+-     boolean sendInterviewInvitation(InterviewSchedulingBean interviewSchedulingBean);
+-+    void sendNotification(User user, String message) throws NotificationException;
+- }
+-Index: src/main/java/org/example/togetjob/model/entity/Role.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.entity;\n\npublic enum Role {\n\n    RECRUITER(\"recruiter\"),\n    STUDENT(\"student\");\n\n    private final String id;\n\n    private Role(String id){\n        this.id = id;\n    }\n\n    public String getId(){\n        return id;\n    }\n\n    public static Role fromId(String id){\n        for(Role role: Role.values()){\n            if(role.getId().equalsIgnoreCase(id)){\n                return role;\n            }\n        }\n        throw new IllegalArgumentException(\"Ruolo non valido per l'id: \" + id);\n    }\n\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/entity/Role.java b/src/main/java/org/example/togetjob/model/entity/Role.java
+---- a/src/main/java/org/example/togetjob/model/entity/Role.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/model/entity/Role.java	(date 1738764275318)
+-@@ -21,7 +21,7 @@
+-                 return role;
+-             }
+-         }
+--        throw new IllegalArgumentException("Ruolo non valido per l'id: " + id);
+-+        throw new IllegalArgumentException("Role not valid for id: " + id);
+-     }
+- 
+- }
+-Index: src/main/java/org/example/togetjob/model/entity/Student.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.entity;\n\nimport java.time.LocalDate;\nimport java.util.List;\n\npublic class Student extends User{\n\n    private LocalDate dateOfBirth;\n    private String phoneNumber;\n    private List<String> degrees;\n    private List<String> courseAttended;\n    private List<String> certifications;\n    private List<String> workExperiences;\n    private List<String> skills;\n    private String availability;\n    private List<JobApplication> jobApplications;\n\n    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {\n        super(name, surname, username, emailAddress, password, role); // User\n    }\n\n    public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {\n        super(name, surname, username, emailAddress, password, role);\n        this.dateOfBirth = dateOfBirth;\n        this.phoneNumber = phoneNumber;\n        this.degrees = degrees;\n        this.courseAttended = courseAttended;\n        this.certifications = certifications;\n        this.workExperiences = workExperiences;\n        this.skills = skills;\n        this.availability = availability;\n        this.jobApplications = jobApplications;\n    }\n\n\n    public LocalDate getDateOfBirth() {\n        return dateOfBirth;\n    }\n\n    public String getPhoneNumber() {\n        return phoneNumber;\n    }\n\n    public List<String> getDegrees() {\n        return degrees;\n    }\n\n    public List<String> getCourseAttended() {\n        return courseAttended;\n    }\n\n    public List<String> getCertifications() {\n        return certifications;\n    }\n\n    public List<String> getWorkExperiences() {\n        return workExperiences;\n    }\n\n    public List<String> getSkills() {\n        return skills;\n    }\n\n    public String getAvailability() {\n        return availability;\n    }\n\n    public List<JobApplication> getJobApplications() {\n        return jobApplications;\n    }\n\n    @Override\n    public String toString() {\n        return \"Student{\" +\n                \"username='\" + getUsername() + '\\'' +\n                \", email='\" + getEmailAddress() + '\\'' +\n                \", degrees=\" + degrees +\n                '}';\n    }\n\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/entity/Student.java b/src/main/java/org/example/togetjob/model/entity/Student.java
+---- a/src/main/java/org/example/togetjob/model/entity/Student.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/model/entity/Student.java	(date 1738765101468)
+-@@ -15,7 +15,7 @@
+-     private String availability;
+-     private List<JobApplication> jobApplications;
+- 
+--    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {
+-+    public Student(String name, String surname, String username, String emailAddress, String password, Role role) {
+-         super(name, surname, username, emailAddress, password, role); // User
+-     }
+- 
+-@@ -32,7 +32,6 @@
+-         this.jobApplications = jobApplications;
+-     }
+- 
+--
+-     public LocalDate getDateOfBirth() {
+-         return dateOfBirth;
+-     }
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_01_25__10_04__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_01_25__10_32__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Exception\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"org.example.togetjob\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1729955369659</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1729955369659</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663831106</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663831106</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Primo Commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1735663851839</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1735663851839</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738534877519</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738534877519</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738591871116</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738591871116</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602095720</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602095720</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602224321</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602224321</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602353802</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602353802</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"25\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <MESSAGE value=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\" />\n    <MESSAGE value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java</url>\n          <line>63</line>\n          <option name=\"timeStamp\" value=\"25\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java</url>\n          <line>68</line>\n          <option name=\"timeStamp\" value=\"26\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/.idea/workspace.xml	(date 1738767687057)
+-@@ -4,10 +4,18 @@
+-     <option name="autoReloadType" value="SELECTIVE" />
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_01_25__10_04__Changes_.xml" beforeDir="false" />
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_01_25__10_32__Changes_.xml" beforeDir="false" />
+-+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Printer">
+-+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/observer/StudentObserver.java" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Recruiter.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Role.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Student.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/factory/NotificationFactory.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/CLINotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/CLINotification.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/GUINotification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/GUINotification.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/Notification.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateAdapter.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/pattern/adapter/ContactAJobCandidateController.java" afterDir="false" />
+-     </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-@@ -288,7 +296,15 @@
+-       <option name="project" value="LOCAL" />
+-       <updated>1738602353802</updated>
+-     </task>
+--    <option name="localTasksCounter" value="25" />
+-+    <task id="LOCAL-00025" summary="Printer">
+-+      <option name="closed" value="true" />
+-+      <created>1738753793398</created>
+-+      <option name="number" value="00025" />
+-+      <option name="presentableId" value="LOCAL-00025" />
+-+      <option name="project" value="LOCAL" />
+-+      <updated>1738753793398</updated>
+-+    </task>
+-+    <option name="localTasksCounter" value="26" />
+-     <servers />
+-   </component>
+-   <component name="Vcs.Log.Tabs.Properties">
+-@@ -318,7 +334,8 @@
+-     <MESSAGE value="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli" />
+-     <MESSAGE value="Settimo Commit: Inizio del caso d'uso Send A Job Application" />
+-     <MESSAGE value="Settimo Commit: Prima parte del caso d'uso funzionante" />
+--    <option name="LAST_COMMIT_MESSAGE" value="Settimo Commit: Prima parte del caso d'uso funzionante" />
+-+    <MESSAGE value="Printer" />
+-+    <option name="LAST_COMMIT_MESSAGE" value="Printer" />
+-   </component>
+-   <component name="XDebuggerManager">
+-     <breakpoint-manager>
+-Index: src/main/java/org/example/togetjob/model/entity/Recruiter.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.entity;\n\nimport java.util.List;\n\npublic class Recruiter extends User {\n\n    private List<String> companies;\n\n    //User\n    public Recruiter(String username, String password, String name, String surname, String emailAddress, Role role) {\n        super(name, surname, username, emailAddress, password, role); // User\n    }\n\n    public Recruiter(String name, String surname, String username, String emailAddress, String password, Role role, List<String> companies) {\n        super(name, surname, username, emailAddress, password, role);\n        this.companies = companies;\n    }\n\n    public List<String> getCompanies() {\n        return companies;\n    }\n\n}
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/entity/Recruiter.java b/src/main/java/org/example/togetjob/model/entity/Recruiter.java
+---- a/src/main/java/org/example/togetjob/model/entity/Recruiter.java	(revision 106c9ef2df27a910aea41a498d8089f125c975cc)
+-+++ b/src/main/java/org/example/togetjob/model/entity/Recruiter.java	(date 1738764247986)
+-@@ -7,7 +7,7 @@
+-     private List<String> companies;
+- 
+-     //User
+--    public Recruiter(String username, String password, String name, String surname, String emailAddress, Role role) {
+-+    public Recruiter(String name, String surname, String username, String emailAddress, String password, Role role) {
+-         super(name, surname, username, emailAddress, password, role); // User
+-     }
+- 
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__4_09PM__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__4_09PM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__4_09PM__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__4_09PM__Changes_.xml	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ /dev/null	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]" date="1738768178791" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 05/02/25, 4:09 PM [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: src/main/resources/org/example/togetjob/RecruiterDisplayFilters.fxml
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/RecruiterDisplayFilters.fxml b/src/main/resources/org/example/togetjob/RecruiterDisplayFilters.fxml
+deleted file mode 100644
+--- a/src/main/resources/org/example/togetjob/RecruiterDisplayFilters.fxml	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ /dev/null	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
+@@ -1,108 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<?import javafx.geometry.Rectangle2D?>
+-<?import javafx.scene.control.Button?>
+-<?import javafx.scene.control.Label?>
+-<?import javafx.scene.control.TextField?>
+-<?import javafx.scene.image.Image?>
+-<?import javafx.scene.image.ImageView?>
+-<?import javafx.scene.layout.AnchorPane?>
+-<?import javafx.scene.text.Font?>
+-
+-<AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+-   <children>
+-      <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
+-         <font>
+-            <Font name="AppleGothic Regular" size="36.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="160.0" style="-fx-text-fill: #1D3557;" text="Certifications :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="230.0" style="-fx-text-fill: #1D3557;" text="Skills :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="48.0" style="-fx-text-fill: #1D3557;" text="Enter your search filters :" textFill="#1d3557">
+-         <font>
+-            <Font name="AppleGothic Regular" size="16.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Degrees :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="125.0" style="-fx-text-fill: #1D3557;" text="Courses attended :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="265.0" style="-fx-text-fill: #1D3557;" text="Availability :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <Label layoutX="13.0" layoutY="195.0" style="-fx-text-fill: #1D3557;" text="Work experiences :">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Label>
+-      <TextField layoutX="83.0" layoutY="90.0" prefHeight="26.0" prefWidth="221.0" promptText="Enter degrees (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <TextField layoutX="144.0" layoutY="125.0" prefHeight="26.0" prefWidth="270.0" promptText="Enter courses attended (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <TextField layoutX="112.0" layoutY="160.0" prefHeight="26.0" prefWidth="243.0" promptText="Enter certifications (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <TextField layoutX="145.0" layoutY="195.0" prefHeight="26.0" prefWidth="272.0" promptText="Enter work experiences (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <TextField layoutX="61.0" layoutY="230.0" prefHeight="26.0" prefWidth="201.0" promptText="Enter skills (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <TextField layoutX="96.0" layoutY="265.0" prefHeight="26.0" prefWidth="230.0" promptText="Enter availability (or leave blank to skip)" style="-fx-border-radius: 5;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="12.0" />
+-         </font>
+-      </TextField>
+-      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Button>
+-      <ImageView fitHeight="85.0" fitWidth="111.0" layoutX="170.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
+-         <image>
+-            <Image url="@logo-removebg-preview.png" />
+-         </image>
+-         <viewport>
+-            <Rectangle2D minY="-10.0" />
+-         </viewport>
+-      </ImageView>
+-      <Button layoutX="165.0" layoutY="323.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: trasparent;" text="Proceed" textFill="#00aaff">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Button>
+-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+-         <image>
+-            <Image url="@back-158491_1920.png" />
+-         </image>
+-      </ImageView>
+-   </children>
+-</AnchorPane>
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.gui.controllergrafico;\n\nimport javafx.fxml.FXML;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.text.Text;\nimport org.example.togetjob.bean.JobApplicationBean;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.boundary.LoginBoundary;\nimport org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;\nimport org.example.togetjob.view.gui.GUIContext;\nimport org.example.togetjob.view.gui.concretestate.FilterJobAnnouncementStudentState;\nimport org.example.togetjob.view.gui.concretestate.HomeState;\n\nimport java.util.List;\n\n\npublic class HomeStudentController {\n\n\n    @FXML\n    private TitledPane pendingApplicationsPane;\n    @FXML\n    private TitledPane acceptedApplicationsPane;\n    @FXML\n    private TitledPane rejectedApplicationsPane;\n\n    @FXML\n    private ListView<JobApplicationBean> pendingApplicationsList;\n\n    @FXML\n    private ListView<JobApplicationBean> acceptedApplicationsList;\n\n    @FXML\n    private ListView<JobApplicationBean> rejectedApplicationsList;\n\n    private static final String PENDING = \"PENDING\";\n    private static final String ACCEPTED = \"ACCEPTED\";\n    private static final String REJECTED = \"REJECTED\";\n\n    private GUIContext context;\n    private final LoginBoundary loginBoundary = new LoginBoundary();\n    private final SendAJobApplicationStudentBoundary sendAJobApplicationStudentBoundary = new SendAJobApplicationStudentBoundary();\n\n    public void setContext(GUIContext context) {\n        this.context = context;\n    }\n\n    @FXML\n    private void handleAcceptedApplications() {\n\n        List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();\n        List<JobApplicationBean> acceptedApplications = allApplications.stream()\n                .filter(app -> ACCEPTED.equalsIgnoreCase(String.valueOf(app.getStatus())))\n                .toList();\n\n        Printer.print(\"Accepted applications: \" + acceptedApplications);\n\n        populateApplications(acceptedApplications, acceptedApplicationsPane);\n\n    }\n\n\n    @FXML\n    private void handleRejectedApplications() {\n\n        List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();\n        List<JobApplicationBean> rejectedApplications = allApplications.stream()\n                .filter(app -> REJECTED .equalsIgnoreCase(String.valueOf(app.getStatus())))\n                .toList();\n\n        Printer.print(\"Rejected applications: \" + rejectedApplications);\n\n        populateApplications(rejectedApplications, rejectedApplicationsPane);\n\n\n    }\n\n    @FXML\n    private void handlePendingApplications() {\n\n        List<JobApplicationBean> allApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();\n        List<JobApplicationBean> pendingApplications = allApplications.stream()\n                .filter(app -> PENDING.equalsIgnoreCase(String.valueOf(app.getStatus())))\n                .toList();\n\n        Printer.print(\"Pending applications: \" + pendingApplications);\n\n        populateApplications(pendingApplications, pendingApplicationsPane);\n\n    }\n\n\n    @FXML\n    private void sendAJobApplication() {\n        if (context != null) {\n            Printer.print(\"Context is initialized!\");\n            context.setState(new FilterJobAnnouncementStudentState(context));\n            context.showMenu();\n        } else {\n            Printer.print(\"Context is not initialized!\");\n        }\n\n\n    }\n\n    @FXML\n    private void handleLogout() {\n        if (context != null) {\n            Printer.print(\"Context is initialized!\");\n            loginBoundary.logout();\n            context.setState(new HomeState(context));\n            context.showMenu();\n        } else {\n            Printer.print(\"Context is not initialized!\");\n        }\n    }\n\n\n    @FXML\n    private void handleViewNotifications() {\n        /**/\n    }\n\n    private void populateApplications(List<JobApplicationBean> applications, TitledPane pane) {\n        ListView<JobApplicationBean> listView = getListViewForPane(pane);\n        if (listView != null) {\n            listView.getItems().clear();\n            listView.getItems().addAll(applications);\n            listView.setCellFactory(param -> createJobApplicationCell());\n        }\n\n    }\n\n    private ListView<JobApplicationBean> getListViewForPane(TitledPane pane) {\n        if (pendingApplicationsPane.equals(pane)) {\n            return pendingApplicationsList;\n        } else if (acceptedApplicationsPane.equals(pane)) {\n            return acceptedApplicationsList;\n        } else if (rejectedApplicationsPane.equals(pane)) {\n            return rejectedApplicationsList;\n        }\n        return null;\n    }\n\n    private ListCell<JobApplicationBean> createJobApplicationCell() {\n        return new ListCell<JobApplicationBean>() {\n            @Override\n            protected void updateItem(JobApplicationBean app, boolean empty) {\n                super.updateItem(app, empty);\n\n                if (empty || app == null) {\n                    setText(null);\n                    setGraphic(null);\n                } else {\n\n                    HBox hbox = new HBox(10);\n                    hbox.setAlignment(Pos.CENTER_LEFT);\n                    hbox.setPadding(new Insets(5, 10, 5, 10));\n\n                    // job title\n                    Text jobTitleText = new Text(app.getJobTitle());\n                    jobTitleText.setStyle(\"-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;\");\n\n                    Text statusText = new Text(\" - Status: \" + app.getStatus());\n                    statusText.setStyle(\"-fx-font-family: 'Apple Gothic'; -fx-font-size: 12px; \" + getStatusColorStyle(String.valueOf(app.getStatus())));\n\n                    hbox.getChildren().addAll(jobTitleText, statusText);\n\n                    HBox buttonBox = createButtonsForApplication(app);\n                    hbox.getChildren().add(buttonBox);\n\n                    setGraphic(hbox);\n                }\n            }\n        };\n    }\n\n    private String getStatusColorStyle(String status) {\n\n        switch (status.toUpperCase()) {\n            case PENDING -> {\n                return \"-fx-fill: #2980b9;\";\n            }\n            case ACCEPTED -> {\n                return \"-fx-fill: #28A745;\";\n            }\n            case REJECTED  -> {\n                return \"-fx-fill: #DC3545;\";\n            }\n            default -> {\n                return \"-fx-fill: #000000;\";\n            }\n        }\n    }\n\n\n    private HBox createButtonsForApplication(JobApplicationBean app) {\n        HBox hbox = new HBox(10);\n\n        if (PENDING.equalsIgnoreCase(String.valueOf(app.getStatus()))) {\n            Button modifyButton = new Button(\"Modify\");\n            modifyButton.setOnAction(event -> modifyApplication(app));\n\n            Button deleteButton = new Button(\"Delete\");\n            deleteButton.setOnAction(event -> deleteApplication(app));\n\n            String buttonStyle = \"-fx-background-color: #b3d9ff; \" +\n                    \"-fx-text-fill: #2980b9; \" +\n                    \"-fx-border-radius: 15; \" +\n                    \"-fx-border-color: #2980b9; \" +\n                    \"-fx-border-width: 2; \" +\n                    \"-fx-cursor: hand; \" +\n                    \"-fx-font-weight: bold; \" +\n                    \"-fx-background-radius: 15;\";\n\n            modifyButton.setStyle(buttonStyle);\n            deleteButton.setStyle(buttonStyle);\n\n            hbox.getChildren().addAll(modifyButton, deleteButton);\n        }\n\n        return hbox;\n    }\n\n    private void modifyApplication(JobApplicationBean application) {\n        Printer.print(\"Modify application: \" + application.getJobTitle());\n    }\n\n    private void deleteApplication(JobApplicationBean application) {\n\n        Printer.print(\"Delete application: \" + application.getJobTitle());\n        sendAJobApplicationStudentBoundary.deleteAJobApplication(application);\n        handlePendingApplications();\n        handleAcceptedApplications();\n        handleRejectedApplications();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java
+--- a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java	(date 1739370557295)
+@@ -19,7 +19,6 @@
+ 
+ public class HomeStudentController {
+ 
+-
+     @FXML
+     private TitledPane pendingApplicationsPane;
+     @FXML
+@@ -131,7 +130,6 @@
+             listView.getItems().addAll(applications);
+             listView.setCellFactory(param -> createJobApplicationCell());
+         }
+-
+     }
+ 
+     private ListView<JobApplicationBean> getListViewForPane(TitledPane pane) {
+Index: src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java b/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java
+new file mode 100644
+--- /dev/null	(date 1739372487889)
++++ b/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java	(date 1739372487889)
+@@ -0,0 +1,62 @@
++package org.example.togetjob.view.gui.concretestate;
++
++import javafx.application.Platform;
++import javafx.fxml.FXMLLoader;
++import javafx.scene.Scene;
++import javafx.stage.Stage;
++import org.example.togetjob.printer.Printer;
++import org.example.togetjob.view.gui.GUIContext;
++import org.example.togetjob.view.gui.GUIState;
++import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;
++
++import java.io.IOException;
++
++public class RecruiterDisplayFiltersState implements GUIState {
++
++    GUIContext context;
++
++    public RecruiterDisplayFiltersState(GUIContext context ){
++
++        this.context = context ;
++
++    }
++
++    @Override
++    public void showMenu() {
++
++        try {
++            Printer.print("Showing RecruiterDisplayFiltersState...");
++            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml"));
++            Scene scene = new Scene(fxmlLoader.load(), 492.0, 427.0);
++
++            CreateJobAnnouncementController controller = fxmlLoader.getController();
++            controller.setContext(context);
++
++            Stage stage = context.getStage();
++
++            if (stage == null) {
++                stage = new Stage();
++                context.setStage(stage);
++            }
++
++            stage.setTitle("Display Filters");
++            stage.setScene(scene);
++
++            stage.setOnCloseRequest(event -> {
++                Platform.exit();  // JavaFX
++                System.exit(0);   // process
++            });
++
++            stage.show();
++
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++    }
++
++    @Override
++    public GUIContext getContext() {
++        return this.context;
++    }
++
++}
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java
+new file mode 100644
+--- /dev/null	(date 1739374506114)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java	(date 1739374506114)
+@@ -0,0 +1,52 @@
++package org.example.togetjob.view.gui.controllergrafico;
++
++import javafx.fxml.FXML;
++import javafx.scene.control.TextField;
++import org.example.togetjob.bean.StudentInfoSearchBean;
++
++import java.util.List;
++
++public class RecruiterDisplayFiltersController {
++
++
++    @FXML
++    private TextField degreesField ;
++    @FXML
++    private TextField coursesAttendedField ;
++    @FXML
++    private TextField certificationsField ;
++    @FXML
++    private TextField workExperiencesField;
++    @FXML
++    private TextField skillsField ;
++    @FXML
++    private TextField availabilityField ;
++
++
++
++    @FXML
++    private void handleProceedButton(){
++
++        List<String> degrees = List.of(degreesField.getText().split(","));
++        List<String> courses = List.of(coursesAttendedField.getText().split(","));
++        List<String> certifications = List.of(certificationsField.getText().split(","));
++        List<String> workExperiences = List.of(workExperiencesField.getText().split(","));
++        List<String> skils = List.of(skillsField.getText().split(","));
++        String availability = availabilityField.getText() ;
++
++        StudentInfoSearchBean studentInfoSearchBean = new StudentInfoSearchBean() ;
++
++        studentInfoSearchBean.setDegrees(degrees);
++        studentInfoSearchBean.setCoursesAttended(courses);
++        studentInfoSearchBean.setCertifications(certifications);
++        studentInfoSearchBean.setWorkExperiences(workExperiences);
++        studentInfoSearchBean.setSkills(skils);
++        studentInfoSearchBean.setAvailability(availability);
++
++
++
++
++    }
++
++
++}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Registrazione e Login interfacce ok\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobAnnouncementStudentController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilters.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/studentdisplayfilters.fxml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Exception\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CreateClassDialog.RecentsKey\">\n      <recent name=\"org.example.togetjob.model.dao.concretefactorydao\" />\n    </key>\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/target/classes/org/example/togetjob\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/example/togetjob/view\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"org.example.togetjob\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738534877519</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738534877519</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738591871116</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738591871116</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602095720</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602095720</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602224321</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602224321</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602353802</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602353802</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738847054568</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738847054568</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859623269</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859623269</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859799273</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859799273</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738925235487</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738925235487</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935926115</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935926115</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935935523</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935935523</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738943912969</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738943912969</updated>\n    </task>\n    <task id=\"LOCAL-00032\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945190532</created>\n      <option name=\"number\" value=\"00032\" />\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945190532</updated>\n    </task>\n    <task id=\"LOCAL-00033\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945926667</created>\n      <option name=\"number\" value=\"00033\" />\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945926667</updated>\n    </task>\n    <task id=\"LOCAL-00034\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739051085131</created>\n      <option name=\"number\" value=\"00034\" />\n      <option name=\"presentableId\" value=\"LOCAL-00034\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739051085131</updated>\n    </task>\n    <task id=\"LOCAL-00035\" summary=\"Interfacce\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739175835404</created>\n      <option name=\"number\" value=\"00035\" />\n      <option name=\"presentableId\" value=\"LOCAL-00035\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739175835404</updated>\n    </task>\n    <task id=\"LOCAL-00036\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739220286799</created>\n      <option name=\"number\" value=\"00036\" />\n      <option name=\"presentableId\" value=\"LOCAL-00036\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739220286800</updated>\n    </task>\n    <task id=\"LOCAL-00037\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221026328</created>\n      <option name=\"number\" value=\"00037\" />\n      <option name=\"presentableId\" value=\"LOCAL-00037\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221026328</updated>\n    </task>\n    <task id=\"LOCAL-00038\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221891152</created>\n      <option name=\"number\" value=\"00038\" />\n      <option name=\"presentableId\" value=\"LOCAL-00038\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221891152</updated>\n    </task>\n    <task id=\"LOCAL-00039\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739222169196</created>\n      <option name=\"number\" value=\"00039\" />\n      <option name=\"presentableId\" value=\"LOCAL-00039\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739222169196</updated>\n    </task>\n    <task id=\"LOCAL-00040\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223095546</created>\n      <option name=\"number\" value=\"00040\" />\n      <option name=\"presentableId\" value=\"LOCAL-00040\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223095546</updated>\n    </task>\n    <task id=\"LOCAL-00041\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223296491</created>\n      <option name=\"number\" value=\"00041\" />\n      <option name=\"presentableId\" value=\"LOCAL-00041\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223296491</updated>\n    </task>\n    <task id=\"LOCAL-00042\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223373958</created>\n      <option name=\"number\" value=\"00042\" />\n      <option name=\"presentableId\" value=\"LOCAL-00042\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223373958</updated>\n    </task>\n    <task id=\"LOCAL-00043\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224722991</created>\n      <option name=\"number\" value=\"00043\" />\n      <option name=\"presentableId\" value=\"LOCAL-00043\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224722991</updated>\n    </task>\n    <task id=\"LOCAL-00044\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224907675</created>\n      <option name=\"number\" value=\"00044\" />\n      <option name=\"presentableId\" value=\"LOCAL-00044\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224907675</updated>\n    </task>\n    <task id=\"LOCAL-00045\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739225182526</created>\n      <option name=\"number\" value=\"00045\" />\n      <option name=\"presentableId\" value=\"LOCAL-00045\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739225182526</updated>\n    </task>\n    <task id=\"LOCAL-00046\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739227822961</created>\n      <option name=\"number\" value=\"00046\" />\n      <option name=\"presentableId\" value=\"LOCAL-00046\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739227822961</updated>\n    </task>\n    <task id=\"LOCAL-00047\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739228938425</created>\n      <option name=\"number\" value=\"00047\" />\n      <option name=\"presentableId\" value=\"LOCAL-00047\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739228938425</updated>\n    </task>\n    <task id=\"LOCAL-00048\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739229738949</created>\n      <option name=\"number\" value=\"00048\" />\n      <option name=\"presentableId\" value=\"LOCAL-00048\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739229738949</updated>\n    </task>\n    <task id=\"LOCAL-00049\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739230414467</created>\n      <option name=\"number\" value=\"00049\" />\n      <option name=\"presentableId\" value=\"LOCAL-00049\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739230414467</updated>\n    </task>\n    <task id=\"LOCAL-00050\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286252185</created>\n      <option name=\"number\" value=\"00050\" />\n      <option name=\"presentableId\" value=\"LOCAL-00050\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286252186</updated>\n    </task>\n    <task id=\"LOCAL-00051\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286944297</created>\n      <option name=\"number\" value=\"00051\" />\n      <option name=\"presentableId\" value=\"LOCAL-00051\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286944297</updated>\n    </task>\n    <task id=\"LOCAL-00052\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739287156849</created>\n      <option name=\"number\" value=\"00052\" />\n      <option name=\"presentableId\" value=\"LOCAL-00052\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739287156850</updated>\n    </task>\n    <task id=\"LOCAL-00053\" summary=\"Prova: aggiunta di alcune eccezioni\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739296769628</created>\n      <option name=\"number\" value=\"00053\" />\n      <option name=\"presentableId\" value=\"LOCAL-00053\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739296769628</updated>\n    </task>\n    <task id=\"LOCAL-00054\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739356293943</created>\n      <option name=\"number\" value=\"00054\" />\n      <option name=\"presentableId\" value=\"LOCAL-00054\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739356293944</updated>\n    </task>\n    <task id=\"LOCAL-00055\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360362489</created>\n      <option name=\"number\" value=\"00055\" />\n      <option name=\"presentableId\" value=\"LOCAL-00055\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360362489</updated>\n    </task>\n    <task id=\"LOCAL-00056\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360704403</created>\n      <option name=\"number\" value=\"00056\" />\n      <option name=\"presentableId\" value=\"LOCAL-00056\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360704404</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"57\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <MESSAGE value=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\" />\n    <MESSAGE value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n    <MESSAGE value=\"Send a Job Application ok\" />\n    <MESSAGE value=\"Implementazione DATABASE DAO\" />\n    <MESSAGE value=\"Fine DAO DB che va da testare\" />\n    <MESSAGE value=\"Interfacce\" />\n    <MESSAGE value=\"Duplicazione\" />\n    <MESSAGE value=\"commit\" />\n    <MESSAGE value=\"Prova: aggiunta di alcune eccezioni\" />\n    <MESSAGE value=\"Registrazione e Login interfacce ok\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Registrazione e Login interfacce ok\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.sql.SQLException\" package=\"java.sql\" />\n          <option name=\"timeStamp\" value=\"31\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ b/.idea/workspace.xml	(date 1739373609527)
+@@ -5,13 +5,17 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobAnnouncementStudentController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_4_09 PM_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__4_09PM__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeStudentController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/StudentDisplayFilters.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/studentdisplayfilters.fxml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homestudent.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilters.fxml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -42,7 +46,7 @@
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+     &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
+-    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
++    &quot;accountId&quot;: &quot;10ff2728-a55b-45dc-b4f1-a35abedc973c&quot;
+   }
+ }</component>
+   <component name="HighlightingSettingsPerFile">
+@@ -111,6 +115,14 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1729955148511</updated>
++    </task>
++    <task id="LOCAL-00007" summary="Terzo Commit: Aggiunta Entity">
++      <option name="closed" value="true" />
++      <created>1738086967897</created>
++      <option name="number" value="00007" />
++      <option name="presentableId" value="LOCAL-00007" />
++      <option name="project" value="LOCAL" />
++      <updated>1738086967897</updated>
+     </task>
+     <task id="LOCAL-00008" summary="Terzo Commit: Aggiunta Entity">
+       <option name="closed" value="true" />
+@@ -496,15 +508,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1739360362489</updated>
+     </task>
+-    <task id="LOCAL-00056" summary="Registrazione e Login interfacce ok">
+-      <option name="closed" value="true" />
+-      <created>1739360704403</created>
+-      <option name="number" value="00056" />
+-      <option name="presentableId" value="LOCAL-00056" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1739360704404</updated>
+-    </task>
+-    <option name="localTasksCounter" value="57" />
++    <option name="localTasksCounter" value="56" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+Index: src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.geometry.Insets?>\n<?import javafx.scene.Cursor?>\n<?import javafx.scene.control.Button?>\n<?import javafx.scene.control.Label?>\n<?import javafx.scene.control.Separator?>\n<?import javafx.scene.control.TitledPane?>\n<?import javafx.scene.effect.DropShadow?>\n<?import javafx.scene.effect.Glow?>\n<?import javafx.scene.image.Image?>\n<?import javafx.scene.image.ImageView?>\n<?import javafx.scene.layout.AnchorPane?>\n<?import javafx.scene.layout.VBox?>\n<?import javafx.scene.paint.Color?>\n<?import javafx.scene.text.Font?>\n\n<VBox alignment=\"CENTER\" prefHeight=\"427.0\" prefWidth=\"492.0\" spacing=\"20.0\" xmlns=\"http://javafx.com/javafx/23.0.1\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController\">\n   <padding>\n      <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\" />\n   </padding>\n   <cursor>\n      <Cursor fx:constant=\"SE_RESIZE\" />\n   </cursor>\n   <children>\n      <AnchorPane prefHeight=\"406.0\" prefWidth=\"474.0\" style=\"-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;\">\n         <children>\n            <ImageView fitHeight=\"113.0\" fitWidth=\"126.0\" layoutX=\"16.0\" layoutY=\"35.0\" pickOnBounds=\"true\" preserveRatio=\"true\" AnchorPane.bottomAnchor=\"240.0\" AnchorPane.leftAnchor=\"16.0\" AnchorPane.rightAnchor=\"323.0\" AnchorPane.topAnchor=\"30.0\">\n               <image>\n                  <Image url=\"@../imagerecruiterprogile.jpg\" />\n               </image>\n               <effect>\n                  <DropShadow blurType=\"ONE_PASS_BOX\" height=\"20.0\" radius=\"9.5\" width=\"20.0\">\n                     <color>\n                        <Color red=\"0.16078431904315948\" green=\"0.501960813999176\" blue=\"0.7254902124404907\" />\n                     </color>\n                  </DropShadow>\n               </effect>\n            </ImageView>\n            <Button layoutX=\"16.0\" layoutY=\"192.0\" mnemonicParsing=\"false\" prefHeight=\"41.0\" prefWidth=\"113.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;\" text=\"View Profile\" AnchorPane.topAnchor=\"170.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <Button layoutX=\"16.0\" layoutY=\"250.0\" mnemonicParsing=\"false\" prefHeight=\"41.0\" prefWidth=\"113.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;\" text=\"Notifications\" AnchorPane.topAnchor=\"230.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <Button layoutX=\"16.0\" layoutY=\"310.0\" mnemonicParsing=\"false\" prefHeight=\"41.0\" prefWidth=\"113.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;\" text=\"Logout\" AnchorPane.topAnchor=\"290.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <TitledPane animated=\"false\" layoutX=\"170.0\" layoutY=\"28.0\" prefHeight=\"140.0\" prefWidth=\"264.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;\" text=\"Job Announcements\">\n               <content>\n                  <AnchorPane minHeight=\"0.0\" minWidth=\"0.0\" prefHeight=\"147.0\" prefWidth=\"264.0\" />\n               </content>\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </TitledPane>\n            <Separator layoutX=\"147.0\" opacity=\"0.5\" orientation=\"VERTICAL\" prefHeight=\"385.0\" prefWidth=\"1.0\" style=\"-fx-background-color: #2980b9;\">\n               <effect>\n                  <Glow />\n               </effect>\n            </Separator>\n            <Button layoutX=\"173.0\" layoutY=\"228.0\" mnemonicParsing=\"false\" onAction=\"#handlePublishJobAnnouncementButton\" prefHeight=\"41.0\" prefWidth=\"246.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;\" text=\"Publish job announcement\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <Label layoutX=\"156.0\" layoutY=\"187.0\" style=\"-fx-text-fill: #2980b9;\" text=\"Do you want to publish a job announcement? \">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Label>\n            <Label layoutX=\"169.0\" layoutY=\"289.0\" style=\"-fx-text-fill: #2980b9;\" text=\"Do you want to contact a job candidate? \">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Label>\n            <Button layoutX=\"176.0\" layoutY=\"330.0\" mnemonicParsing=\"false\" onAction=\"#handleContactAJobCandidate\" onMouseClicked=\"#handleContactAJobCandidate\" prefHeight=\"41.0\" prefWidth=\"246.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;\" text=\"Contact a job candidate\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n         </children>\n      </AnchorPane>\n   </children>\n</VBox>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml b/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml
+--- a/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ b/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml	(date 1739371402975)
+@@ -4,6 +4,7 @@
+ <?import javafx.scene.Cursor?>
+ <?import javafx.scene.control.Button?>
+ <?import javafx.scene.control.Label?>
++<?import javafx.scene.control.ListView?>
+ <?import javafx.scene.control.Separator?>
+ <?import javafx.scene.control.TitledPane?>
+ <?import javafx.scene.effect.DropShadow?>
+@@ -47,18 +48,18 @@
+                   <Font name="AppleGothic Regular" size="14.0" />
+                </font>
+             </Button>
+-            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
++            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" onAction="#handleLogout" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
+                <font>
+                   <Font name="AppleGothic Regular" size="14.0" />
+                </font>
+             </Button>
+-            <TitledPane animated="false" layoutX="170.0" layoutY="28.0" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+-               <content>
+-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="264.0" />
+-               </content>
++            <TitledPane fx:id="titledPaneField" animated="false" layoutX="170.0" layoutY="28.0" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+                <font>
+                   <Font name="AppleGothic Regular" size="14.0" />
+                </font>
++               <content>
++                  <ListView fx:id="listViewField" prefHeight="200.0" prefWidth="455.0" />
++               </content>
+             </TitledPane>
+             <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
+                <effect>
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.gui.controllergrafico;\n\nimport javafx.fxml.FXML;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.gui.GUIContext;\nimport org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;\n\npublic class HomeRecruiterController {\n\n    private GUIContext context;\n\n    public void setContext(GUIContext context){\n        this.context = context ;\n    }\n\n    @FXML\n    private void handlePublishJobAnnouncementButton(){\n\n        if (context != null) {\n            Printer.print(\"Going to CreateJobAnnouncement...\");\n            context.setState(new CreateJobAnnouncementState(context));\n            context.showMenu();\n        } else {\n            Printer.print(\"Context is NOT initialized in HomeRecruiter!\");\n        }\n\n    }\n\n    // DA FINIRE\n    @FXML\n    private void handleContactAJobCandidate(){\n\n        if (context != null) {\n            Printer.print(\"Going to Contact a Job Candidate..\");\n        } else {\n            Printer.print(\"Context is NOT initialized in HomeRecruiter!\");\n        }\n\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java
+--- a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java	(revision 4ef8b14cc1583eeb28d5e74a2917adaa382d1d93)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java	(date 1739372487934)
+@@ -1,13 +1,29 @@
+ package org.example.togetjob.view.gui.controllergrafico;
+ 
+ import javafx.fxml.FXML;
++import javafx.scene.control.ListView;
++import javafx.scene.control.TitledPane;
++import org.example.togetjob.bean.JobAnnouncementBean;
+ import org.example.togetjob.printer.Printer;
++import org.example.togetjob.view.boundary.LoginBoundary;
+ import org.example.togetjob.view.gui.GUIContext;
+ import org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;
++import org.example.togetjob.view.gui.concretestate.HomeState;
++import org.example.togetjob.view.gui.concretestate.RecruiterDisplayFiltersState;
++
++import java.util.List;
+ 
+ public class HomeRecruiterController {
+ 
++    @FXML
++    private TitledPane titledPaneField;
++    @FXML
++    private ListView<JobAnnouncementBean> listViewField;
++
++
++
+     private GUIContext context;
++    private final LoginBoundary loginBoundary = new LoginBoundary();
+ 
+     public void setContext(GUIContext context){
+         this.context = context ;
+@@ -26,12 +42,24 @@
+ 
+     }
+ 
+-    // DA FINIRE
++    @FXML
++    private void handleLogout() {
++        if (context != null) {
++            Printer.print("Context is initialized!");
++            loginBoundary.logout();
++            context.setState(new HomeState(context));
++            context.showMenu();
++        } else {
++            Printer.print("Context is not initialized!");
++        }
++    }
++
+     @FXML
+     private void handleContactAJobCandidate(){
+-
+         if (context != null) {
+             Printer.print("Going to Contact a Job Candidate..");
++            context.setState(new RecruiterDisplayFiltersState(context));
++            context.showMenu();
+         } else {
+             Printer.print("Context is NOT initialized in HomeRecruiter!");
+         }
+Index: src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml b/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml
+new file mode 100644
+--- /dev/null	(date 1739374362939)
++++ b/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml	(date 1739374362939)
+@@ -0,0 +1,131 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<?import javafx.geometry.Rectangle2D?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.control.Label?>
++<?import javafx.scene.control.TextField?>
++<?import javafx.scene.effect.DropShadow?>
++<?import javafx.scene.effect.Glow?>
++<?import javafx.scene.image.Image?>
++<?import javafx.scene.image.ImageView?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.text.Font?>
++
++<AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.RecruiterDisplayFiltersController">
++   <children>
++      <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
++         <font>
++            <Font name="AppleGothic Regular" size="36.0" />
++         </font>
++      </Label>
++      <Label layoutX="13.0" layoutY="160.0" style="-fx-text-fill: #1D3557;" text="Certifications :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="230.0" style="-fx-text-fill: #1D3557;" text="Skills :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="48.0" style="-fx-text-fill: #1D3557;" text="Enter your search filters :" textFill="#1d3557">
++         <font>
++            <Font name="AppleGothic Regular" size="16.0" />
++         </font>
++      </Label>
++      <Label layoutX="13.0" layoutY="90.0" style="-fx-text-fill: #1D3557;" text="Degrees :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="125.0" style="-fx-text-fill: #1D3557;" text="Courses attended :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="265.0" style="-fx-text-fill: #1D3557;" text="Availability :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="195.0" style="-fx-text-fill: #1D3557;" text="Work experiences :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <TextField fx:id="degreesField" layoutX="83.0" layoutY="90.0" prefHeight="26.0" prefWidth="374.0" promptText="Enter degrees (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="coursesAttendedField" layoutX="144.0" layoutY="125.0" prefHeight="26.0" prefWidth="313.0" promptText="Enter courses attended (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="certificationsField" layoutX="112.0" layoutY="160.0" prefHeight="26.0" prefWidth="343.0" promptText="Enter certifications (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="workField" layoutX="145.0" layoutY="195.0" prefHeight="26.0" prefWidth="310.0" promptText="Enter work experiences (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="skillsField" layoutX="61.0" layoutY="230.0" prefHeight="26.0" prefWidth="393.0" promptText="Enter skills (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="availabilityField" layoutX="96.0" layoutY="265.0" prefHeight="26.0" prefWidth="358.0" promptText="Enter availability (or leave blank to skip)" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++      </Button>
++      <ImageView fitHeight="85.0" fitWidth="111.0" layoutX="170.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
++         <image>
++            <Image url="@../logo-removebg-preview.png" />
++         </image>
++         <viewport>
++            <Rectangle2D minY="-10.0" />
++         </viewport>
++      </ImageView>
++      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
++         <image>
++            <Image url="@../back-158491_1920.png" />
++         </image>
++         <effect>
++            <DropShadow />
++         </effect>
++      </ImageView>
++      <Button layoutX="180.0" layoutY="329.0" mnemonicParsing="false" onAction="#handleProceedButton" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="Proceed" textFill="#00aaff">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++      </Button>
++   </children>
++</AnchorPane>

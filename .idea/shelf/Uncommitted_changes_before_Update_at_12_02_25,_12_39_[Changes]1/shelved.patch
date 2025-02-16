@@ -1,0 +1,1373 @@
+Index: src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.geometry.Insets?>\n<?import javafx.geometry.Rectangle2D?>\n<?import javafx.scene.Cursor?>\n<?import javafx.scene.control.Button?>\n<?import javafx.scene.image.Image?>\n<?import javafx.scene.image.ImageView?>\n<?import javafx.scene.layout.AnchorPane?>\n<?import javafx.scene.layout.VBox?>\n<?import javafx.scene.text.Font?>\n\n<VBox alignment=\"CENTER\" prefHeight=\"427.0\" prefWidth=\"492.0\" spacing=\"20.0\" xmlns=\"http://javafx.com/javafx/23.0.1\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"org.example.togetjob.view.gui.controllergrafico.HomeController\">\n   <padding>\n      <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\" />\n   </padding>\n   <cursor>\n      <Cursor fx:constant=\"SE_RESIZE\" />\n   </cursor>\n   <children>\n      <AnchorPane prefHeight=\"406.0\" prefWidth=\"474.0\" style=\"-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;\">\n         <children>\n            <ImageView fitHeight=\"113.0\" fitWidth=\"161.0\" layoutX=\"145.0\" layoutY=\"-15.0\" pickOnBounds=\"true\" preserveRatio=\"true\" y=\"-7.0\">\n               <image>\n                  <Image url=\"@../logo-removebg-preview.png\" />\n               </image>\n               <viewport>\n                  <Rectangle2D minY=\"-10.0\" />\n               </viewport>\n            </ImageView>\n          <AnchorPane layoutX=\"3.0\" layoutY=\"72.0\" minHeight=\"0.0\" minWidth=\"0.0\" prefHeight=\"181.0\" prefWidth=\"446.0\">\n               <children>\n                  <VBox layoutX=\"-2.0\" layoutY=\"10.0\" prefHeight=\"181.0\" prefWidth=\"446.0\" AnchorPane.bottomAnchor=\"-6.0\" AnchorPane.leftAnchor=\"-2.0\" AnchorPane.rightAnchor=\"2.0\" AnchorPane.topAnchor=\"6.0\">\n                     <children>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"475.0\" style=\"-fx-background-color: trasparent;\" text=\" View your profile\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"475.0\" style=\"-fx-background-color: trasparent;\" text=\"Publish a Job Announcement\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"478.0\" style=\"-fx-background-color: trasparent;\" text=\"Contact a Job Candidate\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"478.0\" style=\"-fx-background-color: trasparent;\" text=\"View reviews\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button contentDisplay=\"CENTER\" mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"458.0\" style=\"-fx-background-color: trasparent;\" text=\"Invite Another Recruiter to collaborate\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"467.0\" style=\"-fx-background-color: trasparent;\" text=\"Logout\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"33.0\" prefWidth=\"467.0\" style=\"-fx-background-color: trasparent;\" text=\"Exit\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                     </children>\n                  </VBox>\n               </children></AnchorPane>\n         </children>\n      </AnchorPane>\n   </children>\n</VBox>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml b/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml
+--- a/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml	(date 1739359917137)
+@@ -1,16 +1,21 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+ <?import javafx.geometry.Insets?>
+-<?import javafx.geometry.Rectangle2D?>
+ <?import javafx.scene.Cursor?>
+ <?import javafx.scene.control.Button?>
++<?import javafx.scene.control.Label?>
++<?import javafx.scene.control.Separator?>
++<?import javafx.scene.control.TitledPane?>
++<?import javafx.scene.effect.DropShadow?>
++<?import javafx.scene.effect.Glow?>
+ <?import javafx.scene.image.Image?>
+ <?import javafx.scene.image.ImageView?>
+ <?import javafx.scene.layout.AnchorPane?>
+ <?import javafx.scene.layout.VBox?>
++<?import javafx.scene.paint.Color?>
+ <?import javafx.scene.text.Font?>
+ 
+-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeController">
++<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController">
+    <padding>
+       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+@@ -20,56 +25,66 @@
+    <children>
+       <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+          <children>
+-            <ImageView fitHeight="113.0" fitWidth="161.0" layoutX="145.0" layoutY="-15.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
++            <ImageView fitHeight="113.0" fitWidth="126.0" layoutX="16.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="30.0">
+                <image>
+-                  <Image url="@../logo-removebg-preview.png" />
++                  <Image url="@../imagerecruiterprogile.jpg" />
+                </image>
+-               <viewport>
+-                  <Rectangle2D minY="-10.0" />
+-               </viewport>
++               <effect>
++                  <DropShadow blurType="ONE_PASS_BOX" height="20.0" radius="9.5" width="20.0">
++                     <color>
++                        <Color red="0.16078431904315948" green="0.501960813999176" blue="0.7254902124404907" />
++                     </color>
++                  </DropShadow>
++               </effect>
+             </ImageView>
+-          <AnchorPane layoutX="3.0" layoutY="72.0" minHeight="0.0" minWidth="0.0" prefHeight="181.0" prefWidth="446.0">
+-               <children>
+-                  <VBox layoutX="-2.0" layoutY="10.0" prefHeight="181.0" prefWidth="446.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="6.0">
+-                     <children>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="475.0" style="-fx-background-color: trasparent;" text=" View your profile" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="475.0" style="-fx-background-color: trasparent;" text="Publish a Job Announcement" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="478.0" style="-fx-background-color: trasparent;" text="Contact a Job Candidate" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="478.0" style="-fx-background-color: trasparent;" text="View reviews" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="458.0" style="-fx-background-color: trasparent;" text="Invite Another Recruiter to collaborate" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="467.0" style="-fx-background-color: trasparent;" text="Logout" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                        <Button mnemonicParsing="false" prefHeight="33.0" prefWidth="467.0" style="-fx-background-color: trasparent;" text="Exit" textFill="#00aaff">
+-                           <font>
+-                              <Font name="AppleGothic Regular" size="18.0" />
+-                           </font>
+-                        </Button>
+-                     </children>
+-                  </VBox>
+-               </children></AnchorPane>
++            <Button layoutX="16.0" layoutY="192.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="View Profile" AnchorPane.topAnchor="170.0">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Button>
++            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="230.0">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Button>
++            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Button>
++            <TitledPane animated="false" layoutX="170.0" layoutY="28.0" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
++               <content>
++                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="264.0" />
++               </content>
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </TitledPane>
++            <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
++               <effect>
++                  <Glow />
++               </effect>
++            </Separator>
++            <Button layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handlePublishJobAnnouncementButton" onMouseClicked="#handlePublishJobAnnouncementButton" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Button>
++            <Label layoutX="156.0" layoutY="187.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? ">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Label>
++            <Label layoutX="169.0" layoutY="289.0" style="-fx-text-fill: #2980b9;" text="Do you want to contact a job candidate? ">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Label>
++            <Button fx:id="ContactAJobCandidate" layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleContactAJobCandidate" onMouseClicked="#handleContactAJobCandidate" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate">
++               <font>
++                  <Font name="AppleGothic Regular" size="14.0" />
++               </font>
++            </Button>
+          </children>
+       </AnchorPane>
+    </children>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__11_40__Changes_1.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__11_40__Changes_1.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__11_40__Changes_1.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__11_40__Changes_1.xml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ /dev/null	(revision e8c6001598d402db09b8fe34875081645376e95f)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1" date="1738752047579" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 05/02/25, 11:40 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ /dev/null	(revision e8c6001598d402db09b8fe34875081645376e95f)
+@@ -1,361 +0,0 @@
+-Index: src/main/java/org/example/togetjob/model/entity/Student.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.entity;\n\nimport java.time.LocalDate;\nimport java.util.List;\n\npublic class Student extends User{\n\n    private LocalDate dateOfBirth;\n    private String phoneNumber;\n    private List<String> degrees;\n    private List<String> courseAttended;\n    private List<String> certifications;\n    private List<String> workExperiences;\n    private List<String> skills;\n    private String availability;\n    private List<JobApplication> jobApplications;\n\n    public Student(String username, String password, String name, String surname, String emailAddress, Role role) {\n        super(name, surname, username, emailAddress, password, role); // User\n    }\n\n    public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth, String phoneNumber, List<String> degrees, List<String> courseAttended, List<String> certifications, List<String> workExperiences, List<String> skills, String availability, List<JobApplication> jobApplications) {\n        super(name, surname, username, emailAddress, password, role);\n        this.dateOfBirth = dateOfBirth;\n        this.phoneNumber = phoneNumber;\n        this.degrees = degrees;\n        this.courseAttended = courseAttended;\n        this.certifications = certifications;\n        this.workExperiences = workExperiences;\n        this.skills = skills;\n        this.availability = availability;\n        this.jobApplications = jobApplications;\n    }\n\n\n    public LocalDate getDateOfBirth() {\n        return dateOfBirth;\n    }\n\n    public String getPhoneNumber() {\n        return phoneNumber;\n    }\n\n    public List<String> getDegrees() {\n        return degrees;\n    }\n\n    public List<String> getCourseAttended() {\n        return courseAttended;\n    }\n\n    public List<String> getCertifications() {\n        return certifications;\n    }\n\n    public List<String> getWorkExperiences() {\n        return workExperiences;\n    }\n\n    public List<String> getSkills() {\n        return skills;\n    }\n\n    public String getAvailability() {\n        return availability;\n    }\n\n    public List<JobApplication> getJobApplications() {\n        return jobApplications;\n    }\n\n    @Override\n    public String toString() {\n        return \"Student{\" +\n                \"username='\" + getUsername() + '\\'' +\n                \", email='\" + getEmailAddress() + '\\'' +\n                \", degrees=\" + degrees +\n                '}';\n    }\n\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/entity/Student.java b/src/main/java/org/example/togetjob/model/entity/Student.java
+---- a/src/main/java/org/example/togetjob/model/entity/Student.java	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ b/src/main/java/org/example/togetjob/model/entity/Student.java	(date 1738748671016)
+-@@ -15,6 +15,7 @@
+-     private String availability;
+-     private List<JobApplication> jobApplications;
+- 
+-+
+-     public Student(String username, String password, String name, String surname, String emailAddress, Role role) {
+-         super(name, surname, username, emailAddress, password, role); // User
+-     }
+-@@ -78,4 +79,39 @@
+-                 '}';
+-     }
+- 
+-+    public void setDateOfBirth(LocalDate dateOfBirth) {
+-+        this.dateOfBirth = dateOfBirth;
+-+    }
+-+
+-+    public void setPhoneNumber(String phoneNumber) {
+-+        this.phoneNumber = phoneNumber;
+-+    }
+-+
+-+    public void setDegrees(List<String> degrees) {
+-+        this.degrees = degrees;
+-+    }
+-+
+-+    public void setCourseAttended(List<String> courseAttended) {
+-+        this.courseAttended = courseAttended;
+-+    }
+-+
+-+    public void setCertifications(List<String> certifications) {
+-+        this.certifications = certifications;
+-+    }
+-+
+-+    public void setWorkExperiences(List<String> workExperiences) {
+-+        this.workExperiences = workExperiences;
+-+    }
+-+
+-+    public void setSkills(List<String> skills) {
+-+        this.skills = skills;
+-+    }
+-+
+-+    public void setAvailability(String availability) {
+-+        this.availability = availability;
+-+    }
+-+
+-+    public void setJobApplications(List<JobApplication> jobApplications) {
+-+        this.jobApplications = jobApplications;
+-+    }
+- }
+-Index: src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.dao.concreteobjects;\n\nimport com.fasterxml.jackson.core.type.TypeReference;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport org.example.togetjob.model.dao.abstractobjects.UserDao;\nimport org.example.togetjob.model.entity.User;\nimport org.example.togetjob.printer.Printer;\n\nimport java.io.File;\nimport java.io.IOException;\nimport java.net.URL;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Optional;\n\npublic class FileSystemUserDao implements UserDao {\n\n    private static final String PATH_NAME = \"files_json/User.json\";\n    private final ObjectMapper objectMapper = new ObjectMapper();\n\n    private File getUserFile() {\n        URL resource = getClass().getClassLoader().getResource(PATH_NAME);\n        if (resource == null) {\n            Printer.print(\"File non trovato: files_json/User.json\");\n            return null;\n        }\n        Printer.print(\"File trovato a: \" + resource.getPath());\n        return new File(resource.getFile());\n    }\n\n    @Override\n    public boolean saveUser(User user) {\n        try {\n            List<User> users = getAllUsers();\n\n            if (users.stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))) {\n                Printer.print(\"The user: \" + user.getUsername() + \" already exists.\");\n                return false;\n            }\n\n            users.add(user);\n            objectMapper.writeValue(getUserFile(), users);\n            Printer.print(\"The user: \" + user.getUsername() + \" has been successfully saved in the File System\");\n            return true;\n\n        } catch (IOException e) {\n            Printer.print(\"Error saving user: \" + user.getUsername());\n            e.printStackTrace();\n            return false;\n        }\n    }\n\n    @Override\n    public Optional<User> getUser(String username) {\n        return getAllUsers().stream().filter(user -> user.getUsername().equals(username)).findFirst();\n    }\n\n    @Override\n    public List<User> getAllUsers() {\n        try {\n            File file = getUserFile();\n            if (!file.exists()) {\n                return new ArrayList<>();\n            }\n\n            return objectMapper.readValue(file, new TypeReference<List<User>>() {});\n\n        } catch (IOException e) {\n            Printer.print(\"Error retrieving users from File System\");\n            e.printStackTrace();\n            return new ArrayList<>();\n        }\n    }\n\n    @Override\n    public boolean updateUser(User user) {\n        try {\n            List<User> users = getAllUsers();\n            boolean found = false;\n\n            for (int i = 0; i < users.size(); i++) {\n                if (users.get(i).getUsername().equals(user.getUsername())) {\n                    users.set(i, user); // Update user data\n                    found = true;\n                    break;\n                }\n            }\n\n            if (!found) {\n                Printer.print(\"The user: \" + user.getUsername() + \" doesn't exist.\");\n                return false;\n            }\n\n            objectMapper.writeValue(new File(PATH_NAME), users);\n            Printer.print(\"The user: \" + user.getUsername() + \" has been successfully updated.\");\n            return true;\n\n        } catch (IOException e) {\n            Printer.print(\"An unexpected error occurred: \" + e.getMessage());\n            return false;\n        }\n    }\n\n    @Override\n    public boolean deleteUser(String username) {\n        try {\n            List<User> users = getAllUsers();\n            boolean removed = users.removeIf(user -> user.getUsername().equals(username));\n            if (!removed) {\n                Printer.print(\"The user: \" + username + \" doesn't exist.\");\n                return false;\n            }\n\n            objectMapper.writeValue(getUserFile(), users);\n            Printer.print(\"The user: \" + username + \" has been successfully deleted.\");\n            return true;\n\n        } catch (IOException e) {\n            Printer.print(\"The user: \" + username + \" cannot be deleted\");\n            e.printStackTrace();\n            return false;\n        }\n    }\n\n    @Override\n    public boolean userExists(String username) {\n        return getAllUsers().stream().anyMatch(user -> user.getUsername().equals(username));\n    }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java b/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java
+---- a/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ b/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java	(date 1738752024821)
+-@@ -1,129 +1,144 @@
+- package org.example.togetjob.model.dao.concreteobjects;
+- 
+--import com.fasterxml.jackson.core.type.TypeReference;
+--import com.fasterxml.jackson.databind.ObjectMapper;
+- import org.example.togetjob.model.dao.abstractobjects.UserDao;
+--import org.example.togetjob.model.entity.User;
+-+import org.example.togetjob.model.entity.*;
+-+import org.example.togetjob.model.entity.Role;
+- import org.example.togetjob.printer.Printer;
+- 
+--import java.io.File;
+--import java.io.IOException;
+--import java.net.URL;
+--import java.util.ArrayList;
+--import java.util.List;
+--import java.util.Optional;
+-+import java.io.*;
+-+import java.util.*;
+- 
+- public class FileSystemUserDao implements UserDao {
+--
+--    private static final String PATH_NAME = "files_json/User.json";
+--    private final ObjectMapper objectMapper = new ObjectMapper();
+--
+--    private File getUserFile() {
+--        URL resource = getClass().getClassLoader().getResource(PATH_NAME);
+--        if (resource == null) {
+--            Printer.print("File non trovato: files_json/User.json");
+--            return null;
+--        }
+--        Printer.print("File trovato a: " + resource.getPath());
+--        return new File(resource.getFile());
+--    }
+-+    private static final String PATH_NAME = "src/main/resources/files_txt/User.txt";
+- 
+-     @Override
+-     public boolean saveUser(User user) {
+--        try {
+--            List<User> users = getAllUsers();
+--
+--            if (users.stream().anyMatch(u -> u.getUsername().equals(user.getUsername()))) {
+--                Printer.print("The user: " + user.getUsername() + " already exists.");
+--                return false;
+--            }
+-+        if (userExists(user.getUsername())) {
+-+            Printer.print("L'utente con username " + user.getUsername() + " esiste già.");
+-+            return false;
+-+        }
+- 
+--            users.add(user);
+--            objectMapper.writeValue(getUserFile(), users);
+--            Printer.print("The user: " + user.getUsername() + " has been successfully saved in the File System");
+-+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
+-+            writer.write(user.getName() + "," + user.getSurname() + "," + user.getUsername() + "," +
+-+                    user.getEmailAddress() + "," + user.getPassword() + "," + user.getRole());
+-+            writer.newLine();
+-             return true;
+--
+-         } catch (IOException e) {
+--            Printer.print("Error saving user: " + user.getUsername());
+--            e.printStackTrace();
+-+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+-             return false;
+-         }
+-     }
+- 
+-     @Override
+-     public Optional<User> getUser(String username) {
+--        return getAllUsers().stream().filter(user -> user.getUsername().equals(username)).findFirst();
+-+        return getAllUsers().stream()
+-+                .filter(user -> user.getUsername().equals(username))
+-+                .findFirst();
+-     }
+- 
+-     @Override
+-     public List<User> getAllUsers() {
+--        try {
+--            File file = getUserFile();
+--            if (!file.exists()) {
+--                return new ArrayList<>();
+-+        List<User> users = new ArrayList<>();
+-+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-+            String line;
+-+            while ((line = reader.readLine()) != null) {
+-+                // Dividi la riga in base alla virgola
+-+                String[] data = line.split(",");
+-+                // Verifica che la riga contenga i dati corretti
+-+                if (data.length >= 6) {
+-+                    Role role = Role.valueOf(data[5].trim()); // Rimuovi gli spazi extra
+-+                    User user = (role == Role.STUDENT)
+-+                            ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
+-+                            : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
+-+                    users.add(user);
+-+                }
+-             }
+--
+--            return objectMapper.readValue(file, new TypeReference<List<User>>() {});
+--
+-         } catch (IOException e) {
+--            Printer.print("Error retrieving users from File System");
+--            e.printStackTrace();
+--            return new ArrayList<>();
+-+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+-+        } catch (IllegalArgumentException e) {
+-+            Printer.print("Errore nel parsing del ruolo: " + e.getMessage());
+-         }
+-+        return users;
+-     }
+- 
+-     @Override
+-     public boolean updateUser(User user) {
+--        try {
+--            List<User> users = getAllUsers();
+--            boolean found = false;
+- 
+--            for (int i = 0; i < users.size(); i++) {
+--                if (users.get(i).getUsername().equals(user.getUsername())) {
+--                    users.set(i, user); // Update user data
+--                    found = true;
+--                    break;
+-+        List<String> lines = new ArrayList<>();
+-+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-+            String line;
+-+            while ((line = reader.readLine()) != null) {
+-+                String[] data = line.split(",");
+-+                if (data.length >= 6 && data[2].trim().equals(user.getUsername())) {
+-+                    // Trova la riga dell'utente da aggiornare e sostituiscila con i nuovi dati
+-+                    line = user.getName() + "," + user.getSurname() + "," + user.getUsername() + "," +
+-+                            user.getEmailAddress() + "," + user.getPassword() + "," + user.getRole();
+-                 }
+-+                lines.add(line); // Aggiungi la riga al buffer
+-             }
+--
+--            if (!found) {
+--                Printer.print("The user: " + user.getUsername() + " doesn't exist.");
+--                return false;
+--            }
+-+        } catch (IOException e) {
+-+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+-+            return false;
+-+        }
+- 
+--            objectMapper.writeValue(new File(PATH_NAME), users);
+--            Printer.print("The user: " + user.getUsername() + " has been successfully updated.");
+-+        // Riscrivi il file con i dati aggiornati
+-+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+-+            for (String line : lines) {
+-+                writer.write(line);
+-+                writer.newLine(); // Scrivi a capo
+-+            }
+-             return true;
+--
+-         } catch (IOException e) {
+--            Printer.print("An unexpected error occurred: " + e.getMessage());
+-+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+-             return false;
+-         }
+-     }
+- 
+-     @Override
+-     public boolean deleteUser(String username) {
+--        try {
+--            List<User> users = getAllUsers();
+--            boolean removed = users.removeIf(user -> user.getUsername().equals(username));
+--            if (!removed) {
+--                Printer.print("The user: " + username + " doesn't exist.");
+--                return false;
+--            }
+-+
+-+        List<String> lines = new ArrayList<>();
+-+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-+            String line;
+-+            while ((line = reader.readLine()) != null) {
+-+                String[] data = line.split(",");
+-+                if (data.length >= 6 && !data[2].trim().equals(username)) {
+-+                    // Aggiungi solo le righe che non corrispondono all'utente da eliminare
+-+                    lines.add(line);
+-+                }
+-+            }
+-+        } catch (IOException e) {
+-+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+-+            return false;
+-+        }
+- 
+--            objectMapper.writeValue(getUserFile(), users);
+--            Printer.print("The user: " + username + " has been successfully deleted.");
+-+        // Riscrivi il file senza l'utente eliminato
+-+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+-+            for (String line : lines) {
+-+                writer.write(line);
+-+                writer.newLine(); // Scrivi a capo
+-+            }
+-             return true;
+--
+-         } catch (IOException e) {
+--            Printer.print("The user: " + username + " cannot be deleted");
+--            e.printStackTrace();
+-+            Printer.print("Errore durante la scrittura del file: " + e.getMessage());
+-             return false;
+-         }
+-     }
+- 
+-     @Override
+-     public boolean userExists(String username) {
+--        return getAllUsers().stream().anyMatch(user -> user.getUsername().equals(username));
+--    }
+--}
+-+        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-+            String line;
+-+            while ((line = reader.readLine()) != null) {
+-+                String[] data = line.split(",");
+-+                if (data.length >= 5 && data[2].trim().equals(username)) {  // username è al terzo posto
+-+                    return true;  // Utente trovato
+-+                }
+-+            }
+-+        } catch (IOException e) {
+-+            Printer.print("Errore durante la lettura del file: " + e.getMessage());
+-+        }
+-+        return false;  // Utente non trovato
+-+    }
+-+
+-+}
+-\ No newline at end of file
+-Index: src/main/resources/files_json/JobAnnouncement.json
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/resources/files_json/JobAnnouncement.json b/src/main/resources/files_txt/User.txt
+-rename from src/main/resources/files_json/JobAnnouncement.json
+-rename to src/main/resources/files_txt/User.txt
+---- a/src/main/resources/files_json/JobAnnouncement.json	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ b/src/main/resources/files_txt/User.txt	(date 1738750102148)
+-@@ -1,0 +1,6 @@
+-+sss,sss,anme,aaa,eeee,STUDENT
+-+mario,mario@gmail.com,mario22,password,rossi,RECRUITER
+-+user222,surname,name,email@gmail.com,pssw,STUDENT
+-+name,aaa,mar22,surname,email@gmail.com,STUDENT
+-+username,email,name,password,surname,STUDENT
+-+name,surname,username,email,password,STUDENT
+-Index: src/main/java/org/example/togetjob/model/entity/User.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package org.example.togetjob.model.entity;\n\nimport com.fasterxml.jackson.annotation.JsonSubTypes;\nimport com.fasterxml.jackson.annotation.JsonTypeInfo;\n\n@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"role\")\n@JsonSubTypes({\n        @JsonSubTypes.Type(value = Student.class, name = \"STUDENT\"),\n        @JsonSubTypes.Type(value = Recruiter.class, name = \"RECRUITER\")\n})\n\npublic abstract class User {\n\n    private final String name;\n    private final String surname;\n    private final String username;\n    private final String emailAddress;\n    private final String password;\n    private final Role role;\n\n    protected User(String name, String surname, String username, String emailAddress, String password, Role role) {\n        this.name = name;\n        this.surname = surname;\n        this.username = username;\n        this.emailAddress = emailAddress;\n        this.password = password;\n        this.role = role;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getUsername() {\n        return username;\n    }\n\n    public String getEmailAddress() {\n        return emailAddress;\n    }\n\n    public String getPassword() {\n        return password;\n    }\n\n    public Role getRole() {\n        return role;\n    }\n\n    public String getSurname() { return surname; }\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/org/example/togetjob/model/entity/User.java b/src/main/java/org/example/togetjob/model/entity/User.java
+---- a/src/main/java/org/example/togetjob/model/entity/User.java	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ b/src/main/java/org/example/togetjob/model/entity/User.java	(date 1738745416970)
+-@@ -1,14 +1,5 @@
+- package org.example.togetjob.model.entity;
+- 
+--import com.fasterxml.jackson.annotation.JsonSubTypes;
+--import com.fasterxml.jackson.annotation.JsonTypeInfo;
+--
+--@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "role")
+--@JsonSubTypes({
+--        @JsonSubTypes.Type(value = Student.class, name = "STUDENT"),
+--        @JsonSubTypes.Type(value = Recruiter.class, name = "RECRUITER")
+--})
+--
+- public abstract class User {
+- 
+-     private final String name;
+-Index: src/main/resources/files_json/User.json
+-===================================================================
+-diff --git a/src/main/resources/files_json/User.json b/src/main/resources/files_json/User.json
+-deleted file mode 100644
+---- a/src/main/resources/files_json/User.json	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ /dev/null	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-@@ -1,1 +0,0 @@
+--[]
+-\ No newline at end of file
+-Index: src/main/resources/files_json/Recruiter.json
+-===================================================================
+-diff --git a/src/main/resources/files_json/Recruiter.json b/src/main/resources/files_json/Recruiter.json
+-deleted file mode 100644
+---- a/src/main/resources/files_json/Recruiter.json	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ /dev/null	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-@@ -1,1 +0,0 @@
+--[]
+-\ No newline at end of file
+-Index: src/main/resources/files_json/Student.json
+-===================================================================
+-diff --git a/src/main/resources/files_json/Student.json b/src/main/resources/files_json/Student.json
+-deleted file mode 100644
+---- a/src/main/resources/files_json/Student.json	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-+++ /dev/null	(revision 5577470cdb18d2778ecee0571e4d9067bf7e7df4)
+-@@ -1,1 +0,0 @@
+--[]
+-\ No newline at end of file
+Index: src/main/resources/org/example/togetjob/homerecruiter2.fxml
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/homerecruiter2.fxml b/src/main/resources/org/example/togetjob/homerecruiter2.fxml
+deleted file mode 100644
+--- a/src/main/resources/org/example/togetjob/homerecruiter2.fxml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ /dev/null	(revision e8c6001598d402db09b8fe34875081645376e95f)
+@@ -1,91 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<?import javafx.geometry.Insets?>
+-<?import javafx.scene.Cursor?>
+-<?import javafx.scene.control.Button?>
+-<?import javafx.scene.control.Label?>
+-<?import javafx.scene.control.Separator?>
+-<?import javafx.scene.control.TitledPane?>
+-<?import javafx.scene.effect.DropShadow?>
+-<?import javafx.scene.effect.Glow?>
+-<?import javafx.scene.image.Image?>
+-<?import javafx.scene.image.ImageView?>
+-<?import javafx.scene.layout.AnchorPane?>
+-<?import javafx.scene.layout.VBox?>
+-<?import javafx.scene.paint.Color?>
+-<?import javafx.scene.text.Font?>
+-
+-<VBox alignment="CENTER" prefHeight="427.0" prefWidth="492.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.HelloController">
+-   <padding>
+-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+-   </padding>
+-   <cursor>
+-      <Cursor fx:constant="SE_RESIZE" />
+-   </cursor>
+-   <children>
+-      <AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+-         <children>
+-            <ImageView fitHeight="113.0" fitWidth="126.0" layoutX="16.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="240.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="323.0" AnchorPane.topAnchor="30.0">
+-               <image>
+-                  <Image url="@imagerecruiterprogile.jpg" />
+-               </image>
+-               <effect>
+-                  <DropShadow blurType="ONE_PASS_BOX" height="20.0" radius="9.5" width="20.0">
+-                     <color>
+-                        <Color red="0.16078431904315948" green="0.501960813999176" blue="0.7254902124404907" />
+-                     </color>
+-                  </DropShadow>
+-               </effect>
+-            </ImageView>
+-            <Button layoutX="16.0" layoutY="192.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="View Profile" AnchorPane.topAnchor="170.0">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Button>
+-            <Button layoutX="16.0" layoutY="250.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Notifications" AnchorPane.topAnchor="230.0">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Button>
+-            <Button layoutX="16.0" layoutY="310.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="113.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Logout" AnchorPane.topAnchor="290.0">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Button>
+-            <TitledPane animated="false" layoutX="170.0" layoutY="28.0" onMouseClicked="#handlePendingApplications" onMouseDragEntered="#handlePendingApplications" prefHeight="140.0" prefWidth="264.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements">
+-               <content>
+-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="264.0" />
+-               </content>
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </TitledPane>
+-            <Separator layoutX="147.0" opacity="0.5" orientation="VERTICAL" prefHeight="385.0" prefWidth="1.0" style="-fx-background-color: #2980b9;">
+-               <effect>
+-                  <Glow />
+-               </effect>
+-            </Separator>
+-            <Button fx:id="searchForAJobButton" layoutX="173.0" layoutY="228.0" mnemonicParsing="false" onAction="#handleSearchForJob" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Publish job announcement...">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Button>
+-            <Label layoutX="156.0" layoutY="187.0" style="-fx-text-fill: #2980b9;" text="Do you want to publish a job announcement? ">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Label>
+-            <Label layoutX="169.0" layoutY="289.0" style="-fx-text-fill: #2980b9;" text="Do you want to contact a job candidate? ">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Label>
+-            <Button fx:id="searchForAJobButton1" layoutX="176.0" layoutY="330.0" mnemonicParsing="false" onAction="#handleSearchForJob" prefHeight="41.0" prefWidth="246.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 5; -fx-background-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand;" text="Contact a job candidate...">
+-               <font>
+-                  <Font name="AppleGothic Regular" size="14.0" />
+-               </font>
+-            </Button>
+-         </children>
+-      </AnchorPane>
+-   </children>
+-</VBox>
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java
+new file mode 100644
+--- /dev/null	(date 1739359878006)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java	(date 1739359878006)
+@@ -0,0 +1,44 @@
++package org.example.togetjob.view.gui.controllergrafico;
++
++import javafx.fxml.FXML;
++import org.example.togetjob.printer.Printer;
++import org.example.togetjob.view.gui.GUIContext;
++import org.example.togetjob.view.gui.concretestate.CreateJobAnnouncementState;
++
++public class HomeRecruiterController {
++
++    private GUIContext context;
++
++    public HomeRecruiterController(GUIContext context){
++
++        this.context = context ;
++
++    }
++
++    @FXML
++    private void handlePublishJobAnnouncementButton(){
++
++        if (context != null) {
++            Printer.print("Going to CreateJobAnnouncement...");
++            context.setState(new CreateJobAnnouncementState(context));
++            context.showMenu();
++        } else {
++            Printer.print("Context is NOT initialized in HomeRecruiter!");
++        }
++
++    }
++
++
++    @FXML
++    private void handleContactAJobCandidate(){
++
++        if (context != null) {
++            Printer.print("Going to Contact a Job Candidate..");
++        } else {
++            Printer.print("Context is NOT initialized in HomeRecruiter!");
++        }
++
++    }
++
++
++}
+Index: src/main/resources/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml b/src/main/resources/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml
+new file mode 100644
+--- /dev/null	(date 1739358838547)
++++ b/src/main/resources/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml	(date 1739358838547)
+@@ -0,0 +1,152 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<?import javafx.geometry.Rectangle2D?>
++<?import javafx.scene.control.Button?>
++<?import javafx.scene.control.Label?>
++<?import javafx.scene.control.TextField?>
++<?import javafx.scene.effect.Glow?>
++<?import javafx.scene.effect.InnerShadow?>
++<?import javafx.scene.image.Image?>
++<?import javafx.scene.image.ImageView?>
++<?import javafx.scene.layout.AnchorPane?>
++<?import javafx.scene.text.Font?>
++
++<AnchorPane mouseTransparent="true" prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController">
++   <children>
++      <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
++         <font>
++            <Font name="AppleGothic Regular" size="36.0" />
++         </font>
++      </Label>
++      <Label layoutX="13.0" layoutY="130.0" style="-fx-text-fill: #1D3557;" text="Role :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="200.0" style="-fx-text-fill: #1D3557;" text="Working hours :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="60.0" style="-fx-text-fill: #1D3557;" text="Job title :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="95.0" style="-fx-text-fill: #1D3557;" text="Job type :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="235.0" style="-fx-text-fill: #1D3557;" text="Company name :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="270.0" style="-fx-text-fill: #1D3557;" text="Salary :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <Label layoutX="13.0" layoutY="165.0" style="-fx-text-fill: #1D3557;" text="Location :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <TextField fx:id="jobTitleField" layoutX="79.0" layoutY="60.0" prefHeight="26.0" prefWidth="384.0" promptText="Enter job title " style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="jobTypeField" layoutX="86.0" layoutY="95.0" prefHeight="26.0" prefWidth="377.0" promptText="Enter job name " style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="roleField" layoutX="57.0" layoutY="130.0" prefHeight="26.0" prefWidth="406.0" promptText="Enter role " style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="locationField" layoutX="84.0" layoutY="165.0" prefHeight="26.0" prefWidth="379.0" promptText="Enter location " style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="workingHoursField" layoutX="122.0" layoutY="200.0" prefHeight="26.0" prefWidth="341.0" promptText="Enter working hours" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="companyNameField" layoutX="131.0" layoutY="235.0" prefHeight="26.0" prefWidth="332.0" promptText="Enter company name " style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <TextField fx:id="salaryField" layoutX="70.0" layoutY="270.0" prefHeight="26.0" prefWidth="393.0" promptText="Enter salary" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleGoBack" onMouseClicked="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++      </Button>
++      <ImageView fitHeight="85.0" fitWidth="111.0" layoutX="170.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
++         <image>
++            <Image url="@../logo-removebg-preview.png" />
++         </image>
++         <viewport>
++            <Rectangle2D minY="-10.0" />
++         </viewport>
++      </ImageView>
++      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleGoBack" pickOnBounds="true" preserveRatio="true">
++         <image>
++            <Image url="@../back-158491_1920.png" />
++         </image>
++         <effect>
++            <InnerShadow />
++         </effect>
++      </ImageView>
++      <Label layoutX="13.0" layoutY="305.0" style="-fx-text-fill: #1D3557;" text="Description :">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++         <effect>
++            <Glow />
++         </effect>
++      </Label>
++      <TextField fx:id="descriptionField" alignment="TOP_LEFT" layoutX="99.0" layoutY="305.0" prefHeight="46.0" prefWidth="364.0" promptText="Enter description" style="-fx-border-radius: 5;">
++         <font>
++            <Font name="AppleGothic Regular" size="12.0" />
++         </font>
++      </TextField>
++      <Button layoutX="184.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleProceedButton" onMouseClicked="#handleProceedButton" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="Proceed" textFill="#00aaff">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++      </Button>
++   </children>
++</AnchorPane>
+Index: src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.geometry.Insets?>\n<?import javafx.geometry.Rectangle2D?>\n<?import javafx.scene.Cursor?>\n<?import javafx.scene.control.Button?>\n<?import javafx.scene.image.Image?>\n<?import javafx.scene.image.ImageView?>\n<?import javafx.scene.layout.AnchorPane?>\n<?import javafx.scene.layout.VBox?>\n<?import javafx.scene.text.Font?>\n<?import javafx.scene.text.Text?>\n\n<VBox alignment=\"CENTER\" prefHeight=\"427.0\" prefWidth=\"492.0\" spacing=\"20.0\" xmlns=\"http://javafx.com/javafx/23.0.1\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"org.example.togetjob.view.gui.controllergrafico.HomeController\">\n   <padding>\n      <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\" />\n   </padding>\n   <cursor>\n      <Cursor fx:constant=\"SE_RESIZE\" />\n   </cursor>\n   <children>\n      <AnchorPane prefHeight=\"406.0\" prefWidth=\"474.0\" style=\"-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;\">\n         <children>\n            <ImageView fitHeight=\"113.0\" fitWidth=\"161.0\" layoutX=\"145.0\" layoutY=\"-15.0\" pickOnBounds=\"true\" preserveRatio=\"true\" y=\"-7.0\">\n               <image>\n                  <Image url=\"@logo-removebg-preview.png\" />\n               </image>\n               <viewport>\n                  <Rectangle2D minY=\"-10.0\" />\n               </viewport>\n            </ImageView>\n            <AnchorPane layoutX=\"3.0\" layoutY=\"53.0\" minHeight=\"0.0\" minWidth=\"0.0\" prefHeight=\"200.0\" prefWidth=\"446.0\">\n               <children>\n                  <VBox layoutX=\"-2.0\" layoutY=\"10.0\" prefHeight=\"174.0\" prefWidth=\"446.0\" AnchorPane.bottomAnchor=\"10.0\" AnchorPane.leftAnchor=\"-2.0\" AnchorPane.rightAnchor=\"2.0\" AnchorPane.topAnchor=\"50.0\">\n                     <children>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"38.0\" prefWidth=\"461.0\" style=\"-fx-background-color: trasparent;\" text=\" View all your Job Announcements\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"38.0\" prefWidth=\"463.0\" style=\"-fx-background-color: trasparent;\" text=\"Create a new Job Announcement\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                        <Button mnemonicParsing=\"false\" prefHeight=\"38.0\" prefWidth=\"486.0\" style=\"-fx-background-color: trasparent;\" text=\"Exit\" textFill=\"#00aaff\">\n                           <font>\n                              <Font name=\"AppleGothic Regular\" size=\"18.0\" />\n                           </font>\n                        </Button>\n                     </children>\n                  </VBox>\n                  <Text layoutX=\"122.0\" layoutY=\"30.0\" strokeType=\"OUTSIDE\" strokeWidth=\"0.0\" text=\"You can do the following :\" wrappingWidth=\"198.21630859375\">\n                     <font>\n                        <Font name=\"AppleGothic Regular\" size=\"15.0\" />\n                     </font>\n                  </Text>\n               </children>\n            </AnchorPane>\n            <Button layoutX=\"-8.0\" layoutY=\"5.0\" mnemonicParsing=\"false\" prefHeight=\"38.0\" prefWidth=\"57.0\" style=\"-fx-background-color: trasparent;\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <ImageView fitHeight=\"30.0\" fitWidth=\"30.0\" layoutX=\"10.0\" layoutY=\"10.0\" pickOnBounds=\"true\" preserveRatio=\"true\">\n               <image>\n                  <Image url=\"@back-158491_1920.png\" />\n               </image>\n            </ImageView>\n         </children>\n      </AnchorPane>\n   </children>\n</VBox>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml b/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml
+--- a/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml	(date 1739352570714)
+@@ -4,6 +4,7 @@
+ <?import javafx.geometry.Rectangle2D?>
+ <?import javafx.scene.Cursor?>
+ <?import javafx.scene.control.Button?>
++<?import javafx.scene.effect.InnerShadow?>
+ <?import javafx.scene.image.Image?>
+ <?import javafx.scene.image.ImageView?>
+ <?import javafx.scene.layout.AnchorPane?>
+@@ -66,6 +67,9 @@
+                <image>
+                   <Image url="@back-158491_1920.png" />
+                </image>
++               <effect>
++                  <InnerShadow />
++               </effect>
+             </ImageView>
+          </children>
+       </AnchorPane>
+Index: src/main/resources/org/example/togetjob/fxml/registeruser.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.geometry.Insets?>\n<?import javafx.geometry.Rectangle2D?>\n<?import javafx.scene.Cursor?>\n<?import javafx.scene.control.Button?>\n<?import javafx.scene.control.Label?>\n<?import javafx.scene.control.TextField?>\n<?import javafx.scene.effect.Glow?>\n<?import javafx.scene.effect.InnerShadow?>\n<?import javafx.scene.image.Image?>\n<?import javafx.scene.image.ImageView?>\n<?import javafx.scene.layout.AnchorPane?>\n<?import javafx.scene.layout.StackPane?>\n<?import javafx.scene.layout.VBox?>\n<?import javafx.scene.text.Font?>\n\n<VBox alignment=\"CENTER\" prefHeight=\"427.0\" prefWidth=\"492.0\" spacing=\"20.0\" xmlns=\"http://javafx.com/javafx/23.0.1\" xmlns:fx=\"http://javafx.com/fxml/1\" fx:controller=\"org.example.togetjob.view.gui.controllergrafico.RegisterController\">\n   <padding>\n      <Insets bottom=\"20.0\" left=\"20.0\" right=\"20.0\" top=\"20.0\" />\n   </padding>\n   <cursor>\n      <Cursor fx:constant=\"SE_RESIZE\" />\n   </cursor>\n   <children>\n      <AnchorPane prefHeight=\"406.0\" prefWidth=\"474.0\" style=\"-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;\">\n         <children>\n            <Label layoutX=\"91.0\" style=\"-fx-text-fill: #b3d9ff;\" textAlignment=\"JUSTIFY\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"36.0\" />\n               </font>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"160.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Password :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"230.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Surname :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"48.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Fill the following fields : \" textFill=\"#1d3557\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"16.0\" />\n               </font>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"90.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Username :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"125.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Password :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"265.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Email :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"300.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Role :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <Label layoutX=\"13.0\" layoutY=\"195.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Name :\" AnchorPane.leftAnchor=\"10.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n               <effect>\n                  <Glow />\n               </effect>\n            </Label>\n            <TextField fx:id=\"usernameField\" layoutX=\"96.0\" layoutY=\"90.0\" prefHeight=\"26.0\" prefWidth=\"348.0\" promptText=\"Enter username\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"passwordField\" layoutX=\"92.0\" layoutY=\"125.0\" prefHeight=\"26.0\" prefWidth=\"348.0\" promptText=\"Enter password\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"confirmPasswordField\" layoutX=\"92.0\" layoutY=\"160.0\" prefHeight=\"26.0\" prefWidth=\"348.0\" promptText=\"Confirm password\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"nameField\" layoutX=\"68.0\" layoutY=\"195.0\" prefHeight=\"26.0\" prefWidth=\"371.0\" promptText=\"Enter name\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"surnameField\" layoutX=\"87.0\" layoutY=\"230.0\" prefHeight=\"26.0\" prefWidth=\"348.0\" promptText=\"Enter surname\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"emailField\" layoutX=\"63.0\" layoutY=\"265.0\" prefHeight=\"26.0\" prefWidth=\"371.0\" promptText=\"Enter your email (example@domain.com)\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <TextField fx:id=\"roleField\" layoutX=\"56.0\" layoutY=\"300.0\" prefHeight=\"26.0\" prefWidth=\"379.0\" promptText=\"Enter role (student/recruiter)\" style=\"-fx-border-radius: 5;\" AnchorPane.rightAnchor=\"15.0\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n               </font>\n            </TextField>\n            <StackPane layoutX=\"-8.0\" layoutY=\"5.0\" onMouseClicked=\"#handleBackButton\">\n               <children>\n                  <Button mnemonicParsing=\"false\" onAction=\"#handleBackButton\" onMouseClicked=\"#handleBackButton\" prefHeight=\"41.0\" prefWidth=\"58.0\" style=\"-fx-background-color: trasparent;\">\n                     <font>\n                        <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n                     </font>\n                     <graphic>\n                        <ImageView accessibleRole=\"BUTTON\" fitHeight=\"30.0\" fitWidth=\"30.0\" mouseTransparent=\"true\" onMouseClicked=\"#handleBackButton\" pickOnBounds=\"true\" preserveRatio=\"true\">\n                           <image>\n                              <Image url=\"@../back-158491_1920.png\" />\n                           </image>\n                           <effect>\n                              <InnerShadow />\n                           </effect>\n                        </ImageView>\n                     </graphic>\n                  </Button>\n               </children>\n            </StackPane>\n            <Button fx:id=\"continueButton\" layoutX=\"174.0\" layoutY=\"336.0\" mnemonicParsing=\"false\" onAction=\"#handleContinueButton\" onMouseClicked=\"#handleContinueButton\" prefHeight=\"28.0\" prefWidth=\"98.0\" style=\"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;\" text=\"CONTINUE\" textFill=\"#00aaff\">\n               <font>\n                  <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n               </font>\n            </Button>\n            <StackPane accessibleRole=\"BUTTON\" layoutX=\"156.0\" layoutY=\"-10.0\" mouseTransparent=\"true\" onMouseClicked=\"#handleHomeButton\" prefHeight=\"52.0\" prefWidth=\"156.0\" AnchorPane.bottomAnchor=\"330.0\" AnchorPane.leftAnchor=\"150.0\" AnchorPane.rightAnchor=\"150.0\" AnchorPane.topAnchor=\"-15.0\">\n               <children>\n                  <ImageView fitHeight=\"71.0\" fitWidth=\"115.0\" mouseTransparent=\"true\" onMouseClicked=\"#handleHomeButton\" pickOnBounds=\"true\" preserveRatio=\"true\" y=\"-7.0\">\n                     <image>\n                        <Image url=\"@../logo-removebg-preview.png\" />\n                     </image>\n                     <viewport>\n                        <Rectangle2D minY=\"-10.0\" />\n                     </viewport>\n                  </ImageView>\n               </children>\n            </StackPane>\n         </children>\n      </AnchorPane>\n   </children>\n</VBox>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/fxml/registeruser.fxml b/src/main/resources/org/example/togetjob/fxml/registeruser.fxml
+--- a/src/main/resources/org/example/togetjob/fxml/registeruser.fxml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/resources/org/example/togetjob/fxml/registeruser.fxml	(date 1739353713002)
+@@ -145,7 +145,7 @@
+                   </Button>
+                </children>
+             </StackPane>
+-            <Button fx:id="continueButton" layoutX="174.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff">
++            <Button fx:id="continueButton" layoutX="174.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleContinueButton" onMouseClicked="#handleContinueButton" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="CONTINUE" textFill="#00aaff" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="179.0" AnchorPane.topAnchor="336.0">
+                <font>
+                   <Font name="AppleGothic Regular" size="14.0" />
+                </font>
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.gui.controllergrafico;\n\nimport javafx.fxml.FXML;\nimport javafx.scene.control.PasswordField;\nimport javafx.scene.control.TextField;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.session.SessionManager;\nimport org.example.togetjob.view.boundary.LoginBoundary;\nimport org.example.togetjob.view.gui.GUIContext;\nimport org.example.togetjob.view.gui.concretestate.HomeRecruiterState;\nimport org.example.togetjob.view.gui.concretestate.HomeStudentState;\nimport org.example.togetjob.view.gui.concretestate.RegisterUserState;\n\npublic class HomeController {\n\n    @FXML\n    private TextField usernameField;\n    @FXML\n    private PasswordField passwordField;\n\n    private final LoginBoundary loginBoundary;\n    private GUIContext context;\n\n\n    public HomeController(){\n        this.loginBoundary = new LoginBoundary();\n    }\n\n   public void initialize(GUIContext context){\n        this.context = context;\n   }\n\n    public void setContext(GUIContext context) {\n        this.context = context;\n    }\n\n    @FXML\n    private void handleLogin() {\n        String username = usernameField.getText();\n        String password = passwordField.getText();\n\n\n        if (username.isEmpty() || password.isEmpty()) {\n            Printer.print(\"Username or password cannot be empty!\");\n            return;\n        }\n\n        boolean loginSuccess = loginBoundary.login(username, password);\n\n        if (loginSuccess) {\n            Printer.print(\"Login successful!\");\n            navigateToHome();\n        } else {\n            Printer.print(\"Login failed!\");\n        }\n    }\n\n    @FXML\n    private void handleRegister() {\n        if (context != null) {\n            Printer.print(\"Context is initialized!\");\n            context.setState(new RegisterUserState(context));\n            context.showMenu();\n        } else {\n            Printer.print(\"Context is not initialized!\");\n        }\n    }\n\n    private void navigateToHome() {\n        String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();\n\n        if (\"STUDENT\".equalsIgnoreCase(userRole)) {\n            context.setState(new HomeStudentState(context));\n        } else if (\"RECRUITER\".equalsIgnoreCase(userRole)) {\n            context.setState(new HomeRecruiterState(context));\n        } else {\n            Printer.print(\"Unknown user role: \" + userRole);\n            return;\n        }\n\n        context.showMenu();\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java
+--- a/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java	(date 1739355431566)
+@@ -26,7 +26,7 @@
+         this.loginBoundary = new LoginBoundary();
+     }
+ 
+-   public void initialize(GUIContext context){
++    public void initialize(GUIContext context){
+         this.context = context;
+    }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"commit\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/homerecruiter2.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/homerecruiter2.fxml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/homestudent2.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/homestudent2.fxml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n        <option value=\"Exception\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.JavaFX&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CreateClassDialog.RecentsKey\">\n      <recent name=\"org.example.togetjob.model.dao.concretefactorydao\" />\n    </key>\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/Configurations\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/Configurations\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"org.example.togetjob\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883418179</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883418179</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883426699</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883426699</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Secondo Commit: bozza Abstract Factory\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1737883439672</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1737883439672</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086967897</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086967897</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Terzo Commit: Aggiunta Entity\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738086982811</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738086982811</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"Terzo Commit: Prova Database\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738142978544</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738142978544</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738534877519</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738534877519</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738591871116</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738591871116</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602095720</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602095720</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602224321</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602224321</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602353802</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602353802</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738847054568</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738847054568</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859623269</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859623269</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859799273</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859799273</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738925235487</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738925235487</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935926115</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935926115</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935935523</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935935523</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738943912969</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738943912969</updated>\n    </task>\n    <task id=\"LOCAL-00032\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945190532</created>\n      <option name=\"number\" value=\"00032\" />\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945190532</updated>\n    </task>\n    <task id=\"LOCAL-00033\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945926667</created>\n      <option name=\"number\" value=\"00033\" />\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945926667</updated>\n    </task>\n    <task id=\"LOCAL-00034\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739051085131</created>\n      <option name=\"number\" value=\"00034\" />\n      <option name=\"presentableId\" value=\"LOCAL-00034\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739051085131</updated>\n    </task>\n    <task id=\"LOCAL-00035\" summary=\"Interfacce\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739175835404</created>\n      <option name=\"number\" value=\"00035\" />\n      <option name=\"presentableId\" value=\"LOCAL-00035\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739175835404</updated>\n    </task>\n    <task id=\"LOCAL-00036\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739220286799</created>\n      <option name=\"number\" value=\"00036\" />\n      <option name=\"presentableId\" value=\"LOCAL-00036\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739220286800</updated>\n    </task>\n    <task id=\"LOCAL-00037\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221026328</created>\n      <option name=\"number\" value=\"00037\" />\n      <option name=\"presentableId\" value=\"LOCAL-00037\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221026328</updated>\n    </task>\n    <task id=\"LOCAL-00038\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221891152</created>\n      <option name=\"number\" value=\"00038\" />\n      <option name=\"presentableId\" value=\"LOCAL-00038\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221891152</updated>\n    </task>\n    <task id=\"LOCAL-00039\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739222169196</created>\n      <option name=\"number\" value=\"00039\" />\n      <option name=\"presentableId\" value=\"LOCAL-00039\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739222169196</updated>\n    </task>\n    <task id=\"LOCAL-00040\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223095546</created>\n      <option name=\"number\" value=\"00040\" />\n      <option name=\"presentableId\" value=\"LOCAL-00040\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223095546</updated>\n    </task>\n    <task id=\"LOCAL-00041\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223296491</created>\n      <option name=\"number\" value=\"00041\" />\n      <option name=\"presentableId\" value=\"LOCAL-00041\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223296491</updated>\n    </task>\n    <task id=\"LOCAL-00042\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223373958</created>\n      <option name=\"number\" value=\"00042\" />\n      <option name=\"presentableId\" value=\"LOCAL-00042\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223373958</updated>\n    </task>\n    <task id=\"LOCAL-00043\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224722991</created>\n      <option name=\"number\" value=\"00043\" />\n      <option name=\"presentableId\" value=\"LOCAL-00043\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224722991</updated>\n    </task>\n    <task id=\"LOCAL-00044\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224907675</created>\n      <option name=\"number\" value=\"00044\" />\n      <option name=\"presentableId\" value=\"LOCAL-00044\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224907675</updated>\n    </task>\n    <task id=\"LOCAL-00045\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739225182526</created>\n      <option name=\"number\" value=\"00045\" />\n      <option name=\"presentableId\" value=\"LOCAL-00045\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739225182526</updated>\n    </task>\n    <task id=\"LOCAL-00046\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739227822961</created>\n      <option name=\"number\" value=\"00046\" />\n      <option name=\"presentableId\" value=\"LOCAL-00046\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739227822961</updated>\n    </task>\n    <task id=\"LOCAL-00047\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739228938425</created>\n      <option name=\"number\" value=\"00047\" />\n      <option name=\"presentableId\" value=\"LOCAL-00047\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739228938425</updated>\n    </task>\n    <task id=\"LOCAL-00048\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739229738949</created>\n      <option name=\"number\" value=\"00048\" />\n      <option name=\"presentableId\" value=\"LOCAL-00048\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739229738949</updated>\n    </task>\n    <task id=\"LOCAL-00049\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739230414467</created>\n      <option name=\"number\" value=\"00049\" />\n      <option name=\"presentableId\" value=\"LOCAL-00049\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739230414467</updated>\n    </task>\n    <task id=\"LOCAL-00050\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286252185</created>\n      <option name=\"number\" value=\"00050\" />\n      <option name=\"presentableId\" value=\"LOCAL-00050\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286252186</updated>\n    </task>\n    <task id=\"LOCAL-00051\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286944297</created>\n      <option name=\"number\" value=\"00051\" />\n      <option name=\"presentableId\" value=\"LOCAL-00051\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286944297</updated>\n    </task>\n    <task id=\"LOCAL-00052\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739287156849</created>\n      <option name=\"number\" value=\"00052\" />\n      <option name=\"presentableId\" value=\"LOCAL-00052\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739287156850</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"53\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <MESSAGE value=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\" />\n    <MESSAGE value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n    <MESSAGE value=\"Send a Job Application ok\" />\n    <MESSAGE value=\"Implementazione DATABASE DAO\" />\n    <MESSAGE value=\"Fine DAO DB che va da testare\" />\n    <MESSAGE value=\"Interfacce\" />\n    <MESSAGE value=\"Duplicazione\" />\n    <MESSAGE value=\"commit\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"commit\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.sql.SQLException\" package=\"java.sql\" />\n          <option name=\"timeStamp\" value=\"31\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/.idea/workspace.xml	(date 1739360152579)
+@@ -5,9 +5,21 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="commit">
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/RecruiterCreateJobAnnouncement.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25,_11_40_[Changes]1/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05_02_25__11_40__Changes_1.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/homerecruiter2.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/homerecruiter2.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterPublishAJobAnnouncementCopia.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/homerecruiter.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/registeruser.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/registeruser.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/homerecruiter2.fxml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/homestudent2.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/homestudent2.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/ui.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ui.config.properties" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -20,8 +32,8 @@
+         <option value="Enum" />
+         <option value="FxmlFile" />
+         <option value="Interface" />
+-        <option value="Class" />
+         <option value="Exception" />
++        <option value="Class" />
+       </list>
+     </option>
+   </component>
+@@ -35,12 +47,12 @@
+     &quot;assignee&quot;: &quot;GaiaMeola&quot;
+   }
+ }</component>
+-  <component name="GithubPullRequestsUISettings">{
+-  &quot;selectedUrlAndAccountId&quot;: {
+-    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
+-    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/GaiaMeola/toGetJob.git",
++    "accountId": "10ff2728-a55b-45dc-b4f1-a35abedc973c"
+   }
+-}</component>
++}]]></component>
+   <component name="MavenImportPreferences">
+     <option name="generalSettings">
+       <MavenGeneralSettings>
+@@ -86,6 +98,7 @@
+       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
+     </key>
+     <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml" />
+       <recent name="$PROJECT_DIR$/src/main/resources" />
+       <recent name="$PROJECT_DIR$/src/main/resources/Configurations" />
+       <recent name="$PROJECT_DIR$/target/classes/org/Configurations" />
+@@ -103,14 +116,6 @@
+       <option name="presentableId" value="Default" />
+       <updated>1729955148511</updated>
+     </task>
+-    <task id="LOCAL-00004" summary="Secondo Commit: bozza Abstract Factory">
+-      <option name="closed" value="true" />
+-      <created>1737883418179</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1737883418179</updated>
+-    </task>
+     <task id="LOCAL-00005" summary="Secondo Commit: bozza Abstract Factory">
+       <option name="closed" value="true" />
+       <created>1737883426699</created>
+@@ -495,7 +500,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1739287156850</updated>
+     </task>
+-    <option name="localTasksCounter" value="53" />
++    <task id="LOCAL-00053" summary="commit">
++      <option name="closed" value="true" />
++      <created>1739349460363</created>
++      <option name="number" value="00053" />
++      <option name="presentableId" value="LOCAL-00053" />
++      <option name="project" value="LOCAL" />
++      <updated>1739349460363</updated>
++    </task>
++    <option name="localTasksCounter" value="54" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+Index: src/main/resources/ui.config.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># cli, gui\nui.type = cli
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/ui.config.properties b/src/main/resources/ui.config.properties
+--- a/src/main/resources/ui.config.properties	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/resources/ui.config.properties	(date 1739352616787)
+@@ -1,2 +1,2 @@
+ # cli, gui
+-ui.type = cli
+\ No newline at end of file
++ui.type = gui
+\ No newline at end of file
+Index: src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.geometry.Rectangle2D?>\n<?import javafx.scene.control.Button?>\n<?import javafx.scene.control.Label?>\n<?import javafx.scene.control.TextField?>\n<?import javafx.scene.image.Image?>\n<?import javafx.scene.image.ImageView?>\n<?import javafx.scene.layout.AnchorPane?>\n<?import javafx.scene.text.Font?>\n\n<AnchorPane prefHeight=\"406.0\" prefWidth=\"474.0\" style=\"-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;\" xmlns=\"http://javafx.com/javafx/23.0.1\" xmlns:fx=\"http://javafx.com/fxml/1\">\n   <children>\n      <Label layoutX=\"91.0\" style=\"-fx-text-fill: #b3d9ff;\" textAlignment=\"JUSTIFY\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"36.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"130.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Role :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"200.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Working hours :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"60.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Job title :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"95.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Job type :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"235.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Company name :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"270.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Salary :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <Label layoutX=\"13.0\" layoutY=\"165.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Location :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <TextField layoutX=\"79.0\" layoutY=\"60.0\" prefHeight=\"26.0\" prefWidth=\"90.0\" promptText=\"Enter job title \" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"86.0\" layoutY=\"95.0\" prefHeight=\"26.0\" prefWidth=\"100.0\" promptText=\"Enter job name \" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"57.0\" layoutY=\"130.0\" prefHeight=\"26.0\" prefWidth=\"67.0\" promptText=\"Enter role \" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"84.0\" layoutY=\"165.0\" prefHeight=\"26.0\" prefWidth=\"93.0\" promptText=\"Enter location \" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"122.0\" layoutY=\"200.0\" prefHeight=\"26.0\" prefWidth=\"124.0\" promptText=\"Enter working hours\" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"131.0\" layoutY=\"235.0\" prefHeight=\"26.0\" prefWidth=\"140.0\" promptText=\"Enter company name \" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <TextField layoutX=\"70.0\" layoutY=\"270.0\" prefHeight=\"26.0\" prefWidth=\"80.0\" promptText=\"Enter salary\" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n      <Button layoutX=\"-8.0\" layoutY=\"5.0\" mnemonicParsing=\"false\" prefHeight=\"41.0\" prefWidth=\"58.0\" style=\"-fx-background-color: trasparent;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Button>\n      <ImageView fitHeight=\"85.0\" fitWidth=\"111.0\" layoutX=\"170.0\" layoutY=\"-16.0\" pickOnBounds=\"true\" preserveRatio=\"true\" y=\"-7.0\">\n         <image>\n            <Image url=\"@logo-removebg-preview.png\" />\n         </image>\n         <viewport>\n            <Rectangle2D minY=\"-10.0\" />\n         </viewport>\n      </ImageView>\n      <Button layoutX=\"165.0\" layoutY=\"369.0\" mnemonicParsing=\"false\" prefHeight=\"30.0\" prefWidth=\"120.0\" style=\"-fx-background-color: trasparent;\" text=\"Proceed\" textFill=\"#00aaff\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Button>\n      <ImageView fitHeight=\"30.0\" fitWidth=\"30.0\" layoutX=\"10.0\" layoutY=\"10.0\" pickOnBounds=\"true\" preserveRatio=\"true\">\n         <image>\n            <Image url=\"@back-158491_1920.png\" />\n         </image>\n      </ImageView>\n      <Label layoutX=\"13.0\" layoutY=\"305.0\" style=\"-fx-text-fill: #1D3557;\" text=\"Description :\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"14.0\" />\n         </font>\n      </Label>\n      <TextField alignment=\"TOP_LEFT\" layoutX=\"99.0\" layoutY=\"305.0\" prefHeight=\"60.0\" prefWidth=\"353.0\" promptText=\"Enter description\" style=\"-fx-border-radius: 5;\">\n         <font>\n            <Font name=\"AppleGothic Regular\" size=\"12.0\" />\n         </font>\n      </TextField>\n   </children>\n</AnchorPane>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml b/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml
+--- a/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml	(revision e8c6001598d402db09b8fe34875081645376e95f)
++++ b/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml	(date 1739357877065)
+@@ -4,12 +4,14 @@
+ <?import javafx.scene.control.Button?>
+ <?import javafx.scene.control.Label?>
+ <?import javafx.scene.control.TextField?>
++<?import javafx.scene.effect.Glow?>
++<?import javafx.scene.effect.InnerShadow?>
+ <?import javafx.scene.image.Image?>
+ <?import javafx.scene.image.ImageView?>
+ <?import javafx.scene.layout.AnchorPane?>
+ <?import javafx.scene.text.Font?>
+ 
+-<AnchorPane prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
++<AnchorPane mouseTransparent="true" prefHeight="406.0" prefWidth="474.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+       <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
+          <font>
+@@ -20,73 +22,94 @@
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="200.0" style="-fx-text-fill: #1D3557;" text="Working hours :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="60.0" style="-fx-text-fill: #1D3557;" text="Job title :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="95.0" style="-fx-text-fill: #1D3557;" text="Job type :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="235.0" style="-fx-text-fill: #1D3557;" text="Company name :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="270.0" style="-fx-text-fill: #1D3557;" text="Salary :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+       <Label layoutX="13.0" layoutY="165.0" style="-fx-text-fill: #1D3557;" text="Location :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+-      <TextField layoutX="79.0" layoutY="60.0" prefHeight="26.0" prefWidth="90.0" promptText="Enter job title " style="-fx-border-radius: 5;">
++      <TextField fx:id="jobTitleField" layoutX="79.0" layoutY="60.0" prefHeight="26.0" prefWidth="384.0" promptText="Enter job title " style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="86.0" layoutY="95.0" prefHeight="26.0" prefWidth="100.0" promptText="Enter job name " style="-fx-border-radius: 5;">
++      <TextField fx:id="jobTypeField" layoutX="86.0" layoutY="95.0" prefHeight="26.0" prefWidth="377.0" promptText="Enter job name " style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="57.0" layoutY="130.0" prefHeight="26.0" prefWidth="67.0" promptText="Enter role " style="-fx-border-radius: 5;">
++      <TextField fx:id="roleField" layoutX="57.0" layoutY="130.0" prefHeight="26.0" prefWidth="406.0" promptText="Enter role " style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="84.0" layoutY="165.0" prefHeight="26.0" prefWidth="93.0" promptText="Enter location " style="-fx-border-radius: 5;">
++      <TextField fx:id="locationField" layoutX="84.0" layoutY="165.0" prefHeight="26.0" prefWidth="379.0" promptText="Enter location " style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="122.0" layoutY="200.0" prefHeight="26.0" prefWidth="124.0" promptText="Enter working hours" style="-fx-border-radius: 5;">
++      <TextField fx:id="workingHoursField" layoutX="122.0" layoutY="200.0" prefHeight="26.0" prefWidth="341.0" promptText="Enter working hours" style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="131.0" layoutY="235.0" prefHeight="26.0" prefWidth="140.0" promptText="Enter company name " style="-fx-border-radius: 5;">
++      <TextField fx:id="companyNameField" layoutX="131.0" layoutY="235.0" prefHeight="26.0" prefWidth="332.0" promptText="Enter company name " style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <TextField layoutX="70.0" layoutY="270.0" prefHeight="26.0" prefWidth="80.0" promptText="Enter salary" style="-fx-border-radius: 5;">
++      <TextField fx:id="salaryField" layoutX="70.0" layoutY="270.0" prefHeight="26.0" prefWidth="393.0" promptText="Enter salary" style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
+-      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
++      <Button layoutX="-8.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleGoBack" onMouseClicked="#handleGoBack" prefHeight="41.0" prefWidth="58.0" style="-fx-background-color: trasparent;">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
+@@ -99,25 +122,31 @@
+             <Rectangle2D minY="-10.0" />
+          </viewport>
+       </ImageView>
+-      <Button layoutX="165.0" layoutY="369.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: trasparent;" text="Proceed" textFill="#00aaff">
+-         <font>
+-            <Font name="AppleGothic Regular" size="14.0" />
+-         </font>
+-      </Button>
+-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
++      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" onMouseClicked="#handleGoBack" pickOnBounds="true" preserveRatio="true">
+          <image>
+             <Image url="@back-158491_1920.png" />
+          </image>
++         <effect>
++            <InnerShadow />
++         </effect>
+       </ImageView>
+       <Label layoutX="13.0" layoutY="305.0" style="-fx-text-fill: #1D3557;" text="Description :">
+          <font>
+             <Font name="AppleGothic Regular" size="14.0" />
+          </font>
++         <effect>
++            <Glow />
++         </effect>
+       </Label>
+-      <TextField alignment="TOP_LEFT" layoutX="99.0" layoutY="305.0" prefHeight="60.0" prefWidth="353.0" promptText="Enter description" style="-fx-border-radius: 5;">
++      <TextField fx:id="descriptionField" alignment="TOP_LEFT" layoutX="99.0" layoutY="305.0" prefHeight="46.0" prefWidth="364.0" promptText="Enter description" style="-fx-border-radius: 5;">
+          <font>
+             <Font name="AppleGothic Regular" size="12.0" />
+          </font>
+       </TextField>
++      <Button layoutX="184.0" layoutY="361.0" mnemonicParsing="false" onAction="#handleProceedButton" onMouseClicked="#handleProceedButton" prefHeight="28.0" prefWidth="98.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-radius: 15; -fx-border-color: #2980b9; -fx-border-width: 2; -fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 15;" text="Proceed" textFill="#00aaff">
++         <font>
++            <Font name="AppleGothic Regular" size="14.0" />
++         </font>
++      </Button>
+    </children>
+ </AnchorPane>
+Index: src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java b/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java
+new file mode 100644
+--- /dev/null	(date 1739359487412)
++++ b/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java	(date 1739359487412)
+@@ -0,0 +1,63 @@
++package org.example.togetjob.view.gui.concretestate;
++
++import javafx.application.Platform;
++import javafx.fxml.FXMLLoader;
++import javafx.scene.Parent;
++import javafx.scene.Scene;
++import javafx.stage.Stage;
++import org.example.togetjob.bean.JobAnnouncementBean;
++import org.example.togetjob.printer.Printer;
++import org.example.togetjob.view.gui.GUIContext;
++import org.example.togetjob.view.gui.GUIState;
++import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;
++
++import java.io.IOException;
++
++public class CreateJobAnnouncementState implements GUIState {
++
++    GUIContext context;
++
++    public CreateJobAnnouncementState(GUIContext context ){
++
++        this.context = context ;
++
++    }
++
++    @Override
++    public void showMenu() {
++
++        try {
++            Printer.print("Showing PublishJobAnnouncementState...");
++            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController"));
++            Parent root = fxmlLoader.load();
++
++            CreateJobAnnouncementController controller = fxmlLoader.getController();
++            controller.setContext(context);
++
++            Scene scene = new Scene(root);
++            Stage stage = context.getStage();
++
++            if (stage == null) {
++                stage = new Stage();
++                context.setStage(stage);
++            }
++
++            stage.setScene(scene);
++
++
++            stage.setOnCloseRequest(event -> {
++                Platform.exit();  // JavaFX
++                System.exit(0);   // process
++            });
++
++            stage.show();
++
++        } catch (IOException e) {
++            e.printStackTrace();
++        }
++    }
++    @Override
++    public GUIContext getContext() {
++        return this.context;
++    }
++}
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController.java
+new file mode 100644
+--- /dev/null	(date 1739358123580)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/CreateJobAnnouncementController.java	(date 1739358123580)
+@@ -0,0 +1,97 @@
++package org.example.togetjob.view.gui.controllergrafico;
++
++import javafx.fxml.FXML;
++import javafx.scene.control.TextField;
++import org.example.togetjob.bean.JobAnnouncementBean;
++import org.example.togetjob.printer.Printer;
++import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
++import org.example.togetjob.view.gui.GUIContext;
++import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
++
++public class CreateJobAnnouncementController {
++
++    @FXML
++    private TextField jobTitleField ;
++    @FXML
++    private TextField jobTypeField ;
++    @FXML
++    private TextField roleField ;
++    @FXML
++    private TextField locationField ;
++    @FXML
++    private TextField workingHoursField ;
++    @FXML
++    private TextField companyNameField ;
++    @FXML
++    private TextField salaryField ;
++    @FXML
++    private TextField  descriptionField ;
++
++    private final PublishAJobAnnouncementRecruiterBoundary boundary = new PublishAJobAnnouncementRecruiterBoundary() ;
++    private GUIContext context;
++
++    public CreateJobAnnouncementController(GUIContext context){
++
++        this.context = context ;
++
++    }
++
++    public void setContext(GUIContext context) {
++        this.context = context;
++    }
++
++    @FXML
++    private void handleProceedButton(){
++
++        String jobTitle = jobTitleField.getText();
++        String jobType = jobTypeField.getText();
++        String role = roleField.getText();
++        String location = locationField.getText();
++        String workingHours = workingHoursField.getText();
++        String companyName = companyNameField.getText();
++        String salary = salaryField.getText();
++        String description = descriptionField.getText();
++
++        if (jobTitle.isEmpty() || jobType.isEmpty() || role.isEmpty() || location.isEmpty() || workingHours.isEmpty() || companyName.isEmpty() || salary.isEmpty() || description.isEmpty() ){
++
++            Printer.print("No field can be empty!");
++            return ;
++
++        }
++
++        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean() ;
++        jobAnnouncementBean.setActive(true);
++        jobAnnouncementBean.setJobTitle(jobTitle);
++        jobAnnouncementBean.setJobType(jobType);
++        jobAnnouncementBean.setCompanyName(companyName);
++        jobAnnouncementBean.setDescription(description);
++        jobAnnouncementBean.setLocation(location);
++        jobAnnouncementBean.setWorkingHours(workingHours);
++        jobAnnouncementBean.setSalary(salary);
++        jobAnnouncementBean.setRole(role);
++
++        boolean creation = boundary.publishJobAnnouncement(jobAnnouncementBean) ;
++
++        if (creation){
++            Printer.print("Job announcement published !");
++        }
++        else{
++            Printer.print("ERROR:Job announcement NOT published !");
++        }
++
++    }
++
++    @FXML
++    private void handleGoBack(){
++
++        if (context != null) {
++            Printer.print("Going back to RecruiterHome...");
++            context.setState(new HomeRecruiterState(context));
++            context.showMenu();
++        } else {
++            Printer.print("Context is NOT initialized in CreateJobAnnouncement!");
++        }
++
++    }
++
++}

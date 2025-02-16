@@ -1,0 +1,527 @@
+Index: src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.model.dao.concreteobjects;\n\nimport org.example.togetjob.model.dao.abstractobjects.UserDao;\nimport org.example.togetjob.model.entity.*;\nimport org.example.togetjob.model.entity.Role;\n\nimport java.io.*;\nimport java.util.*;\n\npublic class FileSystemUserDao implements UserDao {\n    private static final String PATH_NAME = \"src/main/resources/files_txt/User.txt\";\n\n    @Override\n    public boolean saveUser(User user) {\n        if (userExists(user.obtainUsername())) {\n            return false; // The user with this username already exists\n        }\n\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {\n            writer.write(user.obtainName() + \";\" + user.obtainSurname() + \";\" + user.obtainUsername() + \";\" +\n                    user.obtainEmailAddress() + \";\" + user.obtainPassword() + \";\" + user.obtainRole());\n            writer.newLine();\n            return true;\n        } catch (IOException | IllegalArgumentException e) {\n            return false; // Error during file writing or parsing the role\n        }\n    }\n\n    @Override\n    public Optional<User> getUser(String username) {\n        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {\n            String line;\n            while ((line = reader.readLine()) != null) {\n                String[] data = line.split(\";\");\n                if (data.length >= 6 && data[2].trim().equals(username)) {\n                    // Found the user with the matching username\n                    Role role = Role.valueOf(data[5].trim());\n                    User user = (role == Role.STUDENT)\n                            ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)\n                            : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);\n                    return Optional.of(user);\n                }\n            }\n        } catch (IOException | IllegalArgumentException e) {\n            // Handle error during file reading or parsing the role\n        }\n        return Optional.empty(); // User not found\n    }\n\n    @Override\n    public List<User> getAllUsers() {\n        List<User> users = new ArrayList<>();\n        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {\n            String line;\n            while ((line = reader.readLine()) != null) {\n                // Split the line based on the semicolon\n                String[] data = line.split(\";\");\n                // Verify that the line contains the correct data\n                if (data.length >= 6) {\n                    Role role = Role.valueOf(data[5].trim()); // Remove extra spaces\n                    User user = (role == Role.STUDENT)\n                            ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)\n                            : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);\n                    users.add(user);\n                }\n            }\n        } catch (IOException | IllegalArgumentException e) {\n            // Handle error during file reading or parsing the role\n        }\n        return users;\n    }\n\n    @Override\n    public boolean updateUser(User user) {\n        List<String> lines = new ArrayList<>();\n        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {\n            String line;\n            while ((line = reader.readLine()) != null) {\n                String[] data = line.split(\";\");\n                if (data.length >= 6 && data[2].trim().equals(user.obtainUsername())) {\n                    // Find the user's line to update and replace it with the new data\n                    line = user.obtainName() + \",\" + user.obtainSurname() + \",\" + user.obtainUsername() + \",\" +\n                            user.obtainEmailAddress() + \",\" + user.obtainPassword() + \",\" + user.obtainRole();\n                }\n                lines.add(line); // Add the line to the buffer\n            }\n        } catch (IOException | IllegalArgumentException e) {\n            return false; // Error during file reading or parsing the role\n        }\n\n        // Rewrite the file with the updated data\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {\n            for (String line : lines) {\n                writer.write(line);\n                writer.newLine(); // Write newline\n            }\n            return true;\n        } catch (IOException e) {\n            return false; // Error during file writing\n        }\n    }\n\n    @Override\n    public boolean deleteUser(String username) {\n        if (!userExists(username)) {\n            return false; // User does not exist, so we cannot delete it.\n        }\n\n        List<String> lines = new ArrayList<>();\n        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {\n            String line;\n            while ((line = reader.readLine()) != null) {\n                String[] data = line.split(\";\");\n                if (data.length >= 6 && !data[2].trim().equals(username)) {\n                    // Add only the lines that do not match the user to be deleted\n                    lines.add(line);\n                }\n            }\n        } catch (IOException | IllegalArgumentException e) {\n            return false; // Error during file reading or parsing the role\n        }\n\n        // Rewrite the file without the deleted user\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {\n            for (String line : lines) {\n                writer.write(line);\n                writer.newLine(); // Write newline\n            }\n            return true;\n        } catch (IOException e) {\n            return false; // Error during file writing\n        }\n    }\n\n    @Override\n    public boolean userExists(String username) {\n        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {\n            String line;\n            while ((line = reader.readLine()) != null) {\n                String[] data = line.split(\";\");\n                if (data.length >= 6 && data[2].trim().equals(username)) {\n                    return true; // User found\n                }\n            }\n        } catch (IOException | IllegalArgumentException e) {\n            // Handle error during file reading or parsing the role\n        }\n        return false; // User not found\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java b/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java
+--- a/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/src/main/java/org/example/togetjob/model/dao/concreteobjects/FileSystemUserDao.java	(date 1739479658676)
+@@ -2,7 +2,6 @@
+ 
+ import org.example.togetjob.model.dao.abstractobjects.UserDao;
+ import org.example.togetjob.model.entity.*;
+-import org.example.togetjob.model.entity.Role;
+ 
+ import java.io.*;
+ import java.util.*;
+@@ -13,138 +12,110 @@
+     @Override
+     public boolean saveUser(User user) {
+         if (userExists(user.obtainUsername())) {
+-            return false; // The user with this username already exists
++            return false; // The user already exists
+         }
+-
+-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
+-            writer.write(user.obtainName() + ";" + user.obtainSurname() + ";" + user.obtainUsername() + ";" +
+-                    user.obtainEmailAddress() + ";" + user.obtainPassword() + ";" + user.obtainRole());
+-            writer.newLine();
+-            return true;
+-        } catch (IOException | IllegalArgumentException e) {
+-            return false; // Error during file writing or parsing the role
+-        }
++        return appendToFile(userToLine(user));
+     }
+ 
+     @Override
+     public Optional<User> getUser(String username) {
+-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-            String line;
+-            while ((line = reader.readLine()) != null) {
+-                String[] data = line.split(";");
+-                if (data.length >= 6 && data[2].trim().equals(username)) {
+-                    // Found the user with the matching username
+-                    Role role = Role.valueOf(data[5].trim());
+-                    User user = (role == Role.STUDENT)
+-                            ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
+-                            : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
+-                    return Optional.of(user);
+-                }
+-            }
+-        } catch (IOException | IllegalArgumentException e) {
+-            // Handle error during file reading or parsing the role
+-        }
+-        return Optional.empty(); // User not found
++        return readAllUsers().stream()
++                .filter(user -> user.obtainUsername().equals(username))
++                .findFirst();
+     }
+ 
+     @Override
+     public List<User> getAllUsers() {
++        return readAllUsers();
++    }
++
++    @Override
++    public boolean updateUser(User user) {
++        List<User> users = readAllUsers();
++        boolean found = false;
++
++        for (int i = 0; i < users.size(); i++) {
++            if (users.get(i).obtainUsername().equals(user.obtainUsername())) {
++                users.set(i, user); // Update user
++                found = true;
++                break;
++            }
++        }
++
++        return found && writeAllUsers(users);
++    }
++
++    @Override
++    public boolean deleteUser(String username) {
++        List<User> users = readAllUsers();
++        boolean removed = users.removeIf(user -> user.obtainUsername().equals(username));
++
++        return removed && writeAllUsers(users);
++    }
++
++    @Override
++    public boolean userExists(String username) {
++        return readAllUsers().stream()
++                .anyMatch(user -> user.obtainUsername().equals(username));
++    }
++
++    private List<User> readAllUsers() {
+         List<User> users = new ArrayList<>();
+         try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+             String line;
+             while ((line = reader.readLine()) != null) {
+-                // Split the line based on the semicolon
+-                String[] data = line.split(";");
+-                // Verify that the line contains the correct data
+-                if (data.length >= 6) {
+-                    Role role = Role.valueOf(data[5].trim()); // Remove extra spaces
+-                    User user = (role == Role.STUDENT)
+-                            ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
+-                            : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
++                User user = parseUser(line);
++                if (user != null) {
+                     users.add(user);
+                 }
+             }
+-        } catch (IOException | IllegalArgumentException e) {
+-            // Handle error during file reading or parsing the role
++        } catch (IOException e) {
++            e.printStackTrace(); // Log errori
+         }
+         return users;
+     }
+ 
+-    @Override
+-    public boolean updateUser(User user) {
+-        List<String> lines = new ArrayList<>();
+-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-            String line;
+-            while ((line = reader.readLine()) != null) {
+-                String[] data = line.split(";");
+-                if (data.length >= 6 && data[2].trim().equals(user.obtainUsername())) {
+-                    // Find the user's line to update and replace it with the new data
+-                    line = user.obtainName() + "," + user.obtainSurname() + "," + user.obtainUsername() + "," +
+-                            user.obtainEmailAddress() + "," + user.obtainPassword() + "," + user.obtainRole();
+-                }
+-                lines.add(line); // Add the line to the buffer
+-            }
+-        } catch (IOException | IllegalArgumentException e) {
+-            return false; // Error during file reading or parsing the role
+-        }
+-
+-        // Rewrite the file with the updated data
++    private boolean writeAllUsers(List<User> users) {
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+-            for (String line : lines) {
+-                writer.write(line);
+-                writer.newLine(); // Write newline
++            for (User user : users) {
++                writer.write(userToLine(user));
++                writer.newLine();
+             }
+             return true;
+         } catch (IOException e) {
+-            return false; // Error during file writing
++            e.printStackTrace();
++            return false;
+         }
+     }
+-
+-    @Override
+-    public boolean deleteUser(String username) {
+-        if (!userExists(username)) {
+-            return false; // User does not exist, so we cannot delete it.
+-        }
+-
+-        List<String> lines = new ArrayList<>();
+-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-            String line;
+-            while ((line = reader.readLine()) != null) {
+-                String[] data = line.split(";");
+-                if (data.length >= 6 && !data[2].trim().equals(username)) {
+-                    // Add only the lines that do not match the user to be deleted
+-                    lines.add(line);
+-                }
+-            }
+-        } catch (IOException | IllegalArgumentException e) {
+-            return false; // Error during file reading or parsing the role
+-        }
+ 
+-        // Rewrite the file without the deleted user
+-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
+-            for (String line : lines) {
+-                writer.write(line);
+-                writer.newLine(); // Write newline
+-            }
++    private boolean appendToFile(String line) {
++        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME, true))) {
++            writer.write(line);
++            writer.newLine();
+             return true;
+         } catch (IOException e) {
+-            return false; // Error during file writing
++            e.printStackTrace();
++            return false;
+         }
+     }
+ 
+-    @Override
+-    public boolean userExists(String username) {
+-        try (BufferedReader reader = new BufferedReader(new FileReader(PATH_NAME))) {
+-            String line;
+-            while ((line = reader.readLine()) != null) {
+-                String[] data = line.split(";");
+-                if (data.length >= 6 && data[2].trim().equals(username)) {
+-                    return true; // User found
+-                }
+-            }
+-        } catch (IOException | IllegalArgumentException e) {
+-            // Handle error during file reading or parsing the role
+-        }
+-        return false; // User not found
++    private User parseUser(String line) {
++        String[] data = line.split(";");
++        if (data.length < 6) return null;
++
++        try {
++            Role role = Role.valueOf(data[5].trim());
++            return (role == Role.STUDENT)
++                    ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
++                    : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
++        } catch (IllegalArgumentException e) {
++            e.printStackTrace();
++            return null;
++        }
++    }
++
++    private String userToLine(User user) {
++        return String.join(";", user.obtainName(), user.obtainSurname(), user.obtainUsername(),
++                user.obtainEmailAddress(), user.obtainPassword(), user.obtainRole().toString());
+     }
+ }
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_02_25__6_05PM__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_12_02_25__6_05PM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_12_02_25__6_05PM__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_12_02_25__6_05PM__Changes_.xml	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ /dev/null	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_12_02_25,_6_05 PM_[Changes]" date="1739379916195" recycled="false" toDelete="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_02_25,_6_05 PM_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/02/25, 6:05 PM [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Registrazione e Login interfacce ok\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/ContactAJobCandidateState.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobCandidateState.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/ContactAJobCandidateController.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobCandidateRecruiterController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilteredStudent.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobcandidates.fxml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filterjobcandidatesrecruiter.fxml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"Interface\" />\n        <option value=\"Exception\" />\n        <option value=\"JavaFXApplication\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CreateClassDialog.RecentsKey\">\n      <recent name=\"org.example.togetjob.model.dao.concretefactorydao\" />\n    </key>\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/example/togetjob\" />\n      <recent name=\"$PROJECT_DIR$/target/classes/org/example/togetjob/view\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"org.example.togetjob\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"Quarto Commit: Connection prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152156784</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152156784</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Quarto Commit: Connection riuscita\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738152567157</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738152567157</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Quinto Commit: Fine Db\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738157742126</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738157742126</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Sesto Commit: Pattern State CLI prova\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738179850232</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738179850233</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738233820826</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738233820826</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234210460</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234210460</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"Settimo Commit: prova Caso d'uso Registrazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738234584655</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738234584655</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738534877519</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738534877519</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738591871116</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738591871116</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602095720</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602095720</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602224321</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602224321</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602353802</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602353802</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738847054568</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738847054568</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859623269</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859623269</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859799273</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859799273</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738925235487</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738925235487</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935926115</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935926115</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935935523</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935935523</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738943912969</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738943912969</updated>\n    </task>\n    <task id=\"LOCAL-00032\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945190532</created>\n      <option name=\"number\" value=\"00032\" />\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945190532</updated>\n    </task>\n    <task id=\"LOCAL-00033\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945926667</created>\n      <option name=\"number\" value=\"00033\" />\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945926667</updated>\n    </task>\n    <task id=\"LOCAL-00034\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739051085131</created>\n      <option name=\"number\" value=\"00034\" />\n      <option name=\"presentableId\" value=\"LOCAL-00034\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739051085131</updated>\n    </task>\n    <task id=\"LOCAL-00035\" summary=\"Interfacce\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739175835404</created>\n      <option name=\"number\" value=\"00035\" />\n      <option name=\"presentableId\" value=\"LOCAL-00035\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739175835404</updated>\n    </task>\n    <task id=\"LOCAL-00036\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739220286799</created>\n      <option name=\"number\" value=\"00036\" />\n      <option name=\"presentableId\" value=\"LOCAL-00036\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739220286800</updated>\n    </task>\n    <task id=\"LOCAL-00037\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221026328</created>\n      <option name=\"number\" value=\"00037\" />\n      <option name=\"presentableId\" value=\"LOCAL-00037\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221026328</updated>\n    </task>\n    <task id=\"LOCAL-00038\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221891152</created>\n      <option name=\"number\" value=\"00038\" />\n      <option name=\"presentableId\" value=\"LOCAL-00038\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221891152</updated>\n    </task>\n    <task id=\"LOCAL-00039\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739222169196</created>\n      <option name=\"number\" value=\"00039\" />\n      <option name=\"presentableId\" value=\"LOCAL-00039\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739222169196</updated>\n    </task>\n    <task id=\"LOCAL-00040\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223095546</created>\n      <option name=\"number\" value=\"00040\" />\n      <option name=\"presentableId\" value=\"LOCAL-00040\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223095546</updated>\n    </task>\n    <task id=\"LOCAL-00041\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223296491</created>\n      <option name=\"number\" value=\"00041\" />\n      <option name=\"presentableId\" value=\"LOCAL-00041\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223296491</updated>\n    </task>\n    <task id=\"LOCAL-00042\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223373958</created>\n      <option name=\"number\" value=\"00042\" />\n      <option name=\"presentableId\" value=\"LOCAL-00042\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223373958</updated>\n    </task>\n    <task id=\"LOCAL-00043\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224722991</created>\n      <option name=\"number\" value=\"00043\" />\n      <option name=\"presentableId\" value=\"LOCAL-00043\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224722991</updated>\n    </task>\n    <task id=\"LOCAL-00044\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224907675</created>\n      <option name=\"number\" value=\"00044\" />\n      <option name=\"presentableId\" value=\"LOCAL-00044\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224907675</updated>\n    </task>\n    <task id=\"LOCAL-00045\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739225182526</created>\n      <option name=\"number\" value=\"00045\" />\n      <option name=\"presentableId\" value=\"LOCAL-00045\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739225182526</updated>\n    </task>\n    <task id=\"LOCAL-00046\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739227822961</created>\n      <option name=\"number\" value=\"00046\" />\n      <option name=\"presentableId\" value=\"LOCAL-00046\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739227822961</updated>\n    </task>\n    <task id=\"LOCAL-00047\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739228938425</created>\n      <option name=\"number\" value=\"00047\" />\n      <option name=\"presentableId\" value=\"LOCAL-00047\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739228938425</updated>\n    </task>\n    <task id=\"LOCAL-00048\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739229738949</created>\n      <option name=\"number\" value=\"00048\" />\n      <option name=\"presentableId\" value=\"LOCAL-00048\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739229738949</updated>\n    </task>\n    <task id=\"LOCAL-00049\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739230414467</created>\n      <option name=\"number\" value=\"00049\" />\n      <option name=\"presentableId\" value=\"LOCAL-00049\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739230414467</updated>\n    </task>\n    <task id=\"LOCAL-00050\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286252185</created>\n      <option name=\"number\" value=\"00050\" />\n      <option name=\"presentableId\" value=\"LOCAL-00050\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286252186</updated>\n    </task>\n    <task id=\"LOCAL-00051\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286944297</created>\n      <option name=\"number\" value=\"00051\" />\n      <option name=\"presentableId\" value=\"LOCAL-00051\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286944297</updated>\n    </task>\n    <task id=\"LOCAL-00052\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739287156849</created>\n      <option name=\"number\" value=\"00052\" />\n      <option name=\"presentableId\" value=\"LOCAL-00052\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739287156850</updated>\n    </task>\n    <task id=\"LOCAL-00053\" summary=\"Prova: aggiunta di alcune eccezioni\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739296769628</created>\n      <option name=\"number\" value=\"00053\" />\n      <option name=\"presentableId\" value=\"LOCAL-00053\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739296769628</updated>\n    </task>\n    <task id=\"LOCAL-00054\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739356293943</created>\n      <option name=\"number\" value=\"00054\" />\n      <option name=\"presentableId\" value=\"LOCAL-00054\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739356293944</updated>\n    </task>\n    <task id=\"LOCAL-00055\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360362489</created>\n      <option name=\"number\" value=\"00055\" />\n      <option name=\"presentableId\" value=\"LOCAL-00055\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360362489</updated>\n    </task>\n    <task id=\"LOCAL-00056\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360704403</created>\n      <option name=\"number\" value=\"00056\" />\n      <option name=\"presentableId\" value=\"LOCAL-00056\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360704404</updated>\n    </task>\n    <task id=\"LOCAL-00057\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739374755923</created>\n      <option name=\"number\" value=\"00057\" />\n      <option name=\"presentableId\" value=\"LOCAL-00057\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739374755923</updated>\n    </task>\n    <task id=\"LOCAL-00058\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739397926768</created>\n      <option name=\"number\" value=\"00058\" />\n      <option name=\"presentableId\" value=\"LOCAL-00058\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739397926768</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"59\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <MESSAGE value=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\" />\n    <MESSAGE value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n    <MESSAGE value=\"Send a Job Application ok\" />\n    <MESSAGE value=\"Implementazione DATABASE DAO\" />\n    <MESSAGE value=\"Fine DAO DB che va da testare\" />\n    <MESSAGE value=\"Interfacce\" />\n    <MESSAGE value=\"Duplicazione\" />\n    <MESSAGE value=\"commit\" />\n    <MESSAGE value=\"Prova: aggiunta di alcune eccezioni\" />\n    <MESSAGE value=\"Registrazione e Login interfacce ok\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Registrazione e Login interfacce ok\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.sql.SQLException\" package=\"java.sql\" />\n          <option name=\"timeStamp\" value=\"31\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/.idea/workspace.xml	(date 1739479270060)
+@@ -4,18 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Registrazione e Login interfacce ok">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/ContactAJobCandidateState.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobCandidateState.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/ContactAJobCandidateController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/FilterJobCandidateRecruiterController.java" afterDir="false" />
++    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Exception">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_02_25__6_05PM__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RecruiterDisplayFiltersState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterCreateJobAnnouncement.fxml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/RecruiterDisplayFilteredStudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobcandidates.fxml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/RecruiterDisplayFilters.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filterjobcandidatesrecruiter.fxml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml/filteredjobannouncements.fxml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -116,14 +111,6 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1729955148511</updated>
+-    </task>
+-    <task id="LOCAL-00010" summary="Quarto Commit: Connection prova">
+-      <option name="closed" value="true" />
+-      <created>1738152156784</created>
+-      <option name="number" value="00010" />
+-      <option name="presentableId" value="LOCAL-00010" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1738152156784</updated>
+     </task>
+     <task id="LOCAL-00011" summary="Quarto Commit: Connection riuscita">
+       <option name="closed" value="true" />
+@@ -509,7 +496,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1739397926768</updated>
+     </task>
+-    <option name="localTasksCounter" value="59" />
++    <task id="LOCAL-00059" summary="Exception">
++      <option name="closed" value="true" />
++      <created>1739452755125</created>
++      <option name="number" value="00059" />
++      <option name="presentableId" value="LOCAL-00059" />
++      <option name="project" value="LOCAL" />
++      <updated>1739452755125</updated>
++    </task>
++    <option name="localTasksCounter" value="60" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -547,7 +542,8 @@
+     <MESSAGE value="commit" />
+     <MESSAGE value="Prova: aggiunta di alcune eccezioni" />
+     <MESSAGE value="Registrazione e Login interfacce ok" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Registrazione e Login interfacce ok" />
++    <MESSAGE value="Exception" />
++    <option name="LAST_COMMIT_MESSAGE" value="Exception" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.controller.student;\n\nimport org.example.togetjob.bean.JobAnnouncementBean;\nimport org.example.togetjob.bean.JobAnnouncementSearchBean;\nimport org.example.togetjob.bean.JobApplicationBean;\nimport org.example.togetjob.exceptions.*;\nimport org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;\nimport org.example.togetjob.model.dao.abstractobjects.JobAnnouncementDao;\nimport org.example.togetjob.model.dao.abstractobjects.JobApplicationDao;\nimport org.example.togetjob.model.dao.abstractobjects.RecruiterDao;\nimport org.example.togetjob.model.entity.*;\nimport org.example.togetjob.model.factory.JobApplicationFactory;\nimport org.example.togetjob.model.factory.NotificationFactory;\nimport org.example.togetjob.pattern.observer.RecruiterObserverStudent;\nimport org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;\nimport org.example.togetjob.session.SessionManager;\n\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Optional;\n\npublic class SendAJobApplication {\n\n    private final JobAnnouncementDao jobAnnouncementDao;\n    private final JobApplicationDao jobApplicationDao;\n    private final RecruiterDao recruiterDao;\n    private final JobApplicationCollectionSubjectRecruiter jobApplicationCollection;\n\n    public SendAJobApplication() {\n        this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();\n        this.jobApplicationDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobApplicationDao();\n        this.recruiterDao = AbstractFactoryDaoSingleton.getFactoryDao().createRecruiterDao();\n        this.jobApplicationCollection = new JobApplicationCollectionSubjectRecruiter();\n    }\n\n    public List<JobAnnouncementBean> showFilteredJobAnnouncements(JobAnnouncementSearchBean jobAnnouncementSearchBean) {\n        //all job announcements\n        List<JobAnnouncement> allAnnouncements = jobAnnouncementDao.getAllJobAnnouncements();\n\n        List<JobAnnouncement> filteredAnnouncements = allAnnouncements.stream()\n                .filter(announcement -> filterByTitle(announcement, jobAnnouncementSearchBean.getJobTitle()))\n                .filter(announcement -> filterByJobType(announcement, jobAnnouncementSearchBean.getJobType()))\n                .filter(announcement -> filterByRole(announcement, jobAnnouncementSearchBean.getRole()))\n                .filter(announcement -> filterByLocation(announcement, jobAnnouncementSearchBean.getLocation()))\n                .filter(announcement -> filterByWorkingHours(announcement, jobAnnouncementSearchBean.getWorkingHours()))\n                .filter(announcement -> filterByCompanyName(announcement, jobAnnouncementSearchBean.getCompanyName()))\n                .filter(announcement -> filterBySalary(announcement, jobAnnouncementSearchBean.getSalary()))\n                .toList();\n\n        return filteredAnnouncements.stream()\n                .map(this::convertToJobAnnouncementBean)\n                .toList();\n\n    }\n\n    private JobAnnouncementBean convertToJobAnnouncementBean(JobAnnouncement jobAnnouncement) {\n\n        JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();\n\n        jobAnnouncementBean.setJobTitle(jobAnnouncement.obtainJobTitle() != null ? jobAnnouncement.obtainJobTitle() : \"Unknown Title\");\n        jobAnnouncementBean.setJobType(jobAnnouncement.obtainJobType() != null ? jobAnnouncement.obtainJobType() : \"Unknown Type\");\n        jobAnnouncementBean.setRole(jobAnnouncement.obtainJobRole() != null ? jobAnnouncement.obtainJobRole() : \"Unknown Role\");\n        jobAnnouncementBean.setLocation(jobAnnouncement.obtainLocation() != null ? jobAnnouncement.obtainLocation() : \"Unknown Location\");\n        jobAnnouncementBean.setCompanyName(jobAnnouncement.obtainCompanyName() != null ? jobAnnouncement.obtainCompanyName() : \"Unknown Company\");\n        jobAnnouncementBean.setDescription(jobAnnouncement.obtainDescription() != null ? jobAnnouncement.obtainDescription() : \"No Description\");\n\n\n        //map\n        jobAnnouncementBean.setActive(jobAnnouncement.isJobActive() != null && jobAnnouncement.isJobActive());\n        jobAnnouncementBean.setRecruiterUsername(jobAnnouncement.getRecruiter().obtainUsername());\n        jobAnnouncementBean.setWorkingHours(jobAnnouncement.obtainWorkingHours() != 0 ? String.valueOf(jobAnnouncement.obtainWorkingHours()) : \"Not Defined\");\n        jobAnnouncementBean.setSalary(jobAnnouncement.obtainSalary() != 0.0 ? String.valueOf(jobAnnouncement.obtainSalary()) : \"Not Defined\");\n\n        return jobAnnouncementBean;\n\n    }\n\n    private List<JobApplicationBean> convertToJobApplicationBeans(List<JobApplication> jobApplications) {\n        List<JobApplicationBean> jobApplicationBeans = new ArrayList<>();\n\n        for (JobApplication jobApplication : jobApplications) {\n            JobApplicationBean jobApplicationBean = new JobApplicationBean();\n\n            jobApplicationBean.setJobTitle(jobApplication.getJobAnnouncement().obtainJobTitle());\n            jobApplicationBean.setStudentUsername(jobApplication.getStudent().obtainUsername());\n            jobApplicationBean.setCoverLetter(jobApplication.obtainCoverLetter());\n            jobApplicationBean.setRecruiterUsername(jobApplication.getJobAnnouncement().getRecruiter().obtainUsername());\n            jobApplicationBean.setStatus(jobApplication.obtainStatus());\n            jobApplicationBeans.add(jobApplicationBean);\n        }\n\n        return jobApplicationBeans;\n    }\n\n    public JobApplicationBean showJobApplicationForm(JobAnnouncementBean jobAnnouncementBean) {\n\n        JobApplicationBean form = new JobApplicationBean();\n\n        form.setJobTitle(jobAnnouncementBean.getJobTitle());\n        form.setRecruiterUsername(jobAnnouncementBean.getRecruiterUsername());\n        form.setStatus(Status.PENDING);\n        form.setStudentUsername(SessionManager.getInstance().getStudentFromSession().obtainUsername());\n\n        form.setCoverLetter(\"\");\n        return form;\n    }\n\n    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException {\n\n\n        // Student who wants to send a job application to a job announcement\n        Student student = SessionManager.getInstance().getStudentFromSession();\n\n        //Recruiter who publishes the job announcement\n        Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())\n                .orElseThrow(() -> new RecruiterNotFoundException(\"Error: Recruiter not found.\"));\n\n        // Job Announcement\n        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)\n                .orElseThrow(() -> new JobAnnouncementNotFoundException(\"Error: JobAnnouncement not found.\")); // Job Announcement Found\n\n        // Check if the job announcement is still active\n        if (jobAnnouncement.isJobActive() == null || !jobAnnouncement.isJobActive()) {\n            throw new JobAnnouncementNotActiveException(\"This job announcement is no longer active.\");\n        }\n\n        // Check if the student has already applied for this job\n        if (jobApplicationDao.getJobApplication(student, jobAnnouncement).isPresent()) {\n            throw new JobApplicationAlreadySentException(\"You have already applied for this job.\");\n        }\n\n        JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);\n        jobApplicationDao.saveJobApplication(jobApplication); // Persistence\n\n        try {\n            RecruiterObserverStudent recruiterObserver = new RecruiterObserverStudent(recruiter, NotificationFactory.createNotification(\"A new job application has been submitted!\"));\n            jobApplicationCollection.attach(recruiterObserver);\n        } catch (ConfigException e) {\n            throw new RuntimeException(e);\n        }\n\n        try {\n            sendNotificationToRecruiter(jobApplication);\n        } catch (NotificationException e) {\n            return false;\n        }\n\n        return true;\n    }\n\n    public List<JobApplicationBean> getAllJobApplication(){\n\n        Student student = SessionManager.getInstance().getStudentFromSession();\n\n        List<JobApplication> jobApplications = jobApplicationDao.getAllJobApplications(student);\n        return convertToJobApplicationBeans(jobApplications);\n\n    }\n\n    public boolean modifyJobApplication(JobApplicationBean jobApplicationBean) {\n\n        Status status = getStatusJobApplication(jobApplicationBean);\n\n        if (status.equals(Status.PENDING)) {\n            Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);\n            //Job application existing\n\n            if (jobApplicationOPT.isEmpty()) {\n                return false;\n            }\n\n            JobApplication jobApplication = jobApplicationOPT.get();\n            jobApplication.setCoverLetter(jobApplicationBean.getCoverLetter());  // Modify\n            jobApplicationDao.saveJobApplication(jobApplication);\n            return true;\n        }\n\n        return false;\n    }\n\n\n    public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) {\n\n        Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);\n\n        if (jobApplicationOPT.isEmpty()) {\n            return false;\n        }\n\n        JobApplication jobApplication = jobApplicationOPT.get();\n\n        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {\n            return false; //job application already managed\n        }\n\n        jobApplicationDao.deleteJobApplication(jobApplication);\n        jobApplicationCollection.removeJobApplication(jobApplication);\n\n        return true;\n\n    }\n\n    public List<JobApplicationBean> getJobApplicationsForRecruiter(JobAnnouncementBean jobAnnouncementBean){\n\n        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();\n\n        Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);\n        if (jobAnnouncementOpt.isEmpty()) {\n            return new ArrayList<>();\n        }\n\n        JobAnnouncement jobAnnouncement = jobAnnouncementOpt.get();\n\n        // all the job applications sent to the job announcement\n        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);\n        return convertToJobApplicationBeans(jobApplications);\n\n    }\n\n\n    public boolean updateJobApplicationStatus(JobApplicationBean jobApplicationBean, Status status) throws JobApplicationNotFoundException {\n\n\n        JobAnnouncement jobAnnouncement = getJobAnnouncementFromBean(jobApplicationBean);\n\n        List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByAnnouncement(jobAnnouncement);\n        Optional<JobApplication> jobApplicationOpt = jobApplications.stream()\n                .filter(jobApplication -> jobApplication.getStudent().obtainUsername().equals(jobApplicationBean.getStudentUsername()))\n                .findFirst();\n        if (jobApplicationOpt.isEmpty()) {\n            throw new JobApplicationNotFoundException(\"Error: Job Application not found for the specified student.\");\n        }\n        JobApplication jobApplication = jobApplicationOpt.get();\n        if (!jobApplication.obtainStatus().equals(Status.PENDING)) {\n            return false; // Already Managed\n        }\n        jobApplication.setStatus(status); // (ACCEPTED or REJECTED)\n        jobApplicationDao.updateJobApplication(jobApplication);\n\n        return true;\n\n    }\n\n\n    private JobAnnouncement getJobAnnouncementFromBean(JobApplicationBean jobApplicationBean) {\n        //recruiter from session\n        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();\n\n        // job announcement\n        Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter);\n\n        if (jobAnnouncementOpt.isEmpty()) {\n            throw new IllegalArgumentException(\"Error: No job announcement found for the recruiter with the specified title.\");\n        }\n\n        return jobAnnouncementOpt.get();\n    }\n\n\n\n    private void sendNotificationToRecruiter(JobApplication jobApplication) throws NotificationException {\n\n        try {\n            jobApplicationCollection.addJobApplication(jobApplication); // notify\n        } catch (NotificationException e) {\n            throw new NotificationException(\"Error during the configuration\", e);\n        }\n\n    }\n\n    private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {\n        Student student = SessionManager.getInstance().getStudentFromSession();\n        Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())\n                .orElseThrow(() -> new IllegalArgumentException(\"Error: Recruiter not found.\"));\n        JobAnnouncement jobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobApplicationBean.getJobTitle(), recruiter)\n                .orElseThrow(() -> new IllegalArgumentException(\"Error: Job Announcement not found.\"));\n        return jobApplicationDao.getJobApplication(student, jobAnnouncement);\n    }\n\n\n    private Status getStatusJobApplication(JobApplicationBean jobApplicationBean) {\n\n        Optional<JobApplication> jobApplicationOpt = getJobApplication(jobApplicationBean);\n        if (jobApplicationOpt.isEmpty()) {\n\n            throw new IllegalArgumentException(\"Error: job Application not Found.\");\n\n        }\n\n        JobApplication jobApplication = jobApplicationOpt.get();\n        return jobApplication.obtainStatus();\n\n    }\n\n    //method to filter\n\n    private boolean filterByTitle(JobAnnouncement announcement, String jobTitle) {\n        return jobTitle == null || jobTitle.isEmpty() || announcement.obtainJobTitle().toLowerCase().contains(jobTitle.toLowerCase());\n    }\n\n    private boolean filterByLocation(JobAnnouncement announcement, String location) {\n        return location == null || location.isEmpty() || announcement.obtainLocation().toLowerCase().contains(location.toLowerCase());\n    }\n\n    private boolean filterByRole(JobAnnouncement announcement, String role) {\n        return role == null || role.isEmpty() || announcement.obtainJobRole().toLowerCase().contains(role.toLowerCase());\n    }\n\n    private boolean filterByJobType(JobAnnouncement announcement, String jobType) {\n        return jobType == null || jobType.isEmpty() || announcement.obtainJobType().toLowerCase().contains(jobType.toLowerCase());\n    }\n\n    private boolean filterBySalary(JobAnnouncement announcement, String salary) {\n        if (salary == null || salary.isEmpty()) {\n            return true; //no filter\n        }\n        try {\n            double salaryFilter = Double.parseDouble(salary);\n            return announcement.obtainSalary() >= salaryFilter;\n        } catch (NumberFormatException e) {\n            return false;\n        }\n    }\n\n    private boolean filterByWorkingHours(JobAnnouncement announcement, String workingHours) {\n        if (workingHours == null || workingHours.isEmpty()) {\n            return true; //no filter\n        }\n        try {\n            int workingHoursFilter = Integer.parseInt(workingHours);\n            return announcement.obtainWorkingHours() >= workingHoursFilter;\n        } catch (NumberFormatException e) {\n            return false;\n        }\n    }\n\n    private boolean filterByCompanyName(JobAnnouncement announcement, String companyName) {\n        return companyName == null || companyName.isEmpty() || announcement.obtainCompanyName().toLowerCase().contains(companyName.toLowerCase());\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java b/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java
+--- a/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/src/main/java/org/example/togetjob/controller/student/SendAJobApplication.java	(date 1739478830294)
+@@ -10,9 +10,6 @@
+ import org.example.togetjob.model.dao.abstractobjects.RecruiterDao;
+ import org.example.togetjob.model.entity.*;
+ import org.example.togetjob.model.factory.JobApplicationFactory;
+-import org.example.togetjob.model.factory.NotificationFactory;
+-import org.example.togetjob.pattern.observer.RecruiterObserverStudent;
+-import org.example.togetjob.pattern.subject.JobApplicationCollectionSubjectRecruiter;
+ import org.example.togetjob.session.SessionManager;
+ 
+ import java.util.ArrayList;
+@@ -24,13 +21,11 @@
+     private final JobAnnouncementDao jobAnnouncementDao;
+     private final JobApplicationDao jobApplicationDao;
+     private final RecruiterDao recruiterDao;
+-    private final JobApplicationCollectionSubjectRecruiter jobApplicationCollection;
+ 
+     public SendAJobApplication() {
+         this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
+         this.jobApplicationDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobApplicationDao();
+         this.recruiterDao = AbstractFactoryDaoSingleton.getFactoryDao().createRecruiterDao();
+-        this.jobApplicationCollection = new JobApplicationCollectionSubjectRecruiter();
+     }
+ 
+     public List<JobAnnouncementBean> showFilteredJobAnnouncements(JobAnnouncementSearchBean jobAnnouncementSearchBean) {
+@@ -132,18 +127,7 @@
+         JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
+         jobApplicationDao.saveJobApplication(jobApplication); // Persistence
+ 
+-        try {
+-            RecruiterObserverStudent recruiterObserver = new RecruiterObserverStudent(recruiter, NotificationFactory.createNotification("A new job application has been submitted!"));
+-            jobApplicationCollection.attach(recruiterObserver);
+-        } catch (ConfigException e) {
+-            throw new RuntimeException(e);
+-        }
+ 
+-        try {
+-            sendNotificationToRecruiter(jobApplication);
+-        } catch (NotificationException e) {
+-            return false;
+-        }
+ 
+         return true;
+     }
+@@ -194,7 +178,6 @@
+         }
+ 
+         jobApplicationDao.deleteJobApplication(jobApplication);
+-        jobApplicationCollection.removeJobApplication(jobApplication);
+ 
+         return true;
+ 
+@@ -258,16 +241,6 @@
+ 
+ 
+ 
+-    private void sendNotificationToRecruiter(JobApplication jobApplication) throws NotificationException {
+-
+-        try {
+-            jobApplicationCollection.addJobApplication(jobApplication); // notify
+-        } catch (NotificationException e) {
+-            throw new NotificationException("Error during the configuration", e);
+-        }
+-
+-    }
+-
+     private Optional<JobApplication> getJobApplication(JobApplicationBean jobApplicationBean) {
+         Student student = SessionManager.getInstance().getStudentFromSession();
+         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
+Index: src/main/resources/dao.config.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># in memory, jdbc, file system\ndao.type = in memory
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/dao.config.properties b/src/main/resources/dao.config.properties
+--- a/src/main/resources/dao.config.properties	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/src/main/resources/dao.config.properties	(date 1739479269997)
+@@ -1,2 +1,2 @@
+ # in memory, jdbc, file system
+-dao.type = in memory
+\ No newline at end of file
++dao.type = jdbc
+\ No newline at end of file
+Index: src/main/java/org/example/togetjob/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob;\n\nimport javafx.application.Application;\nimport org.example.togetjob.config.ConfigDaoLoader;\nimport org.example.togetjob.config.ConfigUILoader;\nimport org.example.togetjob.connection.DatabaseConfig;\nimport org.example.togetjob.exceptions.ConfigException;\nimport org.example.togetjob.model.dao.abstractfactorydao.AbstractFactoryDaoSingleton;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.cli.concretestate.MainMenuState;\nimport org.example.togetjob.view.cli.contextstate.CliContext;\nimport org.example.togetjob.view.gui.JavaFXApplication;\n\nimport java.sql.Connection;\nimport java.sql.SQLException;\n\n//TIP To <b>Run</b> code, press <shortcut actionId=\"Run\"/> or\n// click the <icon src=\"AllIcons.Actions.Execute\"/> icon in the gutter.\npublic class Main {\n\n    public static void main(String[] args) throws RuntimeException {\n\n        ConfigDaoLoader loaderDaoConfig;\n        ConfigUILoader loaderUIConfig;\n\n        //CONFIGURATION DAO\n        try {\n            loaderDaoConfig = new ConfigDaoLoader(\"dao.config.properties\");\n        } catch (ConfigException e) {\n            Printer.print(\"Error DAO Configuration: \" + e.getMessage());\n            return;\n        }\n        String daoType = loaderDaoConfig.getProperty(\"dao.type\");\n        Printer.print(\"Type of DAO: \" + daoType);\n\n        AbstractFactoryDaoSingleton.setConfigLoader(loaderDaoConfig);\n\n        //CONFIGURATION UI\n        try {\n            loaderUIConfig = new ConfigUILoader(\"ui.config.properties\");\n        } catch (ConfigException e) {\n           Printer.print(\"Error UI Configuration: \" + e.getMessage());\n            return;\n        }\n\n        String uiType = loaderUIConfig.getProperty(\"ui.type\");\n        Printer.print(\"Type of UI: \" + uiType);\n\n\n        if (\"jdbc\".equalsIgnoreCase(daoType)) {\n            DatabaseConfig databaseConfig = DatabaseConfig.getInstance();\n            databaseConfig.setConfigLoader(loaderDaoConfig);\n\n            try {\n                Connection connection = databaseConfig.getConnection();\n                if (connection != null) {\n                    Printer.print(\"Connection ...\");\n                } else {\n                    Printer.print(\"Error Connection.\");\n                }\n            } catch (SQLException e) {\n                Printer.print(\"Error Connection: \" + e.getMessage());\n                return;\n            }\n        } else if (\"in memory\".equalsIgnoreCase(daoType)) {\n            //In memory\n            Printer.print(\"DAO In-Memory\");\n        } else if (\"file system\".equalsIgnoreCase(daoType)) {\n           //file system\n            Printer.print(\"DAO FileSystem\");\n        } else {\n            Printer.print(\"DAO not found\");\n        }\n\n\n        if (\"cli\".equalsIgnoreCase(uiType)){\n            CliContext context = new CliContext(new MainMenuState());\n            context.startCLI();\n        } else if(\"gui\".equalsIgnoreCase(uiType)){\n            launchGui();\n        } else{\n            Printer.print(\"UI not found\");\n        }\n\n    }\n\n    private static void launchGui(){\n       //GUI\n        Printer.print(\"Launching GUI...\");\n        Application.launch(JavaFXApplication.class);\n    }\n\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/Main.java b/src/main/java/org/example/togetjob/Main.java
+--- a/src/main/java/org/example/togetjob/Main.java	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/src/main/java/org/example/togetjob/Main.java	(date 1739478268682)
+@@ -71,8 +71,7 @@
+         } else {
+             Printer.print("DAO not found");
+         }
+-
+-
++        
+         if ("cli".equalsIgnoreCase(uiType)){
+             CliContext context = new CliContext(new MainMenuState());
+             context.startCLI();
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.cli.concretestate;\n\nimport org.example.togetjob.bean.RecruiterInfoBean;\nimport org.example.togetjob.bean.RegisterUserBean;\nimport org.example.togetjob.bean.StudentInfoBean;\nimport org.example.togetjob.exceptions.DatabaseException;\nimport org.example.togetjob.exceptions.UsernameTakeException;\nimport org.example.togetjob.view.boundary.RegisterBoundary;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.cli.abstractstate.CliState;\nimport org.example.togetjob.view.cli.contextstate.CliContext;\n\nimport java.time.LocalDate;\nimport java.util.List;\nimport java.util.Scanner;\n\npublic class RegisterState implements CliState {\n\n    @Override\n    public void showMenu() {\n\n        Printer.print(\"\\n ---Register---\");\n\n    }\n\n    @Override\n    public void goNext(CliContext context, String input) {\n        Scanner scanner = context.getScanner();\n\n        Printer.print(\"Welcome to toGetJob! Fill the following fields: \");\n\n        String username = getValidInput(scanner, \"Enter username: \");\n        String password = getValidInput(scanner, \"Enter password: \");\n        String checkPassword = getValidInput(scanner, \"Confirm password: \");\n\n        while (!password.equals(checkPassword)) {\n            Printer.print(\"Passwords do not match. Please try again.\");\n            password = getValidInput(scanner, \"Enter password: \");\n            checkPassword = getValidInput(scanner, \"Confirm password: \");\n        }\n\n        String name = getValidInput(scanner, \"Enter name: \");\n        String surname = getValidInput(scanner, \"Enter surname: \");\n        String email = getValidInput(scanner, \"Enter email: \");\n\n        String roleInput;\n        do {\n            roleInput = getValidInput(scanner, \"Enter role (student/recruiter): \").trim().toLowerCase();\n            if (!roleInput.equals(\"student\") && !roleInput.equals(\"recruiter\")) {\n                Printer.print(\"Invalid role. Please enter 'student' or 'recruiter'.\");\n            }\n        } while (!roleInput.equals(\"student\") && !roleInput.equals(\"recruiter\"));\n\n        RegisterUserBean userBean = new RegisterUserBean();\n        userBean.setUsername(username);\n        userBean.setPassword(password);\n        userBean.setName(name);\n        userBean.setSurname(surname);\n        userBean.setEmail(email);\n        userBean.setRoleInput(roleInput);\n\n        // Polymorphism\n        Object infoBean = \"student\".equals(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);\n\n        RegisterBoundary registerBoundary = new RegisterBoundary();\n        try {\n            boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);\n\n            if (registrationSuccess) {\n                Printer.print(\"Registration successful!\");\n                context.setState(new MainMenuState());\n            } else {\n                Printer.print(\"Username already exists. Please try again.\");\n                context.setState(new RegisterState());\n            }\n        } catch (UsernameTakeException e) {\n            Printer.print(\"Error: The username is already taken. Please choose a different username.\");\n            Printer.print(\"Would you like to try again with a different username? (yes/no)\");\n            if (scanner.nextLine().trim().equalsIgnoreCase(\"yes\")) {\n                context.setState(new RegisterState());\n            } else {\n                context.setState(new MainMenuState());\n            }\n        } catch (DatabaseException e) {\n            Printer.print(e.getMessage());\n            context.setState(new ExitState());\n        } catch (Exception e) {\n            Printer.print(\"An unexpected error occurred: \" + e.getMessage());\n            context.setState(new MainMenuState());\n        }\n    }\n\n    // Metodo per validare l'input ed evitare campi vuoti\n    private String getValidInput(Scanner scanner, String prompt) {\n        String input;\n        do {\n            Printer.print(prompt);\n            input = scanner.nextLine().trim();\n            if (input.isEmpty()) {\n                Printer.print(\"This field cannot be empty. Please enter a valid value.\");\n            }\n        } while (input.isEmpty());\n        return input;\n    }\n\n    private StudentInfoBean getStudentInfo(Scanner scanner) {\n        Printer.print(\"Please, complete your student profile:\");\n\n        Printer.print(\"Enter date of birth (yyyy-mm-dd): \");\n        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());\n        Printer.print(\"Enter phone number: \");\n        String phoneNumber = scanner.nextLine();\n        Printer.print(\"Enter degrees (comma-separated): \");\n        List<String> degrees = List.of(scanner.nextLine().split(\",\"));\n        Printer.print(\"Enter courses attended (comma-separated): \");\n        List<String> courses = List.of(scanner.nextLine().split(\",\"));\n        Printer.print(\"Enter certifications (comma-separated): \");\n        List<String> certifications = List.of(scanner.nextLine().split(\",\"));\n        Printer.print(\"Enter work experiences (comma-separated): \");\n        List<String> workExperiences = List.of(scanner.nextLine().split(\",\"));\n        Printer.print(\"Enter skills (comma-separated): \");\n        List<String> skills = List.of(scanner.nextLine().split(\",\"));\n        Printer.print(\"Enter availability: \");\n        String availability = scanner.nextLine();\n\n        StudentInfoBean studentInfoBean = new StudentInfoBean();\n\n        studentInfoBean.setDateOfBirth(dateOfBirth);\n        studentInfoBean.setPhoneNumber(phoneNumber);\n        studentInfoBean.setDegrees(degrees);\n        studentInfoBean.setCoursesAttended(courses);\n        studentInfoBean.setCertifications(certifications);\n        studentInfoBean.setWorkExperiences(workExperiences);\n        studentInfoBean.setSkills(skills);\n        studentInfoBean.setAvailability(availability);\n        return studentInfoBean;\n    }\n\n    private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {\n        Printer.print(\"Please, complete your recruiter profile:\");\n\n        Printer.print(\"Enter the companies you work for (comma-separated): \");\n        List<String> companies = List.of(scanner.nextLine().split(\",\"));\n\n        RecruiterInfoBean recruiterInfoBean = new RecruiterInfoBean();\n        recruiterInfoBean.setCompanies(companies);\n\n        return recruiterInfoBean;\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java b/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java	(revision fbcbcb8dcb94150711d91adb238db3f510e601c9)
++++ b/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java	(date 1739478704965)
+@@ -11,6 +11,8 @@
+ import org.example.togetjob.view.cli.contextstate.CliContext;
+ 
+ import java.time.LocalDate;
++import java.time.format.DateTimeFormatter;
++import java.time.format.DateTimeParseException;
+ import java.util.List;
+ import java.util.Scanner;
+ 
+@@ -43,6 +45,8 @@
+         String surname = getValidInput(scanner, "Enter surname: ");
+         String email = getValidInput(scanner, "Enter email: ");
+ 
++
++
+         String roleInput;
+         do {
+             roleInput = getValidInput(scanner, "Enter role (student/recruiter): ").trim().toLowerCase();
+@@ -90,24 +94,34 @@
+         }
+     }
+ 
+-    // Metodo per validare l'input ed evitare campi vuoti
+     private String getValidInput(Scanner scanner, String prompt) {
+         String input;
+         do {
+             Printer.print(prompt);
+             input = scanner.nextLine().trim();
++
+             if (input.isEmpty()) {
+                 Printer.print("This field cannot be empty. Please enter a valid value.");
++                continue;
+             }
+-        } while (input.isEmpty());
++
++            // Controllo specifico per l'email
++            if (prompt.toLowerCase().contains("email") && !input.contains("@")) {
++                Printer.print("Invalid email format. Please enter a valid email containing '@'.");
++                continue;
++            }
++
++            break; // Se il controllo è superato, esce dal ciclo
++        } while (true);
++
+         return input;
+     }
+ 
++
+     private StudentInfoBean getStudentInfo(Scanner scanner) {
+         Printer.print("Please, complete your student profile:");
+ 
+-        Printer.print("Enter date of birth (yyyy-mm-dd): ");
+-        LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());
++        LocalDate dateOfBirth = getValidDate(scanner);
+         Printer.print("Enter phone number: ");
+         String phoneNumber = scanner.nextLine();
+         Printer.print("Enter degrees (comma-separated): ");
+@@ -136,6 +150,26 @@
+         return studentInfoBean;
+     }
+ 
++    private LocalDate getValidDate(Scanner scanner) {
++        LocalDate date = null;
++        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
++        boolean valid = false;
++
++        do {
++            try {
++                Printer.print("Enter date of birth (yyyy-mm-dd): ");
++                String input = scanner.nextLine().trim();
++                date = LocalDate.parse(input, formatter);
++                valid = true; // Uscita dal loop
++            } catch (DateTimeParseException e) {
++                Printer.print("Invalid date format. Please enter a valid date (yyyy-MM-dd).");
++            }
++        } while (!valid);
++
++        return date;
++    }
++
++
+     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
+         Printer.print("Please, complete your recruiter profile:");
+ 

@@ -1,0 +1,183 @@
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java b/src/main/java/org/example/togetjob/view/cli/MainMenuState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java
+rename to src/main/java/org/example/togetjob/view/cli/MainMenuState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/MainMenuState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/MainMenuState.java	(date 1739652586542)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.printer.Printer;
+ import org.example.togetjob.view.Context;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java b/src/main/java/org/example/togetjob/view/cli/HomeRecruiterState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java
+rename to src/main/java/org/example/togetjob/view/cli/HomeRecruiterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/HomeRecruiterState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/HomeRecruiterState.java	(date 1739652586570)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.view.Context;
+ import org.example.togetjob.view.State;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java b/src/main/java/org/example/togetjob/view/cli/HomeStudentState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java
+rename to src/main/java/org/example/togetjob/view/cli/HomeStudentState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/HomeStudentState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/HomeStudentState.java	(date 1739652586568)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.InterviewSchedulingStudentInfoBean;
+ import org.example.togetjob.view.Context;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java b/src/main/java/org/example/togetjob/view/cli/SendAJobApplicationRecruiterState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java
+rename to src/main/java/org/example/togetjob/view/cli/SendAJobApplicationRecruiterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationRecruiterState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/SendAJobApplicationRecruiterState.java	(date 1739652586548)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.InterviewSchedulingBean;
+ import org.example.togetjob.bean.JobAnnouncementBean;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java b/src/main/java/org/example/togetjob/view/cli/SendAJobApplicationStudentState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java
+rename to src/main/java/org/example/togetjob/view/cli/SendAJobApplicationStudentState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/SendAJobApplicationStudentState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/SendAJobApplicationStudentState.java	(date 1739652586574)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.JobAnnouncementBean;
+ import org.example.togetjob.bean.JobAnnouncementSearchBean;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java b/src/main/java/org/example/togetjob/view/cli/ContactAJobCandidateRecruiterState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java
+rename to src/main/java/org/example/togetjob/view/cli/ContactAJobCandidateRecruiterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/ContactAJobCandidateRecruiterState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/ContactAJobCandidateRecruiterState.java	(date 1739652586551)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.InterviewSchedulingBean;
+ import org.example.togetjob.bean.JobAnnouncementBean;
+Index: src/main/java/org/example/togetjob/view/CliContext.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view;\n\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.view.cli.concretestate.LoginState;\nimport org.example.togetjob.view.cli.concretestate.MainMenuState;\nimport org.example.togetjob.view.cli.concretestate.ExitState;\nimport org.example.togetjob.view.cli.concretestate.RegisterState;\n\nimport java.util.Scanner;\n\npublic class CliContext implements Context {\n\n    private State currentState;\n    private final Scanner scanner;\n\n    public CliContext() {\n        this.currentState = new MainMenuState();\n        this.scanner = new Scanner(System.in);\n    }\n\n    @Override\n    public void setState(State newState) {\n        this.currentState = newState;\n    }\n\n    @Override\n    public void initialize() {\n\n        while (!(currentState instanceof ExitState)) {\n            currentState.showMenu();\n            String input = scanner.nextLine().trim();\n            Printer.print(\"Input received: \" + input);\n            goNext(input);\n\n            if (currentState instanceof LoginState) {\n                goNext(\"login\");\n            } else if (currentState instanceof RegisterState) {\n                goNext(\"register\");\n            }\n            if (currentState instanceof ExitState) {\n                goNext(\"exit\");\n            }\n        }\n\n        Printer.print(\"Close CLI...\");\n    }\n\n    @Override\n    public void goNext(String input) {\n        currentState.goNext(this, input);\n    }\n\n    public Scanner getScanner() {\n        return this.scanner;\n    }\n}\n
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/CliContext.java b/src/main/java/org/example/togetjob/view/CliContext.java
+--- a/src/main/java/org/example/togetjob/view/CliContext.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/CliContext.java	(date 1739652586562)
+@@ -1,10 +1,10 @@
+ package org.example.togetjob.view;
+ 
+ import org.example.togetjob.printer.Printer;
+-import org.example.togetjob.view.cli.concretestate.LoginState;
+-import org.example.togetjob.view.cli.concretestate.MainMenuState;
+-import org.example.togetjob.view.cli.concretestate.ExitState;
+-import org.example.togetjob.view.cli.concretestate.RegisterState;
++import org.example.togetjob.view.cli.LoginState;
++import org.example.togetjob.view.cli.MainMenuState;
++import org.example.togetjob.view.cli.ExitState;
++import org.example.togetjob.view.cli.RegisterState;
+ 
+ import java.util.Scanner;
+ 
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java b/src/main/java/org/example/togetjob/view/cli/PublishAJobAnnouncementRecruiterState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java
+rename to src/main/java/org/example/togetjob/view/cli/PublishAJobAnnouncementRecruiterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/PublishAJobAnnouncementRecruiterState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/PublishAJobAnnouncementRecruiterState.java	(date 1739652586545)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.JobAnnouncementBean;
+ import org.example.togetjob.exceptions.*;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java b/src/main/java/org/example/togetjob/view/cli/ExitState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java
+rename to src/main/java/org/example/togetjob/view/cli/ExitState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/ExitState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/ExitState.java	(date 1739652586516)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.connection.DatabaseConfig;
+ import org.example.togetjob.printer.Printer;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java b/src/main/java/org/example/togetjob/view/cli/LoginState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java
+rename to src/main/java/org/example/togetjob/view/cli/LoginState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/LoginState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/LoginState.java	(date 1739652586559)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.exceptions.UserNotFoundException;
+ import org.example.togetjob.exceptions.WrongPasswordException;
+Index: src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java b/src/main/java/org/example/togetjob/view/cli/RegisterState.java
+rename from src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java
+rename to src/main/java/org/example/togetjob/view/cli/RegisterState.java
+--- a/src/main/java/org/example/togetjob/view/cli/concretestate/RegisterState.java	(revision d241dc483532acc8ff413d1044cb7fadfba7886a)
++++ b/src/main/java/org/example/togetjob/view/cli/RegisterState.java	(date 1739652586538)
+@@ -1,4 +1,4 @@
+-package org.example.togetjob.view.cli.concretestate;
++package org.example.togetjob.view.cli;
+ 
+ import org.example.togetjob.bean.RecruiterInfoBean;
+ import org.example.togetjob.bean.RegisterUserBean;
