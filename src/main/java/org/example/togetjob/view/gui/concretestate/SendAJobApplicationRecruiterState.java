@@ -23,7 +23,7 @@ public class SendAJobApplicationRecruiterState implements State {
     public void showMenu() {
         try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruiterviewjobapplications.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/recruiterviewjobapplications.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
 

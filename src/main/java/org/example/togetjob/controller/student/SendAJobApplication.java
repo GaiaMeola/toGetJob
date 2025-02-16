@@ -71,7 +71,7 @@ public class SendAJobApplication {
         // Student who wants to send a job application to a job announcement
         Student student = SessionManager.getInstance().getStudentFromSession();
         if (student == null) {
-            throw new UnauthorizedAccessException("You have to be logged to apply for a job announcement.");
+            throw new UnauthorizedAccessException("Sorry, you have to be logged.");
         }
 
         //Recruiter who publishes the job announcement
@@ -173,7 +173,6 @@ public class SendAJobApplication {
             throw new UnauthorizedAccessException("You have to be logged to apply for a job announcement.");
         }
 
-
         try {
             Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
 
@@ -182,7 +181,6 @@ public class SendAJobApplication {
             }
 
             JobAnnouncement jobAnnouncement = jobAnnouncementOpt.get();
-
             // all the job applications sent to the job announcement
             List<JobApplication> jobApplications = jobApplicationDao.getJobApplicationsByJobAnnouncement(jobAnnouncement);
             return convertToJobApplicationBeans(jobApplications);

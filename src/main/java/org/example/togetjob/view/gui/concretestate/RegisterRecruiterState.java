@@ -28,7 +28,7 @@ public class RegisterRecruiterState implements State {
     public void showMenu() {
         try {
             Printer.print("Showing RegisterRecruiterState...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/registerrecruiter.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/registerrecruiter.fxml"));
             Parent root = fxmlLoader.load();
 
             RegisterRecruiterController registerRecruiterController = fxmlLoader.getController();

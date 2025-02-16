@@ -25,7 +25,7 @@ public class HomeState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/home.fxml"));
             Parent root = loader.load();
 
             HomeController controller = loader.getController();

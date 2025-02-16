@@ -11,7 +11,6 @@ import org.example.togetjob.state.Context;
 import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController;
-import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 
 import java.io.IOException;
 
@@ -28,7 +27,7 @@ public class FilteredJobAnnouncementsState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobannouncements.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/filteredjobannouncements.fxml"));
 
             VBox root = fxmlLoader.load();
             Scene scene = new Scene(root, 600, 500);

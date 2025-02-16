@@ -23,7 +23,7 @@ public class CreateJobAnnouncementState implements State {
     public void showMenu() {
         try {
             Printer.print("Showing Create Job Announcement...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/recruitercreatejobannouncement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/recruitercreatejobannouncement.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             CreateJobAnnouncementController controller = fxmlLoader.getController();

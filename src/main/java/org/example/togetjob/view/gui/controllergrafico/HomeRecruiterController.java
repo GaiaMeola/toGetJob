@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -75,17 +76,16 @@ public class HomeRecruiterController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    HBox hbox = new HBox(10);
+                    HBox hbox = new HBox(20);
                     hbox.setAlignment(Pos.CENTER_LEFT);
-                    hbox.setPadding(new Insets(5, 10, 5, 10));
+                    hbox.setPadding(new Insets(5, 10, 10, 20));
 
                     Text jobTitleText = new Text(jobAnnouncement.getJobTitle());
-                    jobTitleText.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
+                    jobTitleText.setStyle("-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9; -fx-font-family: 'Apple Gothic Regular';");
 
-                    Text statusText = new Text(jobAnnouncement.isActive() ? "ACTIVE" : "INACTIVE");
-                    statusText.setStyle(getStatusColorStyle(jobAnnouncement.isActive()));
+                    Label statusLabel = createStatusLabel(jobAnnouncement.isActive());
 
-                    hbox.getChildren().addAll(jobTitleText, statusText);
+                    hbox.getChildren().addAll(jobTitleText, statusLabel);
                     hbox.getChildren().add(createButtonsForJobAnnouncement(jobAnnouncement));
 
                     setGraphic(hbox);
@@ -94,8 +94,12 @@ public class HomeRecruiterController {
         };
     }
 
-    private String getStatusColorStyle(boolean isActive) {
-        return isActive ? "-fx-fill: #28A745;" : "-fx-fill: #DC3545;";
+    private Label createStatusLabel(boolean isActive) {
+        Label statusLabel = new Label(isActive ? "ACTIVE" : "INACTIVE");
+        statusLabel.setStyle("-fx-font-size: 12px; -fx-font-family: 'Apple Gothic Regular'; " +
+                (isActive ? "-fx-background-color: #28A745; -fx-text-fill: white;" : "-fx-background-color: #DC3545; -fx-text-fill: white;") +
+                "-fx-padding: 5px 10px; -fx-border-radius: 5px;");
+        return statusLabel;
     }
 
     private HBox createButtonsForJobAnnouncement(JobAnnouncementBean jobAnnouncement) {
@@ -109,7 +113,7 @@ public class HomeRecruiterController {
 
         String buttonStyle = "-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; " +
                 "-fx-border-radius: 5; -fx-border-color: #2980b9; -fx-border-width: 2; " +
-                "-fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 5;" +
+                "-fx-cursor: hand; -fx-background-radius: 5;" +
                 "-fx-font-size: 11px;";
 
         manageButton.setStyle(buttonStyle);

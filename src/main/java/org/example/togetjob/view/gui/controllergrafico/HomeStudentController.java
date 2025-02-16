@@ -124,7 +124,7 @@ public class HomeStudentController {
     }
 
     private ListCell<JobApplicationBean> createJobApplicationCell() {
-        return new ListCell<JobApplicationBean>() {
+        return new ListCell<>() {
             @Override
             protected void updateItem(JobApplicationBean app, boolean empty) {
                 super.updateItem(app, empty);
@@ -141,13 +141,9 @@ public class HomeStudentController {
                     Text jobTitleText = new Text(app.getJobTitle());
                     jobTitleText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #2980b9;");
 
-                    Text statusLabelText = new Text(" - Status:");
-                    statusLabelText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 14px; -fx-fill: #2980b9;");
+                    Label statusLabel = createStatusLabel(String.valueOf(app.getStatus()));
 
-                    Text statusText = new Text(app.getStatus().toString());
-                    statusText.setStyle("-fx-font-family: 'Apple Gothic'; -fx-font-size: 14px; " + getStatusColorStyle(String.valueOf(app.getStatus())));
-
-                    hbox.getChildren().addAll(jobTitleText, statusLabelText, statusText);
+                    hbox.getChildren().addAll(jobTitleText, statusLabel);
 
                     HBox buttonBox = createButtonsForApplication(app);
                     hbox.getChildren().add(buttonBox);
@@ -158,19 +154,27 @@ public class HomeStudentController {
         };
     }
 
+    private Label createStatusLabel(String status) {
+        Label statusLabel = new Label(status);
+        statusLabel.setStyle("-fx-font-size: 14px; -fx-font-family: 'Apple Gothic'; " +
+                getStatusColorStyle(status) +
+                "-fx-padding: 5px 10px; -fx-border-radius: 5px;");
+        return statusLabel;
+    }
+
     private String getStatusColorStyle(String status) {
         switch (status.toUpperCase()) {
             case PENDING -> {
-                return "-fx-fill: #2980b9;";
+                return "-fx-background-color: #2980b9; -fx-text-fill: white;";
             }
             case ACCEPTED -> {
-                return "-fx-fill: #28A745;";
+                return "-fx-background-color: #28A745; -fx-text-fill: white;";
             }
             case REJECTED -> {
-                return "-fx-fill: #DC3545;";
+                return "-fx-background-color: #DC3545; -fx-text-fill: white;";
             }
             default -> {
-                return "-fx-fill: #000000;";
+                return "-fx-background-color: #000000; -fx-text-fill: white;";
             }
         }
     }
@@ -185,14 +189,10 @@ public class HomeStudentController {
             Button deleteButton = new Button("Delete");
             deleteButton.setOnAction(event -> deleteApplication(app));
 
-            String buttonStyle = "-fx-background-color: #b3d9ff; " +
-                    "-fx-text-fill: #2980b9; " +
-                    "-fx-border-radius: 15; " +
-                    "-fx-border-color: #2980b9; " +
-                    "-fx-border-width: 2; " +
-                    "-fx-cursor: hand; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-radius: 15;";
+            String buttonStyle = "-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; " +
+                    "-fx-border-radius: 5; -fx-border-color: #2980b9; -fx-border-width: 2; " +
+                    "-fx-cursor: hand; -fx-background-radius: 5;" +
+                    "-fx-font-size: 10px;";
 
             modifyButton.setStyle(buttonStyle);
             deleteButton.setStyle(buttonStyle);

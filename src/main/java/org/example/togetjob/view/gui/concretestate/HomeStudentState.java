@@ -23,7 +23,7 @@ public class HomeStudentState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/homestudent.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/homestudent.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             HomeStudentController controller = fxmlLoader.getController();
