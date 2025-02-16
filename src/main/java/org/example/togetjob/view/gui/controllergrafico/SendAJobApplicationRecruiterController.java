@@ -88,7 +88,7 @@ public class SendAJobApplicationRecruiterController {
             private final Button viewApplicationsButton = new Button("View Job Applications");
             private final HBox buttonsBox = new HBox(viewApplicationsButton);
 
-            {
+            { // NOSONAR
                 viewApplicationsButton.setStyle(BUTTON_STYLE);
                 viewApplicationsButton.setOnAction(event -> viewJobApplications(getTableView().getItems().get(getIndex())));
                 buttonsBox.setStyle("-fx-alignment: center;" + "-fx-font-size: 12px;");

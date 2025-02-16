@@ -113,14 +113,6 @@
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
     </task>
-    <task id="LOCAL-00020" summary="Settimo Commit: Inizio del caso d'uso Send A Job Application">
-      <option name="closed" value="true" />
-      <created>1738534877519</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1738534877519</updated>
-    </task>
     <task id="LOCAL-00021" summary="Settimo Commit: Inizio del caso d'uso Send A Job Application">
       <option name="closed" value="true" />
       <created>1738591871116</created>
@@ -505,7 +497,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739746132555</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Qualche modifica alla grafica">
+      <option name="closed" value="true" />
+      <created>1739749602100</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1739749602100</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

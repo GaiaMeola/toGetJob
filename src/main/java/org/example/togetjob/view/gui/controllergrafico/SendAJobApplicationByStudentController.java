@@ -300,7 +300,7 @@ public class SendAJobApplicationByStudentController {
                     showAlert(Alert.AlertType.ERROR, "Error: You are not authorized to apply for this job.");
             case DatabaseException databaseException ->
                     showAlert(Alert.AlertType.ERROR, "Error: A database error occurred. Please try again later.");
-            default -> {
+            default -> { // NOSONAR
                 showAlert(Alert.AlertType.ERROR, "Unexpected error: " + e.getMessage());
             }
         }
