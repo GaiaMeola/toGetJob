@@ -51,7 +51,7 @@ public class ContactAJobCandidateState implements State {
             setCloseRequestListener(stage);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading Contact a Job Candidate View: " + e.getMessage());
         }
     }
 

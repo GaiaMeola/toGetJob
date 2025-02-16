@@ -8,6 +8,7 @@ import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBounda
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.CliContext;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PublishAJobAnnouncementRecruiterState implements State{
@@ -167,80 +168,114 @@ public class PublishAJobAnnouncementRecruiterState implements State{
     }
 
     private void manageJobAnnouncement(Scanner scanner) {
-        // This method will allow the recruiter to manage (deactivate, activate, or delete) a job announcement
-
+        // Retrieve the list of job announcements
         var jobAnnouncements = publishAJobAnnouncementRecruiterBoundary.getJobAnnouncements();
 
         if (jobAnnouncements.isEmpty()) {
             Printer.print("No job announcements found.");
-        } else {
-            // Display the announcements
-            Printer.print("Here are the job announcements you have created or are collaborating on:");
-
-            for (int i = 0; i < jobAnnouncements.size(); i++) {
-                var job = jobAnnouncements.get(i);
-                Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
-            }
+            return;
         }
 
-        Printer.print("Enter the title of the job announcement to manage: ");
-        String jobTitle = scanner.nextLine();
+        // Display the announcements
+        displayJobAnnouncements(jobAnnouncements);
 
+        // Prompt for the job title to manage
+        String jobTitle = getJobTitle(scanner);
+        if (jobTitle == null) return;  // If the input is invalid, exit the method
+
+        // Display available actions
         Printer.print("Choose an action: ");
         Printer.print("0. Go back");
         Printer.print("1. Deactivate");
         Printer.print("2. Activate");
         Printer.print("3. Delete");
-        Printer.print("Choose an option: ");
+
         String action = scanner.nextLine();
 
         if ("0".equals(action)) {
             Printer.print("Returning to the previous menu...");
-            return; // Exit the method and return to the previous menu
+            return;
         }
 
+        // Perform the selected action
+        handleJobAction(action, jobTitle);
+    }
+
+    private void displayJobAnnouncements(List<JobAnnouncementBean> jobAnnouncements) {
+        Printer.print("Here are the job announcements you have created or are collaborating on:");
+        for (int i = 0; i < jobAnnouncements.size(); i++) {
+            var job = jobAnnouncements.get(i);
+            Printer.print((i + 1) + ". Title: " + job.getJobTitle() + " | Active: " + job.isActive());
+        }
+    }
+
+    private String getJobTitle(Scanner scanner) {
+        Printer.print("Enter the title of the job announcement to manage: ");
+        String jobTitle = scanner.nextLine();
+
+        if (jobTitle.isEmpty()) {
+            Printer.print("Job title cannot be empty. Returning to previous menu.");
+            return null;
+        }
+
+        return jobTitle;
+    }
+
+    private void handleJobAction(String action, String jobTitle) {
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
         jobAnnouncementBean.setJobTitle(jobTitle);
 
         boolean success;
 
         switch (action) {
-            case "1": // Deactivate
-                try {
-                    success = publishAJobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
-                    if (success) {
-                        Printer.print("Job announcement deactivated successfully.");
-                    } else {
-                        Printer.print("Failed to deactivate job announcement.");
-                    }
-                } catch (DatabaseException e) {
-                    Printer.print(e.getMessage());
-                }
+            case "1":
+                success = deactivateJobAnnouncement(jobAnnouncementBean);
                 break;
-
-            case "2": // Activate
-                success = publishAJobAnnouncementRecruiterBoundary.activateJobAnnouncement(jobAnnouncementBean);
-                if (success) {
-                    Printer.print("Job announcement activated successfully.");
-                } else {
-                    Printer.print("Failed to activate job announcement.");
-                }
+            case "2":
+                success = activateJobAnnouncement(jobAnnouncementBean);
                 break;
-
-            case "3": // Delete
-                success = publishAJobAnnouncementRecruiterBoundary.deleteJobAnnouncement(jobAnnouncementBean);
-                if (success) {
-                    Printer.print("Job announcement deleted successfully.");
-                } else {
-                    Printer.print("Failed to delete job announcement.");
-                }
+            case "3":
+                success = deleteJobAnnouncement(jobAnnouncementBean);
                 break;
-
             default:
                 Printer.print("Invalid option. Returning to the previous menu.");
-                break;
+                return;
+        }
+
+        if (success) {
+            Printer.print("Job announcement action performed successfully.");
+        } else {
+            Printer.print("Failed to perform the action.");
         }
     }
+
+    private boolean deactivateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
+        try {
+            return publishAJobAnnouncementRecruiterBoundary.deactivateJobAnnouncement(jobAnnouncementBean);
+        } catch (DatabaseException e) {
+            Printer.print(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean activateJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
+        try {
+            return publishAJobAnnouncementRecruiterBoundary.activateJobAnnouncement(jobAnnouncementBean);
+        } catch (DatabaseException e) {
+            Printer.print(e.getMessage());
+            return false;
+        }
+    }
+
+    private boolean deleteJobAnnouncement(JobAnnouncementBean jobAnnouncementBean) {
+        try {
+            return publishAJobAnnouncementRecruiterBoundary.deleteJobAnnouncement(jobAnnouncementBean);
+        } catch (DatabaseException e) {
+            Printer.print(e.getMessage());
+            return false;
+        }
+    }
+
 
 }
 

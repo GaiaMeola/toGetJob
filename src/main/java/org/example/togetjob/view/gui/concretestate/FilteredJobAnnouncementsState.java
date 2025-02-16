@@ -45,7 +45,6 @@ public class FilteredJobAnnouncementsState implements State {
             stage.setTitle("Filtered Job Announcements by Student");
             stage.setScene(scene);
 
-            // Listener per chiudere l'applicazione
             stage.setOnCloseRequest(event -> {
                 Platform.exit();
                 System.exit(0);
@@ -54,7 +53,7 @@ public class FilteredJobAnnouncementsState implements State {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading Filtered Job Announcement View: " + e.getMessage());
         }
     }
 

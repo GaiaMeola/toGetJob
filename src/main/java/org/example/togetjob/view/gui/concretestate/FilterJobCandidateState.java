@@ -46,8 +46,7 @@ public class FilterJobCandidateState implements State {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            Printer.print("Error loading FXML: " + e.getMessage());
+            Printer.print("Error loading Filter Job Candidate View: " + e.getMessage());
         }
     }
 

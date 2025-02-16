@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.Context;
 import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
@@ -49,7 +50,7 @@ public class SendAJobApplicationRecruiterState implements State {
 
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading FXML for Send a Job Application Recruiter View: " + e.getMessage());
         }
     }
     @Override
