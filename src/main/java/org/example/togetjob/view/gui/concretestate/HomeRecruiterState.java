@@ -24,7 +24,7 @@ public class HomeRecruiterState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/homerecruiter.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/homerecruiter.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             HomeRecruiterController controller = fxmlLoader.getController();

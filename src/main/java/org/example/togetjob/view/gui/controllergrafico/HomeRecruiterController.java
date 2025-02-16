@@ -114,7 +114,7 @@ public class HomeRecruiterController {
         String buttonStyle = "-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; " +
                 "-fx-border-radius: 5; -fx-border-color: #2980b9; -fx-border-width: 2; " +
                 "-fx-cursor: hand; -fx-background-radius: 5;" +
-                "-fx-font-size: 11px;";
+                "-fx-font-size: 10px;";
 
         manageButton.setStyle(buttonStyle);
         contactButton.setStyle(buttonStyle);

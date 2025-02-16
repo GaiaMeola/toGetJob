@@ -25,7 +25,7 @@ public class FilterJobAnnouncementStudentState implements State {
         Printer.print("Showing Filter Job Announcement by Student...");
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/studentfiltersjobannouncement.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/studentfiltersjobannouncement.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             FilterJobAnnouncementStudentController filterJobAnnouncementStudentController = fxmlLoader.getController();

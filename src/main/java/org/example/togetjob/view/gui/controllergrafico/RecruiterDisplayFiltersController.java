@@ -44,9 +44,6 @@ public class RecruiterDisplayFiltersController {
         studentInfoSearchBean.setAvailability(availability);
 
 
-
-
     }
-
 
 }

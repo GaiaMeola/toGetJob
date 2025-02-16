@@ -23,7 +23,7 @@ public class FilterJobCandidateState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/filterjobcandidatesrecruiter.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/filterjobcandidatesrecruiter.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
 
             FilterJobCandidateRecruiterController controller = fxmlLoader.getController();

@@ -24,7 +24,7 @@ public class RegisterUserState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/registeruser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/registeruser.fxml"));
             Parent root = loader.load();
 
             RegisterController controller = loader.getController();

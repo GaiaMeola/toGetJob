@@ -39,7 +39,7 @@
             </AnchorPane>
             <ImageView fitHeight="85.0" fitWidth="111.0" layoutX="170.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true" y="-7.0">
                <image>
-                  <Image url="@logo-removebg-preview.png" />
+                  <Image url="@../logo-removebg-preview.png" />
                </image>
                <viewport>
                   <Rectangle2D minY="-10.0" />
@@ -47,7 +47,7 @@
             </ImageView>
             <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@back-158491_1920.png" />
+                  <Image url="@../back-158491_1920.png" />
                </image>
             </ImageView>
          </children>

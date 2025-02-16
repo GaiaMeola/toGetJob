@@ -34,7 +34,7 @@ public class ContactAJobCandidateState implements State {
         }
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/filteredjobcandidates.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/filteredjobcandidates.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
             ContactAJobCandidateController controller = fxmlLoader.getController();
             controller.setContext(context);

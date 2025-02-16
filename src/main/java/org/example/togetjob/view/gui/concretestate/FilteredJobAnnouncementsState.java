@@ -27,7 +27,7 @@ public class FilteredJobAnnouncementsState implements State {
     @Override
     public void showMenu() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/filteredjobannouncements.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/filteredjobannouncements.fxml"));
 
             VBox root = fxmlLoader.load();
             Scene scene = new Scene(root, 600, 500);

@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -19,8 +20,8 @@ import java.util.List;
 
 public class SendAJobApplicationRecruiterController {
 
-    private static final String BUTTON_STYLE = "-fx-background-color: #2980b9; " +
-            "-fx-text-fill: white; " +
+    private static final String BUTTON_STYLE = "-fx-background-color: #b3d9ff; " +
+            "-fx-text-fill: #2980b9; " +
             "-fx-border-radius: 10; " +
             "-fx-border-color: #2980b9; " +
             "-fx-border-width: 2; " +
@@ -136,7 +137,7 @@ public class SendAJobApplicationRecruiterController {
         coverLetterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoverLetter()));
 
         // Create the actions column for Accept/Reject buttons
-        TableColumn<JobApplicationBean, Void> actionsColumnForApplications = getJobApplicationBeanVoidTableColumn(jobApplications, jobAnnouncement);
+        TableColumn<JobApplicationBean, Void> actionsColumnForApplications = getJobApplicationBeanVoidTableColumn(jobApplications);
 
         // Set font size for each column
         setColumnFont(studentNameColumn);
@@ -190,17 +191,15 @@ public class SendAJobApplicationRecruiterController {
 
     // Create the actions column with Accept/Reject buttons
     @NotNull
-    private TableColumn<JobApplicationBean, Void> getJobApplicationBeanVoidTableColumn(List<JobApplicationBean> jobApplications, JobAnnouncementBean jobAnnouncement) {
+    private TableColumn<JobApplicationBean, Void> getJobApplicationBeanVoidTableColumn(List<JobApplicationBean> jobApplications) {
         TableColumn<JobApplicationBean, Void> actionsColumnForApplications = new TableColumn<>("Actions");
         actionsColumnForApplications.setCellFactory(column -> new TableCell<>() {
             private final Button acceptButton = new Button("Accept");
             private final Button rejectButton = new Button("Reject");
 
             {
-                // Set the Accept button style
+                // Set the Accept and Reject buttons style (same BUTTON_STYLE as you defined)
                 acceptButton.setStyle(BUTTON_STYLE);
-
-                // Set the Reject button style
                 rejectButton.setStyle(BUTTON_STYLE);
 
                 // Handle button actions
@@ -211,9 +210,15 @@ public class SendAJobApplicationRecruiterController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                // Align the buttons horizontally with some padding
-                HBox buttonBox = new HBox(20, acceptButton, rejectButton); // Increase spacing
-                buttonBox.setStyle("-fx-alignment: center; -fx-padding: 10;");
+
+                // Create a HBox to hold the buttons with some alignment and spacing
+                HBox buttonBox = new HBox(10, acceptButton, rejectButton); // Increased spacing for better look
+                buttonBox.setStyle("-fx-alignment: center; -fx-padding: 5 10;"); // Alignment centered and padding between buttons
+
+                // You can set an alignment inside the HBox if you need the buttons on a specific side
+                buttonBox.setAlignment(Pos.CENTER); // Align buttons in the center
+
+                // Set the graphic of the cell, or clear it if empty
                 setGraphic(empty ? null : buttonBox);
             }
         });

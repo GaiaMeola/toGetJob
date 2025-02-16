@@ -81,7 +81,7 @@
             <Glow />
          </effect>
       </Separator>
-      <Label layoutX="238.0" layoutY="407.0" style="-fx-text-fill: #2980b9;" text="Do you want to send a job application? ">
+      <Label layoutX="238.0" layoutY="407.0" style="-fx-text-fill: #2980b9;" text="Do you want to send a job application? " AnchorPane.topAnchor="407.0">
          <font>
             <Font name="AppleGothic Regular" size="14.0" />
          </font>

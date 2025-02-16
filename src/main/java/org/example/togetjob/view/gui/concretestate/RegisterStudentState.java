@@ -28,7 +28,7 @@ public class RegisterStudentState implements State {
     public void showMenu() {
         try {
             Printer.print("Showing RegisterStudentState...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/javaFXfile/fxml/registerstudent.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerstudent.fxml"));
             Parent root = fxmlLoader.load();
 
             RegisterStudentController registerStudentController = fxmlLoader.getController();
