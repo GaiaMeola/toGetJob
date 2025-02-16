@@ -20,8 +20,6 @@ import org.example.togetjob.model.entity.Status;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
-import org.example.togetjob.state.GUIContext;
-import org.example.togetjob.view.gui.concretestate.FilterJobAnnouncementStudentState;
 
 import java.util.List;
 
@@ -45,13 +43,10 @@ public class SendAJobApplicationByStudentController {
     @FXML
     private TableColumn<JobAnnouncementBean, Void> actionsColumn;
 
-    private GUIContext guiContext;
+
     private JobAnnouncementSearchBean jobAnnouncementSearchBean;
     private final SendAJobApplicationStudentBoundary boundary = new SendAJobApplicationStudentBoundary();
 
-    public void setContext(GUIContext context) {
-        this.guiContext = context;
-    }
 
     public void setJobAnnouncementSearchBean(JobAnnouncementSearchBean jobAnnouncementSearchBean) {
         this.jobAnnouncementSearchBean = jobAnnouncementSearchBean;
@@ -62,6 +57,7 @@ public class SendAJobApplicationByStudentController {
 
     @FXML
     private void initialize() {
+        // This method is called automatically by the FXML loader to set up the table columns.
         setupTableColumns();
     }
 

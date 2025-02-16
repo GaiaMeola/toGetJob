@@ -3,7 +3,6 @@ package org.example.togetjob.view.boundary;
 import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.controller.LoginController;
 import org.example.togetjob.exceptions.UserNotFoundException;
-import org.example.togetjob.exceptions.UserNotLoggedException;
 import org.example.togetjob.exceptions.WrongPasswordException;
 import org.example.togetjob.session.SessionManager;
 
