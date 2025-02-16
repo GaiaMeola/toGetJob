@@ -198,7 +198,7 @@ public class SendAJobApplicationRecruiterController {
             private final Button acceptButton = new Button("Accept");
             private final Button rejectButton = new Button("Reject");
 
-            {
+            { // NOSONAR
                 // Set the Accept and Reject buttons style (same BUTTON_STYLE as you defined)
                 acceptButton.setStyle(BUTTON_STYLE);
                 rejectButton.setStyle(BUTTON_STYLE);

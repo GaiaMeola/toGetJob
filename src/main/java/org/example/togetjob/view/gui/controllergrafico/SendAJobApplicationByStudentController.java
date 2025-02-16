@@ -56,7 +56,7 @@ public class SendAJobApplicationByStudentController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() { // NOSONAR
         // This method is called automatically by the FXML loader to set up the table columns.
         setupTableColumns();
     }
@@ -98,7 +98,7 @@ public class SendAJobApplicationByStudentController {
         actionsColumn.setCellFactory(param -> new TableCell<>() {
             private final Button viewDetailsButton = new Button("View Details");
 
-            {
+            {  // NOSONAR
                 viewDetailsButton.setStyle(BUTTON_STYLE);
                 viewDetailsButton.setOnAction(event -> {
                     JobAnnouncementBean job = getTableView().getItems().get(getIndex());
