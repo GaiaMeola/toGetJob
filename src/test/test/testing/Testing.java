@@ -1,4 +1,4 @@
-package org.example.togetjob.testing;
+package testing;
 
 import org.example.togetjob.config.AppConfig;
 import org.example.togetjob.connection.DatabaseConfig;
@@ -51,7 +51,7 @@ public class Testing {
 
     public void testUsername() {
         try {
-            saveUser("alreadyExisting", "email@", Role.RECRUITER);
+            saveUser("alreadyExisting", "email@");
         } catch (UsernameTakeException e) {
             Printer.print(STRING);
         }
@@ -59,7 +59,7 @@ public class Testing {
 
     public void testEmail() {
         try {
-            saveUser("username", "alreadyExisting@gmail.com", Role.RECRUITER);
+            saveUser("username", "alreadyExisting@gmail.com");
         } catch (EmailAlreadyExistsException e) {
             Printer.print(STRING);
         }
@@ -89,7 +89,7 @@ public class Testing {
 
     public void databaseTesting() {
         try {
-            saveUser("username", "email@", Role.RECRUITER);
+            saveUser("username", "email@");
         } catch (DatabaseException e) {
             Printer.print(STRING);
         }
@@ -103,8 +103,8 @@ public class Testing {
         }
     }
 
-    private void saveUser(String username, String email, Role role) throws UsernameTakeException, EmailAlreadyExistsException, DatabaseException {
-        Student user = new Student("name", "surname", username, email, "password", role);
+    private void saveUser(String username, String email) throws UsernameTakeException, EmailAlreadyExistsException, DatabaseException {
+        Student user = new Student("name", "surname", username, email, "password", Role.RECRUITER);
         DataBaseUserDao dataBaseUserDao = new DataBaseUserDao();
         dataBaseUserDao.saveUser(user);
     }

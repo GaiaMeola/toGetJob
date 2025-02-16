@@ -27,6 +27,8 @@ public class SendAJobApplicationStudentState implements State {
     private static final String JOB_TYPE = "Job Type: ";
     private static final String JOB_ROLE = "Job Role: ";
 
+    private static final String ERROR_UNEXPECTED = "Unexpected error: ";
+
     @Override
     public void showMenu() {
 
@@ -139,7 +141,7 @@ public class SendAJobApplicationStudentState implements State {
         } catch (NumberFormatException e) {
             Printer.print("Invalid input. Please enter a valid number.");
         } catch (Exception e) {
-            Printer.print("An unexpected error occurred: " + e.getMessage());
+            Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
 
@@ -177,7 +179,7 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print("Error: Invalid input format. Please ensure your input is valid.");
         } catch (Exception e) {
             // Handle any unexpected errors
-            Printer.print("Unexpected error: " + e.getMessage());
+            Printer.print(ERROR_UNEXPECTED+ e.getMessage());
         }
     }
 
@@ -212,7 +214,7 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print("Error: You are not authorized to delete this application. Please ensure you're logged in.");
         } catch (Exception e) {
             // General error handling
-            Printer.print("Unexpected error: " + e.getMessage());
+            Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
 
@@ -303,7 +305,7 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print("Error: " + e.getMessage());
         }  catch (Exception e) {
             // Handle any unexpected errors
-            Printer.print("Unexpected error: " + e.getMessage());
+            Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
 
@@ -406,7 +408,7 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print("Error: A database issue occurred while processing your application. Please try again later.");
         } catch (Exception e) {
             // Handle any other unexpected exceptions
-            Printer.print("An unexpected error occurred: " + e.getMessage());
+            Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
 }

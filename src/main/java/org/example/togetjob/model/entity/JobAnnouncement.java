@@ -1,6 +1,5 @@
 package org.example.togetjob.model.entity;
 
-import org.example.togetjob.pattern.subject.JobApplicationCollection;
 
 public class JobAnnouncement {
 
@@ -14,7 +13,6 @@ public class JobAnnouncement {
     private String description;
     private Boolean isActive;
     private Recruiter recruiter;
-    private final JobApplicationCollection jobApplicationCollection;
 
     public JobAnnouncement(String jobTitle, String jobType, String jobRole, String location,
                            int workingHours, String companyName, double salary) {
@@ -27,7 +25,6 @@ public class JobAnnouncement {
         this.salary = salary;
         this.recruiter = null;
 
-        this.jobApplicationCollection = new JobApplicationCollection();
     }
 
     public void setRecruiter(Recruiter recruiter) {
@@ -76,10 +73,6 @@ public class JobAnnouncement {
 
     public void setActive(Boolean active) {
         isActive = active;
-    }
-
-    public JobApplicationCollection getJobApplicationCollection() {
-        return jobApplicationCollection;
     }
 
     public void setDescription(String description) { this.description = description; }
