@@ -1,5 +1,7 @@
 package org.example.togetjob.model.entity;
 
+import org.example.togetjob.printer.Printer;
+
 import java.util.List;
 
 public class Recruiter extends User {
@@ -9,6 +11,11 @@ public class Recruiter extends User {
     //User
     public Recruiter(String name, String surname, String username, String emailAddress, String password, Role role) {
         super(name, surname, username, emailAddress, password, role);
+    }
+
+    @Override
+    public void introduce() {
+        Printer.print("Hello, I'm a recruiter !");
     }
 
     //Recruiter

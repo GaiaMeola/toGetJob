@@ -1,6 +1,9 @@
 package org.example.togetjob.model.entity;
 
+import org.example.togetjob.printer.Printer;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Student extends User{
@@ -17,6 +20,11 @@ public class Student extends User{
 
     public Student(String name, String surname, String username, String emailAddress, String password, Role role) {
         super(name, surname, username, emailAddress, password, role); // User
+    }
+
+    @Override
+    public void introduce() {
+        Printer.print("Hello, I'm a student !");
     }
 
     public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth) {
@@ -78,8 +86,16 @@ public class Student extends User{
 
     public void setAvailability(String availability) { this.availability = availability; }
 
-    //public void removeJobApplication(JobApplication jobApplication){}
+    public void addJobApplication(JobApplication jobApplication) {
+        if (jobApplications == null) {
+            jobApplications = new ArrayList<>();
+        }
+        jobApplications.add(jobApplication);
+    }
 
-    //public void addJobApplication(JobApplication jobApplication){}
-
+    public void removeJobApplication(JobApplication jobApplication) {
+        if (jobApplications != null) {
+            jobApplications.remove(jobApplication);  // Removes the job application if it exists in the list
+        }
+    }
 }

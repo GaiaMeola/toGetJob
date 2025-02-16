@@ -40,6 +40,6 @@ public abstract class User {
 
     public String obtainSurname() { return surname; }
 
-    // public abstract void introduce() ;
-
+    // Abstract method to be implemented by subclasses
+    public abstract void introduce();
 }
