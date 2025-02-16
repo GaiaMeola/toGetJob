@@ -353,49 +353,61 @@ public class SendAJobApplicationStudentState implements State {
         }
     }
 
+    private JobApplicationBean fillApplicationForm(Scanner scanner, JobAnnouncementBean selectedJob) {
+        Printer.print("Filling out the application form...");
+
+        JobApplicationBean jobApplicationBean = sendAJobApplicationStudentBoundary.fillJobApplicationForm(selectedJob);
+
+        if (jobApplicationBean != null) {
+            Printer.print("\n --- Review your Application ---");
+            Printer.print("Job Title: " + jobApplicationBean.getJobTitle());
+            Printer.print("Applicant Name: " + jobApplicationBean.getStudentUsername());
+
+            // Ask the user for their cover letter
+            Printer.print("Enter your cover letter: ");
+            String coverLetter = scanner.nextLine();
+            jobApplicationBean.setCoverLetter(coverLetter);
+
+            Printer.print("Cover Letter: " + jobApplicationBean.getCoverLetter());
+
+            return jobApplicationBean;
+        } else {
+            Printer.print("Failed to fill out the application form. Please try again.");
+            return null;
+        }
+    }
+
+    private void submitApplication(Scanner scanner, JobApplicationBean jobApplicationBean, List<JobAnnouncementBean> jobAnnouncements) {
+        if (jobApplicationBean != null) {
+            // Confirm submission
+            Printer.print("\nDo you want to submit your application?");
+            Printer.print("1. Submit");
+            Printer.print("2. Go back");
+            Printer.print(CHOSE_AN_OPTION);
+            String submitChoice = scanner.nextLine();
+
+            if (submitChoice.equals("1")) {
+                // Attempt to submit the application
+                boolean isApplicationSent = sendAJobApplicationStudentBoundary.sendAJobApplication(jobApplicationBean);
+                if (isApplicationSent) {
+                    Printer.print("Your application has been successfully submitted!");
+                } else {
+                    Printer.print("There was an error submitting your application. Please try again.");
+                }
+            } else if (submitChoice.equals("2")) {
+                // Go back to job details
+                showJobAnnouncementDetails(scanner, jobAnnouncements);
+            } else {
+                Printer.print("Invalid choice. Please try again.");
+                submitApplication(scanner, jobApplicationBean, jobAnnouncements);
+            }
+        }
+    }
+
     private void applyForJob(Scanner scanner, JobAnnouncementBean selectedJob, List<JobAnnouncementBean> jobAnnouncements) {
         try {
-            Printer.print("Filling out the application form...");
-
-            JobApplicationBean jobApplicationBean = sendAJobApplicationStudentBoundary.fillJobApplicationForm(selectedJob);
-
-            if (jobApplicationBean != null) {
-                Printer.print("\n --- Review your Application ---");
-                Printer.print("Job Title: " + jobApplicationBean.getJobTitle());
-                Printer.print("Applicant Name: " + jobApplicationBean.getStudentUsername());
-
-                // Ask the user for their cover letter
-                Printer.print("Enter your cover letter: ");
-                String coverLetter = scanner.nextLine();
-                jobApplicationBean.setCoverLetter(coverLetter);
-
-                Printer.print("Cover Letter: " + jobApplicationBean.getCoverLetter());
-
-                // Confirm submission
-                Printer.print("\nDo you want to submit your application?");
-                Printer.print("1. Submit");
-                Printer.print("2. Go back");
-                Printer.print(CHOSE_AN_OPTION);
-                String submitChoice = scanner.nextLine();
-
-                if (submitChoice.equals("1")) {
-                    // Attempt to submit the application
-                    boolean isApplicationSent = sendAJobApplicationStudentBoundary.sendAJobApplication(jobApplicationBean);
-                    if (isApplicationSent) {
-                        Printer.print("Your application has been successfully submitted!");
-                    } else {
-                        Printer.print("There was an error submitting your application. Please try again.");
-                    }
-                } else if (submitChoice.equals("2")) {
-                    // Go back to job details
-                    showJobAnnouncementDetails(scanner, jobAnnouncements);
-                } else {
-                    Printer.print("Invalid choice. Please try again.");
-                    applyForJob(scanner, selectedJob, jobAnnouncements);
-                }
-            } else {
-                Printer.print("Failed to fill out the application form. Please try again.");
-            }
+            JobApplicationBean jobApplicationBean = fillApplicationForm(scanner, selectedJob);
+            submitApplication(scanner, jobApplicationBean, jobAnnouncements);
         } catch (JobAnnouncementNotActiveException e) {
             Printer.print("Error: The job announcement you are trying to apply for is no longer active. Please check other job announcements.");
         } catch (JobApplicationAlreadySentException e) {
@@ -411,4 +423,5 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
+
 }

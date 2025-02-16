@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Qualche modifica alla grafica">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Recruiter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Recruiter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/model/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/PublishAJobAnnouncementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/controller/recruiter/PublishAJobAnnouncementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/dao.config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dao.config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +100,6 @@
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
       <recent name="org.example.togetjob" />
     </key>
   </component>
@@ -113,6 +111,46 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Settimo Commit: prova Caso d'uso Registrazione">
+      <option name="closed" value="true" />
+      <created>1738233820826</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1738233820826</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Settimo Commit: prova Caso d'uso Registrazione">
+      <option name="closed" value="true" />
+      <created>1738234210460</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1738234210460</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Settimo Commit: prova Caso d'uso Registrazione">
+      <option name="closed" value="true" />
+      <created>1738234584655</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1738234584655</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Settimo Commit: Caso d'uso Registrazione e Login iniziati">
+      <option name="closed" value="true" />
+      <created>1738255911165</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1738255911165</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Settimo Commit: Caso d'uso Registrazione e Login completati">
+      <option name="closed" value="true" />
+      <created>1738320033356</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1738320033356</updated>
     </task>
     <task id="LOCAL-00019" summary="Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli">
       <option name="closed" value="true" />
@@ -466,47 +504,7 @@
       <option name="project" value="LOCAL" />
       <updated>1739715792252</updated>
     </task>
-    <task id="LOCAL-00063" summary="Qualche modifica alla grafica">
-      <option name="closed" value="true" />
-      <created>1739718862545</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1739718862545</updated>
-    </task>
-    <task id="LOCAL-00064" summary="Qualche modifica alla grafica">
-      <option name="closed" value="true" />
-      <created>1739718872988</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1739718872988</updated>
-    </task>
-    <task id="LOCAL-00065" summary="Qualche modifica alla grafica">
-      <option name="closed" value="true" />
-      <created>1739722454494</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1739722454494</updated>
-    </task>
-    <task id="LOCAL-00066" summary="Qualche modifica alla grafica">
-      <option name="closed" value="true" />
-      <created>1739744789100</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1739744789100</updated>
-    </task>
-    <task id="LOCAL-00067" summary="Qualche modifica alla grafica">
-      <option name="closed" value="true" />
-      <created>1739745628818</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1739745628818</updated>
-    </task>
-    <option name="localTasksCounter" value="68" />
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
