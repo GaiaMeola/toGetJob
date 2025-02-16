@@ -4,13 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Commit">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_02_25,_19_19_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_09_02_25__19_19__Changes_.xml" beforeDir="false" />
+    <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Qualche modifica alla grafica">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/state/CliState.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/state/GUIState.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/ContactAJobCandidateState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/ContactAJobCandidateState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/CreateJobAnnouncementState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobAnnouncementStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobAnnouncementStudentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobCandidateState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilterJobCandidateState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilteredJobAnnouncementsState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/FilteredJobAnnouncementsState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/HomeStudentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterUserState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterUserState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/SendAJobApplicationRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/SendAJobApplicationRecruiterState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/HomeRecruiterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/RecruiterDisplayFiltersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationRecruiterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationRecruiterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/RecruiterContactCandidate.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/RecruiterViewCandidateDetails.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/RecruiterViewCandidateDetails.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/RecruiterViewSchedulingInterviews.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/RecruiterViewSchedulingInterviews.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/back-158491_1920.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/back-158491_1920.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/filteredjobannouncements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/filteredjobannouncements.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/filteredjobcandidates.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/filteredjobcandidates.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/filterjobcandidatesrecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/filterjobcandidatesrecruiter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/home.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/home.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/homerecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/homerecruiter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/homestudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/homestudent.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/recruitercreatejobannouncement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/recruitercreatejobannouncement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/recruiterviewjobapplications.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/recruiterviewjobapplications.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/registerrecruiter.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/registerrecruiter.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/registerstudent.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/registerstudent.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/registeruser.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/registeruser.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/fxml/studentfiltersjobannouncement.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/studentfiltersjobannouncement.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/imagerecruiterprogile.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/imagerecruiterprogile.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/imagestudentprofile.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/imagestudentprofile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/logo-removebg-preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logo-removebg-preview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/javaFXfile/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logo.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,12 +72,12 @@
     &quot;assignee&quot;: &quot;GaiaMeola&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/GaiaMeola/toGetJob.git",
-    "accountId": "10ff2728-a55b-45dc-b4f1-a35abedc973c"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,
+    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -70,25 +100,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HelloApplication.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Testing.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.externalResources"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.example.togetjob.model.dao.concretefactorydao" />
@@ -97,35 +126,15 @@
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/fxml" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml" />
       <recent name="$PROJECT_DIR$/src/main/resources/org/example/togetjob" />
-      <recent name="$PROJECT_DIR$/target/classes/org/example/togetjob" />
-      <recent name="$PROJECT_DIR$/target/classes/org/example/togetjob/view" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="org.example.togetjob" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.example.togetjob.testing.Testing" />
-      <module name="toGetJob" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.example.togetjob.testing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Testing" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -135,14 +144,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729955148511</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Sesto Commit: Pattern State CLI prova">
-      <option name="closed" value="true" />
-      <created>1738179850232</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1738179850233</updated>
     </task>
     <task id="LOCAL-00014" summary="Settimo Commit: prova Caso d'uso Registrazione">
       <option name="closed" value="true" />
@@ -528,7 +529,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739666736730</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="Qualche modifica alla grafica">
+      <option name="closed" value="true" />
+      <created>1739715792252</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1739715792252</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -566,7 +575,8 @@
     <MESSAGE value="commit" />
     <MESSAGE value="Prova: aggiunta di alcune eccezioni" />
     <MESSAGE value="Registrazione e Login interfacce ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="Registrazione e Login interfacce ok" />
+    <MESSAGE value="Qualche modifica alla grafica" />
+    <option name="LAST_COMMIT_MESSAGE" value="Qualche modifica alla grafica" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

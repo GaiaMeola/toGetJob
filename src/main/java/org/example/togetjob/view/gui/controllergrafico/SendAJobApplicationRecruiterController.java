@@ -62,7 +62,8 @@ public class SendAJobApplicationRecruiterController {
                 jobAnnouncementsTable.setPlaceholder(new Label("No content available"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // Show an error alert without logging
+            showAlert(Alert.AlertType.ERROR, "An error occurred while loading the job announcements. Please try again later.");
         }
     }
 
@@ -202,6 +203,17 @@ public class SendAJobApplicationRecruiterController {
                 acceptButton.setStyle(BUTTON_STYLE);
                 rejectButton.setStyle(BUTTON_STYLE);
 
+                // Ensure text is clearly visible and set proper font size
+                acceptButton.setTextFill(javafx.scene.paint.Color.WHITE);  // White text color
+                rejectButton.setTextFill(javafx.scene.paint.Color.WHITE);  // White text color
+
+                // Set custom dimensions for the buttons (adjust width and height)
+                acceptButton.setMinWidth(120); // Set a minimum width for the Accept button
+                acceptButton.setMinHeight(40); // Set a minimum height for the Accept button
+
+                rejectButton.setMinWidth(120); // Set a minimum width for the Reject button
+                rejectButton.setMinHeight(40); // Set a minimum height for the Reject button
+
                 // Handle button actions
                 acceptButton.setOnAction(event -> handleAcceptApplication(getTableView().getItems().get(getIndex()), jobApplications));
                 rejectButton.setOnAction(event -> handleRejectApplication(getTableView().getItems().get(getIndex()), jobApplications));
@@ -212,11 +224,11 @@ public class SendAJobApplicationRecruiterController {
                 super.updateItem(item, empty);
 
                 // Create a HBox to hold the buttons with some alignment and spacing
-                HBox buttonBox = new HBox(10, acceptButton, rejectButton); // Increased spacing for better look
-                buttonBox.setStyle("-fx-alignment: center; -fx-padding: 5 10;"); // Alignment centered and padding between buttons
+                HBox buttonBox = new HBox(15, acceptButton, rejectButton); // Increased spacing between buttons
+                buttonBox.setStyle("-fx-alignment: center; -fx-padding: 10;"); // Alignment centered and padding around buttons
 
-                // You can set an alignment inside the HBox if you need the buttons on a specific side
-                buttonBox.setAlignment(Pos.CENTER); // Align buttons in the center
+                // Set the alignment of buttons to be centered in the HBox
+                buttonBox.setAlignment(Pos.CENTER); // Ensure buttons are centered horizontally
 
                 // Set the graphic of the cell, or clear it if empty
                 setGraphic(empty ? null : buttonBox);

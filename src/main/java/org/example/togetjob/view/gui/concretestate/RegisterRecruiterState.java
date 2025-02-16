@@ -55,7 +55,7 @@ public class RegisterRecruiterState implements State {
 
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading FXML for Register Recruiter View: " + e.getMessage());
         }
     }
 
