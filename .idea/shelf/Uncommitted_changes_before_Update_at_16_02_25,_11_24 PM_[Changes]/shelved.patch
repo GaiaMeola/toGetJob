@@ -1,0 +1,408 @@
+Index: src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.example.togetjob.view.gui.controllergrafico;\n\nimport javafx.beans.property.SimpleStringProperty;\nimport javafx.collections.FXCollections;\nimport javafx.collections.ObservableList;\nimport javafx.fxml.FXML;\nimport javafx.geometry.Pos;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport org.example.togetjob.bean.JobAnnouncementBean;\nimport org.example.togetjob.bean.JobAnnouncementSearchBean;\nimport org.example.togetjob.bean.JobApplicationBean;\nimport org.example.togetjob.exceptions.*;\nimport org.example.togetjob.model.entity.Status;\nimport org.example.togetjob.printer.Printer;\nimport org.example.togetjob.session.SessionManager;\nimport org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;\nimport org.example.togetjob.state.GUIContext;\nimport org.example.togetjob.view.gui.concretestate.FilterJobAnnouncementStudentState;\n\nimport java.util.List;\n\npublic class SendAJobApplicationByStudentController {\n\n    private static final String COMMON_FONT_STYLE = \"-fx-font-family: 'Apple Gothic'; -fx-font-size: 18px; -fx-text-fill: #2980b9;\";\n    private static final String BUTTON_STYLE = \"-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; \" +\n            \"-fx-border-radius: 5; -fx-border-color: #2980b9; -fx-border-width: 2; \" +\n            \"-fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 5;\" +\n            \"-fx-font-size: 14px; -fx-padding: 10 20;\";\n    private static final String BOLD_JOB_TITLE_STYLE = \"-fx-font-family: 'Apple Gothic'; -fx-font-size: 18px; -fx-text-fill: #2980b9; -fx-font-weight: bold;\";\n\n    @FXML\n    private TableView<JobAnnouncementBean> jobsTable;\n    @FXML\n    private TableColumn<JobAnnouncementBean, String> jobTitleColumn;\n    @FXML\n    private TableColumn<JobAnnouncementBean, String> companyColumn;\n    @FXML\n    private TableColumn<JobAnnouncementBean, Void> actionsColumn;\n\n    private GUIContext guiContext;\n    private JobAnnouncementSearchBean jobAnnouncementSearchBean;\n    private final SendAJobApplicationStudentBoundary boundary = new SendAJobApplicationStudentBoundary();\n\n    public void setContext(GUIContext context) {\n        this.guiContext = context;\n    }\n\n    public void setJobAnnouncementSearchBean(JobAnnouncementSearchBean jobAnnouncementSearchBean) {\n        this.jobAnnouncementSearchBean = jobAnnouncementSearchBean;\n        if (jobsTable != null) {\n            loadJobAnnouncements();\n        }\n    }\n\n    @FXML\n    private void initialize() {\n        jobTitleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getJobTitle()));\n        companyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCompanyName()));\n\n\n        jobTitleColumn.setPrefWidth(300);\n        companyColumn.setPrefWidth(250);\n        actionsColumn.setPrefWidth(200);\n\n\n        jobTitleColumn.setCellFactory(param -> new TableCell<JobAnnouncementBean, String>() {\n            @Override\n            protected void updateItem(String jobTitle, boolean empty) {\n                super.updateItem(jobTitle, empty);\n                if (empty || jobTitle == null) {\n                    setText(null);\n                } else {\n                    setText(jobTitle);\n                    setStyle(BOLD_JOB_TITLE_STYLE);\n                }\n            }\n        });\n\n        companyColumn.setCellFactory(param -> new TableCell<JobAnnouncementBean, String>() {\n            @Override\n            protected void updateItem(String companyName, boolean empty) {\n                super.updateItem(companyName, empty);\n                if (empty || companyName == null) {\n                    setText(null);\n                } else {\n                    setText(companyName);\n                    setStyle(COMMON_FONT_STYLE);\n                }\n            }\n        });\n\n\n        actionsColumn.setCellFactory(param -> new TableCell<>() {\n            private final Button viewDetailsButton = new Button(\"View Details\");\n\n            {\n                viewDetailsButton.setStyle(BUTTON_STYLE);\n                viewDetailsButton.setOnAction(event -> {\n                    JobAnnouncementBean job = getTableView().getItems().get(getIndex());\n                    openJobDetailsPopup(job);\n                });\n            }\n\n            @Override\n            protected void updateItem(Void item, boolean empty) {\n                super.updateItem(item, empty);\n                if (empty) {\n                    setGraphic(null);\n                } else {\n\n                    HBox hbox = new HBox(viewDetailsButton);\n                    hbox.setAlignment(Pos.CENTER);\n                    hbox.setSpacing(10);\n                    setGraphic(hbox);\n                }\n            }\n        });\n    }\n\n\n    public void loadJobAnnouncements() {\n        if (jobAnnouncementSearchBean == null) {\n            Printer.print(\"ERROR: jobAnnouncementSearchBean is NULL\");\n            return;\n        }\n        List<JobAnnouncementBean> jobList = boundary.getJobAnnouncements(jobAnnouncementSearchBean);\n        ObservableList<JobAnnouncementBean> observableList = FXCollections.observableArrayList(jobList);\n        jobsTable.setItems(observableList);\n    }\n\n    private void openJobDetailsPopup(JobAnnouncementBean job) {\n        Dialog<Void> dialog = new Dialog<>();\n        dialog.setTitle(\"Job Details: \" + job.getJobTitle());\n        dialog.setHeaderText(job.getCompanyName());\n\n\n        Label detailsLabel = new Label(\"Details:\");\n        detailsLabel.setStyle(COMMON_FONT_STYLE + \"-fx-font-weight: bold; -fx-font-size: 20px;\");\n\n\n        Label detailsContent = new Label();\n        detailsContent.setWrapText(true);\n        detailsContent.setStyle(COMMON_FONT_STYLE);\n\n        detailsContent.setText(\n                \"Role: \" + job.getRole() + \"\\n\" +\n                        \"Type: \" + job.getJobType() + \"\\n\" +\n                        \"Location: \" + job.getLocation() + \"\\n\" +\n                        \"Working Hours: \" + job.getWorkingHours() + \"\\n\" +\n                        \"Salary: \" + job.getSalary()\n        );\n\n\n        Button applyButton = new Button(\"Apply\");\n        applyButton.setStyle(BUTTON_STYLE);\n        applyButton.setOnAction(event -> openJobApplicationForm(job));\n\n        VBox detailsBox = new VBox(10, detailsLabel, detailsContent, applyButton);\n        detailsBox.setStyle(\"-fx-padding: 20; -fx-alignment: center;\");\n\n        dialog.getDialogPane().setMinWidth(400);\n        dialog.getDialogPane().setMinHeight(300);\n        dialog.getDialogPane().setContent(detailsBox);\n\n        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);\n        dialog.showAndWait();\n    }\n\n\n    private void openJobApplicationForm(JobAnnouncementBean job) {\n        Dialog<JobApplicationBean> dialog = new Dialog<>();\n        dialog.setTitle(\"Apply for: \" + job.getJobTitle());\n        dialog.setHeaderText(\"Submit your application for \" + job.getCompanyName());\n\n        Label coverLetterLabel = new Label(\"Cover Letter:\");\n        coverLetterLabel.setStyle(COMMON_FONT_STYLE + \"-fx-font-weight: bold;\");\n\n        TextArea coverLetterField = new TextArea();\n        coverLetterField.setPromptText(\"Write your cover letter here...\");\n        coverLetterField.setPrefRowCount(5);\n        coverLetterField.setStyle(COMMON_FONT_STYLE);\n\n        VBox formBox = new VBox(10, coverLetterLabel, coverLetterField);\n        formBox.setStyle(\"-fx-padding: 20;\");\n\n        dialog.getDialogPane().setContent(formBox);\n        dialog.getDialogPane().getButtonTypes().addAll(\n                new ButtonType(\"Submit\", ButtonBar.ButtonData.OK_DONE),\n                new ButtonType(\"Cancel\", ButtonBar.ButtonData.CANCEL_CLOSE)\n        );\n\n        dialog.setResultConverter(dialogButton -> {\n            if (dialogButton.getButtonData() == ButtonBar.ButtonData.OK_DONE) {\n                try {\n                    JobApplicationBean applicationBean = new JobApplicationBean();\n                    applicationBean.setJobTitle(job.getJobTitle());\n                    applicationBean.setRecruiterUsername(job.getRecruiterUsername());\n                    applicationBean.setCoverLetter(coverLetterField.getText().trim());\n\n                    String studentUsername = SessionManager.getInstance().getStudentFromSession().obtainUsername();\n                    applicationBean.setStudentUsername(studentUsername);\n\n                    applicationBean.setStatus(Status.PENDING);\n\n                    boolean success = boundary.sendAJobApplication(applicationBean);\n                    showAlert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR,\n                            success ? \"Application submitted successfully!\" : \"Failed to submit application.\");\n\n                } catch (RecruiterNotFoundException e) {\n                    showAlert(Alert.AlertType.ERROR, \"Error: Recruiter not found. Please try again later.\");\n                } catch (JobAnnouncementNotFoundException e) {\n                    showAlert(Alert.AlertType.ERROR, \"Error: Job announcement not found. It may have been removed.\");\n                } catch (JobAnnouncementNotActiveException e) {\n                    showAlert(Alert.AlertType.ERROR, \"Error: This job announcement is no longer active.\");\n                } catch (JobApplicationAlreadySentException e) {\n                    showAlert(Alert.AlertType.WARNING, \"Warning: You have already applied for this job.\");\n                } catch (UnauthorizedAccessException e) {\n                    showAlert(Alert.AlertType.ERROR, \"Error: You are not authorized to apply for this job.\");\n                } catch (DatabaseException e) {\n                    showAlert(Alert.AlertType.ERROR, \"Error: A database error occurred. Please try again later.\");\n                } catch (Exception e) {\n                    showAlert(Alert.AlertType.ERROR, \"Unexpected error: \" + e.getMessage());\n                }\n            }\n            return null;\n        });\n\n        dialog.showAndWait();\n    }\n\n    private void showAlert(Alert.AlertType type, String message) {\n        Alert alert = new Alert(type, message);\n        alert.setTitle(\"Notification\");\n        alert.setHeaderText(null);\n        alert.showAndWait();\n    }\n\n    @FXML\n    private void handleGoBack() {\n        if (guiContext != null) {\n            Printer.print(\"Going back to Filters...\");\n            guiContext.setState(new FilterJobAnnouncementStudentState(guiContext));\n            guiContext.showMenu();\n        } else {\n            Printer.print(\"Context is NOT initialized in FilterJobAnnouncement!\");\n        }\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java b/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java
+--- a/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java	(revision a385ccbba75017682c021352bfc0696d9972e87f)
++++ b/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java	(date 1739743999800)
+@@ -1,13 +1,17 @@
+ package org.example.togetjob.view.gui.controllergrafico;
+ 
++import javafx.application.Platform;
+ import javafx.beans.property.SimpleStringProperty;
+ import javafx.collections.FXCollections;
+ import javafx.collections.ObservableList;
+ import javafx.fxml.FXML;
+ import javafx.geometry.Pos;
++import javafx.scene.Scene;
+ import javafx.scene.control.*;
++import javafx.scene.layout.GridPane;
+ import javafx.scene.layout.HBox;
+ import javafx.scene.layout.VBox;
++import javafx.stage.Stage;
+ import org.example.togetjob.bean.JobAnnouncementBean;
+ import org.example.togetjob.bean.JobAnnouncementSearchBean;
+ import org.example.togetjob.bean.JobApplicationBean;
+@@ -29,6 +33,8 @@
+             "-fx-cursor: hand; -fx-font-weight: bold; -fx-background-radius: 5;" +
+             "-fx-font-size: 14px; -fx-padding: 10 20;";
+     private static final String BOLD_JOB_TITLE_STYLE = "-fx-font-family: 'Apple Gothic'; -fx-font-size: 18px; -fx-text-fill: #2980b9; -fx-font-weight: bold;";
++    private static final String JOB_DETAIL_STYLE = "-fx-font-family: 'Apple Gothic'; -fx-font-size: 16px; -fx-text-fill: #2980b9;";
++    private static final String JOB_DETAIL_STYLE_TITLE = "-fx-font-family: 'Apple Gothic'; -fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #b3d9ff;";
+ 
+     @FXML
+     private TableView<JobAnnouncementBean> jobsTable;
+@@ -56,16 +62,18 @@
+ 
+     @FXML
+     private void initialize() {
++        setupTableColumns();
++    }
++
++    private void setupTableColumns() {
+         jobTitleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getJobTitle()));
+         companyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCompanyName()));
+ 
+-
+         jobTitleColumn.setPrefWidth(300);
+         companyColumn.setPrefWidth(250);
+         actionsColumn.setPrefWidth(200);
+ 
+-
+-        jobTitleColumn.setCellFactory(param -> new TableCell<JobAnnouncementBean, String>() {
++        jobTitleColumn.setCellFactory(param -> new TableCell<>() {
+             @Override
+             protected void updateItem(String jobTitle, boolean empty) {
+                 super.updateItem(jobTitle, empty);
+@@ -78,7 +86,7 @@
+             }
+         });
+ 
+-        companyColumn.setCellFactory(param -> new TableCell<JobAnnouncementBean, String>() {
++        companyColumn.setCellFactory(param -> new TableCell<>() {
+             @Override
+             protected void updateItem(String companyName, boolean empty) {
+                 super.updateItem(companyName, empty);
+@@ -91,7 +99,6 @@
+             }
+         });
+ 
+-
+         actionsColumn.setCellFactory(param -> new TableCell<>() {
+             private final Button viewDetailsButton = new Button("View Details");
+ 
+@@ -109,7 +116,6 @@
+                 if (empty) {
+                     setGraphic(null);
+                 } else {
+-
+                     HBox hbox = new HBox(viewDetailsButton);
+                     hbox.setAlignment(Pos.CENTER);
+                     hbox.setSpacing(10);
+@@ -119,7 +125,6 @@
+         });
+     }
+ 
+-
+     public void loadJobAnnouncements() {
+         if (jobAnnouncementSearchBean == null) {
+             Printer.print("ERROR: jobAnnouncementSearchBean is NULL");
+@@ -131,45 +136,105 @@
+     }
+ 
+     private void openJobDetailsPopup(JobAnnouncementBean job) {
+-        Dialog<Void> dialog = new Dialog<>();
+-        dialog.setTitle("Job Details: " + job.getJobTitle());
+-        dialog.setHeaderText(job.getCompanyName());
++        // Create a new Stage for the job details
++        Stage detailsStage = new Stage();
++        detailsStage.setTitle("Job Details: " + job.getJobTitle());
++
++        // Create a GridPane to hold the content of the details popup
++        GridPane grid = new GridPane();
++        grid.setVgap(10);  // Vertical gap between rows
++        grid.setHgap(20);  // Horizontal gap between columns
++        grid.setStyle("-fx-padding: 20; -fx-alignment: center; -fx-background-color: white;");
+ 
++        // Title of the job details
++        Label jobTitleLabel = new Label("Job Title:");
++        jobTitleLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label jobTitleValue = new Label(job.getJobTitle());
++        jobTitleValue.setStyle(JOB_DETAIL_STYLE);
+ 
+-        Label detailsLabel = new Label("Details:");
+-        detailsLabel.setStyle(COMMON_FONT_STYLE + "-fx-font-weight: bold; -fx-font-size: 20px;");
++        // Company Name
++        Label companyLabel = new Label("Company:");
++        companyLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label companyValue = new Label(job.getCompanyName());
++        companyValue.setStyle(JOB_DETAIL_STYLE);
+ 
++        // Job details labels (Role, Type, etc.)
++        Label roleLabel = new Label("Role:");
++        roleLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label roleValue = new Label(job.getRole());
++        roleValue.setStyle(JOB_DETAIL_STYLE);
+ 
+-        Label detailsContent = new Label();
+-        detailsContent.setWrapText(true);
+-        detailsContent.setStyle(COMMON_FONT_STYLE);
++        Label typeLabel = new Label("Type:");
++        typeLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label typeValue = new Label(job.getJobType());
++        typeValue.setStyle(JOB_DETAIL_STYLE);
+ 
+-        detailsContent.setText(
+-                "Role: " + job.getRole() + "\n" +
+-                        "Type: " + job.getJobType() + "\n" +
+-                        "Location: " + job.getLocation() + "\n" +
+-                        "Working Hours: " + job.getWorkingHours() + "\n" +
+-                        "Salary: " + job.getSalary()
+-        );
++        Label locationLabel = new Label("Location:");
++        locationLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label locationValue = new Label(job.getLocation());
++        locationValue.setStyle(JOB_DETAIL_STYLE);
+ 
++        Label salaryLabel = new Label("Salary:");
++        salaryLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label salaryValue = new Label(job.getSalary());
++        salaryValue.setStyle(JOB_DETAIL_STYLE);
+ 
++        // New fields: Description, Status, Recruiter
++        Label descriptionLabel = new Label("Description:");
++        descriptionLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label descriptionValue = new Label(job.getDescription());
++        descriptionValue.setStyle(JOB_DETAIL_STYLE);
++
++        Label statusLabel = new Label("Status:");
++        statusLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label statusValue = new Label(job.isActive() ? "Active" : "Inactive");
++        statusValue.setStyle(JOB_DETAIL_STYLE);
++
++        Label recruiterLabel = new Label("Recruiter:");
++        recruiterLabel.setStyle(JOB_DETAIL_STYLE_TITLE);
++        Label recruiterValue = new Label(job.getRecruiterUsername());
++        recruiterValue.setStyle(JOB_DETAIL_STYLE);
++
++        // Add all labels and values to the GridPane
++        grid.add(jobTitleLabel, 0, 0);
++        grid.add(jobTitleValue, 1, 0);
++        grid.add(companyLabel, 0, 1);
++        grid.add(companyValue, 1, 1);
++        grid.add(roleLabel, 0, 2);
++        grid.add(roleValue, 1, 2);
++        grid.add(typeLabel, 0, 3);
++        grid.add(typeValue, 1, 3);
++        grid.add(locationLabel, 0, 4);
++        grid.add(locationValue, 1, 4);
++        grid.add(salaryLabel, 0, 5);
++        grid.add(salaryValue, 1, 5);
++        grid.add(descriptionLabel, 0, 6);
++        grid.add(descriptionValue, 1, 6);
++        grid.add(statusLabel, 0, 7);
++        grid.add(statusValue, 1, 7);
++        grid.add(recruiterLabel, 0, 8);
++        grid.add(recruiterValue, 1, 8);
++
++        // Create a HBox for buttons
++        HBox buttonBox = new HBox(10);
++        buttonBox.setAlignment(Pos.CENTER);
+         Button applyButton = new Button("Apply");
+         applyButton.setStyle(BUTTON_STYLE);
+         applyButton.setOnAction(event -> openJobApplicationForm(job));
+ 
+-        VBox detailsBox = new VBox(10, detailsLabel, detailsContent, applyButton);
+-        detailsBox.setStyle("-fx-padding: 20; -fx-alignment: center;");
++        buttonBox.getChildren().addAll(applyButton);
+ 
+-        dialog.getDialogPane().setMinWidth(400);
+-        dialog.getDialogPane().setMinHeight(300);
+-        dialog.getDialogPane().setContent(detailsBox);
++        // Add buttons to the GridPane
++        grid.add(buttonBox, 0, 9, 2, 1);  // Span across two columns
+ 
+-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+-        dialog.showAndWait();
++        // Set the scene and show the stage
++        Scene scene = new Scene(grid, 450, 450);
++        detailsStage.setScene(scene);
++        detailsStage.show();
+     }
+-
+ 
+     private void openJobApplicationForm(JobAnnouncementBean job) {
++
+         Dialog<JobApplicationBean> dialog = new Dialog<>();
+         dialog.setTitle("Apply for: " + job.getJobTitle());
+         dialog.setHeaderText("Submit your application for " + job.getCompanyName());
+@@ -186,66 +251,71 @@
+         formBox.setStyle("-fx-padding: 20;");
+ 
+         dialog.getDialogPane().setContent(formBox);
+-        dialog.getDialogPane().getButtonTypes().addAll(
+-                new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE),
+-                new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
++        dialog.getDialogPane().getButtonTypes().add(
++                new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE)
+         );
++
+ 
+         dialog.setResultConverter(dialogButton -> {
+             if (dialogButton.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+-                try {
+-                    JobApplicationBean applicationBean = new JobApplicationBean();
+-                    applicationBean.setJobTitle(job.getJobTitle());
+-                    applicationBean.setRecruiterUsername(job.getRecruiterUsername());
+-                    applicationBean.setCoverLetter(coverLetterField.getText().trim());
+-
+-                    String studentUsername = SessionManager.getInstance().getStudentFromSession().obtainUsername();
+-                    applicationBean.setStudentUsername(studentUsername);
+-
+-                    applicationBean.setStatus(Status.PENDING);
++                handleJobApplicationSubmission(job, coverLetterField.getText().trim(), dialog);
++            }
++            return null;
++        });
++
++        dialog.showAndWait();
++    }
++
++    private void handleJobApplicationSubmission(JobAnnouncementBean job, String coverLetter, Dialog<JobApplicationBean> dialog) {
++        try {
++            JobApplicationBean applicationBean = new JobApplicationBean();
++            applicationBean.setJobTitle(job.getJobTitle());
++            applicationBean.setRecruiterUsername(job.getRecruiterUsername());
++            applicationBean.setCoverLetter(coverLetter);
++            applicationBean.setStudentUsername(SessionManager.getInstance().getStudentFromSession().obtainUsername());
++            applicationBean.setStatus(Status.PENDING);
+ 
+-                    boolean success = boundary.sendAJobApplication(applicationBean);
+-                    showAlert(success ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR,
+-                            success ? "Application submitted successfully!" : "Failed to submit application.");
++            boolean success = boundary.sendAJobApplication(applicationBean);
++
++            if (success) {
++                showAlert(Alert.AlertType.INFORMATION, "Application submitted successfully!");
++            } else {
++                showAlert(Alert.AlertType.ERROR, "Failed to submit application.");
++            }
+ 
+-                } catch (RecruiterNotFoundException e) {
++            Platform.runLater(dialog::close);
++
++        } catch (Exception e) {
++            handleApplicationError(e, dialog);
++        }
++    }
++
++    private void handleApplicationError(Exception e, Dialog<JobApplicationBean> dialog) {
++        switch (e) {
++            case RecruiterNotFoundException recruiterNotFoundException ->
+                     showAlert(Alert.AlertType.ERROR, "Error: Recruiter not found. Please try again later.");
+-                } catch (JobAnnouncementNotFoundException e) {
++            case JobAnnouncementNotFoundException jobAnnouncementNotFoundException ->
+                     showAlert(Alert.AlertType.ERROR, "Error: Job announcement not found. It may have been removed.");
+-                } catch (JobAnnouncementNotActiveException e) {
++            case JobAnnouncementNotActiveException jobAnnouncementNotActiveException ->
+                     showAlert(Alert.AlertType.ERROR, "Error: This job announcement is no longer active.");
+-                } catch (JobApplicationAlreadySentException e) {
++            case JobApplicationAlreadySentException jobApplicationAlreadySentException ->
+                     showAlert(Alert.AlertType.WARNING, "Warning: You have already applied for this job.");
+-                } catch (UnauthorizedAccessException e) {
++            case UnauthorizedAccessException unauthorizedAccessException ->
+                     showAlert(Alert.AlertType.ERROR, "Error: You are not authorized to apply for this job.");
+-                } catch (DatabaseException e) {
++            case DatabaseException databaseException ->
+                     showAlert(Alert.AlertType.ERROR, "Error: A database error occurred. Please try again later.");
+-                } catch (Exception e) {
+-                    showAlert(Alert.AlertType.ERROR, "Unexpected error: " + e.getMessage());
+-                }
+-            }
+-            return null;
+-        });
++            default -> {
++                showAlert(Alert.AlertType.ERROR, "Unexpected error: " + e.getMessage());
++            }
++        }
+ 
+-        dialog.showAndWait();
++
++        Platform.runLater(dialog::close);
+     }
+ 
+     private void showAlert(Alert.AlertType type, String message) {
+         Alert alert = new Alert(type, message);
+         alert.setTitle("Notification");
+-        alert.setHeaderText(null);
+         alert.showAndWait();
+     }
+-
+-    @FXML
+-    private void handleGoBack() {
+-        if (guiContext != null) {
+-            Printer.print("Going back to Filters...");
+-            guiContext.setState(new FilterJobAnnouncementStudentState(guiContext));
+-            guiContext.showMenu();
+-        } else {
+-            Printer.print("Context is NOT initialized in FilterJobAnnouncement!");
+-        }
+-    }
+-
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"Qualche modifica alla grafica\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ExportToHTMLSettings\">\n    <option name=\"OUTPUT_DIRECTORY\" value=\"$PROJECT_DIR$/exportToHTML\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Enum\" />\n        <option value=\"FxmlFile\" />\n        <option value=\"JavaFXApplication\" />\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n        <option value=\"Exception\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"GitHubPullRequestSearchHistory\">{\n  &quot;lastFilter&quot;: {\n    &quot;state&quot;: &quot;OPEN&quot;,\n    &quot;assignee&quot;: &quot;GaiaMeola&quot;\n  }\n}</component>\n  <component name=\"GithubPullRequestsUISettings\">{\n  &quot;selectedUrlAndAccountId&quot;: {\n    &quot;url&quot;: &quot;https://github.com/GaiaMeola/toGetJob.git&quot;,\n    &quot;accountId&quot;: &quot;0a1af48d-9cff-4190-bde9-bd5096772376&quot;\n  }\n}</component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/src/main/java/org/example/togetjob/Main.java\" root0=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"generalSettings\">\n      <MavenGeneralSettings>\n        <option name=\"mavenHomeTypeForPersistence\" value=\"WRAPPER\" />\n      </MavenGeneralSettings>\n    </option>\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 5\n}</component>\n  <component name=\"ProjectId\" id=\"2nypPqqlu30o2C6FKHNbd1EkQVy\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,\n    &quot;Application.Main.executor&quot;: &quot;Run&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/gaiameola/Desktop/ISPW/toGetJob/src/main/resources/org/example/togetjob&quot;,\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CreateClassDialog.RecentsKey\">\n      <recent name=\"org.example.togetjob.model.dao.concretefactorydao\" />\n    </key>\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/resources/fxml\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob/fxml\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/org/example/togetjob\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"org.example.togetjob\" />\n    </key>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"0f1658da-9e89-4eda-8f6e-64bb18bca7ca\" name=\"Changes\" comment=\"\" />\n      <created>1729955148511</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1729955148511</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738255911165</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738255911165</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"Settimo Commit: Caso d'uso Registrazione e Login completati\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738320033356</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738320033356</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738323917280</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738323917280</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738534877519</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738534877519</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738591871116</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738591871116</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602095720</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602095720</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602224321</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602224321</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Settimo Commit: Prima parte del caso d'uso funzionante\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738602353802</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738602353802</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738847054568</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738847054568</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859623269</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859623269</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738859799273</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738859799273</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738925235487</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738925235487</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935926115</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935926115</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\"Send a Job Application ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738935935523</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738935935523</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738943912969</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738943912969</updated>\n    </task>\n    <task id=\"LOCAL-00032\" summary=\"Implementazione DATABASE DAO\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945190532</created>\n      <option name=\"number\" value=\"00032\" />\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945190532</updated>\n    </task>\n    <task id=\"LOCAL-00033\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1738945926667</created>\n      <option name=\"number\" value=\"00033\" />\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1738945926667</updated>\n    </task>\n    <task id=\"LOCAL-00034\" summary=\"Fine DAO DB che va da testare\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739051085131</created>\n      <option name=\"number\" value=\"00034\" />\n      <option name=\"presentableId\" value=\"LOCAL-00034\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739051085131</updated>\n    </task>\n    <task id=\"LOCAL-00035\" summary=\"Interfacce\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739175835404</created>\n      <option name=\"number\" value=\"00035\" />\n      <option name=\"presentableId\" value=\"LOCAL-00035\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739175835404</updated>\n    </task>\n    <task id=\"LOCAL-00036\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739220286799</created>\n      <option name=\"number\" value=\"00036\" />\n      <option name=\"presentableId\" value=\"LOCAL-00036\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739220286800</updated>\n    </task>\n    <task id=\"LOCAL-00037\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221026328</created>\n      <option name=\"number\" value=\"00037\" />\n      <option name=\"presentableId\" value=\"LOCAL-00037\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221026328</updated>\n    </task>\n    <task id=\"LOCAL-00038\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739221891152</created>\n      <option name=\"number\" value=\"00038\" />\n      <option name=\"presentableId\" value=\"LOCAL-00038\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739221891152</updated>\n    </task>\n    <task id=\"LOCAL-00039\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739222169196</created>\n      <option name=\"number\" value=\"00039\" />\n      <option name=\"presentableId\" value=\"LOCAL-00039\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739222169196</updated>\n    </task>\n    <task id=\"LOCAL-00040\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223095546</created>\n      <option name=\"number\" value=\"00040\" />\n      <option name=\"presentableId\" value=\"LOCAL-00040\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223095546</updated>\n    </task>\n    <task id=\"LOCAL-00041\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223296491</created>\n      <option name=\"number\" value=\"00041\" />\n      <option name=\"presentableId\" value=\"LOCAL-00041\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223296491</updated>\n    </task>\n    <task id=\"LOCAL-00042\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739223373958</created>\n      <option name=\"number\" value=\"00042\" />\n      <option name=\"presentableId\" value=\"LOCAL-00042\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739223373958</updated>\n    </task>\n    <task id=\"LOCAL-00043\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224722991</created>\n      <option name=\"number\" value=\"00043\" />\n      <option name=\"presentableId\" value=\"LOCAL-00043\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224722991</updated>\n    </task>\n    <task id=\"LOCAL-00044\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739224907675</created>\n      <option name=\"number\" value=\"00044\" />\n      <option name=\"presentableId\" value=\"LOCAL-00044\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739224907675</updated>\n    </task>\n    <task id=\"LOCAL-00045\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739225182526</created>\n      <option name=\"number\" value=\"00045\" />\n      <option name=\"presentableId\" value=\"LOCAL-00045\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739225182526</updated>\n    </task>\n    <task id=\"LOCAL-00046\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739227822961</created>\n      <option name=\"number\" value=\"00046\" />\n      <option name=\"presentableId\" value=\"LOCAL-00046\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739227822961</updated>\n    </task>\n    <task id=\"LOCAL-00047\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739228938425</created>\n      <option name=\"number\" value=\"00047\" />\n      <option name=\"presentableId\" value=\"LOCAL-00047\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739228938425</updated>\n    </task>\n    <task id=\"LOCAL-00048\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739229738949</created>\n      <option name=\"number\" value=\"00048\" />\n      <option name=\"presentableId\" value=\"LOCAL-00048\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739229738949</updated>\n    </task>\n    <task id=\"LOCAL-00049\" summary=\"Duplicazione\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739230414467</created>\n      <option name=\"number\" value=\"00049\" />\n      <option name=\"presentableId\" value=\"LOCAL-00049\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739230414467</updated>\n    </task>\n    <task id=\"LOCAL-00050\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286252185</created>\n      <option name=\"number\" value=\"00050\" />\n      <option name=\"presentableId\" value=\"LOCAL-00050\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286252186</updated>\n    </task>\n    <task id=\"LOCAL-00051\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739286944297</created>\n      <option name=\"number\" value=\"00051\" />\n      <option name=\"presentableId\" value=\"LOCAL-00051\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739286944297</updated>\n    </task>\n    <task id=\"LOCAL-00052\" summary=\"commit\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739287156849</created>\n      <option name=\"number\" value=\"00052\" />\n      <option name=\"presentableId\" value=\"LOCAL-00052\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739287156850</updated>\n    </task>\n    <task id=\"LOCAL-00053\" summary=\"Prova: aggiunta di alcune eccezioni\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739296769628</created>\n      <option name=\"number\" value=\"00053\" />\n      <option name=\"presentableId\" value=\"LOCAL-00053\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739296769628</updated>\n    </task>\n    <task id=\"LOCAL-00054\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739356293943</created>\n      <option name=\"number\" value=\"00054\" />\n      <option name=\"presentableId\" value=\"LOCAL-00054\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739356293944</updated>\n    </task>\n    <task id=\"LOCAL-00055\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360362489</created>\n      <option name=\"number\" value=\"00055\" />\n      <option name=\"presentableId\" value=\"LOCAL-00055\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360362489</updated>\n    </task>\n    <task id=\"LOCAL-00056\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739360704403</created>\n      <option name=\"number\" value=\"00056\" />\n      <option name=\"presentableId\" value=\"LOCAL-00056\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739360704404</updated>\n    </task>\n    <task id=\"LOCAL-00057\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739374755923</created>\n      <option name=\"number\" value=\"00057\" />\n      <option name=\"presentableId\" value=\"LOCAL-00057\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739374755923</updated>\n    </task>\n    <task id=\"LOCAL-00058\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739397926768</created>\n      <option name=\"number\" value=\"00058\" />\n      <option name=\"presentableId\" value=\"LOCAL-00058\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739397926768</updated>\n    </task>\n    <task id=\"LOCAL-00059\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739533506543</created>\n      <option name=\"number\" value=\"00059\" />\n      <option name=\"presentableId\" value=\"LOCAL-00059\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739533506544</updated>\n    </task>\n    <task id=\"LOCAL-00060\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739540030937</created>\n      <option name=\"number\" value=\"00060\" />\n      <option name=\"presentableId\" value=\"LOCAL-00060\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739540030938</updated>\n    </task>\n    <task id=\"LOCAL-00061\" summary=\"Registrazione e Login interfacce ok\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739666736729</created>\n      <option name=\"number\" value=\"00061\" />\n      <option name=\"presentableId\" value=\"LOCAL-00061\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739666736730</updated>\n    </task>\n    <task id=\"LOCAL-00062\" summary=\"Qualche modifica alla grafica\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739715792252</created>\n      <option name=\"number\" value=\"00062\" />\n      <option name=\"presentableId\" value=\"LOCAL-00062\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739715792252</updated>\n    </task>\n    <task id=\"LOCAL-00063\" summary=\"Qualche modifica alla grafica\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739718862545</created>\n      <option name=\"number\" value=\"00063\" />\n      <option name=\"presentableId\" value=\"LOCAL-00063\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739718862545</updated>\n    </task>\n    <task id=\"LOCAL-00064\" summary=\"Qualche modifica alla grafica\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739718872988</created>\n      <option name=\"number\" value=\"00064\" />\n      <option name=\"presentableId\" value=\"LOCAL-00064\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739718872988</updated>\n    </task>\n    <task id=\"LOCAL-00065\" summary=\"Qualche modifica alla grafica\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1739722454494</created>\n      <option name=\"number\" value=\"00065\" />\n      <option name=\"presentableId\" value=\"LOCAL-00065\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1739722454494</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"66\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Primo Commit\" />\n    <MESSAGE value=\"Secondo Commit: bozza Abstract Factory\" />\n    <MESSAGE value=\"Secondo Commit: Abstract Factory + Singleton completo\" />\n    <MESSAGE value=\"Terzo Commit: Aggiunta Entity\" />\n    <MESSAGE value=\"Terzo Commit: Prova Database\" />\n    <MESSAGE value=\"Quarto Commit: Connection prova\" />\n    <MESSAGE value=\"Quarto Commit: Connection riuscita\" />\n    <MESSAGE value=\"Quinto Commit: Fine Db\" />\n    <MESSAGE value=\"Sesto Commit: Pattern State CLI prova\" />\n    <MESSAGE value=\"Settimo Commit: prova Caso d'uso Registrazione\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login iniziati\" />\n    <MESSAGE value=\"Settimo Commit: Caso d'uso Registrazione e Login completati\" />\n    <MESSAGE value=\"Settimo Commit: Aggiunta di HomePageStudent, HomePageRecruiter in modalità cli\" />\n    <MESSAGE value=\"Settimo Commit: Inizio del caso d'uso Send A Job Application\" />\n    <MESSAGE value=\"Settimo Commit: Prima parte del caso d'uso funzionante\" />\n    <MESSAGE value=\"Send a Job Application ok\" />\n    <MESSAGE value=\"Implementazione DATABASE DAO\" />\n    <MESSAGE value=\"Fine DAO DB che va da testare\" />\n    <MESSAGE value=\"Interfacce\" />\n    <MESSAGE value=\"Duplicazione\" />\n    <MESSAGE value=\"commit\" />\n    <MESSAGE value=\"Prova: aggiunta di alcune eccezioni\" />\n    <MESSAGE value=\"Registrazione e Login interfacce ok\" />\n    <MESSAGE value=\"Qualche modifica alla grafica\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Qualche modifica alla grafica\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"14\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.sql.SQLException\" package=\"java.sql\" />\n          <option name=\"timeStamp\" value=\"31\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a385ccbba75017682c021352bfc0696d9972e87f)
++++ b/.idea/workspace.xml	(date 1739741074639)
+@@ -5,9 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0f1658da-9e89-4eda-8f6e-64bb18bca7ca" name="Changes" comment="Qualche modifica alla grafica">
++      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterRecruiterState.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/concretestate/RegisterStudentState.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/togetjob/view/gui/controllergrafico/SendAJobApplicationByStudentController.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -111,14 +111,6 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1729955148511</updated>
+-    </task>
+-    <task id="LOCAL-00017" summary="Settimo Commit: Caso d'uso Registrazione e Login iniziati">
+-      <option name="closed" value="true" />
+-      <created>1738255911165</created>
+-      <option name="number" value="00017" />
+-      <option name="presentableId" value="LOCAL-00017" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1738255911165</updated>
+     </task>
+     <task id="LOCAL-00018" summary="Settimo Commit: Caso d'uso Registrazione e Login completati">
+       <option name="closed" value="true" />
+@@ -504,7 +496,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1739722454494</updated>
+     </task>
+-    <option name="localTasksCounter" value="66" />
++    <task id="LOCAL-00066" summary="Qualche modifica alla grafica">
++      <option name="closed" value="true" />
++      <created>1739722552802</created>
++      <option name="number" value="00066" />
++      <option name="presentableId" value="LOCAL-00066" />
++      <option name="project" value="LOCAL" />
++      <updated>1739722552802</updated>
++    </task>
++    <option name="localTasksCounter" value="67" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"InspectionProjectProfileManager\">\n  <profile version=\"1.0\">\n    <option name=\"myName\" value=\"Project Default\" />\n    <inspection_tool class=\"ExtractMethodRecommender\" enabled=\"true\" level=\"WARNING\" enabled_by_default=\"true\">\n      <option name=\"minLength\" value=\"559\" />\n      <option name=\"maxParameters\" value=\"1\" />\n    </inspection_tool>\n    <inspection_tool class=\"SizeReplaceableByIsEmpty\" enabled=\"true\" level=\"WARNING\" enabled_by_default=\"true\">\n      <option name=\"ignoredTypes\">\n        <set>\n          <option value=\"java.lang.StringBuilder\" />\n        </set>\n      </option>\n    </inspection_tool>\n  </profile>\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+--- a/.idea/inspectionProfiles/Project_Default.xml	(revision a385ccbba75017682c021352bfc0696d9972e87f)
++++ b/.idea/inspectionProfiles/Project_Default.xml	(date 1739741063544)
+@@ -2,7 +2,7 @@
+   <profile version="1.0">
+     <option name="myName" value="Project Default" />
+     <inspection_tool class="ExtractMethodRecommender" enabled="true" level="WARNING" enabled_by_default="true">
+-      <option name="minLength" value="559" />
++      <option name="minLength" value="620" />
+       <option name="maxParameters" value="1" />
+     </inspection_tool>
+     <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true">
