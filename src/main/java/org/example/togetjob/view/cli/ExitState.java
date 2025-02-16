@@ -1,9 +1,9 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
 
 public class ExitState implements State {
     @Override

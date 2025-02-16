@@ -2,13 +2,12 @@ package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class FilterJobCandidateRecruiterController {
 
@@ -38,13 +37,6 @@ public class FilterJobCandidateRecruiterController {
             return;
         }
 
-        JobAnnouncementBean jobAnnouncementBean = (JobAnnouncementBean) context.get("jobAnnouncement");
-
-        if (jobAnnouncementBean == null) {
-            Printer.print("ERROR: JobAnnouncementBean is NULL in context!");
-            return;
-        }
-
         String degreesInput = degreesField.getText();
         String coursesInput = coursesAttendedField.getText();
         String certificationsInput = certificationsField.getText();
@@ -59,12 +51,8 @@ public class FilterJobCandidateRecruiterController {
         studentInfoSearchBean.setWorkExperiences(parseTextFieldInput(workInput));
         studentInfoSearchBean.setSkills(parseTextFieldInput(skillsInput));
         studentInfoSearchBean.setAvailability(availabilityInput);
-
-
         context.set("studentInfoSearch", studentInfoSearchBean);
-
-
-        context.goNext("contactJobCandidate");
+        context.goNext("filterJobCandidates");
     }
 
     @FXML
@@ -79,10 +67,14 @@ public class FilterJobCandidateRecruiterController {
 
     private List<String> parseTextFieldInput(String input) {
         if (input != null && !input.trim().isEmpty()) {
-            return Arrays.stream(input.split(","))
-                    .map(String::trim)
-                    .toList();
+
+            List<String> resultList = new ArrayList<>();
+            String[] items = input.split(",");
+            for (String item : items) {
+                resultList.add(item.trim());
+            }
+            return resultList;
         }
-        return List.of();
+        return new ArrayList<>();
     }
 }

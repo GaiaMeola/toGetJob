@@ -56,13 +56,6 @@ public class InMemoryJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) {
-        String key = generateKey(jobTitle, recruiter);
-        Map<Recruiter, JobAnnouncement> recruiterMap = jobAnnouncementsMap.get(key);
-        return recruiterMap != null && recruiterMap.containsKey(recruiter);
-    }
-
-    @Override
     public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
         return jobAnnouncementsMap.values().stream()
                 .map(map -> map.get(recruiter))

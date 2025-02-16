@@ -7,20 +7,20 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.RegisterRecruiterController;
 
 import java.io.IOException;
 
 public class RegisterRecruiterState implements State {
 
-    RegisterUserBean registerUserBean;
+    RegisterUserBean userBean;
     GUIContext context;
 
-    public RegisterRecruiterState(RegisterUserBean registerUserBean, GUIContext context) {
-        this.registerUserBean = registerUserBean;
+    public RegisterRecruiterState(RegisterUserBean userBean, GUIContext context) {
+        this.userBean = userBean;
         this.context = context;
     }
 
@@ -32,8 +32,9 @@ public class RegisterRecruiterState implements State {
             Parent root = fxmlLoader.load();
 
             RegisterRecruiterController registerRecruiterController = fxmlLoader.getController();
+
             registerRecruiterController.setContext(context);
-            registerRecruiterController.setUserBean(registerUserBean);
+            registerRecruiterController.setUserBean(userBean);
 
             Scene scene = new Scene(root);
             Stage stage = context.getStage();
@@ -65,16 +66,15 @@ public class RegisterRecruiterState implements State {
 
         switch (event) {
             case "go_home_recruiter":
-
                 contextGUI.setState(new HomeRecruiterState(contextGUI));
+                contextGUI.showMenu();
                 break;
             case "go_home":
-
                 contextGUI.setState(new HomeState(contextGUI));
+                contextGUI.showMenu();
                 break;
             case "register_recruiter":
-
-                contextGUI.setState(new RegisterRecruiterState(registerUserBean, contextGUI));
+                contextGUI.setState(new RegisterRecruiterState(userBean, contextGUI));
                 break;
             default:
                 Printer.print("Event not handled: " + event);

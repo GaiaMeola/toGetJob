@@ -1,15 +1,15 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.exceptions.*;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
 import org.example.togetjob.model.entity.Status;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.CliContext;
+import org.example.togetjob.state.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
@@ -71,15 +71,18 @@ public class SendAJobApplicationStudentState implements State {
         }
     }
 
-    private void viewAndManageJobApplications(Scanner scanner){
+    private void viewAndManageJobApplications(Scanner scanner) {
         try {
+            // Attempt to retrieve job applications
             List<JobApplicationBean> jobApplications = sendAJobApplicationStudentBoundary.getJobApplicationsByStudent();
 
+            // If no job applications are found, inform the user
             if (jobApplications.isEmpty()) {
                 Printer.print("You haven't sent any job applications yet.");
                 return;
             }
 
+            // Display the list of job applications
             Printer.print("\n --- Your Job Applications ---");
             int index = 1;
             for (JobApplicationBean application : jobApplications) {
@@ -88,6 +91,7 @@ public class SendAJobApplicationStudentState implements State {
                 index++;
             }
 
+            // Prompt user to select an application to manage
             Printer.print("\nSelect an application to manage, or enter 0 to go back:");
             int choice = Integer.parseInt(scanner.nextLine());
 
@@ -102,6 +106,7 @@ public class SendAJobApplicationStudentState implements State {
 
             JobApplicationBean selectedApplication = jobApplications.get(choice - 1);
 
+            // If the selected application is pending, allow modification or deletion
             if (selectedApplication.getStatus() == Status.PENDING) {
                 Printer.print("\nWhat would you like to do?");
                 Printer.print("1. Modify this application");
@@ -123,32 +128,63 @@ public class SendAJobApplicationStudentState implements State {
                         Printer.print("Invalid option. Returning to main menu.");
                 }
             } else {
+                // Inform the user that the application has been processed and cannot be modified
                 Printer.print("This application has already been processed and cannot be modified or deleted." +
                         "\nPlease visit the ‘View sent job applications’ section to view the current status of your application.");
             }
-        }catch(DatabaseException e){
-            Printer.print(e.getMessage());
+        } catch (DatabaseException e) {
+            Printer.print("Database error: " + e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            Printer.print("You must be logged in to view or manage your job applications.");
+        } catch (NumberFormatException e) {
+            Printer.print("Invalid input. Please enter a valid number.");
+        } catch (Exception e) {
+            Printer.print("An unexpected error occurred: " + e.getMessage());
         }
-
     }
 
-    private void modifyJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean){
 
-        Printer.print("Enter a new cover letter:");
-        String newCoverLetter = scanner.nextLine();
-        jobApplicationBean.setCoverLetter(newCoverLetter);
+    private void modifyJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean) {
 
-        boolean success = sendAJobApplicationStudentBoundary.modifyAJobApplication(jobApplicationBean);
-        if (success) {
-            Printer.print("Job application successfully modified!");
-        } else {
-            Printer.print("Error modifying the job application. It may have already been processed.");
-        }
-
-    }
-
-    private void deleteJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean){
         try {
+            // Ask for a new cover letter from the user
+            Printer.print("Enter a new cover letter:");
+            String newCoverLetter = scanner.nextLine();
+            jobApplicationBean.setCoverLetter(newCoverLetter);
+
+            // Attempt to modify the job application
+            boolean success = sendAJobApplicationStudentBoundary.modifyAJobApplication(jobApplicationBean);
+
+            if (success) {
+                // Success message
+                Printer.print("Job application successfully modified!");
+            } else {
+                // Inform the user if modification failed
+                Printer.print("Error modifying the job application. It may have already been processed.");
+            }
+
+        } catch (JobApplicationNotFoundException e) {
+            // Handle specific case when the job application cannot be found
+            Printer.print("Error: The job application was not found. Please check your application details.");
+        } catch (DatabaseException e) {
+            // Handle cases where there is a database issue
+            Printer.print("Error: A database issue occurred while modifying the job application. Please try again later.");
+        } catch (UnauthorizedAccessException e) {
+            // Handle unauthorized access exception (if relevant to this operation)
+            Printer.print("Error: You are not authorized to modify this application. Please ensure you are logged in.");
+        } catch (NumberFormatException e) {
+            // Handle invalid input errors (e.g., in case there's input validation)
+            Printer.print("Error: Invalid input format. Please ensure your input is valid.");
+        } catch (Exception e) {
+            // Handle any unexpected errors
+            Printer.print("Unexpected error: " + e.getMessage());
+        }
+    }
+
+
+    private void deleteJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean) {
+        try {
+            // Ask for user confirmation before proceeding with deletion
             Printer.print("Are you sure you want to delete this application? (yes/no)");
             String confirmation = scanner.nextLine().toLowerCase();
 
@@ -157,17 +193,28 @@ public class SendAJobApplicationStudentState implements State {
                 return;
             }
 
+            // Attempt to delete the job application
             boolean success = sendAJobApplicationStudentBoundary.deleteAJobApplication(jobApplicationBean);
             if (success) {
                 Printer.print("Job application successfully deleted!");
             } else {
-                Printer.print("Error deleting the job application. It may have already been processed.");
+                Printer.print("Error deleting the job application. It may have already been processed or removed.");
             }
-        }catch (DatabaseException e){
-            Printer.print(e.getMessage());
+
+        } catch (JobApplicationNotFoundException e) {
+            // Handle case where the application isn't found
+            Printer.print("Error: The job application was not found. It may have already been removed.");
+        } catch (DatabaseException e) {
+            // Handle cases where there is a database issue
+            Printer.print("Database error: " + e.getMessage());
+        } catch (UnauthorizedAccessException e) {
+            // Handle unauthorized access, if relevant
+            Printer.print("Error: You are not authorized to delete this application. Please ensure you're logged in.");
+        } catch (Exception e) {
+            // General error handling
+            Printer.print("Unexpected error: " + e.getMessage());
         }
     }
-
 
     private void applyFiltersAndShowJobAnnouncements(Scanner scanner) {
 
@@ -233,20 +280,33 @@ public class SendAJobApplicationStudentState implements State {
 
 
     private void proceedWithFilters(Scanner scanner, JobAnnouncementSearchBean searchBean) {
+        try {
+            // Fetch job announcements with applied filters
+            List<JobAnnouncementBean> jobAnnouncements = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
 
-        List<JobAnnouncementBean> jobAnnouncements = sendAJobApplicationStudentBoundary.getJobAnnouncements(searchBean);
+            // Check if no announcements are found
+            if (jobAnnouncements.isEmpty()) {
+                Printer.print("No job announcements found with the specified filters.");
+            } else {
+                // Display job announcements if found
+                for (int i = 0; i < jobAnnouncements.size(); i++) {
+                    JobAnnouncementBean job = jobAnnouncements.get(i);
+                    Printer.print((i + 1) + ". Job Title: " + job.getJobTitle() + " - Location: " + job.getLocation() + " - Salary: " + job.getSalary());
+                }
 
-        if (jobAnnouncements.isEmpty()) {
-            Printer.print("No job announcements found with the specified filters.");
-        } else {
-            for (int i = 0; i < jobAnnouncements.size(); i++) {
-                JobAnnouncementBean job = jobAnnouncements.get(i);
-                Printer.print((i + 1) + ". Job Title: " + job.getJobTitle() + " - Location: " + job.getLocation() + " - Salary: " + job.getSalary());
+                // Allow user to view more details about the selected job
+                showJobAnnouncementDetails(scanner, jobAnnouncements);
             }
 
-            showJobAnnouncementDetails(scanner, jobAnnouncements);
+        } catch (JobAnnouncementNotFoundException | DatabaseException e) {
+            // Handle case where no job announcements are found (already propagated from `getJobAnnouncements`)
+            Printer.print("Error: " + e.getMessage());
+        }  catch (Exception e) {
+            // Handle any unexpected errors
+            Printer.print("Unexpected error: " + e.getMessage());
         }
     }
+
 
     private void showJobAnnouncementDetails(Scanner scanner, List<JobAnnouncementBean> jobAnnouncements) {
         // Ask the student to choose a job
@@ -283,8 +343,8 @@ public class SendAJobApplicationStudentState implements State {
             // Proceed to the job application process
             applyForJob(scanner, selectedJob, jobAnnouncements);
         } else if (choice.equals("2")) {
-            // Go back to job announcements list
-            showJobAnnouncementDetails(scanner, jobAnnouncements);
+            // Go back to job announcements filters
+            applyFiltersAndShowJobAnnouncements(scanner);
         } else {
             Printer.print("Invalid choice. Please try again.");
             showJobAnnouncementDetails(scanner, jobAnnouncements);
@@ -334,12 +394,19 @@ public class SendAJobApplicationStudentState implements State {
             } else {
                 Printer.print("Failed to fill out the application form. Please try again.");
             }
-        } catch (JobAnnouncementNotActiveException | JobApplicationAlreadySentException | RecruiterNotFoundException | JobAnnouncementNotFoundException | DatabaseException e) {
-            Printer.print(e.getMessage());
-        }  catch (Exception e) {
+        } catch (JobAnnouncementNotActiveException e) {
+            Printer.print("Error: The job announcement you are trying to apply for is no longer active. Please check other job announcements.");
+        } catch (JobApplicationAlreadySentException e) {
+            Printer.print("Error: You have already submitted an application for this job. You cannot apply again.");
+        } catch (RecruiterNotFoundException e) {
+            Printer.print("Error: The recruiter for this job could not be found. Please try again later.");
+        } catch (JobAnnouncementNotFoundException e) {
+            Printer.print("Error: The job announcement could not be found. It may have been removed or is no longer available.");
+        } catch (DatabaseException e) {
+            Printer.print("Error: A database issue occurred while processing your application. Please try again later.");
+        } catch (Exception e) {
             // Handle any other unexpected exceptions
             Printer.print("An unexpected error occurred: " + e.getMessage());
         }
     }
-
 }

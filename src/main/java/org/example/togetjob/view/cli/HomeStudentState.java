@@ -1,12 +1,12 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.bean.InterviewSchedulingStudentInfoBean;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.ContactAJobCandidateStudentBoundary;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.CliContext;
+import org.example.togetjob.state.CliContext;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class HomeStudentState implements State{
             Printer.print("Welcome, Student! You can do the following:");
             Printer.print("1. View your profile");
             Printer.print("2. Vote a company");
-            Printer.print("3. Show Job Announcements");
+            Printer.print("3. Send a job application");
             Printer.print("4. View notifications");
             Printer.print("5. Logout");
             Printer.print("6. Exit");

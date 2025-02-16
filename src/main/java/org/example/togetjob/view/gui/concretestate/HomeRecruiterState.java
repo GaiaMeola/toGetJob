@@ -6,9 +6,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController;
 
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class HomeRecruiterState implements State {
             case "contactJobCandidate":
                 JobAnnouncementBean jobAnnouncement = (JobAnnouncementBean) guiContext.get("jobAnnouncement");
                 if (jobAnnouncement != null) {
-                    guiContext.setState(new FilterJobCandidateState(guiContext, jobAnnouncement));
+                    guiContext.setState(new FilterJobCandidateState(guiContext));
                 } else {
                     Printer.print("Error: No JobAnnouncement found in context!");
                 }

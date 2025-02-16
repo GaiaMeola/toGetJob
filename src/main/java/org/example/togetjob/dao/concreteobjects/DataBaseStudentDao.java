@@ -26,16 +26,6 @@
                 "SELECT Username, DateOfBirth, PhoneNumber, Degrees, CourseAttended, Certifications, WorkExperience, Skills, Availability "
                         + "FROM STUDENT";
 
-        private static final String UPDATE_STUDENT_SQL =
-                "UPDATE STUDENT SET DateOfBirth = ?, PhoneNumber = ?, Degrees = ?, CourseAttended = ?, Certifications = ?, "
-                        + "WorkExperience = ?, Skills = ?, Availability = ? WHERE Username = ?";
-
-        private static final String DELETE_STUDENT_SQL =
-                "DELETE FROM STUDENT WHERE Username = ?";
-
-        private static final String CHECK_STUDENT_EXISTS_SQL =
-                "SELECT COUNT(*) FROM STUDENT WHERE Username = ?";
-
         private static final String COLUMN_DATE_OF_BIRTH = "DateOfBirth";
         private static final String COLUMN_PHONE_NUMBER = "PhoneNumber";
         private static final String COLUMN_DEGREES = "Degrees";
@@ -233,54 +223,6 @@
                 return new ArrayList<>();
             }
             return List.of(csvData.split(","));
-        }
-
-        @Override
-        public boolean updateStudent(Student student) {
-            try (Connection conn = DatabaseConfig.getInstance().getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT_SQL)) {
-
-                stmt.setDate(1, Date.valueOf(student.obtainDateOfBirth()));
-                stmt.setString(2, student.obtainPhoneNumber());
-                stmt.setString(3, String.join(",", student.obtainDegrees()));
-                stmt.setString(4, String.join(",", student.obtainCoursesAttended()));
-                stmt.setString(5, String.join(",", student.obtainCertifications()));
-                stmt.setString(6, String.join(",", student.obtainWorkExperiences()));
-                stmt.setString(7, String.join(",", student.obtainSkills()));
-                stmt.setString(8, student.obtainAvailability());
-                stmt.setString(9, student.obtainUsername());
-
-                int rowsUpdated = stmt.executeUpdate();
-                return rowsUpdated > 0;
-            } catch (SQLException e) {
-                throw new DatabaseException("Error updating student");
-            }
-        }
-
-        @Override
-        public boolean deleteStudent(String username) {
-            try (Connection conn = DatabaseConfig.getInstance().getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(DELETE_STUDENT_SQL)) {
-
-                stmt.setString(1, username);
-                int rowsDeleted = stmt.executeUpdate();
-                return rowsDeleted > 0;
-            } catch (SQLException e) {
-                throw new DatabaseException("Error deleting student");
-            }
-        }
-
-        @Override
-        public boolean studentExists(String username) {
-            try (Connection conn = DatabaseConfig.getInstance().getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(CHECK_STUDENT_EXISTS_SQL)) {
-
-                stmt.setString(1, username);
-                ResultSet rs = stmt.executeQuery();
-                return rs.next() && rs.getInt(1) > 0;
-            } catch (SQLException e) {
-                throw new DatabaseException("Error Student not found");
-            }
         }
 
     }

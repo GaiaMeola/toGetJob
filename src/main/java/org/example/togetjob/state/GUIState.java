@@ -1,4 +1,4 @@
-package org.example.togetjob.view;
+package org.example.togetjob.state;
 
 public interface GUIState {
     void showMenu(); //to view scene

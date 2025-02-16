@@ -20,20 +20,13 @@ public class FileSystemJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean updateJobApplication(JobApplication jobApplication) {
+    public void updateJobApplication(JobApplication jobApplication) {
         /* not implemented  */
-        return false;
     }
 
     @Override
-    public boolean deleteJobApplication(JobApplication jobApplication) {
+    public void deleteJobApplication(JobApplication jobApplication) {
         /* not implemented  */
-        return false;
-    }
-
-    @Override
-    public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
-        return false;
     }
 
     @Override

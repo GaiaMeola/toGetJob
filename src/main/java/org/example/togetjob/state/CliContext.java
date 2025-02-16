@@ -1,10 +1,10 @@
-package org.example.togetjob.view;
+package org.example.togetjob.state;
 
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.cli.concretestate.LoginState;
-import org.example.togetjob.view.cli.concretestate.MainMenuState;
-import org.example.togetjob.view.cli.concretestate.ExitState;
-import org.example.togetjob.view.cli.concretestate.RegisterState;
+import org.example.togetjob.view.cli.LoginState;
+import org.example.togetjob.view.cli.MainMenuState;
+import org.example.togetjob.view.cli.ExitState;
+import org.example.togetjob.view.cli.RegisterState;
 
 import java.util.Scanner;
 
@@ -53,4 +53,5 @@ public class CliContext implements Context {
     public Scanner getScanner() {
         return this.scanner;
     }
+
 }

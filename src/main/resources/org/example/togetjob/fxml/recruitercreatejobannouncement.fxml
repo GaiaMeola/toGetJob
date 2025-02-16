@@ -89,12 +89,12 @@
             <Font name="AppleGothic Regular" size="16.0" />
          </font>
       </TextField>
-      <TextField fx:id="locationField" layoutX="84.0" layoutY="165.0" prefHeight="26.0" prefWidth="507.0" promptText="Enter location " style="-fx-border-radius: 5;" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="180.0">
+      <TextField fx:id="workingHoursField" layoutX="84.0" layoutY="165.0" prefHeight="26.0" prefWidth="507.0" promptText="Enter working hours" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="180.0">
          <font>
             <Font name="AppleGothic Regular" size="16.0" />
          </font>
       </TextField>
-      <TextField fx:id="workingHoursField" layoutX="122.0" layoutY="200.0" prefHeight="26.0" prefWidth="468.0" promptText="Enter working hours" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="220.0">
+      <TextField fx:id="locationField" layoutX="122.0" layoutY="200.0" prefHeight="26.0" prefWidth="468.0" promptText="Enter location" style="-fx-border-radius: 5;" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="220.0">
          <font>
             <Font name="AppleGothic Regular" size="16.0" />
          </font>

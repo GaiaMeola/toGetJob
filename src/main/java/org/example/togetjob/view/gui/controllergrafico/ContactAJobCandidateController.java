@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import org.example.togetjob.bean.*;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.concretestate.FilterJobCandidateState;
 
 import java.util.List;
@@ -116,7 +116,7 @@ public class ContactAJobCandidateController {
     private void handleBackButton() {
         if (context != null) {
             Printer.print("Going back to filters...");
-            context.setState(new FilterJobCandidateState(context, jobAnnouncementBean));
+            context.setState(new FilterJobCandidateState(context));
             context.showMenu();
         } else {
             Printer.print("Context is NOT initialized in RegisterController!");

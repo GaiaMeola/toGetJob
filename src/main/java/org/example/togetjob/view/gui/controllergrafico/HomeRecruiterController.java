@@ -6,21 +6,18 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
 
 import java.util.List;
 
 public class HomeRecruiterController {
 
-    @FXML
-    private TitledPane jobAnnouncementField;
     @FXML
     private ListView<JobAnnouncementBean> jobAnnouncementBeanListView;
 
@@ -127,12 +124,21 @@ public class HomeRecruiterController {
     }
 
     private void handleContactJobCandidate(JobAnnouncementBean jobAnnouncement) {
+        if (jobAnnouncement == null) {
+            Printer.print("ERROR: jobAnnouncement is null!");
+            return;
+        }
+
+        if (context == null) {
+            Printer.print("ERROR: context is null in HomeRecruiterController!");
+            return;
+        }
+
         Printer.print("Contacting Job Candidate for: " + jobAnnouncement.getJobTitle());
-
         context.set("jobAnnouncement", jobAnnouncement);
-
         context.goNext("contactJobCandidate");
     }
+
 
     private List<JobAnnouncementBean> fetchJobAnnouncements() {
         return publishBoundary.getJobAnnouncements();

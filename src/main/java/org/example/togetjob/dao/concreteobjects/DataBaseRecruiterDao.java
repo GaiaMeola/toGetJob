@@ -18,12 +18,6 @@ public class DataBaseRecruiterDao implements RecruiterDao {
             "INSERT INTO RECRUITER (Username, Companies) VALUES (?, ?)";
     private static final String SELECT_RECRUITER_BY_USERNAME_SQL =
             "SELECT Username, Companies FROM RECRUITER WHERE Username = ?";
-    private static final String UPDATE_RECRUITER_SQL =
-            "UPDATE RECRUITER SET Companies = ? WHERE Username = ?";
-    private static final String DELETE_RECRUITER_SQL =
-            "DELETE FROM RECRUITER WHERE Username = ?";
-    private static final String CHECK_RECRUITER_EXISTS_SQL =
-            "SELECT COUNT(*) FROM RECRUITER WHERE Username = ?";
 
     private final UserDao dataBaseUserDao;
 
@@ -78,50 +72,4 @@ public class DataBaseRecruiterDao implements RecruiterDao {
         return Optional.empty();
     }
 
-    @Override
-    public boolean updateRecruiter(Recruiter recruiter) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(UPDATE_RECRUITER_SQL)) {
-
-            stmt.setString(1, String.join(",", recruiter.obtainCompanies())); // Convert list to comma-separated string
-            stmt.setString(2, recruiter.obtainUsername());
-
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error updating Recruiter");
-        }
-    }
-
-    @Override
-    public boolean deleteRecruiter(String username) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(DELETE_RECRUITER_SQL)) {
-
-            stmt.setString(1, username);
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error deleting Recruiter");
-        }
-    }
-
-    @Override
-    public boolean recruiterExists(String username) {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(CHECK_RECRUITER_EXISTS_SQL)) {
-
-            stmt.setString(1, username);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int count = rs.getInt(1);
-                    return count > 0;
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Error Recruiter not found");
-        }
-
-        return false;
-    }
 }

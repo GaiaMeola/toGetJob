@@ -7,9 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.RegisterStudentController;
 
 import java.io.IOException;
@@ -32,6 +32,7 @@ public class RegisterStudentState implements State {
             Parent root = fxmlLoader.load();
 
             RegisterStudentController registerStudentController = fxmlLoader.getController();
+
             registerStudentController.setContext(context);
             registerStudentController.setUserBean(userBean);
 

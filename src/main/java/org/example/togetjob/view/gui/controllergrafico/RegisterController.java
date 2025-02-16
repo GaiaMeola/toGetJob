@@ -1,12 +1,16 @@
 package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
 
 public class RegisterController {
+
+    private static final String GO_HOME = "go_home";
 
     @FXML
     private TextField usernameField;
@@ -38,7 +42,7 @@ public class RegisterController {
     private void handleBackButton() {
         if (context != null) {
             Printer.print("Going back to Home...");
-            context.goNext("go_home");
+            context.goNext(GO_HOME);
         } else {
             Printer.print("Context is NOT initialized in RegisterController!");
         }
@@ -48,7 +52,7 @@ public class RegisterController {
     private void handleHomeButton() {
         if (context != null) {
             Printer.print("Going to Home screen...");
-            context.goNext("go_home");
+            context.goNext(GO_HOME);
         } else {
             Printer.print("Context is NOT initialized in RegisterController!");
         }
@@ -69,13 +73,25 @@ public class RegisterController {
         String email = emailField.getText();
         String role = roleField.getText();
 
+
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || surname.isEmpty() || email.isEmpty() || role.isEmpty()) {
-            Printer.print("All fields must be filled out!");
+            showErrorAlert("Missing Fields", "All fields must be filled out!");
             return;
         }
 
+
         if (!password.equals(confirmPassword)) {
-            Printer.print("Passwords do not match!");
+            showErrorAlert("Password Mismatch", "Passwords do not match!");
+            return;
+        }
+
+        if (!role.equalsIgnoreCase("student") && !role.equalsIgnoreCase("recruiter")) {
+            showErrorAlert("Invalid Role", "Please select 'student' or 'recruiter' as your role.");
+            return;
+        }
+
+        if (!email.contains("@")) {
+            showErrorAlert("Invalid Email", "Please enter a valid email address (must contain '@').");
             return;
         }
 
@@ -96,8 +112,14 @@ public class RegisterController {
         } else if (role.equalsIgnoreCase("recruiter")) {
             Printer.print("Redirecting to Recruiter registration...");
             context.goNext("register_recruiter");
-        } else {
-            Printer.print("Invalid role selected!");
         }
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

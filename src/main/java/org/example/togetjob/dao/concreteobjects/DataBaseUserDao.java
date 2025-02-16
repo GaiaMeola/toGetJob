@@ -2,6 +2,7 @@ package org.example.togetjob.dao.concreteobjects;
 
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.exceptions.DatabaseException;
+import org.example.togetjob.exceptions.EmailAlreadyExistsException;
 import org.example.togetjob.dao.abstractobjects.UserDao;
 import org.example.togetjob.model.entity.Recruiter;
 import org.example.togetjob.model.entity.Role;
@@ -18,12 +19,24 @@ public class DataBaseUserDao implements UserDao {
     private static final String SQL_INSERT_USER = "INSERT INTO USER (Username, Name, Surname, EmailAddress, Password, Role) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_SELECT_USER = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER WHERE Username = ?";
     private static final String SQL_SELECT_ALL_USERS = "SELECT Username, Name, Surname, EmailAddress, Password, Role FROM USER";
-    private static final String SQL_UPDATE_USER = "UPDATE USER SET Name = ?, Surname = ?, EmailAddress = ?, Password = ?, Role = ? WHERE Username = ?";
-    private static final String SQL_DELETE_USER = "DELETE FROM USER WHERE Username = ?";
-    private static final String SQL_CHECK_USER_EXISTS = "SELECT COUNT(*) FROM USER WHERE Username = ?";
+    private static final String SQL_SELECT_USER_BY_EMAIL = "SELECT COUNT(*) FROM USER WHERE EmailAddress = ?";
 
     @Override
-    public boolean saveUser(User user) throws DatabaseException {
+    public boolean saveUser(User user) throws DatabaseException, EmailAlreadyExistsException {
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_USER_BY_EMAIL)) {
+
+            stmt.setString(1, user.obtainEmailAddress());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                throw new EmailAlreadyExistsException("The email address is already registered.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error checking email existence in the database.");
+        }
+
+
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_INSERT_USER)) {
 
@@ -36,7 +49,7 @@ public class DataBaseUserDao implements UserDao {
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DatabaseException("Error saving user to the database , try again later");
+            throw new DatabaseException("Error saving user to the database, try again later.");
         }
     }
 
@@ -61,12 +74,11 @@ public class DataBaseUserDao implements UserDao {
                 }
 
                 User user = createUserByRole(name, surname, username, emailAddress, password, role);
-
                 return Optional.of(user);
             }
 
         } catch (SQLException e) {
-            throw new DatabaseException("Error retrieving user from the database");
+            throw new DatabaseException("Error retrieving user from the database.");
         }
         return Optional.empty();
     }
@@ -92,13 +104,11 @@ public class DataBaseUserDao implements UserDao {
     public List<User> getAllUsers() throws DatabaseException {
         List<User> users = new ArrayList<>();
 
-
-        //Connection
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL_USERS);
              ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) { //loop
+            while (rs.next()) {
                 String username = rs.getString("Username");
                 String name = rs.getString("Name");
                 String surname = rs.getString("Surname");
@@ -116,62 +126,9 @@ public class DataBaseUserDao implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error retrieving all users from the database");
+            throw new DatabaseException("Error retrieving all users from the database.");
         }
 
         return users;
-    }
-
-    @Override
-    public boolean updateUser(User user) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE_USER)) {
-
-            stmt.setString(1, user.obtainName());
-            stmt.setString(2, user.obtainSurname());
-            stmt.setString(3, user.obtainEmailAddress());
-            stmt.setString(4, user.obtainPassword());
-            stmt.setString(5, user.obtainRole().name());
-            stmt.setString(6, user.obtainUsername());
-
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error updating user in the database");
-        }
-    }
-
-    @Override
-    public boolean deleteUser(String username) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQL_DELETE_USER)) {
-
-            stmt.setString(1, username);
-
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error deleting user from the database");
-        }
-    }
-
-    @Override
-    public boolean userExists(String username) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_USER_EXISTS)) {
-
-            stmt.setString(1, username);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int count = rs.getInt(1);
-                    return count > 0;
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Error checking if user exists in the database");
-        }
-
-        return false;
     }
 }

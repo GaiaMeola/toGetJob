@@ -11,7 +11,7 @@ import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
 import org.example.togetjob.view.boundary.SendAJobApplicationRecruiterBoundary;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.concretestate.HomeRecruiterState;
 import org.jetbrains.annotations.NotNull;
 

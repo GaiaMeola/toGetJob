@@ -1,4 +1,4 @@
-package org.example.togetjob.view;
+package org.example.togetjob.state;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -12,11 +12,7 @@ public class GUIContext extends Application implements Context {
     private State currentState;
     private Stage currentStage;
 
-    private final Map<String, Object> contextData = new HashMap<>();
-
-    public GUIContext() {
-        //**//
-    }
+    private static final Map<String, Object> contextData = new HashMap<>();
 
     @Override
     public void start(Stage primaryStage) {

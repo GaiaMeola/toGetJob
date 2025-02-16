@@ -30,7 +30,7 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
     }
 
     @Override
-    public boolean updateJobApplication(JobApplication jobApplication) {
+    public void updateJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
         Map<Student, JobApplication> studentMap = jobApplications.get(key);
 
@@ -38,12 +38,10 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
             studentMap.put(jobApplication.getStudent(), jobApplication);
         }
 
-        return true;
-
     }
 
     @Override
-    public boolean deleteJobApplication(JobApplication jobApplication) {
+    public void deleteJobApplication(JobApplication jobApplication) {
         String key = generateKey(jobApplication);
         Map<Student, JobApplication> studentMap = jobApplications.get(key);
 
@@ -51,17 +49,7 @@ public class InMemoryJobApplicationDao implements JobApplicationDao {
             studentMap.remove(jobApplication.getStudent());
         }
 
-        return true;
-
     }
-
-    @Override
-    public boolean jobApplicationExists(Student student , JobAnnouncement jobAnnouncement ) {
-        String key = generateKey(student, jobAnnouncement);
-        Map<Student, JobApplication> studentMap = jobApplications.get(key);
-        return studentMap != null && studentMap.containsKey(student);
-    }
-
 
     @Override
     public List<JobApplication> getAllJobApplications(Student student) {

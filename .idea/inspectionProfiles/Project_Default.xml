@@ -2,7 +2,15 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="ExtractMethodRecommender" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="minLength" value="525" />
+      <option name="minLength" value="559" />
+      <option name="maxParameters" value="1" />
+    </inspection_tool>
+    <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredTypes">
+        <set>
+          <option value="java.lang.StringBuilder" />
+        </set>
+      </option>
     </inspection_tool>
   </profile>
 </component>

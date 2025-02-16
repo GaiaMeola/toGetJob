@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -29,10 +30,11 @@
                         <Font name="AppleGothic Regular" size="14.0" />
                      </font>
                   </Button>
-                  <TableView editable="true" layoutX="3.0" layoutY="58.0" prefHeight="331.0" prefWidth="450.0" style="-fx-background-color: 00aaff;">
+                  <TableView fx:id="candidatesTable" editable="true" layoutX="3.0" layoutY="58.0" prefHeight="331.0" prefWidth="450.0" style="-fx-background-color: 00aaff;">
                      <columns>
-                        <TableColumn fx:id="jobAnnouncementTitle" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic;" text="Candidates" />
-                        <TableColumn prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="View Options" />
+                        <TableColumn fx:id="nameColumn" prefWidth="164.0" style="-fx-font-family: Apple Gothic;" text="Name" />
+                        <TableColumn fx:id="degreeColumn" prefWidth="150.5" style="-fx-font-family: Apple Gothic;" text="Degrees" />
+                        <TableColumn fx:id="actionColumn" prefWidth="134.5" text="Actions" />
                      </columns>
                   </TableView>
                </children>
@@ -45,11 +47,15 @@
                   <Rectangle2D minY="-10.0" />
                </viewport>
             </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../back-158491_1920.png" />
-               </image>
-            </ImageView>
+            <StackPane layoutX="10.0" layoutY="10.0" onMouseClicked="#handleBackButton">
+               <children>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../back-158491_1920.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
          </children>
       </AnchorPane>
    </children>

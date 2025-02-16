@@ -187,35 +187,6 @@ public class DataBaseInterviewSchedulingDao implements InterviewSchedulingDao {
     }
 
     @Override
-    public boolean interviewSchedulingExists(Student student, JobAnnouncement jobAnnouncement) throws DatabaseException {
-        try {
-
-            Optional<Integer> jobAnnouncementId = dataBaseJobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.obtainJobTitle(),
-                    jobAnnouncement.getRecruiter().obtainUsername()
-            );
-
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(JOB_ANNOUNCEMENT_NOT_FOUND));
-
-
-            try (Connection conn = DatabaseConfig.getInstance().getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_INTERVIEW_SCHEDULING_EXISTS)) {
-
-
-                stmt.setString(1, student.obtainUsername());
-                stmt.setInt(2, jobAnnouncementIdValue);
-
-
-                try (ResultSet rs = stmt.executeQuery()) {
-                    return rs.next();
-                }
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Database error while checking interview scheduling existence", e);
-        }
-    }
-
-    @Override
     public List<InterviewScheduling> getAllInterviewScheduling(Student student) throws DatabaseException {
         List<InterviewScheduling> interviewSchedulings = new ArrayList<>();
         List<Integer> jobAnnouncementIds = new ArrayList<>();

@@ -53,12 +53,12 @@
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
             </Button>
-            <TitledPane fx:id="jobAnnouncement" animated="false" layoutX="170.0" layoutY="16.0" prefHeight="345.0" prefWidth="377.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements Published">
+            <TitledPane fx:id="jobAnnouncement" animated="false" layoutX="170.0" layoutY="16.0" prefHeight="338.0" prefWidth="377.0" style="-fx-background-color: #b3d9ff; -fx-text-fill: #2980b9; -fx-border-color: #b3d9ff;" text="Job Announcements Published">
                <font>
                   <Font name="AppleGothic Regular" size="14.0" />
                </font>
                <content>
-                  <ListView fx:id="jobAnnouncementBeanListView" prefHeight="291.0" prefWidth="373.0" />
+                  <ListView fx:id="jobAnnouncementBeanListView" prefHeight="295.0" prefWidth="373.0" />
                </content>
             </TitledPane>
             <Separator layoutX="143.0" layoutY="-3.0" opacity="0.5" orientation="VERTICAL" prefHeight="473.0" prefWidth="11.0" style="-fx-background-color: #2980b9;">

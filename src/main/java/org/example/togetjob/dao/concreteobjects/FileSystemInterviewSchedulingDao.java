@@ -26,11 +26,6 @@ public class FileSystemInterviewSchedulingDao implements InterviewSchedulingDao 
     }
 
     @Override
-    public boolean interviewSchedulingExists(Student student, JobAnnouncement jobAnnouncement) {
-        return false;
-    }
-
-    @Override
     public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
         return List.of();
     }

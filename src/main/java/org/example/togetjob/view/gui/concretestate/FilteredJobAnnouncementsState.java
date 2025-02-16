@@ -6,10 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.printer.Printer;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController;
+import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 
 import java.io.IOException;
 
@@ -25,9 +27,7 @@ public class FilteredJobAnnouncementsState implements State {
 
     @Override
     public void showMenu() {
-
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobannouncements.fxml"));
 
             VBox root = fxmlLoader.load();
@@ -38,8 +38,7 @@ public class FilteredJobAnnouncementsState implements State {
             controller.setJobAnnouncementSearchBean(jobAnnouncementSearchBean);
 
             Stage stage = context.getStage();
-
-            if(stage == null){
+            if (stage == null) {
                 stage = new Stage();
                 context.setStage(stage);
             }
@@ -47,10 +46,10 @@ public class FilteredJobAnnouncementsState implements State {
             stage.setTitle("Filtered Job Announcements by Student");
             stage.setScene(scene);
 
-            //listener to close the application
+            // Listener per chiudere l'applicazione
             stage.setOnCloseRequest(event -> {
-                Platform.exit();  // JavaFX
-                System.exit(0);   // process
+                Platform.exit();
+                System.exit(0);
             });
 
             stage.show();
@@ -58,13 +57,27 @@ public class FilteredJobAnnouncementsState implements State {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
     public void goNext(Context context, String event) {
-        //**//
+        GUIContext guiContext = (GUIContext) context;
+
+        switch (event) {
+            case "viewJobDetails":
+                Printer.print("Navigating to Job Details...");
+                break;
+            case "goBack":
+                Printer.print("Going back to Student Home...");
+                guiContext.setState(new HomeStudentState(guiContext));
+                break;
+            default:
+                Printer.print("Event not recognized: " + event);
+        }
+
+        guiContext.showMenu();
     }
+
     public GUIContext getContext() {
         return context;
     }

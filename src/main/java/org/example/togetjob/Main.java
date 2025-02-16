@@ -5,10 +5,10 @@ import org.example.togetjob.config.AppConfig;
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.exceptions.ConfigException;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.CliContext;
-import org.example.togetjob.view.cli.concretestate.MainMenuState;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.CliContext;
+import org.example.togetjob.view.cli.MainMenuState;
+import org.example.togetjob.state.GUIContext;
 
 
 import java.sql.Connection;

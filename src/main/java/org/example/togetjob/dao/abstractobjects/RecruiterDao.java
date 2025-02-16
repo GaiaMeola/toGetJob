@@ -8,7 +8,4 @@ public interface RecruiterDao {
 
     void saveRecruiter(Recruiter recruiter);
     Optional<Recruiter> getRecruiter(String username);
-    boolean updateRecruiter(Recruiter recruiter);
-    boolean deleteRecruiter(String username);
-    boolean recruiterExists(String username);
 }

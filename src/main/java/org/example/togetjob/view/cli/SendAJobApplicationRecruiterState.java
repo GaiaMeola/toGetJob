@@ -1,15 +1,15 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.bean.InterviewSchedulingBean;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobApplicationBean;
 import org.example.togetjob.exceptions.*;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.ContactAJobCandidateRecruiterBoundary;
 import org.example.togetjob.view.boundary.SendAJobApplicationRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.CliContext;
+import org.example.togetjob.state.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
@@ -67,37 +67,47 @@ public class SendAJobApplicationRecruiterState implements State{
     }
 
     private void viewJobApplicationsForJobAnnouncement(Scanner scanner) {
+        try {
+            // Call the boundary method to fetch job applications for a specific job announcement
+            List<JobApplicationBean> jobApplications = sendAJobApplicationRecruiterBoundary.getAllJobApplications(jobAnnouncementBean);
 
-        // Call the boundary method to fetch job announcements
-        List<JobApplicationBean> jobApplications = sendAJobApplicationRecruiterBoundary.getAllJobApplications(jobAnnouncementBean);
+            if (jobApplications.isEmpty()) {
+                Printer.print("No job applications found for this job announcement.");
+            } else {
+                // Display the list of job applications
+                Printer.print("Here are the job applications for the job announcement: " + jobAnnouncementBean.getJobTitle());
+            }
 
-        if (jobApplications.isEmpty()) {
-            Printer.print("No job applications found for this job announcement.");
-        } else {
-            // Display the list of job applications
-            Printer.print("Here are the job applications for the job announcement: " + jobAnnouncementBean.getJobTitle());
+            // Print the details of each job application
+            for (int i = 0; i < jobApplications.size(); i++) {
+                JobApplicationBean jobApplication = jobApplications.get(i);
+                Printer.print((i + 1) + ". Applicant: " + jobApplication.getStudentUsername() +
+                        " | Status: " + jobApplication.getStatus());
+            }
 
+            // Allow the user to select an application to manage
+            Printer.print("Enter the number of the application you want to manage, or 0 to go back: ");
+            int selection = scanner.nextInt();
+            scanner.nextLine();
+
+            if (selection > 0 && selection <= jobApplications.size()) {
+                JobApplicationBean selectedApplication = jobApplications.get(selection - 1);
+                manageApplication(scanner, selectedApplication);
+            } else if (selection == 0) {
+                Printer.print("Returning to the job announcement menu...");
+            } else {
+                Printer.print("Invalid selection. Please try again.");
+            }
+
+        } catch (DatabaseException e) {
+            Printer.print("Error: A database error occurred while fetching the job applications. Please try again later.");
+        } catch (JobAnnouncementNotFoundException e) {
+            Printer.print("Error: The job announcement could not be found. It may have been removed or is no longer available.");
+        } catch (UnauthorizedAccessException e) {
+            Printer.print("Error: You do not have permission to view the job applications for this job announcement.");
+        } catch (Exception e) {
+            Printer.print("Unexpected error: " + e.getMessage());
         }
-
-        for (int i = 0; i < jobApplications.size(); i++) {
-            JobApplicationBean jobApplication = jobApplications.get(i);
-            Printer.print((i + 1) + ". Applicant: " + jobApplication.getStudentUsername() +
-                    " | Status: " + jobApplication.getStatus());
-        }
-
-        Printer.print("Enter the number of the application you want to manage, or 0 to go back: ");
-        int selection = scanner.nextInt();
-        scanner.nextLine();
-
-        if (selection > 0 && selection <= jobApplications.size()) {
-            JobApplicationBean selectedApplication = jobApplications.get(selection - 1);
-            manageApplication(scanner, selectedApplication);
-        } else if (selection == 0) {
-            Printer.print("Returning to the job announcement menu...");
-        } else {
-            Printer.print("Invalid selection. Please try again.");
-        }
-
     }
 
     private void viewInterviewSchedules(Scanner scanner) throws JobAnnouncementNotFoundException{
@@ -219,6 +229,4 @@ public class SendAJobApplicationRecruiterState implements State{
             Printer.print(e.getMessage());
         }
     }
-
-
 }

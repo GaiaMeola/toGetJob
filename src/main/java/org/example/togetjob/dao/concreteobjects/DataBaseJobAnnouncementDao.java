@@ -95,20 +95,6 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) throws DatabaseException {
-        try (Connection conn = DatabaseConfig.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(CHECK_EXISTENCE)) {
-
-            stmt.setString(1, jobTitle);
-            stmt.setString(2, recruiter.obtainUsername());
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
-        } catch (SQLException e) {
-            throw new DatabaseException("Error checking job announcement existence");
-        }
-    }
-
-    @Override
     public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
         List<JobAnnouncement> jobAnnouncements = new ArrayList<>();
 

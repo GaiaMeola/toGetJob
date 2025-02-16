@@ -22,22 +22,4 @@ public class InMemoryRecruiterDao implements RecruiterDao {
         return Optional.ofNullable(recruiters.get(username));
     }
 
-    @Override
-    public boolean updateRecruiter(Recruiter recruiter) {
-        if (!recruiters.containsKey(recruiter.obtainUsername())) {
-            return false;
-        }
-        recruiters.put(recruiter.obtainUsername(), recruiter);
-        return true;
-    }
-
-    @Override
-    public boolean deleteRecruiter(String username) {
-        return recruiters.remove(username) != null;
-    }
-
-    @Override
-    public boolean recruiterExists(String username) {
-        return recruiters.containsKey(username);
-    }
 }

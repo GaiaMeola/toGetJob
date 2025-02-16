@@ -10,7 +10,4 @@ public interface StudentDao {
     void saveStudent(Student student);
     Optional<Student> getStudent(String username);
     List<Student> getAllStudents();
-    boolean updateStudent(Student student);
-    boolean deleteStudent(String username);
-    boolean studentExists(String username);
 }

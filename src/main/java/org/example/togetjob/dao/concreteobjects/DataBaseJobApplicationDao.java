@@ -39,8 +39,6 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
     private static final String SQL_DELETE_JOB_APPLICATION = "DELETE FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ?";
 
-    private static final String SQL_CHECK_JOB_APPLICATION_EXISTS = "SELECT 1 FROM JOBAPPLICATION WHERE UsernameStudent = ? AND JobAnnouncementID = ? LIMIT 1";
-
     private static final String SQL_SELECT_ALL_JOB_APPLICATIONS = "SELECT ApplicationDate, Status, CoverLetter, JobAnnouncementID, UsernameStudent "
             + "FROM JOBAPPLICATION "
             + "JOIN JobAnnouncement ON JOBAPPLICATION.JobAnnouncementID = JobAnnouncement.ID "
@@ -143,7 +141,7 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
 
 
     @Override
-    public boolean updateJobApplication(JobApplication jobApplication) throws DatabaseException {
+    public void updateJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -166,11 +164,10 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             throw new DatabaseException(ERROR_DATABASE);
         }
 
-        return true;
     }
 
     @Override
-    public boolean deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
+    public void deleteJobApplication(JobApplication jobApplication) throws DatabaseException {
         try {
             Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
                     jobApplication.getJobAnnouncement().obtainJobTitle(),
@@ -190,32 +187,6 @@ public class DataBaseJobApplicationDao implements JobApplicationDao {
             throw new DatabaseException(ERROR_DATABASE);
         }
 
-        return true;
-    }
-
-    @Override
-    public boolean jobApplicationExists(Student student, JobAnnouncement jobAnnouncement) {
-        try {
-            Optional<Integer> jobAnnouncementId = jobAnnouncementDao.getJobAnnouncementId(
-                    jobAnnouncement.obtainJobTitle(),
-                    jobAnnouncement.getRecruiter().obtainUsername()
-            );
-
-            int jobAnnouncementIdValue = jobAnnouncementId.orElseThrow(() -> new DatabaseException(ERROR_JOB_ANNOUNCEMENT_NOT_FOUND));
-
-            try (Connection conn = DatabaseConfig.getInstance().getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(SQL_CHECK_JOB_APPLICATION_EXISTS)) {
-
-                stmt.setString(1, student.obtainUsername());
-                stmt.setInt(2, jobAnnouncementIdValue);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-                    return rs.next(); // If a row is returned, the job application exists
-                }
-            }
-        } catch (SQLException | DatabaseException e) {
-            throw new DatabaseException(ERROR_DATABASE);
-        }
     }
 
     @Override

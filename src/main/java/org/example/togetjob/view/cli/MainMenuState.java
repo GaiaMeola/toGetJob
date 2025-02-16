@@ -1,9 +1,9 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.CliContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.CliContext;
 
 public class MainMenuState implements State{
 

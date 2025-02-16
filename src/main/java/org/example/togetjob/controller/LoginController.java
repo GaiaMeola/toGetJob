@@ -18,7 +18,6 @@ public class LoginController {
 
     public boolean loginUser(LoginUserBean loginUserBean) throws UserNotFoundException, WrongPasswordException {
 
-
         User user = userDao.getUser(loginUserBean.getUsername()).orElse(null);
 
         if(user == null){ //User not found

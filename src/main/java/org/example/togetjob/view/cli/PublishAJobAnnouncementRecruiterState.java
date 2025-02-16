@@ -1,12 +1,12 @@
-package org.example.togetjob.view.cli.concretestate;
+package org.example.togetjob.view.cli;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.exceptions.*;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.PublishAJobAnnouncementRecruiterBoundary;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.CliContext;
+import org.example.togetjob.state.CliContext;
 
 import java.util.Scanner;
 

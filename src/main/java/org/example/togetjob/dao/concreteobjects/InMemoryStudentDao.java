@@ -27,22 +27,4 @@ public class InMemoryStudentDao implements StudentDao {
         return new ArrayList<>(students.values());
     }
 
-    @Override
-    public boolean updateStudent(Student student) {
-        if(!students.containsKey(student.obtainUsername())){
-            return false;
-        }
-        students.put(student.obtainUsername(),student);
-        return true;
-    }
-
-    @Override
-    public boolean deleteStudent(String username) {
-        return students.remove(username) != null;
-    }
-
-    @Override
-    public boolean studentExists(String username) {
-        return students.containsKey(username);
-    }
 }

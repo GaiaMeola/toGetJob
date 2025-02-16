@@ -12,7 +12,6 @@ public interface InterviewSchedulingDao {
     void saveInterviewScheduling(InterviewScheduling interviewScheduling);
     Optional<InterviewScheduling> getInterviewScheduling(Student student, JobAnnouncement jobAnnouncement);
     List<InterviewScheduling> getAllInterviewScheduling(JobAnnouncement jobAnnouncement);
-    boolean interviewSchedulingExists(Student student, JobAnnouncement jobAnnouncement);
     List<InterviewScheduling> getAllInterviewScheduling(Student student);
     void deleteInterviewScheduling(InterviewScheduling interviewScheduling);
     void updateInterviewScheduling(InterviewScheduling interviewScheduling);

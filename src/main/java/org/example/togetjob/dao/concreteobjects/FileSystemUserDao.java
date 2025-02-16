@@ -1,6 +1,8 @@
 package org.example.togetjob.dao.concreteobjects;
 
 import org.example.togetjob.dao.abstractobjects.UserDao;
+import org.example.togetjob.exceptions.EmailAlreadyExistsException;
+import org.example.togetjob.exceptions.FileAccessException;
 import org.example.togetjob.model.entity.*;
 
 import java.io.*;
@@ -8,11 +10,15 @@ import java.util.*;
 
 public class FileSystemUserDao implements UserDao {
     private static final String PATH_NAME = "src/main/resources/files_txt/User.txt";
+    private static final String ERROR = "Error reading user from file.";
 
     @Override
-    public boolean saveUser(User user) {
+    public boolean saveUser(User user) throws EmailAlreadyExistsException {
         if (userExists(user.obtainUsername())) {
             return false; // The user already exists
+        }
+        if (emailExists(user.obtainEmailAddress())) {
+            throw new EmailAlreadyExistsException("The email address is already registered.");
         }
         return appendToFile(userToLine(user));
     }
@@ -29,34 +35,14 @@ public class FileSystemUserDao implements UserDao {
         return readAllUsers();
     }
 
-    @Override
-    public boolean updateUser(User user) {
-        List<User> users = readAllUsers();
-        boolean found = false;
-
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).obtainUsername().equals(user.obtainUsername())) {
-                users.set(i, user); // Update user
-                found = true;
-                break;
-            }
-        }
-
-        return found && writeAllUsers(users);
-    }
-
-    @Override
-    public boolean deleteUser(String username) {
-        List<User> users = readAllUsers();
-        boolean removed = users.removeIf(user -> user.obtainUsername().equals(username));
-
-        return removed && writeAllUsers(users);
-    }
-
-    @Override
-    public boolean userExists(String username) {
+    private boolean userExists(String username) {
         return readAllUsers().stream()
                 .anyMatch(user -> user.obtainUsername().equals(username));
+    }
+
+    private boolean emailExists(String email) {
+        return readAllUsers().stream()
+                .anyMatch(user -> user.obtainEmailAddress().equals(email));
     }
 
     private List<User> readAllUsers() {
@@ -70,22 +56,9 @@ public class FileSystemUserDao implements UserDao {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Log errori
+           throw new FileAccessException(ERROR);
         }
         return users;
-    }
-
-    private boolean writeAllUsers(List<User> users) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
-            for (User user : users) {
-                writer.write(userToLine(user));
-                writer.newLine();
-            }
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     private boolean appendToFile(String line) {
@@ -94,8 +67,7 @@ public class FileSystemUserDao implements UserDao {
             writer.newLine();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new FileAccessException(ERROR);
         }
     }
 
@@ -109,8 +81,7 @@ public class FileSystemUserDao implements UserDao {
                     ? new Student(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role)
                     : new Recruiter(data[0].trim(), data[1].trim(), data[2].trim(), data[3].trim(), data[4].trim(), role);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
+            throw new FileAccessException(ERROR);
         }
     }
 

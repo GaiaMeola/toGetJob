@@ -55,14 +55,6 @@ public class InMemoryInterviewSchedulingDao implements InterviewSchedulingDao {
     }
 
     @Override
-    public boolean interviewSchedulingExists(Student student, JobAnnouncement jobAnnouncement) {
-        String key = generateKey(student);
-
-        Map<JobAnnouncement, InterviewScheduling> jobAnnouncementMap = interviewSchedulingMap.get(key);
-        return jobAnnouncementMap != null && jobAnnouncementMap.containsKey(jobAnnouncement);
-    }
-
-    @Override
     public List<InterviewScheduling> getAllInterviewScheduling(Student student) {
         String key = generateKey(student);
 

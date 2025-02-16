@@ -1,12 +1,16 @@
 package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.view.boundary.LoginBoundary;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.exceptions.UserNotFoundException;
+import org.example.togetjob.exceptions.WrongPasswordException;
 
 public class HomeController {
 
@@ -35,26 +39,35 @@ public class HomeController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
+
         if (username.isEmpty() || password.isEmpty()) {
             Printer.print("Username or password cannot be empty!");
             return;
         }
 
-        boolean loginSuccess = loginBoundary.login(username, password);
+        try {
 
-        if (loginSuccess) {
-            Printer.print("Login successful!");
+            boolean loginSuccess = loginBoundary.login(username, password);
 
-            String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();
-            if ("STUDENT".equalsIgnoreCase(userRole)) {
-                context.goNext("student_home");
-            } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
-                context.goNext("recruiter_home");
-            } else {
-                Printer.print("Unknown user role: " + userRole);
+            if (loginSuccess) {
+                Printer.print("Login successful!");
+
+                String userRole = SessionManager.getInstance().getCurrentUser().obtainRole().name();
+                if ("STUDENT".equalsIgnoreCase(userRole)) {
+                    context.goNext("student_home");
+                } else if ("RECRUITER".equalsIgnoreCase(userRole)) {
+                    context.goNext("recruiter_home");
+                } else {
+                    Printer.print("Unknown user role: " + userRole);
+                }
             }
-        } else {
-            Printer.print("Login failed!");
+
+        } catch (UserNotFoundException e) {
+            showErrorAlert("User not found", "The username you entered does not exist.");
+        } catch (WrongPasswordException e) {
+            showErrorAlert("Wrong password", "The password you entered is incorrect.");
+        } catch (Exception e) {
+            showErrorAlert("Login failed", "An unexpected error occurred. Please try again.");
         }
     }
 
@@ -66,5 +79,13 @@ public class HomeController {
         } else {
             Printer.print("Context is not initialized!");
         }
+    }
+
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -32,8 +32,9 @@ public class PublishAJobAnnouncementController {
             throw new UserNotLoggedException();
         }
 
-        if (jobAnnouncementDao.jobAnnouncementExists(jobAnnouncementBean.getJobTitle(), recruiter)) {
-            throw new JobAnnouncementAlreadyExists("A job announcement with this title already exists.");  // false if job announcement exists
+        Optional<JobAnnouncement> existingJobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
+        if (existingJobAnnouncement.isPresent()) {
+            throw new JobAnnouncementAlreadyExists("A job announcement with this title already exists.");
         }
 
         try {
@@ -45,7 +46,7 @@ public class PublishAJobAnnouncementController {
         try {
             salary = Double.parseDouble(jobAnnouncementBean.getSalary());
         } catch (NumberFormatException e) {
-            throw new InvalidSalaryException("Working hours must be greater than 0.");
+            throw new InvalidSalaryException("Salary must be a double.");
         }
 
         JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(

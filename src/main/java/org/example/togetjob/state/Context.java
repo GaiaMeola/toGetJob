@@ -1,4 +1,4 @@
-package org.example.togetjob.view;
+package org.example.togetjob.state;
 
 public interface Context {
     void initialize();  // UI (CLI o GUI)

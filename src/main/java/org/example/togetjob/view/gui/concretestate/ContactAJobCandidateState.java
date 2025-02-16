@@ -6,26 +6,33 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.StudentInfoSearchBean;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.printer.Printer;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.ContactAJobCandidateController;
 
 import java.io.IOException;
 
 public class ContactAJobCandidateState implements State {
-    private final GUIContext context;
-    private final StudentInfoSearchBean studentInfoSearchBean;
-    private final JobAnnouncementBean jobAnnouncementBean;
 
-    public ContactAJobCandidateState(GUIContext context, StudentInfoSearchBean studentInfoSearchBean, JobAnnouncementBean jobAnnouncementBean) {
+    GUIContext context;
+
+    public ContactAJobCandidateState(GUIContext context) {
         this.context = context;
-        this.studentInfoSearchBean = studentInfoSearchBean;
-        this.jobAnnouncementBean = jobAnnouncementBean;
     }
 
     @Override
     public void showMenu() {
+
+        StudentInfoSearchBean studentInfoSearchBean = (StudentInfoSearchBean) context.get("studentInfoSearch");
+        JobAnnouncementBean jobAnnouncementBean = (JobAnnouncementBean) context.get("jobAnnouncement");
+
+        if (studentInfoSearchBean == null || jobAnnouncementBean == null) {
+            Printer.print("ERROR: Missing data in context!");
+            return;
+        }
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filteredjobcandidates.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
@@ -65,6 +72,7 @@ public class ContactAJobCandidateState implements State {
     public void goNext(Context context, String event) {
         //**//
     }
+
     public GUIContext getContext() {
         return context;
     }

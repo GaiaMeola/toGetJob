@@ -4,12 +4,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.togetjob.bean.JobAnnouncementBean;
-import org.example.togetjob.bean.StudentInfoSearchBean;
 import org.example.togetjob.printer.Printer;
-import org.example.togetjob.view.Context;
-import org.example.togetjob.view.State;
-import org.example.togetjob.view.GUIContext;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.state.State;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.controllergrafico.FilterJobCandidateRecruiterController;
 
 import java.io.IOException;
@@ -18,15 +16,12 @@ public class FilterJobCandidateState implements State {
 
     private final GUIContext context;
 
-    public FilterJobCandidateState(GUIContext context, JobAnnouncementBean jobAnnouncementBean) {
+    public FilterJobCandidateState(GUIContext context) {
         this.context = context;
-        this.context.set("jobAnnouncement", jobAnnouncementBean); // Memorizza la bean nel context
     }
 
     @Override
     public void showMenu() {
-        Printer.print("Showing Filter Job Candidate by Recruiter...");
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/togetjob/fxml/filterjobcandidatesrecruiter.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 500);
@@ -44,7 +39,7 @@ public class FilterJobCandidateState implements State {
             stage.setScene(scene);
 
             stage.setOnCloseRequest(event -> {
-                Platform.exit();
+                Platform.exit();  // JavaFX
                 System.exit(0);
             });
 
@@ -61,11 +56,8 @@ public class FilterJobCandidateState implements State {
         GUIContext guiContext = (GUIContext) context;
 
         switch (event) {
-            case "contactJobCandidate":
-                StudentInfoSearchBean studentInfoSearchBean = (StudentInfoSearchBean) guiContext.get("studentInfoSearch");
-                JobAnnouncementBean jobAnnouncementBean = (JobAnnouncementBean) guiContext.get("jobAnnouncement");
-
-                guiContext.setState(new ContactAJobCandidateState(guiContext, studentInfoSearchBean, jobAnnouncementBean));
+            case "filterJobCandidates":
+                guiContext.setState(new ContactAJobCandidateState(guiContext));
                 break;
 
             case "homeRecruiter":

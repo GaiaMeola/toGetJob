@@ -32,31 +32,7 @@ public class FileSystemRecruiterDao implements RecruiterDao {
                 .findFirst();
     }
 
-    @Override
-    public boolean updateRecruiter(Recruiter recruiter) {
-        List<Recruiter> recruiters = getRecruitersFromFile();
-        boolean updated = false;
-
-        for (int i = 0; i < recruiters.size(); i++) {
-            if (recruiters.get(i).obtainUsername().equals(recruiter.obtainUsername())) {
-                recruiters.set(i, recruiter);
-                updated = true;
-                break;
-            }
-        }
-
-        return updated && rewriteRecruitersFile(recruiters);
-    }
-
-    @Override
-    public boolean deleteRecruiter(String username) {
-        List<Recruiter> recruiters = getRecruitersFromFile();
-        boolean removed = recruiters.removeIf(r -> r.obtainUsername().equals(username));
-        return removed && rewriteRecruitersFile(recruiters);
-    }
-
-    @Override
-    public boolean recruiterExists(String username) {
+    private boolean recruiterExists(String username) {
         return getRecruitersFromFile().stream()
                 .anyMatch(recruiter -> recruiter.obtainUsername().equals(username));
     }
@@ -103,16 +79,4 @@ public class FileSystemRecruiterDao implements RecruiterDao {
                 String.join(COMPANY_SEPARATOR, recruiter.obtainCompanies()));
     }
 
-    private boolean rewriteRecruitersFile(List<Recruiter> recruiters) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATH_NAME))) {
-            for (Recruiter recruiter : recruiters) {
-                writer.write(formatRecruiterData(recruiter));
-                writer.newLine();
-            }
-            return true;
-        } catch (IOException e) {
-            // Handle exception
-            return false;
-        }
-    }
 }

@@ -7,13 +7,15 @@ import org.example.togetjob.controller.registration.AbstractRegisterController;
 import org.example.togetjob.controller.registration.RegisterRecruiterController;
 import org.example.togetjob.controller.registration.RegisterStudentController;
 import org.example.togetjob.exceptions.DatabaseException;
+import org.example.togetjob.exceptions.EmailAlreadyExistsException;
+import org.example.togetjob.exceptions.FileAccessException;
 import org.example.togetjob.exceptions.UsernameTakeException;
 
 public class RegisterBoundary {
     //polymorphism
     AbstractRegisterController registerController;
 
-    public boolean registerUser(RegisterUserBean userBean, Object infoBean) throws UsernameTakeException , DatabaseException {
+    public boolean registerUser(RegisterUserBean userBean, Object infoBean) throws UsernameTakeException, DatabaseException, FileAccessException, EmailAlreadyExistsException {
 
         if ("student".equalsIgnoreCase(userBean.getRole())) {
             registerController = new RegisterStudentController((StudentInfoBean) infoBean);

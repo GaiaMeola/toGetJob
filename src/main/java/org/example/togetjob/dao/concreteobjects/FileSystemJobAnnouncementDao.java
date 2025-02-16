@@ -30,11 +30,6 @@ public class FileSystemJobAnnouncementDao implements JobAnnouncementDao {
     }
 
     @Override
-    public boolean jobAnnouncementExists(String jobTitle, Recruiter recruiter) {
-        return false;
-    }
-
-    @Override
     public List<JobAnnouncement> getAllJobAnnouncements(Recruiter recruiter) {
         return List.of();
     }
