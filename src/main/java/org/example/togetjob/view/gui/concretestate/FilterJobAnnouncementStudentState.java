@@ -49,8 +49,7 @@ public class FilterJobAnnouncementStudentState implements State {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            Printer.print("Error loading FXML: " + e.getMessage());
+            Printer.print("Error loading Filter Job Announcement View: " + e.getMessage());
         }
     }
 

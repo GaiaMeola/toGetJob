@@ -49,7 +49,7 @@ public class HomeState implements State {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Printer.print("Error loading FXML for Home State View: " + e.getMessage());
         }
     }
 

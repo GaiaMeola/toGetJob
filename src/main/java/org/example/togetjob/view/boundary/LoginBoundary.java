@@ -30,6 +30,5 @@ public class LoginBoundary {
         return SessionManager.getInstance().getCurrentUser().obtainRole().name();
     }
 
-    public boolean isUserLogged() throws UserNotLoggedException{ return loginController.isUserLogged(); }
 
 }

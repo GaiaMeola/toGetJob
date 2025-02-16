@@ -35,8 +35,7 @@ public class CreateJobAnnouncementState implements State {
             setCloseRequestListener(stage);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            Printer.print("Error loading FXML: " + e.getMessage());
+            Printer.print("Error loading Create Job Announcement View: " + e.getMessage());
         }
     }
 
