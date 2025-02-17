@@ -6,53 +6,32 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.Context;
-import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationRecruiterController;
 
-import java.io.IOException;
-
-public class SendAJobApplicationRecruiterState implements State {
-
-    GUIContext context;
+public class SendAJobApplicationRecruiterState extends BaseState implements State {
 
     public SendAJobApplicationRecruiterState(GUIContext context) {
-        this.context = context;
+        super(context);
+    }
+
+    @Override
+    protected String getFXMLFile() {
+        return "/fxml/recruiterviewjobapplications.fxml";
+    }
+
+    @Override
+    protected void setUpScene(FXMLLoader fxmlLoader) {
+        SendAJobApplicationRecruiterController controller = fxmlLoader.getController();
+        controller.setContext(context);
     }
 
     @Override
     public void showMenu() {
-        try {
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/recruiterviewjobapplications.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
-
-
-            SendAJobApplicationRecruiterController controller = fxmlLoader.getController();
-            controller.setContext(context);
-
-
-            Stage stage = context.getStage();
-
-            if (stage == null) {
-                stage = new Stage();
-                context.setStage(stage);
-            }
-
-            stage.setTitle("Filtered Job Announcements by Student");
-            stage.setScene(scene);
-
-
-            stage.setOnCloseRequest(event -> {
-                Platform.exit();  // JavaFX
-                System.exit(0);   // process
-            });
-
-            stage.show();
-        } catch (IOException e) {
-            Printer.print("Error loading FXML for Send a Job Application Recruiter View: " + e.getMessage());
-        }
+        show();
     }
+
     @Override
     public void goNext(Context context, String event) {
         GUIContext guiContext = (GUIContext) context;
@@ -60,17 +39,18 @@ public class SendAJobApplicationRecruiterState implements State {
         switch (event) {
             case "viewJobDetails":
                 Printer.print("Navigating to Job Details...");
+                // Possibly implement navigation to job details
                 break;
             case "go_home":
                 Printer.print("Going back to Recruiter Home...");
                 guiContext.setState(new HomeRecruiterState(guiContext));
+                guiContext.showMenu();
                 break;
             default:
                 Printer.print("Event not recognized: " + event);
         }
-
-        guiContext.showMenu();
     }
+
     public GUIContext getContext() {
         return context;
     }

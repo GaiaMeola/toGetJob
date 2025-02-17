@@ -1,58 +1,32 @@
 package org.example.togetjob.view.gui.concretestate;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.example.togetjob.printer.Printer;
-import org.example.togetjob.state.Context;
-import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.gui.controllergrafico.CreateJobAnnouncementController;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.printer.Printer;
 
-import java.io.IOException;
-
-public class CreateJobAnnouncementState implements State {
-    private final GUIContext context;
+public class CreateJobAnnouncementState extends BaseState implements State {
 
     public CreateJobAnnouncementState(GUIContext context) {
-        this.context = context;
+        super(context);
+    }
+
+    @Override
+    protected String getFXMLFile() {
+        return "/fxml/recruitercreatejobannouncement.fxml";
+    }
+
+    @Override
+    protected void setUpScene(FXMLLoader fxmlLoader) {
+        CreateJobAnnouncementController controller = fxmlLoader.getController();
+        controller.setContext(context);
     }
 
     @Override
     public void showMenu() {
-        try {
-            Printer.print("Showing Create Job Announcement...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/recruitercreatejobannouncement.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
-
-            CreateJobAnnouncementController controller = fxmlLoader.getController();
-            controller.setContext(context);
-
-            Stage stage = getStage();
-            stage.setTitle("Create Job Announcement");
-            stage.setScene(scene);
-            setCloseRequestListener(stage);
-            stage.show();
-        } catch (IOException e) {
-            Printer.print("Error loading Create Job Announcement View: " + e.getMessage());
-        }
-    }
-
-    private Stage getStage() {
-        Stage stage = context.getStage();
-        if (stage == null) {
-            stage = new Stage();
-            context.setStage(stage);
-        }
-        return stage;
-    }
-
-    private void setCloseRequestListener(Stage stage) {
-        stage.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
-        });
+        show();
     }
 
     @Override
@@ -63,18 +37,16 @@ public class CreateJobAnnouncementState implements State {
             case "jobPublished":
                 Printer.print("Job published successfully, returning to home...");
                 guiContext.setState(new HomeRecruiterState(guiContext));
+                guiContext.showMenu();
                 break;
 
             case "homeRecruiter":
                 guiContext.setState(new HomeRecruiterState(guiContext));
+                guiContext.showMenu();
                 break;
 
             default:
                 Printer.print("Event not managed.");
         }
-    }
-
-    public GUIContext getContext() {
-        return this.context;
     }
 }

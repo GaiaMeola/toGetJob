@@ -42,7 +42,7 @@ public class RegisterStudentController {
     @FXML
     private void handleContinue() {
         String phone = phoneField.getText();
-        String availability = availabilityField.getText();
+        String availability = availabilityField.getText().trim();
 
         // Check if the essential fields are filled
         if (phone.isEmpty() || availability.isEmpty()) {
@@ -50,8 +50,9 @@ public class RegisterStudentController {
             return;
         }
 
+        availability = availability.replace(" ", "").toLowerCase();
         // Check if the availability is either 'full-time' or 'part-time'
-        if (!availability.trim().equalsIgnoreCase("full-time") && !availability.trim().equalsIgnoreCase("part-time")) {
+        if (!availability.equalsIgnoreCase("fulltime") && !availability.equalsIgnoreCase("parttime")) {
             showErrorAlert("Invalid Availability", "Availability must be 'full-time' or 'part-time'.");
             return;
         }
