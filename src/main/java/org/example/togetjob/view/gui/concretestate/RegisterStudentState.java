@@ -1,68 +1,41 @@
 package org.example.togetjob.view.gui.concretestate;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import org.example.togetjob.bean.RegisterUserBean;
-import org.example.togetjob.printer.Printer;
-import org.example.togetjob.state.Context;
-import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.gui.controllergrafico.RegisterStudentController;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.printer.Printer;
 
-import java.io.IOException;
-
-public class RegisterStudentState implements State {
+public class RegisterStudentState extends BaseState implements State {
 
     private final RegisterUserBean userBean;
-    private final GUIContext context;
 
     public RegisterStudentState(RegisterUserBean userBean, GUIContext context) {
+        super(context);
         this.userBean = userBean;
-        this.context = context;
+    }
+
+    @Override
+    protected String getFXMLFile() {
+        return "/fxml/registerstudent.fxml";
+    }
+
+    @Override
+    protected void setUpScene(FXMLLoader fxmlLoader) {
+        RegisterStudentController controller = fxmlLoader.getController();
+        controller.setContext(context);
+        controller.setUserBean(userBean);
     }
 
     @Override
     public void showMenu() {
-        try {
-            Printer.print("Showing RegisterStudentState...");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/registerstudent.fxml"));
-            Parent root = fxmlLoader.load();
-
-            RegisterStudentController registerStudentController = fxmlLoader.getController();
-
-            registerStudentController.setContext(context);
-            registerStudentController.setUserBean(userBean);
-
-            Scene scene = new Scene(root);
-            Stage stage = context.getStage();
-
-            if (stage == null) {
-                stage = new Stage();
-                context.setStage(stage);
-            }
-
-            stage.setTitle("Register Student");
-            stage.setScene(scene);
-
-            // listener to close the application
-            stage.setOnCloseRequest(event -> {
-                Platform.exit();  // JavaFX
-                System.exit(0);   // process
-            });
-
-            stage.show();
-
-        } catch (IOException e) {
-            Printer.print("Error loading FXML for Register Student View: " + e.getMessage());
-        }
+        show();
     }
 
     @Override
     public void goNext(Context context, String event) {
-
         GUIContext guiContext = (GUIContext) context;
 
         switch (event) {
