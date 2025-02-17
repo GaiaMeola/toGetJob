@@ -51,10 +51,11 @@ public class RegisterStudentController {
         }
 
         // Check if the availability is either 'full-time' or 'part-time'
-        if (!availability.equalsIgnoreCase("full-time") && !availability.equalsIgnoreCase("part-time")) {
+        if (!availability.trim().equalsIgnoreCase("full-time") && !availability.trim().equalsIgnoreCase("part-time")) {
             showErrorAlert("Invalid Availability", "Availability must be 'full-time' or 'part-time'.");
             return;
         }
+
 
         // Check if student is over 18 years old
         if (birthDateField.getValue() == null || !isOver18(birthDateField.getValue())) {
