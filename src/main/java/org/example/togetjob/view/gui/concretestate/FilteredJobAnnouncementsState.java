@@ -61,16 +61,11 @@ public class FilteredJobAnnouncementsState implements State {
     public void goNext(Context context, String event) {
         GUIContext guiContext = (GUIContext) context;
 
-        switch (event) {
-            case "viewJobDetails":
-                Printer.print("Navigating to Job Details...");
-                break;
-            case "go_home":
-                Printer.print("Going back to Student Home...");
-                guiContext.setState(new HomeStudentState(guiContext));
-                break;
-            default:
-                Printer.print("Event not recognized: " + event);
+        if (event.equals("go_home")) {
+            Printer.print("Going back to Student Home...");
+            guiContext.setState(new HomeStudentState(guiContext));
+        } else {
+            Printer.print("Event not recognized: " + event);
         }
 
         guiContext.showMenu();

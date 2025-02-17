@@ -1,7 +1,6 @@
 package org.example.togetjob.controller.recruiter;
 
 import org.example.togetjob.bean.JobAnnouncementBean;
-import org.example.togetjob.controller.LoginController;
 import org.example.togetjob.exceptions.*;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.dao.abstractobjects.JobAnnouncementDao;

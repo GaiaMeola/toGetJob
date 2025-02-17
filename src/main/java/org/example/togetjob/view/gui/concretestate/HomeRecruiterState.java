@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.Context;
 import org.example.togetjob.state.State;
@@ -13,13 +12,7 @@ import org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController;
 
 import java.io.IOException;
 
-public class HomeRecruiterState implements State {
-
-    private final GUIContext context;
-
-    public HomeRecruiterState(GUIContext context) {
-        this.context = context;
-    }
+public record HomeRecruiterState(GUIContext context) implements State {
 
     @Override
     public void showMenu() {
@@ -73,9 +66,5 @@ public class HomeRecruiterState implements State {
         }
 
         guiContext.showMenu();
-    }
-
-    public GUIContext getContext() {
-        return context;
     }
 }

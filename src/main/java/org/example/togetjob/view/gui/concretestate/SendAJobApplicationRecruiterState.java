@@ -55,7 +55,21 @@ public class SendAJobApplicationRecruiterState implements State {
     }
     @Override
     public void goNext(Context context, String event) {
-        //**//
+        GUIContext guiContext = (GUIContext) context;
+
+        switch (event) {
+            case "viewJobDetails":
+                Printer.print("Navigating to Job Details...");
+                break;
+            case "go_home":
+                Printer.print("Going back to Recruiter Home...");
+                guiContext.setState(new HomeRecruiterState(guiContext));
+                break;
+            default:
+                Printer.print("Event not recognized: " + event);
+        }
+
+        guiContext.showMenu();
     }
     public GUIContext getContext() {
         return context;
