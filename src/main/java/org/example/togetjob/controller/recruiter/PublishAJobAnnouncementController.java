@@ -15,11 +15,9 @@ import java.util.*;
 public class PublishAJobAnnouncementController {
 
     private final JobAnnouncementDao jobAnnouncementDao;
-    private final LoginController loginController;
 
     public PublishAJobAnnouncementController(){
       this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
-      this.loginController = new LoginController();
     }
 
     public boolean publishJobAnnouncement(JobAnnouncementBean jobAnnouncementBean)throws DatabaseException,JobAnnouncementAlreadyExists,InvalidSalaryException,InvalidWorkingHourException {
@@ -27,10 +25,6 @@ public class PublishAJobAnnouncementController {
         Recruiter recruiter = getRecruiterFromSession();
         int workingHours ;
         double salary ;
-
-        if(isUserLogged()){
-            throw new UserNotLoggedException();
-        }
 
         Optional<JobAnnouncement> existingJobAnnouncement = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
         if (existingJobAnnouncement.isPresent()) {
@@ -75,9 +69,6 @@ public class PublishAJobAnnouncementController {
 
     public boolean changeJobAnnouncementStatus(JobAnnouncementBean jobAnnouncementBean, boolean isActive) throws DatabaseException{
 
-        if(isUserLogged()){
-            throw new UserNotLoggedException();
-        }
 
         Recruiter recruiter = getRecruiterFromSession();
         Optional<JobAnnouncement> jobAnnouncementOptional = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
@@ -93,10 +84,6 @@ public class PublishAJobAnnouncementController {
 
     public boolean deleteJobAnnouncement(JobAnnouncementBean jobAnnouncementBean){
 
-        if(isUserLogged()){
-            throw new UserNotLoggedException();
-        }
-
         Recruiter recruiter = getRecruiterFromSession();
         Optional<JobAnnouncement> jobAnnouncementOptional = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
 
@@ -105,22 +92,11 @@ public class PublishAJobAnnouncementController {
 
     public List<JobAnnouncementBean> getJobAnnouncement() {
 
-        if(isUserLogged()){
-            throw new UserNotLoggedException();
-        }
-
         JobAnnouncementService jobAnnouncementService = new JobAnnouncementService(jobAnnouncementDao);
 
         List<JobAnnouncementBean> jobAnnouncements = jobAnnouncementService.getJobAnnouncementsForCurrentRecruiter();
 
         return Objects.requireNonNullElse(jobAnnouncements, Collections.emptyList());
 
-    }
-
-    public boolean isUserLogged() throws UserNotLoggedException {
-        if (!loginController.isUserLogged()) {
-            throw new UserNotLoggedException();
-        }
-        return false;
     }
 }

@@ -65,7 +65,7 @@ public class FilteredJobAnnouncementsState implements State {
             case "viewJobDetails":
                 Printer.print("Navigating to Job Details...");
                 break;
-            case "goBack":
+            case "go_home":
                 Printer.print("Going back to Student Home...");
                 guiContext.setState(new HomeStudentState(guiContext));
                 break;

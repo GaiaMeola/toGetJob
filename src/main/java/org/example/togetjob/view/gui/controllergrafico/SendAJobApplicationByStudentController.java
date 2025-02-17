@@ -19,6 +19,7 @@ import org.example.togetjob.exceptions.*;
 import org.example.togetjob.model.entity.Status;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
+import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.boundary.SendAJobApplicationStudentBoundary;
 
 import java.util.List;
@@ -42,6 +43,8 @@ public class SendAJobApplicationByStudentController {
     private TableColumn<JobAnnouncementBean, String> companyColumn;
     @FXML
     private TableColumn<JobAnnouncementBean, Void> actionsColumn;
+
+    private GUIContext context;
 
 
     private JobAnnouncementSearchBean jobAnnouncementSearchBean;
@@ -314,4 +317,23 @@ public class SendAJobApplicationByStudentController {
         alert.setTitle("Notification");
         alert.showAndWait();
     }
+
+    public void setContext(GUIContext context) {
+        this.context = context;
+    }
+
+    public GUIContext getContext() {
+        return context;
+    }
+
+    @FXML
+    private void handleGoBack() {
+        if (context != null) {
+            Printer.print("Going back to Home...");
+            context.goNext("go_home");
+        } else {
+            Printer.print("Context is NOT initialized in SendAJobApplicationByStudentController!");
+        }
+    }
+
 }

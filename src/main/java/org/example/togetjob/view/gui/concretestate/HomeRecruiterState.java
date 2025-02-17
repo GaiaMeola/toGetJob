@@ -63,12 +63,7 @@ public class HomeRecruiterState implements State {
                 guiContext.setState(new HomeState(guiContext));
                 break;
             case "contactJobCandidate":
-                JobAnnouncementBean jobAnnouncement = (JobAnnouncementBean) guiContext.get("jobAnnouncement");
-                if (jobAnnouncement != null) {
-                    guiContext.setState(new FilterJobCandidateState(guiContext));
-                } else {
-                    Printer.print("Error: No JobAnnouncement found in context!");
-                }
+                // not implemented //
                 break;
             case "viewNotifications":
                 guiContext.setState(new SendAJobApplicationRecruiterState(guiContext));
