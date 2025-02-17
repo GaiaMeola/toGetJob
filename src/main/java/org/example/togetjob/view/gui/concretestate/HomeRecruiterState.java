@@ -1,47 +1,32 @@
 package org.example.togetjob.view.gui.concretestate;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import org.example.togetjob.printer.Printer;
-import org.example.togetjob.state.Context;
-import org.example.togetjob.state.State;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.state.State;
 import org.example.togetjob.view.gui.controllergrafico.HomeRecruiterController;
+import org.example.togetjob.state.Context;
+import org.example.togetjob.printer.Printer;
 
-import java.io.IOException;
+public class HomeRecruiterState extends BaseState implements State {
 
-public record HomeRecruiterState(GUIContext context) implements State {
+    public HomeRecruiterState(GUIContext context) {
+        super(context);
+    }
+
+    @Override
+    protected String getFXMLFile() {
+        return "/fxml/homerecruiter.fxml";
+    }
+
+    @Override
+    protected void setUpScene(FXMLLoader fxmlLoader) {
+        HomeRecruiterController controller = fxmlLoader.getController();
+        controller.setContext(context);
+    }
 
     @Override
     public void showMenu() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/homerecruiter.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 500);
-
-            HomeRecruiterController controller = fxmlLoader.getController();
-            controller.setContext(context);
-
-            Stage stage = context.getStage();
-            if (stage == null) {
-                stage = new Stage();
-                context.setStage(stage);
-            }
-
-            stage.setTitle("Home Recruiter");
-            stage.setScene(scene);
-
-            stage.setOnCloseRequest(event -> {
-                Platform.exit();
-                System.exit(0);
-            });
-
-            stage.show();
-
-        } catch (IOException e) {
-            Printer.print("Error loading FXML for Recruiter Job Application View: " + e.getMessage());
-        }
+        show();
     }
 
     @Override
@@ -56,7 +41,7 @@ public record HomeRecruiterState(GUIContext context) implements State {
                 guiContext.setState(new HomeState(guiContext));
                 break;
             case "contactJobCandidate":
-                // not implemented //
+                // not implemented
                 break;
             case "viewNotifications":
                 guiContext.setState(new SendAJobApplicationRecruiterState(guiContext));
