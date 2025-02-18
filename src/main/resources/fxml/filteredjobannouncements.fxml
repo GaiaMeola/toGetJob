@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController">
+<VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.togetjob.view.gui.controllergrafico.SendAJobApplicationByStudentController">
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
@@ -23,7 +22,7 @@
       <Cursor fx:constant="SE_RESIZE" />
    </cursor>
    <children>
-      <AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
+      <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,1) 85%, rgba(240,248,255,0.8) 95%, rgba(220,240,255,0.7) 100%); -fx-border-color: lightgray;">
          <children>
             <Label layoutX="91.0" style="-fx-text-fill: #b3d9ff;" textAlignment="JUSTIFY">
                <font>
@@ -49,21 +48,13 @@
                   </Button>
                </children>
             </StackPane>
-            <TableView fx:id="jobsTable" editable="true" layoutX="18.0" layoutY="73.0" prefHeight="369.0" prefWidth="529.0" style="-fx-background-color: 00aaff;">
+            <TableView fx:id="jobsTable" editable="true" layoutX="3.0" layoutY="73.0" prefHeight="423.0" prefWidth="593.0" style="-fx-background-color: 00aaff;">
                <columns>
-                  <TableColumn fx:id="jobTitleColumn" prefWidth="329.5589370727539" style="-fx-font-family: Apple Gothic; -fx-text-fill: #b3d9ff;" text="JOB TITLE" />
-                  <TableColumn fx:id="companyColumn" prefWidth="119.44108581542969" style="-fx-font-family: Apple Gothic;" text="COMPANY" />
-                  <TableColumn fx:id="actionsColumn" prefWidth="75.0" text="ACTION" />
+                  <TableColumn fx:id="jobTitleColumn" prefWidth="196.0" style="-fx-font-family: Apple Gothic; -fx-text-fill: #b3d9ff;" text="JOB TITLE" />
+                  <TableColumn fx:id="companyColumn" prefWidth="171.5" style="-fx-font-family: Apple Gothic;" text="COMPANY" />
+                  <TableColumn fx:id="actionsColumn" prefWidth="224.5" text="ACTION" />
                </columns>
             </TableView>
-            <ImageView fitHeight="71.0" fitWidth="115.0" layoutX="217.0" layoutY="-1.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" y="-7.0">
-               <image>
-                  <Image url="@../logo-removebg-preview.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D minY="-10.0" />
-               </viewport>
-            </ImageView>
          </children>
       </AnchorPane>
    </children>

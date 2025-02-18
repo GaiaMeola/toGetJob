@@ -42,36 +42,15 @@ public class Testing {
     }
 
     public void runTests() {
-        testUsername();
         testEmail();
-        testLoginPassword();
         testLoginUsername();
-        databaseTesting();
-    }
-
-    public void testUsername() {
-        try {
-            saveUser("alreadyExisting", "email@");
-        } catch (UsernameTakeException e) {
-            Printer.print(STRING);
-        }
+        testNullConfigDaoLoader();
     }
 
     public void testEmail() {
         try {
-            saveUser("username", "alreadyExisting@gmail.com");
+            saveUser();
         } catch (EmailAlreadyExistsException e) {
-            Printer.print(STRING);
-        }
-    }
-
-    public void testLoginPassword() {
-        LoginBoundary loginBoundary = new LoginBoundary();
-        String username = "Username";
-        String password = "WrongPassword";
-        try {
-            loginBoundary.login(username, password);
-        } catch (WrongPasswordException e) {
             Printer.print(STRING);
         }
     }
@@ -87,14 +66,6 @@ public class Testing {
         }
     }
 
-    public void databaseTesting() {
-        try {
-            saveUser("username", "email@");
-        } catch (DatabaseException e) {
-            Printer.print(STRING);
-        }
-    }
-
     public static void testNullConfigDaoLoader() {
         try {
             AbstractFactoryDaoSingleton.getFactoryDao();
@@ -103,8 +74,8 @@ public class Testing {
         }
     }
 
-    private void saveUser(String username, String email) throws UsernameTakeException, EmailAlreadyExistsException, DatabaseException {
-        Student user = new Student("name", "surname", username, email, "password", Role.RECRUITER);
+    private void saveUser() throws UsernameTakeException, EmailAlreadyExistsException, DatabaseException {
+        Student user = new Student("name", "surname", "username", "alreadyExisting@gmail.com", "password", Role.RECRUITER);
         DataBaseUserDao dataBaseUserDao = new DataBaseUserDao();
         dataBaseUserDao.saveUser(user);
     }

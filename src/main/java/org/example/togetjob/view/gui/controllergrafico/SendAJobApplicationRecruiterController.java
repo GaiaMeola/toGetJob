@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,6 +20,8 @@ import org.example.togetjob.state.GUIContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SendAJobApplicationRecruiterController {
 
@@ -32,6 +35,10 @@ public class SendAJobApplicationRecruiterController {
             "-fx-background-radius: 10; " +
             "-fx-font-size: 14px;" +
             "-fx-padding: 10 20;";
+
+    private static final String TEXT_STILE = "-fx-text-fill: #2980b9;";
+    private static final Logger LOGGER = Logger.getLogger(SendAJobApplicationRecruiterController.class.getName());
+    private static final String COMMON_FONT_STYLE = "-fx-font-family: 'Apple Gothic'; -fx-font-size: 16px; -fx-text-fill: #2980b9;";
 
     @FXML
     private TableView<JobAnnouncementBean> jobAnnouncementsTable;
@@ -52,15 +59,22 @@ public class SendAJobApplicationRecruiterController {
     }
 
     private void loadJobAnnouncements() {
-        try {
-            List<JobAnnouncementBean> jobAnnouncements = recruiterBoundary.getJobAnnouncements();
-            ObservableList<JobAnnouncementBean> observableList = FXCollections.observableArrayList(jobAnnouncements);
-            jobAnnouncementsTable.setItems(observableList);
-            if (jobAnnouncements.isEmpty()) {
-                jobAnnouncementsTable.setPlaceholder(new Label("No content available"));
+        new Thread(() -> {
+            try {
+                List<JobAnnouncementBean> jobAnnouncements = recruiterBoundary.getJobAnnouncements();
+                Platform.runLater(() -> updateJobAnnouncementsTable(jobAnnouncements));
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "An error occurred while loading job announcements", e);
+                Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "An error occurred while loading the job announcements. Please try again later."));
             }
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "An error occurred while loading the job announcements. Please try again later.");
+        }).start();
+    }
+
+    private void updateJobAnnouncementsTable(List<JobAnnouncementBean> jobAnnouncements) {
+        ObservableList<JobAnnouncementBean> observableList = FXCollections.observableArrayList(jobAnnouncements);
+        jobAnnouncementsTable.setItems(observableList);
+        if (jobAnnouncements.isEmpty()) {
+            jobAnnouncementsTable.setPlaceholder(new Label("No content available"));
         }
     }
 
@@ -69,6 +83,14 @@ public class SendAJobApplicationRecruiterController {
         jobTitleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getJobTitle()));
         companyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCompanyName()));
 
+        jobAnnouncementsTable.setPrefSize(600, 400);
+        jobAnnouncementsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); //NOSONAR
+        jobAnnouncementsTable.setStyle("-fx-background-color: #f0f8ff; -fx-border-radius: 10; -fx-padding: 10px;");
+
+        jobTitleColumn.setPrefWidth(250);
+        companyColumn.setPrefWidth(180);
+        actionsColumn.setPrefWidth(220);
+
         actionsColumn.setCellFactory(c -> new TableCell<>() {
             private final Button viewApplicationsButton = new Button("View Job Applications");
             private final HBox buttonsBox = new HBox(viewApplicationsButton);
@@ -76,7 +98,9 @@ public class SendAJobApplicationRecruiterController {
             { //NOSONAR
                 viewApplicationsButton.setStyle(BUTTON_STYLE);
                 viewApplicationsButton.setOnAction(event -> viewJobApplications(getTableView().getItems().get(getIndex())));
-                buttonsBox.setStyle("-fx-alignment: center; -fx-font-size: 12px;");
+                buttonsBox.setAlignment(Pos.CENTER);
+                buttonsBox.setSpacing(10);
+                buttonsBox.setPadding(new Insets(5));
             }
 
             @Override
@@ -85,6 +109,21 @@ public class SendAJobApplicationRecruiterController {
                 setGraphic(empty ? null : buttonsBox);
             }
         });
+
+        jobAnnouncementsTable.setStyle(
+                "-fx-background-color: #f0f8ff;" +  // Light background for better readability
+                        "-fx-border-color: #2980b9;" +
+                        "-fx-border-radius: 10;" +
+                        "-fx-border-width: 2;" +
+                        COMMON_FONT_STYLE +
+                        "-fx-font-family: 'Apple Gothic';" +
+                        "-fx-selection-bar: #85C1E9;" +
+                        "-fx-selection-bar-non-focused: #AED6F1;"
+        );
+
+        jobTitleColumn.setStyle(COMMON_FONT_STYLE);
+        companyColumn.setStyle(COMMON_FONT_STYLE);
+        actionsColumn.setStyle(COMMON_FONT_STYLE);
     }
 
     private void viewJobApplications(JobAnnouncementBean jobAnnouncement) {
@@ -97,18 +136,38 @@ public class SendAJobApplicationRecruiterController {
         applicationsStage.setTitle("Job Applications for: " + jobAnnouncement.getJobTitle());
 
         TableView<JobApplicationBean> applicationsTable = new TableView<>();
+        applicationsTable.setStyle("-fx-background-color: #b3d9ff; "
+                + "-fx-text-fill: #2980b9; "
+                + "-fx-border-radius: 10; "
+                + "-fx-border-color: #2980b9; "
+                + "-fx-border-width: 2; "
+                + "-fx-font-weight: bold; "
+                + "-fx-background-radius: 10; "
+                + "-fx-font-size: 14px;"
+                + "-fx-font-family: 'Apple Gothic';"
+        );
 
+        // Student Name Column (with fixed width)
         TableColumn<JobApplicationBean, String> studentNameColumn = new TableColumn<>("Student Name");
         studentNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentUsername()));
+        studentNameColumn.setPrefWidth(150);  // Set fixed width
 
+        // Cover Letter Column (with fixed width)
         TableColumn<JobApplicationBean, String> coverLetterColumn = new TableColumn<>("Cover Letter");
         coverLetterColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCoverLetter()));
+        coverLetterColumn.setPrefWidth(250);  // Set fixed width for cover letter
 
+        // Actions column (buttons for acceptance and rejection)
         TableColumn<JobApplicationBean, Void> actionsColumnForApplications = getJobApplicationBeanVoidTableColumn(applicationsTable, jobApplications);
 
         applicationsTable.getColumns().addAll(studentNameColumn, coverLetterColumn, actionsColumnForApplications);
         applicationsTable.setItems(FXCollections.observableArrayList(jobApplications));
 
+        studentNameColumn.setStyle(TEXT_STILE);
+        coverLetterColumn.setStyle(TEXT_STILE);
+        actionsColumnForApplications.setStyle(TEXT_STILE);
+
+        // Set the Cover Letter cell factory to make it scrollable
         coverLetterColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -120,17 +179,25 @@ public class SendAJobApplicationRecruiterController {
                     textArea.setWrapText(true);
                     textArea.setFont(Font.font(18));
                     textArea.setEditable(false);
-                    textArea.setPrefRowCount(3);
-                    textArea.setMaxWidth(450);
+                    textArea.setPrefRowCount(3);  // You can adjust the number of rows as needed
+                    textArea.setMaxWidth(250);  // Set max width to match the column width
+                    textArea.setStyle("-fx-background-color: #f5f5f5; "
+                            + "-fx-border-color: #2980b9; "
+                            + "-fx-border-radius: 10; "
+                            + "-fx-border-width: 1; "
+                            + "-fx-padding: 5 10;");
+                    // Enable scrolling if content exceeds the visible area
+                    textArea.setScrollTop(0);
                     setGraphic(textArea);
                 }
             }
         });
 
-        Scene scene = new Scene(applicationsTable, 600, 400);
+        Scene scene = new Scene(applicationsTable, 500, 500);
         applicationsStage.setScene(scene);
         applicationsStage.show();
     }
+
 
     @NotNull
     private TableColumn<JobApplicationBean, Void> getJobApplicationBeanVoidTableColumn(TableView<JobApplicationBean> applicationsTable, List<JobApplicationBean> jobApplications) {
@@ -146,8 +213,8 @@ public class SendAJobApplicationRecruiterController {
                 rejectButton.setTextFill(javafx.scene.paint.Color.WHITE);
 
                 ObservableList<JobApplicationBean> observableJobApplications = FXCollections.observableArrayList(jobApplications);
-                acceptButton.setOnAction(event -> handleAcceptApplication(getTableView().getItems().get(getIndex()), observableJobApplications, applicationsTable));
-                rejectButton.setOnAction(event -> handleRejectApplication(getTableView().getItems().get(getIndex()), observableJobApplications, applicationsTable));
+                acceptButton.setOnAction(event -> handleJobApplicationAction(getTableView().getItems().get(getIndex()), observableJobApplications, applicationsTable, true));
+                rejectButton.setOnAction(event -> handleJobApplicationAction(getTableView().getItems().get(getIndex()), observableJobApplications, applicationsTable, false));
             }
 
             @Override
@@ -161,29 +228,19 @@ public class SendAJobApplicationRecruiterController {
         return actionsColumnForApplications;
     }
 
-    private void handleAcceptApplication(JobApplicationBean jobApplication, ObservableList<JobApplicationBean> jobApplications, TableView<JobApplicationBean> applicationsTable) {
-        boolean success = sendAJobApplicationRecruiterBoundary.acceptJobApplication(jobApplication);
-        if (success) {
-            Platform.runLater(() -> {
-                jobApplications.remove(jobApplication);
-                applicationsTable.setItems(FXCollections.observableArrayList(jobApplications));
-                showAlert(Alert.AlertType.INFORMATION, "Application Accepted!");
-            });
-        } else {
-            Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "Failed to Accept Application."));
-        }
-    }
+    private void handleJobApplicationAction(JobApplicationBean jobApplication, ObservableList<JobApplicationBean> jobApplications, TableView<JobApplicationBean> applicationsTable, boolean isAccept) {
+        boolean success = isAccept
+                ? sendAJobApplicationRecruiterBoundary.acceptJobApplication(jobApplication)
+                : sendAJobApplicationRecruiterBoundary.rejectJobApplication(jobApplication);
 
-    private void handleRejectApplication(JobApplicationBean jobApplication, ObservableList<JobApplicationBean> jobApplications, TableView<JobApplicationBean> applicationsTable) {
-        boolean success = sendAJobApplicationRecruiterBoundary.rejectJobApplication(jobApplication);
         if (success) {
             Platform.runLater(() -> {
                 jobApplications.remove(jobApplication);
                 applicationsTable.setItems(FXCollections.observableArrayList(jobApplications));
-                showAlert(Alert.AlertType.INFORMATION, "Application Rejected!");
+                showAlert(Alert.AlertType.INFORMATION, isAccept ? "Application Accepted!" : "Application Rejected!");
             });
         } else {
-            Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, "Failed to Reject Application."));
+            Platform.runLater(() -> showAlert(Alert.AlertType.ERROR, isAccept ? "Failed to Accept Application." : "Failed to Reject Application."));
         }
     }
 

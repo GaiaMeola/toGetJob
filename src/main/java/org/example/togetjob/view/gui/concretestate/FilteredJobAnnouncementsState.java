@@ -41,10 +41,14 @@ public class FilteredJobAnnouncementsState extends BaseState implements State {
         if ("go_home".equals(event)) {
             Printer.print("Returning to Student Home...");
             guiContext.setState(new HomeStudentState(guiContext));
+        } else if ("filtered_jobs".equals(event)) {
+            Printer.print("Showing filtered job announcements...");
+            guiContext.setState(new FilteredJobAnnouncementsState(guiContext, jobAnnouncementSearchBean));
         } else {
             Printer.print("Warning: Unrecognized event -> " + event);
         }
 
         guiContext.showMenu();
     }
+
 }
