@@ -3,10 +3,7 @@ package org.example.togetjob.view.cli;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
 import org.example.togetjob.bean.StudentInfoBean;
-import org.example.togetjob.exceptions.DatabaseException;
-import org.example.togetjob.exceptions.EmailAlreadyExistsException;
-import org.example.togetjob.exceptions.FileAccessException;
-import org.example.togetjob.exceptions.UsernameTakeException;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.state.Context;
 import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.RegisterBoundary;
@@ -14,16 +11,18 @@ import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.CliContext;
 
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class RegisterState implements State {
 
     private static final String STUDENT = "student";
     private final RegisterBoundary registerBoundary = new RegisterBoundary();
+
+    private static final String ERROR  = "Error: ";
+    private static final String TRY  = " Please try again.";
 
     @Override
     public void showMenu() {
@@ -32,201 +31,170 @@ public class RegisterState implements State {
 
     @Override
     public void goNext(Context contextState, String input) {
-
         CliContext context = (CliContext) contextState;
         Scanner scanner = context.getScanner();
 
         Printer.print("Welcome to toGetJob! Fill the following fields: ");
 
-        String username = getValidInput(scanner, "Enter username: ");
-        String password = getValidInput(scanner, "Enter password: ");
-        String checkPassword = getValidInput(scanner, "Confirm password: ");
+        RegisterUserBean userBean = collectUserInfo(scanner);
 
-        while (!password.equals(checkPassword)) {
-            Printer.print("Passwords do not match. Please try again.");
-            password = getValidInput(scanner, "Enter password: ");
-            checkPassword = getValidInput(scanner, "Confirm password: ");
-        }
+        Object infoBean = getUserRoleInfo(scanner, userBean.getRole());
 
-        String name = getValidInput(scanner, "Enter name: ");
-        String surname = getValidInput(scanner, "Enter surname: ");
-        String email = getValidInput(scanner, "Enter email: ");
+        processRegistration(context, userBean, infoBean);
+    }
 
-        String roleInput = getValidRoleInput(scanner);
-
+    private RegisterUserBean collectUserInfo(Scanner scanner) {
         RegisterUserBean userBean = new RegisterUserBean();
-        userBean.setUsername(username);
-        userBean.setPassword(password);
-        userBean.setName(name);
-        userBean.setSurname(surname);
-        userBean.setEmail(email);
-        userBean.setRoleInput(roleInput);
 
-        // Polymorphism
-        Object infoBean = STUDENT.equalsIgnoreCase(roleInput) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
+        getValidInputWithValidation(scanner, "Enter username: ", userBean::setUsername);
+        userBean.setPassword(collectValidPassword(scanner));
+        getValidInputWithValidation(scanner, "Enter name: ", userBean::setName);
+        getValidInputWithValidation(scanner, "Enter surname: ", userBean::setSurname);
+        getValidInputWithValidation(scanner, "Enter email: ", userBean::setEmail);
+        getValidInputWithValidation(scanner, "Enter role: ", userBean::setRole);
 
+        return userBean;
+    }
+
+    private String collectValidPassword(Scanner scanner) {
+        while (true) {
+            try {
+                String password = getValidInput(scanner, "Enter password: ");
+                String checkPassword = getValidInput(scanner, "Confirm password: ");
+
+                if (!password.equals(checkPassword)) {
+                    Printer.print("Passwords do not match. Please try again.");
+                } else {
+                    return password;
+                }
+            } catch (InvalidPasswordException e) {
+                Printer.print(ERROR + e.getMessage() + TRY);
+            }
+        }
+    }
+
+    private Object getUserRoleInfo(Scanner scanner, String role) {
+        return STUDENT.equalsIgnoreCase(role) ? getStudentInfo(scanner) : getRecruiterInfo(scanner);
+    }
+
+    private void processRegistration(CliContext context, RegisterUserBean userBean, Object infoBean) {
         try {
             boolean registrationSuccess = registerBoundary.registerUser(userBean, infoBean);
 
             if (registrationSuccess) {
                 Printer.print("Registration successful!");
-
-                if (STUDENT.equalsIgnoreCase(roleInput)) {
-                    context.setState(new HomeStudentState());
-                } else {
-                    context.setState(new HomeRecruiterState());
-                }
+                context.setState(STUDENT.equalsIgnoreCase(userBean.getRole()) ? new HomeStudentState() : new HomeRecruiterState());
             } else {
                 Printer.print("Username already exists. Please try again.");
                 context.setState(new RegisterState());
             }
         } catch (UsernameTakeException e) {
-            Printer.print("Error: The username is already taken. Please, try again with a different username.");
-            context.setState(new MainMenuState());
+            handleRegistrationError(context, "Error: The username is already taken. Please, try again with a different username.", new MainMenuState());
         } catch (EmailAlreadyExistsException e) {
-            Printer.print("Error: The email is already taken. Please, try again with a different email.");
-            context.setState(new MainMenuState());
+            handleRegistrationError(context, "Error: The email is already taken. Please, try again with a different email.", new MainMenuState());
         } catch (FileAccessException e) {
-            Printer.print("Error accessing file. Please try again later.");
-            context.setState(new ExitState());
+            handleRegistrationError(context, "Error accessing file. Please try again later.", new ExitState());
         } catch (DatabaseException e) {
-            Printer.print(e.getMessage());
-            context.setState(new ExitState());
+            handleRegistrationError(context, e.getMessage(), new ExitState());
         } catch (Exception e) {
-            Printer.print("An unexpected error occurred: " + e.getMessage());
-            context.setState(new MainMenuState());
+            handleRegistrationError(context, "An unexpected error occurred: " + e.getMessage(), new MainMenuState());
         }
+    }
+
+    private void handleRegistrationError(CliContext context, String message, State nextState) {
+        Printer.print(message);
+        context.setState(nextState);
     }
 
     private String getValidInput(Scanner scanner, String prompt) {
-        String input;
-
-        while (true) {
-            Printer.print(prompt);
-            input = scanner.nextLine().trim();
-
-            // Initialize a flag to track if the input is valid
-            boolean isValid = true;
-
-            // Validate if the input is empty
-            if (input.isEmpty()) {
-                Printer.print("This field cannot be empty. Please enter a valid value.");
-                isValid = false;  // Input is invalid, set flag to false
-            }
-
-            // Validate if the email contains '@' if it's an email prompt
-            if (prompt.toLowerCase().contains("email") && !input.contains("@")) {
-                Printer.print("Invalid email format. Please enter a valid email containing '@'.");
-                isValid = false;  // Email is invalid, set flag to false
-            }
-
-            // If input is valid, break the loop
-            if (isValid) {
-                break;
-            }
-        }
-
-        return input;
+        Printer.print(prompt);
+        return scanner.nextLine().trim();
     }
 
-
-    private String getValidRoleInput(Scanner scanner) {
-        String roleInput;
+    private void getValidInputWithValidation(Scanner scanner, String prompt, Consumer<String> setter) {
         while (true) {
-            roleInput = getValidInput(scanner, "Enter role (student/recruiter): ").trim().toLowerCase();
-            if (isValidRole(roleInput)) {
-                break;
+            try {
+                String input = getValidInput(scanner, prompt);
+                setter.accept(input);
+                return;
+            } catch (Exception e) {
+                Printer.print(ERROR + e.getMessage() + TRY);
             }
-            Printer.print("Invalid role. Please enter 'student' or 'recruiter'.");
         }
-        return roleInput;
-    }
-
-    private boolean isValidRole(String role) {
-        return STUDENT.equalsIgnoreCase(role) || "recruiter".equalsIgnoreCase(role);
     }
 
     private StudentInfoBean getStudentInfo(Scanner scanner) {
         Printer.print("Please, complete your student profile:");
 
-        LocalDate dateOfBirth = getValidDate(scanner);
-
-        while (Period.between(dateOfBirth, LocalDate.now()).getYears() <= 18) {
-            Printer.print("You must be over 18 years old to register. Please, re-enter your date of birth.");
-            dateOfBirth = getValidDate(scanner);
-        }
-
-        String phoneNumber = getValidInput(scanner, "Enter phone number: ");
-        List<String> degrees = getCommaSeparatedList(scanner, "Enter degrees: ");
-        List<String> courses = getCommaSeparatedList(scanner, "Enter courses attended: ");
-        List<String> certifications = getCommaSeparatedList(scanner, "Enter certifications: ");
-        List<String> workExperiences = getCommaSeparatedList(scanner, "Enter work experiences: ");
-        List<String> skills = getCommaSeparatedList(scanner, "Enter skills: ");
-        String availability = getValidAvailability(scanner);
-
         StudentInfoBean studentInfoBean = new StudentInfoBean();
-        studentInfoBean.setDateOfBirth(dateOfBirth);
-        studentInfoBean.setPhoneNumber(phoneNumber);
-        studentInfoBean.setDegrees(degrees);
-        studentInfoBean.setCoursesAttended(courses);
-        studentInfoBean.setCertifications(certifications);
-        studentInfoBean.setWorkExperiences(workExperiences);
-        studentInfoBean.setSkills(skills);
-        studentInfoBean.setAvailability(availability);
+
+        getValidInputWithValidation(scanner, "Enter date of birth (yyyy-MM-dd): ",
+                input -> studentInfoBean.setDateOfBirth(LocalDate.parse(input)));
+
+        getValidInputWithValidation(scanner, "Enter phone number: ",
+                studentInfoBean::setPhoneNumber);
+
+        Printer.print("Enter degrees (comma-separated): ");
+        studentInfoBean.setDegrees(getCommaSeparatedList(scanner));
+
+        Printer.print("Enter courses attended (comma-separated): ");
+        studentInfoBean.setCoursesAttended(getCommaSeparatedList(scanner));
+
+        Printer.print("Enter certifications (comma-separated): ");
+        studentInfoBean.setCertifications(getCommaSeparatedList(scanner));
+
+        Printer.print("Enter work experiences (comma-separated): ");
+        studentInfoBean.setWorkExperiences(getCommaSeparatedList(scanner));
+
+        Printer.print("Enter skills (comma-separated): ");
+        studentInfoBean.setSkills(getCommaSeparatedList(scanner));
+
+        getValidInputWithValidation(scanner, "Enter availability (full-time / part-time): ",
+                studentInfoBean::setAvailability);
 
         return studentInfoBean;
     }
 
-    private LocalDate getValidDate(Scanner scanner) {
-        LocalDate date = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        while (date == null) {
-            try {
-                Printer.print("Enter date of birth (yyyy-mm-dd): ");
-                String input = scanner.nextLine().trim();
-                date = LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException e) {
-                Printer.print("Invalid date format. Please enter a valid date (yyyy-MM-dd).");
-            }
-        }
-
-        return date;
-    }
-
-    private List<String> getCommaSeparatedList(Scanner scanner, String prompt) {
-        Printer.print(prompt);
-        return List.of(scanner.nextLine().split(","));
-    }
-
-    private String getValidAvailability(Scanner scanner) {
-        String availability;
+    private List<String> getCommaSeparatedList(Scanner scanner) {
         while (true) {
-            Printer.print("Enter availability (full-time or part-time): ");
-            availability = scanner.nextLine().trim();
-            if (isValidAvailability(availability)) {
-                break;
+            String input = scanner.nextLine().trim();
+
+            if (input.isEmpty()) {
+                Printer.print("Error: Input cannot be empty. Please try again.");
+                continue;
+            }
+
+            List<String> items = new ArrayList<>();
+            for (String item : input.split(",")) {
+                String trimmedItem = item.trim();
+                if (!trimmedItem.isEmpty()) {
+                    items.add(trimmedItem);
+                }
+            }
+
+            if (items.isEmpty()) {
+                Printer.print("Error: The list must contain at least one valid item. Please try again.");
             } else {
-                Printer.print("Invalid availability. Please enter either 'full-time' or 'part-time'.");
+                return items;
             }
         }
-        return availability;
-    }
-
-    private boolean isValidAvailability(String availability) {
-        return availability.equalsIgnoreCase("full-time") || availability.equalsIgnoreCase("part-time");
     }
 
     private RecruiterInfoBean getRecruiterInfo(Scanner scanner) {
         Printer.print("Please, complete your recruiter profile:");
 
-        Printer.print("Enter the companies you work for (comma-separated): ");
-        List<String> companies = List.of(scanner.nextLine().split(","));
-
         RecruiterInfoBean recruiterInfoBean = new RecruiterInfoBean();
-        recruiterInfoBean.setCompanies(companies);
+        while (true) {
+            try {
+                Printer.print("Enter the companies you work for (comma-separated): ");
+                List<String> companies = getCommaSeparatedList(scanner);
+                recruiterInfoBean.setCompanies(companies);
+                break;
+            } catch (InvalidCompanyListException e) {
+                Printer.print(ERROR+ e.getMessage() + TRY);
+            }
+        }
 
         return recruiterInfoBean;
     }
 }
-

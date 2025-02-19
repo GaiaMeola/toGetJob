@@ -15,10 +15,7 @@ public class ExitState implements State {
     public void goNext(Context contextState, String input) {
 
         Printer.print("Thank you for using the application toGetJob. Goodbye!");
-
         DatabaseConfig.getInstance().closeConnection(); //Connection closed
-        Printer.print("Connection closed.");
-
         System.exit(0);
     }
 }

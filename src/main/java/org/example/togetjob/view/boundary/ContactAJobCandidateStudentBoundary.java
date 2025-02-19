@@ -10,6 +10,7 @@ import org.example.togetjob.controller.recruiter.ContactAJobCandidate;
 import java.util.List;
 
 public class ContactAJobCandidateStudentBoundary {
+    //not implemented
 
     private final ContactAJobCandidate contactAJobCandidateController;
 

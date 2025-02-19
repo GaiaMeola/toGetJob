@@ -33,16 +33,8 @@ public class RegisterUserState extends BaseState implements State {
     @Override
     public void goNext(Context context, String event) {
         GUIContext guiContext = (GUIContext) context;
-        RegisterUserBean user = (RegisterUserBean) guiContext.get("user");
-
-        if (user == null) {
-            Printer.print("Error: No user data found in context.");
-            return;
-        }
 
         switch (event) {
-            case "register_student" -> guiContext.setState(new RegisterStudentState(user, guiContext));
-            case "register_recruiter" -> guiContext.setState(new RegisterRecruiterState(user, guiContext));
             case "go_home" -> guiContext.setState(new HomeState(guiContext));
             case null, default -> Printer.print("Warning: Unrecognized event -> " + event);
         }

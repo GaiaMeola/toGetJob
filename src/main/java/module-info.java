@@ -21,9 +21,9 @@ module org.example.togetjob {
     opens org.example.togetjob.view.gui.controllergrafico to javafx.fxml;
     opens org.example.togetjob.state to javafx.fxml;
 
-
     exports org.example.togetjob;
     exports org.example.togetjob.bean;
+    exports org.example.togetjob.exceptions;
     exports org.example.togetjob.state;
     exports org.example.togetjob.view.gui.controllergrafico;
 }

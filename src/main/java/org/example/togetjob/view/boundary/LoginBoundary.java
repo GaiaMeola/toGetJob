@@ -14,10 +14,7 @@ public class LoginBoundary {
         this.loginController = new LoginController();
     }
 
-    public boolean login(String username, String password) throws UserNotFoundException, WrongPasswordException {
-        LoginUserBean userBean = new LoginUserBean();
-        userBean.setUsername(username);
-        userBean.setPassword(password);
+    public boolean login(LoginUserBean userBean) throws UserNotFoundException, WrongPasswordException {
         return loginController.loginUser(userBean);
     }
 
@@ -28,6 +25,5 @@ public class LoginBoundary {
     public String getUserRole() {
         return SessionManager.getInstance().getCurrentUser().obtainRole().name();
     }
-
 
 }

@@ -7,14 +7,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.StudentInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.state.GUIContext;
-import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RegisterStudentController {
 
@@ -40,62 +40,63 @@ public class RegisterStudentController {
     }
 
     @FXML
-    private void handleContinue() {
-        String phone = phoneField.getText();
+    private void handleContinueButton() {
+        String phone = phoneField.getText().trim();
         String availability = availabilityField.getText().trim();
 
-        // Check if the essential fields are filled
-        if (phone.isEmpty() || availability.isEmpty()) {
-            showErrorAlert("Missing Fields", "Phone and availability fields must be filled out!");
-            return;
-        }
+        // Create the student info bean
+        StudentInfoBean studentInfoBean = new StudentInfoBean();
 
-        availability = availability.replace(" ", "").toLowerCase();
-        // Check if the availability is either 'full-time' or 'part-time'
-        if (!availability.equalsIgnoreCase("fulltime") && !availability.equalsIgnoreCase("parttime")) {
-            showErrorAlert("Invalid Availability", "Availability must be 'full-time' or 'part-time'.");
-            return;
-        }
+        try {
+            // Setting properties for the StudentInfoBean (validations will happen inside the setters)
+            studentInfoBean.setUsername(userBean.getUsername());
+            studentInfoBean.setDateOfBirth(birthDateField.getValue());  // This will check if over 18
+            studentInfoBean.setPhoneNumber(phone);                      // This will check phone format
+            studentInfoBean.setAvailability(availability);              // This will check if valid availability
 
+            // Setting list-based properties (e.g., degrees, certifications, etc.)
+            studentInfoBean.setDegrees(parseListFromTextField(degreesField));
+            studentInfoBean.setCoursesAttended(parseListFromTextField(coursesField));
+            studentInfoBean.setCertifications(parseListFromTextField(certificationsField));
+            studentInfoBean.setWorkExperiences(parseListFromTextField(workExperienceField));
+            studentInfoBean.setSkills(parseListFromTextField(skillsField));
 
-        // Check if student is over 18 years old
-        if (birthDateField.getValue() == null || !isOver18(birthDateField.getValue())) {
-            showErrorAlert("Invalid Age", "You must be over 18 years old to register.");
-            return;
-        }
+            // Now attempt to register the user with the provided student info
+            boolean registrationSuccess = registerBoundary.registerUser(userBean, studentInfoBean);
 
-        // Create the student info bean and register the student
-        StudentInfoBean studentInfoBean = getStudentInfoBean(phone, availability);
-
-        boolean registrationSuccess = registerBoundary.registerUser(userBean, studentInfoBean);
-
-        if (registrationSuccess) {
-            Printer.print("Student successfully registered: " + studentInfoBean);
-            context.goNext("register_student_complete");
-        } else {
-            showErrorAlert("Registration Failed", "Registration failed. Please try again later.");
+            if (registrationSuccess) {
+                Printer.print("Student successfully registered: " + studentInfoBean);
+                context.goNext("register_student_complete");
+            } else {
+                showErrorAlert("Registration Failed", "Registration failed. Please try again later.");
+            }
+        } catch (InvalidDateOfBirthException e) {
+            showErrorAlert("Invalid Date of Birth", "The date of birth is invalid. You must be at least 18 years old.");
+        } catch (InvalidPhoneNumberException e) {
+            showErrorAlert("Invalid Phone Number", "The phone number you entered is invalid. It must be between 10 and 15 digits.");
+        } catch (InvalidAvailabilityException e) {
+            showErrorAlert("Invalid Availability", "The availability must be either 'full-time' or 'part-time'.");
+        } catch (InvalidDegreeListException e) {
+            showErrorAlert("Invalid Degrees", "The degrees list cannot be empty and must contain valid degrees.");
+        } catch (InvalidCourseListException e) {
+            showErrorAlert("Invalid Courses", "The courses attended list cannot be empty and must contain valid courses.");
+        } catch (InvalidCertificationListException e) {
+            showErrorAlert("Invalid Certifications", "The certifications list cannot be empty and must contain valid certifications.");
+        } catch (InvalidWorkExperienceListException e) {
+            showErrorAlert("Invalid Work Experiences", "The work experience list cannot be empty and must contain valid experiences.");
+        } catch (InvalidSkillListException e) {
+            showErrorAlert("Invalid Skills", "The skills list cannot be empty and must contain valid skills.");
+        } catch (Exception e) {
+            showErrorAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
         }
     }
 
-    @NotNull
-    private StudentInfoBean getStudentInfoBean(String phone, String availability) {
-        List<String> degrees = List.of(degreesField.getText().split(","));
-        List<String> coursesAttended = List.of(coursesField.getText().split(","));
-        List<String> certifications = List.of(certificationsField.getText().split(","));
-        List<String> workExperiences = List.of(workExperienceField.getText().split(","));
-        List<String> skills = List.of(skillsField.getText().split(","));
-
-        StudentInfoBean studentInfoBean = new StudentInfoBean();
-        studentInfoBean.setUsername(userBean.getUsername());
-        studentInfoBean.setDateOfBirth(birthDateField.getValue());
-        studentInfoBean.setPhoneNumber(phone);
-        studentInfoBean.setAvailability(availability);
-        studentInfoBean.setDegrees(degrees);
-        studentInfoBean.setCoursesAttended(coursesAttended);
-        studentInfoBean.setCertifications(certifications);
-        studentInfoBean.setWorkExperiences(workExperiences);
-        studentInfoBean.setSkills(skills);
-        return studentInfoBean;
+    private List<String> parseListFromTextField(TextField textField) {
+        String text = textField.getText().trim();
+        // Return an empty list if no input
+        if (text.isEmpty()) return new ArrayList<>();
+        // Otherwise, split by commas and trim spaces
+        return new ArrayList<>(Arrays.asList(text.split(",")));
     }
 
     @FXML
@@ -106,13 +107,6 @@ public class RegisterStudentController {
         } else {
             Printer.print("Context is NOT initialized in RegisterStudentController!");
         }
-    }
-
-    // Check if student is over 18 years old
-    private boolean isOver18(LocalDate birthDate) {
-        LocalDate currentDate = LocalDate.now();
-        Period age = Period.between(birthDate, currentDate);
-        return age.getYears() > 18;
     }
 
     // Method to show error alerts

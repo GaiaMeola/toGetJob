@@ -5,8 +5,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.view.gui.concretestate.RegisterRecruiterState;
+import org.example.togetjob.view.gui.concretestate.RegisterStudentState;
 
 public class RegisterController {
 
@@ -73,45 +76,47 @@ public class RegisterController {
         String email = emailField.getText();
         String role = roleField.getText();
 
-
         if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || surname.isEmpty() || email.isEmpty() || role.isEmpty()) {
             showErrorAlert("Missing Fields", "All fields must be filled out!");
             return;
         }
-
 
         if (!password.equals(confirmPassword)) {
             showErrorAlert("Password Mismatch", "Passwords do not match!");
             return;
         }
 
-        if (!role.equalsIgnoreCase("student") && !role.equalsIgnoreCase("recruiter")) {
-            showErrorAlert("Invalid Role", "Please select 'student' or 'recruiter' as your role.");
-            return;
-        }
+        try {
+            RegisterUserBean user = new RegisterUserBean();
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setName(name);
+            user.setSurname(surname);
+            user.setRole(role);
+            user.setEmail(email);
 
-        if (!email.contains("@")) {
-            showErrorAlert("Invalid Email", "Please enter a valid email address (must contain '@').");
-            return;
-        }
+            Printer.print("User created: " + user);
 
-        RegisterUserBean user = new RegisterUserBean();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setRole(role);
-        user.setEmail(email);
-        Printer.print("User created: " + user);
+            if (role.equalsIgnoreCase("student")) {
+                Printer.print("Redirecting to Student registration...");
+                context.setState(new RegisterStudentState(user, context));
+            } else if (role.equalsIgnoreCase("recruiter")) {
+                Printer.print("Redirecting to Recruiter registration...");
+                context.setState(new RegisterRecruiterState(user, context));
+            }
 
-        context.set("user", user);
+            context.showMenu();
 
-        if (role.equalsIgnoreCase("student")) {
-            Printer.print("Redirecting to Student registration...");
-            context.goNext("register_student");
-        } else if (role.equalsIgnoreCase("recruiter")) {
-            Printer.print("Redirecting to Recruiter registration...");
-            context.goNext("register_recruiter");
+        } catch (InvalidNameException e) {
+            showErrorAlert("Invalid Name", e.getMessage());
+        } catch (InvalidSurnameException e) {
+            showErrorAlert("Invalid Surname", e.getMessage());
+        } catch (InvalidEmailException e) {
+            showErrorAlert("Invalid Email", e.getMessage());
+        } catch (InvalidRoleException e) {
+            showErrorAlert("Invalid Role", e.getMessage());
+        } catch(InvalidPasswordException e) {
+            showErrorAlert("Invalid Password", e.getMessage());
         }
     }
 

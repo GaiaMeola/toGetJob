@@ -14,6 +14,8 @@ import java.util.List;
 
 public class ContactAJobCandidateRecruiterBoundary {
 
+    //not implemented
+
     private final ContactAJobCandidate contactAJobCandidateController;
 
     public ContactAJobCandidateRecruiterBoundary() {

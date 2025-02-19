@@ -5,10 +5,13 @@ public enum Role {
     RECRUITER("Recruiter"),
     STUDENT("Student");
 
-    private final String id;
+    private final String roleName;
 
-    Role(String id){
-        this.id = id;
+    Role(String roleName) {
+        this.roleName = roleName;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
 }

@@ -9,8 +9,11 @@ import org.example.togetjob.printer.Printer;
 import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.view.boundary.LoginBoundary;
 import org.example.togetjob.state.GUIContext;
+import org.example.togetjob.exceptions.InvalidUsernameException;
+import org.example.togetjob.exceptions.InvalidPasswordException;
 import org.example.togetjob.exceptions.UserNotFoundException;
 import org.example.togetjob.exceptions.WrongPasswordException;
+import org.example.togetjob.bean.LoginUserBean;
 
 public class HomeController {
 
@@ -39,15 +42,20 @@ public class HomeController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-
         if (username.isEmpty() || password.isEmpty()) {
             Printer.print("Username or password cannot be empty!");
             return;
         }
 
-        try {
+        LoginUserBean userBean = new LoginUserBean();
 
-            boolean loginSuccess = loginBoundary.login(username, password);
+        try {
+            // Set username and password using the LoginUserBean
+            userBean.setUsername(username);  // This will throw InvalidUsernameException if invalid
+            userBean.setPassword(password);  // This will throw InvalidPasswordException if invalid
+
+            // If no exception is thrown, proceed with login
+            boolean loginSuccess = loginBoundary.login(userBean);
 
             if (loginSuccess) {
                 Printer.print("Login successful!");
@@ -62,6 +70,10 @@ public class HomeController {
                 }
             }
 
+        } catch (InvalidUsernameException e) {
+            showErrorAlert("Invalid username", e.getMessage());
+        } catch (InvalidPasswordException e) {
+            showErrorAlert("Invalid password", e.getMessage());
         } catch (UserNotFoundException e) {
             showErrorAlert("User not found", "The username you entered does not exist.");
         } catch (WrongPasswordException e) {

@@ -1,5 +1,8 @@
 package org.example.togetjob.view.cli;
 
+import org.example.togetjob.bean.LoginUserBean;
+import org.example.togetjob.exceptions.InvalidUsernameException;
+import org.example.togetjob.exceptions.InvalidPasswordException;
 import org.example.togetjob.exceptions.UserNotFoundException;
 import org.example.togetjob.exceptions.WrongPasswordException;
 import org.example.togetjob.state.Context;
@@ -21,18 +24,23 @@ public class LoginState implements State {
 
     @Override
     public void goNext(Context contextState, String input) {
+        CliContext context = (CliContext) contextState;
 
-            CliContext context = (CliContext) contextState;
+        Scanner scanner = context.getScanner();
 
-            Scanner scanner = context.getScanner();
+        Printer.print("Enter username: ");
+        String username = scanner.nextLine();
+        Printer.print("Enter password: ");
+        String password = scanner.nextLine();
 
-            Printer.print("Enter username: ");
-            String username = scanner.nextLine();
-            Printer.print("Enter password: ");
-            String password= scanner.nextLine();
+        LoginUserBean userBean = new LoginUserBean();
 
         try {
-            boolean loginSuccess = loginBoundary.login(username, password);
+            // Set the username and password with validation
+            userBean.setUsername(username);
+            userBean.setPassword(password);
+
+            boolean loginSuccess = loginBoundary.login(userBean);
 
             if (loginSuccess) {
                 // Login ok
@@ -52,7 +60,10 @@ public class LoginState implements State {
                 context.setState(new MainMenuState());  // Login
             }
 
-        } catch (UserNotFoundException e) {
+        } catch (InvalidUsernameException | InvalidPasswordException e) {
+            Printer.print("Error: " + e.getMessage());
+            context.setState(new MainMenuState());  // Retry login
+        }  catch (UserNotFoundException e) {
             Printer.print("Error: Username not found. Would you like to register?");
             // Optionally, redirect to a registration state
             Printer.print("Type 'yes' to register or 'no' to return to main menu.");

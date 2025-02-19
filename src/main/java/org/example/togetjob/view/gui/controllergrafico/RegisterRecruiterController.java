@@ -6,10 +6,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.RecruiterInfoBean;
 import org.example.togetjob.bean.RegisterUserBean;
+import org.example.togetjob.exceptions.InvalidCompanyListException;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.view.boundary.RegisterBoundary;
 import org.example.togetjob.state.GUIContext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RegisterRecruiterController {
@@ -30,20 +33,17 @@ public class RegisterRecruiterController {
 
     @FXML
     private void handleContinueButton() {
-        // Splitting the companies entered into the field by comma
-        List<String> companies = List.of(companiesField.getText().split(","));
+        // Splitting the companies entered into the field by comma and converting to an ArrayList
+        List<String> companies = new ArrayList<>(Arrays.asList(companiesField.getText().split(",")));
 
-        // Creating a recruiter info bean and setting the companies list
-        RecruiterInfoBean recruiterInfoBean = new RecruiterInfoBean();
-        recruiterInfoBean.setCompanies(companies);
-
-        // Check if the companies field is empty
-        if (companies.isEmpty() || companiesField.getText().trim().isEmpty()) {
-            showErrorAlert("Empty Companies Field", "The companies field cannot be empty!");
-            return;
-        }
+        // Trim spaces from each company
+        companies.replaceAll(String::trim);
 
         try {
+            // Creating a recruiter info bean and setting the companies list
+            RecruiterInfoBean recruiterInfoBean = new RecruiterInfoBean();
+            recruiterInfoBean.setCompanies(companies);  // Will throw exception if invalid
+
             // Register the user with the provided recruiter information
             boolean registrationSuccess = registerBoundary.registerUser(userBean, recruiterInfoBean);
 
@@ -53,6 +53,9 @@ public class RegisterRecruiterController {
             } else {
                 showErrorAlert("Registration Failed", "Registration failed. Please try again later.");
             }
+        } catch (InvalidCompanyListException e) {
+            // Catch the specific exception for invalid company input
+            showErrorAlert("Invalid Companies", e.getMessage());
         } catch (Exception e) {
             showErrorAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
         }
