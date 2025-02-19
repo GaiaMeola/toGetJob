@@ -3,6 +3,7 @@ package org.example.togetjob.controller.student;
 import org.example.togetjob.bean.JobAnnouncementBean;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
 import org.example.togetjob.bean.JobApplicationBean;
+import org.example.togetjob.controller.LoginController;
 import org.example.togetjob.exceptions.*;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.dao.abstractobjects.JobAnnouncementDao;
@@ -21,6 +22,10 @@ public class SendAJobApplication {
     private final JobAnnouncementDao jobAnnouncementDao;
     private final JobApplicationDao jobApplicationDao;
     private final RecruiterDao recruiterDao;
+
+    private static final String LOGGED = "You must be logged in to apply for a job.";
+
+    LoginController loginController = new LoginController();
 
     public SendAJobApplication() {
         this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
@@ -71,11 +76,13 @@ public class SendAJobApplication {
 
 
     public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException, UnauthorizedAccessException, DatabaseException {
+
+        if (loginController.isUserLogged()) {
+            throw new UnauthorizedAccessException(LOGGED);
+        }
         // Student who wants to send a job application to a job announcement
         Student student = SessionManager.getInstance().getStudentFromSession();
-        if (student == null) {
-            throw new UnauthorizedAccessException("Sorry, you have to be logged.");
-        }
+
         //Recruiter who publishes the job announcement
         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
                 .orElseThrow(() -> new RecruiterNotFoundException("Error: Recruiter not found."));
@@ -97,6 +104,7 @@ public class SendAJobApplication {
         try {
             JobApplication jobApplication = JobApplicationFactory.createJobApplication(student, jobApplicationBean.getCoverLetter(), jobAnnouncement);
             jobApplicationDao.saveJobApplication(jobApplication);
+            student.addJobApplication(jobApplication);
         } catch (Exception e) {
             throw new DatabaseException("Error during saving: " + e.getMessage(), e);
         }
@@ -105,10 +113,11 @@ public class SendAJobApplication {
 
     public List<JobApplicationBean> getAllJobApplication() throws DatabaseException, UnauthorizedAccessException{
 
-        Student student = SessionManager.getInstance().getStudentFromSession();
-        if (student == null) {
-            throw new UnauthorizedAccessException("You have to be logged to apply for a job announcement.");
+        if (loginController.isUserLogged()) {
+            throw new UnauthorizedAccessException(LOGGED);
         }
+
+        Student student = SessionManager.getInstance().getStudentFromSession();
 
         List<JobApplication> jobApplications;
         try {
@@ -145,7 +154,13 @@ public class SendAJobApplication {
         throw new JobApplicationAlreadyProcessedException("Error: The job application has already been processed and cannot be deleted.");
     }
 
-    public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException {
+    public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException, UnauthorizedAccessException {
+
+        if (loginController.isUserLogged()) {
+            throw new UnauthorizedAccessException(LOGGED);
+        }
+        // Student who wants to delete a job application
+        Student student = SessionManager.getInstance().getStudentFromSession();
 
         Optional<JobApplication> jobApplicationOPT = getJobApplication(jobApplicationBean);
 
@@ -158,6 +173,7 @@ public class SendAJobApplication {
         }
         try {
             jobApplicationDao.deleteJobApplication(jobApplication);
+            student.removeJobApplication(jobApplication);
         } catch (Exception e) {
             throw new DatabaseException("Error deleting job application: " + e.getMessage(), e);
         }
@@ -167,11 +183,11 @@ public class SendAJobApplication {
 
     public List<JobApplicationBean> getJobApplicationsForRecruiter(JobAnnouncementBean jobAnnouncementBean) throws DatabaseException, JobAnnouncementNotFoundException, UnauthorizedAccessException {
 
-        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
-
-        if (recruiter == null) {
-            throw new UnauthorizedAccessException("You have to be logged to apply for a job announcement.");
+        if (loginController.isUserLogged()) {
+            throw new UnauthorizedAccessException(LOGGED);
         }
+
+        Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
 
         try {
             Optional<JobAnnouncement> jobAnnouncementOpt = jobAnnouncementDao.getJobAnnouncement(jobAnnouncementBean.getJobTitle(), recruiter);
@@ -224,6 +240,10 @@ public class SendAJobApplication {
 
 
     private JobAnnouncement getJobAnnouncementFromBean(JobApplicationBean jobApplicationBean) {
+
+        if (!loginController.isUserLogged()) {
+            throw new UnauthorizedAccessException(LOGGED);
+        }
         //recruiter from session
         Recruiter recruiter = SessionManager.getInstance().getRecruiterFromSession();
         // job announcement

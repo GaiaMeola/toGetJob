@@ -41,7 +41,7 @@ public class RegisterStudentState extends BaseState implements State {
         switch (event) {
             case "register_student_complete":
                 Printer.print("Student registration complete, showing HomeStudentState.");
-                guiContext.setState(new HomeStudentState(guiContext));
+                guiContext.setState(new HomeState(guiContext));
                 guiContext.showMenu();
                 break;
 

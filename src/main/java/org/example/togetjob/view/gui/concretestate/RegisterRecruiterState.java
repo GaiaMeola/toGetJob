@@ -47,10 +47,6 @@ public class RegisterRecruiterState extends BaseState implements State {
                 guiContext.setState(new HomeState(guiContext));
                 guiContext.showMenu();
                 break;
-            case "register_recruiter":
-                guiContext.setState(new RegisterRecruiterState(userBean, guiContext));
-                guiContext.showMenu();
-                break;
             default:
                 Printer.print("Event not handled: " + event);
                 break;

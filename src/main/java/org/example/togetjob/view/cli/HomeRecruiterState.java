@@ -1,5 +1,7 @@
 package org.example.togetjob.view.cli;
 
+import org.example.togetjob.model.entity.User;
+import org.example.togetjob.session.SessionManager;
 import org.example.togetjob.state.Context;
 import org.example.togetjob.state.State;
 import org.example.togetjob.view.boundary.LoginBoundary;
@@ -34,7 +36,13 @@ public class HomeRecruiterState implements State {
 
         switch (input) {
             case "1":
-                Printer.print("Viewing your profile...");
+                User currentUser = SessionManager.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    currentUser.introduce();
+                } else {
+                    Printer.print("Error: No user is currently logged in.");
+                }
+                context.setState(new HomeRecruiterState());
                 break;
             case "2":
                 Printer.print("Publishing a job announcement...");

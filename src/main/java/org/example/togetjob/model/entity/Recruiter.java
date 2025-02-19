@@ -15,7 +15,9 @@ public class Recruiter extends User {
 
     @Override
     public void introduce() {
-        Printer.print("Hello, I'm a recruiter !");
+        Printer.print("\n--- Recruiter Profile ---");
+        Printer.print(" Name: " + obtainName() + " " + obtainSurname());
+        Printer.print(" Email: " + obtainEmailAddress());
     }
 
     //Recruiter

@@ -24,7 +24,9 @@ public class Student extends User{
 
     @Override
     public void introduce() {
-        Printer.print("Hello, I'm a student !");
+        Printer.print("\n--- Student Profile ---");
+        Printer.print(" Name: " + obtainName() + " " + obtainSurname());
+        Printer.print(" Email: " + obtainEmailAddress());
     }
 
     public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth) {
@@ -62,10 +64,6 @@ public class Student extends User{
 
     public String obtainAvailability() {
         return availability;
-    }
-
-    public List<JobApplication> obtainJobApplications() {
-        return jobApplications;
     }
 
     public void setJobApplications(List<JobApplication> jobApplications) {

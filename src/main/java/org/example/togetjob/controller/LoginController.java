@@ -32,4 +32,7 @@ public class LoginController {
         return true;
     }
 
+    public boolean isUserLogged() {
+        return SessionManager.getInstance().getCurrentUser() == null;
+    }
 }
