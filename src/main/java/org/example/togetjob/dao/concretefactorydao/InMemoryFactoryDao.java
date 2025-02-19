@@ -20,7 +20,4 @@ public class InMemoryFactoryDao extends AbstractFactoryDaoSingleton {
 
     @Override
     public JobApplicationDao createJobApplicationDao() { return new InMemoryJobApplicationDao(); }
-
-    @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return new InMemoryInterviewSchedulingDao(); }
 }

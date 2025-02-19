@@ -30,7 +30,15 @@ public class FilterJobAnnouncementStudentState extends BaseState implements Stat
     }
 
     @Override
-    public void goNext(Context context, String event) {
-        Printer.print("Event not handled for this state: " + event);
+    public void goNext(Context contextState, String event) {
+        GUIContext guiContext = (GUIContext) contextState;
+
+        if (event.equals("student_home")) {
+            guiContext.setState(new HomeStudentState(guiContext));
+        } else {
+            Printer.print("Event not handled for this state: " + event);
+        }
+
+        guiContext.showMenu();
     }
 }

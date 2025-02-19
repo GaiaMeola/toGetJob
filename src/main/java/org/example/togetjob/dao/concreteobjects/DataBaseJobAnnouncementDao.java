@@ -162,7 +162,7 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
 
                 JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
                         jobTitle, jobType, role, location, workingHours, companyName, salary);
-                JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
+                org.example.togetjob.model.factory.JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
                 jobAnnouncements.add(jobAnnouncement);
                 recruiterUsernames.add(recruiterName);
             }
@@ -228,9 +228,9 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
                 boolean isActive = rs.getBoolean(COLUMN_IS_ACTIVE);
                 String recruiterName = rs.getString(COLUMN_RECRUITER_NAME);
 
-                JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(
+                JobAnnouncement jobAnnouncement = org.example.togetjob.model.factory.JobAnnouncementFactory.createJobAnnouncement(
                         jobTitle, jobType, role, location, workingHours, companyName, salary);
-                JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
+                org.example.togetjob.model.factory.JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, description, null, isActive);
 
                 Optional<Recruiter> recruiterOpt = recruiterDao.getRecruiter(recruiterName);
                 if (recruiterOpt.isPresent()) {
@@ -250,8 +250,8 @@ public class DataBaseJobAnnouncementDao implements JobAnnouncementDao {
 
     private JobAnnouncement createJobAnnouncementFromResultSet(ResultSet rs, Recruiter recruiter) throws SQLException {
 
-        JobAnnouncement jobAnnouncement = JobAnnouncementFactory.createJobAnnouncement(rs.getString(COLUMN_JOB_TITLE), rs.getString(COLUMN_JOB_TYPE), rs.getString(COLUMN_ROLE), rs.getString(COLUMN_LOCATION), rs.getInt(COLUMN_WORKING_HOURS), rs.getString(COLUMN_COMPANY_NAME), rs.getDouble(COLUMN_SALARY));
-        JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, rs.getString(COLUMN_DESCRIPTION), recruiter, rs.getBoolean(COLUMN_IS_ACTIVE));
+        JobAnnouncement jobAnnouncement = org.example.togetjob.model.factory.JobAnnouncementFactory.createJobAnnouncement(rs.getString(COLUMN_JOB_TITLE), rs.getString(COLUMN_JOB_TYPE), rs.getString(COLUMN_ROLE), rs.getString(COLUMN_LOCATION), rs.getInt(COLUMN_WORKING_HOURS), rs.getString(COLUMN_COMPANY_NAME), rs.getDouble(COLUMN_SALARY));
+        org.example.togetjob.model.factory.JobAnnouncementFactory.completeJobAnnouncement(jobAnnouncement, rs.getString(COLUMN_DESCRIPTION), recruiter, rs.getBoolean(COLUMN_IS_ACTIVE));
         return jobAnnouncement;
 
     }

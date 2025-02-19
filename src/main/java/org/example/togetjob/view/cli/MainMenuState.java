@@ -35,7 +35,5 @@ public class MainMenuState implements State{
                 Printer.print("Invalid choice. Please, try again.");
                 context.setState(new MainMenuState());
         }
-
-
     }
 }

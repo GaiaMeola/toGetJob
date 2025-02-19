@@ -4,6 +4,7 @@ import org.example.togetjob.exceptions.ConfigException;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 
 public class AppConfig {
+
     private static ConfigDaoLoader daoConfig;
     private static ConfigUILoader uiConfig;
 

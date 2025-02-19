@@ -53,14 +53,15 @@ public class CreateJobAnnouncementController {
         String salary = salaryField.getText();
         String description = descriptionField.getText();
 
-
-        if (jobTitle.isEmpty() || jobType.isEmpty() || role.isEmpty() || location.isEmpty() || workingHours.isEmpty() || companyName.isEmpty() || salary.isEmpty() || description.isEmpty()) {
+        // Validate input
+        if (jobTitle.isEmpty() || jobType.isEmpty() || role.isEmpty() || location.isEmpty() ||
+                workingHours.isEmpty() || companyName.isEmpty() || salary.isEmpty() || description.isEmpty()) {
             Printer.print("No field can be empty!");
             showErrorAlert("Validation Error", "Please fill in all the fields.");
             return;
         }
 
-
+        // Validate working hours
         try {
             int workingHoursInt = Integer.parseInt(workingHours);
             if (workingHoursInt <= 0) {
@@ -74,7 +75,7 @@ public class CreateJobAnnouncementController {
             return;
         }
 
-
+        // Validate salary
         try {
             double salaryDouble = Double.parseDouble(salary);
             if (salaryDouble <= 0) {
@@ -88,7 +89,7 @@ public class CreateJobAnnouncementController {
             return;
         }
 
-
+        // Create job announcement
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
         jobAnnouncementBean.setActive(true);
         jobAnnouncementBean.setJobTitle(jobTitle);
@@ -100,7 +101,7 @@ public class CreateJobAnnouncementController {
         jobAnnouncementBean.setSalary(salary);
         jobAnnouncementBean.setRole(role);
 
-
+        // Try to publish the job announcement
         try {
             boolean creation = boundary.publishJobAnnouncement(jobAnnouncementBean);
 
@@ -115,6 +116,9 @@ public class CreateJobAnnouncementController {
             }
         } catch (JobAnnouncementAlreadyExists e) {
             showErrorAlert("Job Announcement Exists", "A job announcement with this title already exists.");
+        } catch (Exception e) {
+            // Catch any unexpected exception
+            showErrorAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -128,7 +132,6 @@ public class CreateJobAnnouncementController {
         }
     }
 
-
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -136,7 +139,6 @@ public class CreateJobAnnouncementController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 
     private void showSuccessAlert() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

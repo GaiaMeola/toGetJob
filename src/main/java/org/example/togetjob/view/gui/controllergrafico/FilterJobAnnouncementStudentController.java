@@ -2,12 +2,13 @@ package org.example.togetjob.view.gui.controllergrafico;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import org.example.togetjob.bean.JobAnnouncementSearchBean;
+import org.example.togetjob.exceptions.*;
 import org.example.togetjob.printer.Printer;
 import org.example.togetjob.state.GUIContext;
 import org.example.togetjob.view.gui.concretestate.FilteredJobAnnouncementsState;
-import org.example.togetjob.view.gui.concretestate.HomeStudentState;
 
 public class FilterJobAnnouncementStudentController {
 
@@ -26,8 +27,6 @@ public class FilterJobAnnouncementStudentController {
     @FXML
     private TextField salaryField;
 
-    private static final String INVALID_INPUT = "Invalid Input";
-
     private GUIContext context;
 
     public void setContext(GUIContext context) {
@@ -38,68 +37,50 @@ public class FilterJobAnnouncementStudentController {
     private void handleProceedButton() {
         Printer.print("Button pressed!");
 
-        String workingHours = workingHoursField.getText().trim();
-        String salary = salaryField.getText().trim();
-        StringBuilder errorMessages = new StringBuilder();
-
-        if (!workingHours.isEmpty() && !isValidNumber(workingHours)) {
-            errorMessages.append("Working hours must be a positive integer.\n");
-        }
-
-        if (!salary.isEmpty() && !isValidPositiveDouble(salary)) {
-            errorMessages.append("Salary must be a positive number.\n");
-        }
-
-        if (errorMessages.length() > 0) {
-            showErrorAlert(errorMessages.toString());
-            return;
-        }
-
         JobAnnouncementSearchBean jobAnnouncementSearchBean = new JobAnnouncementSearchBean();
-        jobAnnouncementSearchBean.setJobTitle(jobTitleField.getText().trim());
-        jobAnnouncementSearchBean.setJobType(jobTypeField.getText().trim());
-        jobAnnouncementSearchBean.setCompanyName(companyNameField.getText().trim());
-        jobAnnouncementSearchBean.setLocation(locationField.getText().trim());
-        jobAnnouncementSearchBean.setWorkingHours(workingHours.isEmpty() ? null : workingHours);
-        jobAnnouncementSearchBean.setSalary(salary.isEmpty() ? null : salary);
-        jobAnnouncementSearchBean.setRole(roleField.getText().trim());
-
-        context.setState(new FilteredJobAnnouncementsState(context, jobAnnouncementSearchBean));
-        context.showMenu();
-    }
-
-    private boolean isValidNumber(String input) {
         try {
-            int value = Integer.parseInt(input);
-            return value > 0;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
+            jobAnnouncementSearchBean.setJobTitle(jobTitleField.getText().trim());
+            jobAnnouncementSearchBean.setJobType(jobTypeField.getText().trim());
+            jobAnnouncementSearchBean.setCompanyName(companyNameField.getText().trim());
+            jobAnnouncementSearchBean.setLocation(locationField.getText().trim());
+            jobAnnouncementSearchBean.setWorkingHours(workingHoursField.getText().trim().isEmpty() ? null : workingHoursField.getText().trim());
+            jobAnnouncementSearchBean.setSalary(salaryField.getText().trim().isEmpty() ? null : salaryField.getText().trim());
+            jobAnnouncementSearchBean.setRole(roleField.getText().trim());
 
-    private boolean isValidPositiveDouble(String input) {
-        try {
-            double value = Double.parseDouble(input);
-            return value > 0;
-        } catch (NumberFormatException e) {
-            return false;
+            context.setState(new FilteredJobAnnouncementsState(context, jobAnnouncementSearchBean));
+            context.showMenu();
+
+        } catch (InvalidJobTitleException e) {
+            showErrorAlert("Invalid Job Title", e.getMessage());
+        } catch (InvalidJobTypeException e) {
+            showErrorAlert("Invalid Job Type", e.getMessage());
+        } catch (InvalidWorkingHoursException e) {
+            showErrorAlert("Invalid Working Hours", e.getMessage());
+        } catch (InvalidSalaryException e) {
+            showErrorAlert("Invalid Salary", e.getMessage());
+        } catch (InvalidRoleException e) {
+            showErrorAlert("Invalid Role", e.getMessage());
+        } catch(InvalidCompanyNameException e){
+                showErrorAlert("Invalid Company Name", e.getMessage());
+        } catch(Exception e){
+                showErrorAlert("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
+            }
         }
-    }
 
     @FXML
     private void handleGoBack() {
         if (context != null) {
             Printer.print("Going back to StudentHome...");
-            context.setState(new HomeStudentState(context));
-            context.showMenu();
+            context.goNext("student_home");
         } else {
             Printer.print("Context is NOT initialized in FilterJobAnnouncement!");
         }
     }
 
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(INVALID_INPUT);
+    // Method to show error alerts
+    private void showErrorAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

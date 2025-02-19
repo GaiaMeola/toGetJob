@@ -55,25 +55,27 @@ public class SendAJobApplication {
     }
 
     //create a job application bean
-    public JobApplicationBean showJobApplicationForm(JobAnnouncementBean jobAnnouncementBean) {
-
+    public JobApplicationBean showJobApplicationForm(JobAnnouncementBean jobAnnouncementBean) throws UnauthorizedAccessException {
+        String studentUsername = SessionManager.getInstance().getStudentFromSession().obtainUsername();
+        if (studentUsername == null || studentUsername.trim().isEmpty()) {
+            throw new UnauthorizedAccessException("Unauthorized access: Only students can apply for a job.");
+        }
         JobApplicationBean form = new JobApplicationBean();
         form.setJobTitle(jobAnnouncementBean.getJobTitle());
         form.setRecruiterUsername(jobAnnouncementBean.getRecruiterUsername());
         form.setStatus(Status.PENDING);
-        form.setStudentUsername(SessionManager.getInstance().getStudentFromSession().obtainUsername());
+        form.setStudentUsername(studentUsername);
         form.setCoverLetter("");
         return form;
     }
 
-    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException, UnauthorizedAccessException, DatabaseException {
 
+    public boolean sendAJobApplication(JobApplicationBean jobApplicationBean) throws RecruiterNotFoundException , JobAnnouncementNotFoundException , JobAnnouncementNotActiveException , JobApplicationAlreadySentException, UnauthorizedAccessException, DatabaseException {
         // Student who wants to send a job application to a job announcement
         Student student = SessionManager.getInstance().getStudentFromSession();
         if (student == null) {
             throw new UnauthorizedAccessException("Sorry, you have to be logged.");
         }
-
         //Recruiter who publishes the job announcement
         Recruiter recruiter = recruiterDao.getRecruiter(jobApplicationBean.getRecruiterUsername())
                 .orElseThrow(() -> new RecruiterNotFoundException("Error: Recruiter not found."));
@@ -98,7 +100,6 @@ public class SendAJobApplication {
         } catch (Exception e) {
             throw new DatabaseException("Error during saving: " + e.getMessage(), e);
         }
-
         return true;
     }
 
@@ -120,7 +121,7 @@ public class SendAJobApplication {
     }
 
     public boolean modifyJobApplication(JobApplicationBean jobApplicationBean)
-            throws DatabaseException, JobApplicationNotFoundException {
+            throws DatabaseException, JobApplicationNotFoundException, JobApplicationAlreadyProcessedException {
 
         Status status = getStatusJobApplication(jobApplicationBean);
 
@@ -141,8 +142,7 @@ public class SendAJobApplication {
             }
             return true;
         }
-
-        return false;
+        throw new JobApplicationAlreadyProcessedException("Error: The job application has already been processed and cannot be deleted.");
     }
 
     public boolean deleteJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException {
@@ -154,7 +154,7 @@ public class SendAJobApplication {
         }
         JobApplication jobApplication = jobApplicationOPT.get();
         if (!jobApplication.obtainStatus().equals(Status.PENDING)) {
-            return false; // Job application already managed
+            throw new JobApplicationAlreadyProcessedException("Error: The job application has already been processed and cannot be deleted.");
         }
         try {
             jobApplicationDao.deleteJobApplication(jobApplication);
@@ -254,7 +254,6 @@ public class SendAJobApplication {
         }
         JobApplication jobApplication = jobApplicationOpt.get();
         return jobApplication.obtainStatus();
-
     }
 
     //method to filter job announcements
@@ -306,7 +305,6 @@ public class SendAJobApplication {
 
 //map from Entity to Bean
     private JobAnnouncementBean convertToJobAnnouncementBean(JobAnnouncement jobAnnouncement) {
-
         JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
 
         jobAnnouncementBean.setJobTitle(jobAnnouncement.obtainJobTitle() != null ? jobAnnouncement.obtainJobTitle() : "Unknown Title");
@@ -324,7 +322,6 @@ public class SendAJobApplication {
         jobAnnouncementBean.setSalary(jobAnnouncement.obtainSalary() != 0.0 ? String.valueOf(jobAnnouncement.obtainSalary()) : "Not Defined");
 
         return jobAnnouncementBean;
-
     }
 
     //map from Entity to Bean

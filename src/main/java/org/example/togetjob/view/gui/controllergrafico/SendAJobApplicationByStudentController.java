@@ -247,13 +247,16 @@ public class SendAJobApplicationByStudentController {
 
     private JobApplicationBean createJobApplicationBean(JobAnnouncementBean job, String coverLetter) {
         JobApplicationBean applicationBean = new JobApplicationBean();
+
         applicationBean.setJobTitle(job.getJobTitle());
         applicationBean.setRecruiterUsername(job.getRecruiterUsername());
-        applicationBean.setCoverLetter(coverLetter);
         applicationBean.setStudentUsername(SessionManager.getInstance().getStudentFromSession().obtainUsername());
         applicationBean.setStatus(Status.PENDING);
+        applicationBean.setCoverLetter(coverLetter);
+
         return applicationBean;
     }
+
 
     private void handleApplicationError(Exception e, Dialog<JobApplicationBean> dialog) {
         String errorMessage = switch (e) {

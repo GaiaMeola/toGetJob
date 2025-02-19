@@ -17,14 +17,14 @@ public abstract class ConfigLoaderBase {
         try(InputStream input = getClass().getClassLoader().getResourceAsStream(configFilePath)){
 
             if(input == null){
-                throw new ConfigException("File di configurazione non trovato: " + configFilePath);
+                throw new ConfigException("File not found: " + configFilePath);
             }
 
             properties.load(input);
 
         } catch(IOException e){
 
-            throw new ConfigException("Errore durante il caricamento del file di configurazione: " + configFilePath, e);
+            throw new ConfigException("Error during the configuration: " + configFilePath, e);
 
         }
 

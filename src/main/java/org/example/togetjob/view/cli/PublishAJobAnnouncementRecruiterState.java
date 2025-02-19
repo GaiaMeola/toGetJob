@@ -10,14 +10,14 @@ import org.example.togetjob.state.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
-public class PublishAJobAnnouncementRecruiterState implements State{
+public class PublishAJobAnnouncementRecruiterState implements State {
 
     private final PublishAJobAnnouncementRecruiterBoundary publishAJobAnnouncementRecruiterBoundary = new PublishAJobAnnouncementRecruiterBoundary();
 
     @Override
     public void showMenu() {
-
         Printer.print("\n --- Job Announcements - Recruiter ---");
         Printer.print("Welcome, Recruiter! You can do the following:");
         Printer.print("1. View all your job announcements");
@@ -26,12 +26,10 @@ public class PublishAJobAnnouncementRecruiterState implements State{
         Printer.print("4. Go back");
         Printer.print("5. Exit");
         Printer.print("Choose an option: ");
-
     }
 
     @Override
     public void goNext(Context contextState, String input) {
-
         CliContext context = (CliContext) contextState;
         Scanner scanner = context.getScanner();
 
@@ -64,9 +62,7 @@ public class PublishAJobAnnouncementRecruiterState implements State{
                 Printer.print("Invalid option. Please try again.");
                 break;
         }
-
     }
-
 
     private void viewJobAnnouncements(Scanner scanner, CliContext context) {
         // Call the boundary method to fetch job announcements
@@ -108,7 +104,6 @@ public class PublishAJobAnnouncementRecruiterState implements State{
                 Printer.print("Salary: " + selectedJob.getSalary());
                 Printer.print("Description: " + selectedJob.getDescription());
                 Printer.print("Active: " + selectedJob.isActive());
-
             }
 
             // Ask if the recruiter wants to view job applications
@@ -121,11 +116,8 @@ public class PublishAJobAnnouncementRecruiterState implements State{
             } else {
                 Printer.print("Returning to job announcements...");
             }
-
         }
-
     }
-
 
     private void createJobAnnouncement(Scanner scanner) {
         try {
@@ -133,14 +125,15 @@ public class PublishAJobAnnouncementRecruiterState implements State{
 
             JobAnnouncementBean jobAnnouncementBean = new JobAnnouncementBean();
 
-            jobAnnouncementBean.setJobTitle(getValidInput(scanner, "Enter Job Title: "));
-            jobAnnouncementBean.setJobType(getValidInput(scanner, "Enter Job Type: "));
-            jobAnnouncementBean.setRole(getValidInput(scanner, "Enter Role: "));
-            jobAnnouncementBean.setLocation(getValidInput(scanner, "Enter Location: "));
-            jobAnnouncementBean.setWorkingHours(getValidInput(scanner, "Enter Working Hours: "));
-            jobAnnouncementBean.setCompanyName(getValidInput(scanner, "Enter Company Name: "));
-            jobAnnouncementBean.setSalary(getValidInput(scanner, "Enter Salary: "));
-            jobAnnouncementBean.setDescription(getValidInput(scanner, "Enter Description: "));
+            // Using getValidInputWithValidation to handle user input with validation
+            getValidInputWithValidation(scanner, "Enter Job Title: ", jobAnnouncementBean::setJobTitle);
+            getValidInputWithValidation(scanner, "Enter Job Type: ", jobAnnouncementBean::setJobType);
+            getValidInputWithValidation(scanner, "Enter Role: ", jobAnnouncementBean::setRole);
+            getValidInputWithValidation(scanner, "Enter Location: ", jobAnnouncementBean::setLocation);
+            getValidInputWithValidation(scanner, "Enter Working Hours: ", jobAnnouncementBean::setWorkingHours);
+            getValidInputWithValidation(scanner, "Enter Company Name: ", jobAnnouncementBean::setCompanyName);
+            getValidInputWithValidation(scanner, "Enter Salary: ", jobAnnouncementBean::setSalary);
+            getValidInputWithValidation(scanner, "Enter Description: ", jobAnnouncementBean::setDescription);
 
             // Call the boundary method to publish the job announcement
             boolean success = publishAJobAnnouncementRecruiterBoundary.publishJobAnnouncement(jobAnnouncementBean);
@@ -155,16 +148,22 @@ public class PublishAJobAnnouncementRecruiterState implements State{
         }
     }
 
-    private String getValidInput(Scanner scanner, String prompt) {
-        String input;
-        do {
-            Printer.print(prompt);
-            input = scanner.nextLine().trim();
-            if (input.isEmpty()) {
-                Printer.print("This field cannot be empty. Please enter a valid value.");
+    // New method to handle validation and error handling
+    private void getValidInputWithValidation(Scanner scanner, String prompt, Consumer<String> setter) {
+        while (true) {
+            try {
+                String input = getValidInput(scanner, prompt);
+                setter.accept(input);  // Set the value through the setter
+                return;  // Exit if input is valid
+            } catch (Exception e) {
+                Printer.print("Error: " + e.getMessage() + ". Please try again.");
             }
-        } while (input.isEmpty());
-        return input;
+        }
+    }
+
+    private String getValidInput(Scanner scanner, String prompt) {
+        Printer.print(prompt);
+        return scanner.nextLine().trim();
     }
 
     private void manageJobAnnouncement(Scanner scanner) {
@@ -275,7 +274,4 @@ public class PublishAJobAnnouncementRecruiterState implements State{
             return false;
         }
     }
-
-
 }
-

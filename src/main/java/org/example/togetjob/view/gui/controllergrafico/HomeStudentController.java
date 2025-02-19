@@ -100,7 +100,7 @@ public class HomeStudentController {
 
     @FXML
     private void handleViewNotifications() {
-        // ** //
+        // * not implemented * //
     }
 
     private void populateApplications(List<JobApplicationBean> applications, TitledPane pane) {

@@ -42,7 +42,8 @@ public class HomeRecruiterState implements State {
                 break;
             case "3":
                 Printer.print("Contacting a job candidate...");
-                context.setState(new ContactAJobCandidateRecruiterState());
+                //** not implemented **//
+                context.setState(new HomeRecruiterState());
                 break;
             case "4":
                 Printer.print("Viewing reviews...");

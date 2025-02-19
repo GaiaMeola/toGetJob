@@ -1,5 +1,6 @@
 package testing;
 
+import org.example.togetjob.bean.LoginUserBean;
 import org.example.togetjob.config.AppConfig;
 import org.example.togetjob.connection.DatabaseConfig;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
@@ -59,8 +60,13 @@ public class Testing {
         LoginBoundary loginBoundary = new LoginBoundary();
         String username = "WrongUsername";
         String password = "Password";
+
+        LoginUserBean loginUserBean = new LoginUserBean();
+        loginUserBean.setUsername(username);
+        loginUserBean.setPassword(password);
+
         try {
-            loginBoundary.login(username, password);
+            loginBoundary.login(loginUserBean);
         } catch (UserNotFoundException e) {
             Printer.print(STRING);
         }

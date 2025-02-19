@@ -13,6 +13,7 @@ import org.example.togetjob.state.CliContext;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class SendAJobApplicationStudentState implements State {
 
@@ -26,6 +27,8 @@ public class SendAJobApplicationStudentState implements State {
     private static final String COMPANY = "Company: ";
     private static final String JOB_TYPE = "Job Type: ";
     private static final String JOB_ROLE = "Job Role: ";
+    private static final String ERROR = "Error: ";
+    private static final String TRY  = " Please try again.";
 
     private static final String ERROR_UNEXPECTED = "Unexpected error: ";
 
@@ -139,15 +142,13 @@ public class SendAJobApplicationStudentState implements State {
         } catch (UnauthorizedAccessException e) {
             Printer.print("You must be logged in to view or manage your job applications.");
         } catch (NumberFormatException e) {
-            Printer.print("Invalid input. Please enter a valid number.");
+            Printer.print("Invalid input. Please enter a valid number (e.g., 1, 2, 3) to select an option.");
         } catch (Exception e) {
             Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
 
-
     private void modifyJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean) {
-
         try {
             // Ask for a new cover letter from the user
             Printer.print("Enter a new cover letter:");
@@ -161,8 +162,7 @@ public class SendAJobApplicationStudentState implements State {
                 // Success message
                 Printer.print("Job application successfully modified!");
             } else {
-                // Inform the user if modification failed
-                Printer.print("Error modifying the job application. It may have already been processed.");
+                Printer.print("Error: Unable to modify the job application. It may have already been processed.");
             }
 
         } catch (JobApplicationNotFoundException e) {
@@ -177,12 +177,14 @@ public class SendAJobApplicationStudentState implements State {
         } catch (NumberFormatException e) {
             // Handle invalid input errors (e.g., in case there's input validation)
             Printer.print("Error: Invalid input format. Please ensure your input is valid.");
+        } catch (JobApplicationAlreadyProcessedException e) {
+            // Handle cases where the job application has already been processed
+            Printer.print("Error: You already have a job application managed for this job announcement.");
         } catch (Exception e) {
             // Handle any unexpected errors
-            Printer.print(ERROR_UNEXPECTED+ e.getMessage());
+            Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
-
 
     private void deleteJobApplication(Scanner scanner, JobApplicationBean jobApplicationBean) {
         try {
@@ -199,8 +201,6 @@ public class SendAJobApplicationStudentState implements State {
             boolean success = sendAJobApplicationStudentBoundary.deleteAJobApplication(jobApplicationBean);
             if (success) {
                 Printer.print("Job application successfully deleted!");
-            } else {
-                Printer.print("Error deleting the job application. It may have already been processed or removed.");
             }
 
         } catch (JobApplicationNotFoundException e) {
@@ -212,6 +212,8 @@ public class SendAJobApplicationStudentState implements State {
         } catch (UnauthorizedAccessException e) {
             // Handle unauthorized access, if relevant
             Printer.print("Error: You are not authorized to delete this application. Please ensure you're logged in.");
+        } catch(JobApplicationAlreadyProcessedException e){
+            Printer.print("Error: Your job application has already been managed.");
         } catch (Exception e) {
             // General error handling
             Printer.print(ERROR_UNEXPECTED + e.getMessage());
@@ -219,58 +221,58 @@ public class SendAJobApplicationStudentState implements State {
     }
 
     private void applyFiltersAndShowJobAnnouncements(Scanner scanner) {
-
         Printer.print("\nEnter your search filters:");
 
-        Printer.print("Enter job title (or leave blank to skip): ");
-        String jobTitle = scanner.nextLine();
+        JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean();
 
-        Printer.print("Enter job type (or leave blank to skip): ");
-        String jobType = scanner.nextLine();
+        // Job Title
+        getValidInputWithValidation(scanner, "Enter job title (or leave blank to skip): ",
+                searchBean::setJobTitle);
 
-        Printer.print("Enter role (or leave blank to skip): ");
-        String role = scanner.nextLine();
+        // Job Type
+        getValidInputWithValidation(scanner, "Enter job type (or leave blank to skip): ",
+                searchBean::setJobType);
 
-        Printer.print("Enter location (or leave blank to skip): ");
-        String location = scanner.nextLine();
+        // Role
+        getValidInputWithValidation(scanner, "Enter role (or leave blank to skip): ",
+                searchBean::setRole);
 
-        Printer.print("Enter working hours (or leave blank to skip): ");
-        String workingHours = scanner.nextLine();
+        // Location
+        getValidInputWithValidation(scanner, "Enter location (or leave blank to skip): ",
+                searchBean::setLocation);
 
-        Printer.print("Enter company name (or leave blank to skip): ");
-        String companyName = scanner.nextLine();
+        // Working Hours
+        getValidInputWithValidation(scanner, "Enter working hours (or leave blank to skip): ",
+                searchBean::setWorkingHours);
 
-        Printer.print("Enter salary (or leave blank to skip): ");
-        String salary = scanner.nextLine();
+        // Company Name
+        getValidInputWithValidation(scanner, "Enter company name (or leave blank to skip): ",
+                searchBean::setCompanyName);
 
-        JobAnnouncementSearchBean searchBean = new JobAnnouncementSearchBean(); // Empty
-
-        searchBean.setJobTitle(jobTitle);
-        searchBean.setJobType(jobType);
-        searchBean.setRole(role);
-        searchBean.setLocation(location);
-        searchBean.setWorkingHours(workingHours);
-        searchBean.setCompanyName(companyName);
-        searchBean.setSalary(salary);
-
+        // Salary
+        getValidInputWithValidation(scanner, "Enter salary (or leave blank to skip): ",
+                searchBean::setSalary);
 
         Printer.print("\n --- Filters you have selected ---");
-        Printer.print(JOB_TITLE + (jobTitle.isEmpty() ? NOT_SPECIFIED : jobTitle));
-        Printer.print(JOB_TYPE + (jobType.isEmpty() ? NOT_SPECIFIED : jobType));
-        Printer.print(JOB_ROLE + (role.isEmpty() ? NOT_SPECIFIED : role));
-        Printer.print(LOCATION + (location.isEmpty() ? NOT_SPECIFIED : location));
-        Printer.print(SALARY + (salary.isEmpty() ? NOT_SPECIFIED : salary));
-        Printer.print(WORKING_HOURS  + (workingHours.isEmpty() ? NOT_SPECIFIED : workingHours));
-        Printer.print(COMPANY + (companyName.isEmpty() ? NOT_SPECIFIED : companyName));
+        Printer.print("\n --- Filters you have selected ---");
+        Printer.print(JOB_TITLE + (searchBean.getJobTitle() == null ? NOT_SPECIFIED : searchBean.getJobTitle()));
+        Printer.print(JOB_TYPE + (searchBean.getJobType() == null ? NOT_SPECIFIED : searchBean.getJobType()));
+        Printer.print(JOB_ROLE + (searchBean.getRole() == null ? NOT_SPECIFIED : searchBean.getRole()));
+        Printer.print(LOCATION + (searchBean.getLocation() == null ? NOT_SPECIFIED : searchBean.getLocation()));
+        Printer.print(SALARY + (searchBean.getSalary() == null ? NOT_SPECIFIED : searchBean.getSalary()));
+        Printer.print(WORKING_HOURS + (searchBean.getWorkingHours() == null ? NOT_SPECIFIED : searchBean.getWorkingHours()));
+        Printer.print(COMPANY + (searchBean.getCompanyName() == null ? NOT_SPECIFIED : searchBean.getCompanyName()));
+
         Printer.print("\nDo you want to proceed with these filters?");
         Printer.print("1. Proceed");
         Printer.print("2. Go back and change filters");
         Printer.print(CHOSE_AN_OPTION);
+
         String choice = scanner.nextLine();
 
         if (choice.equals("1")) {
             Printer.print("\nProceeding with the selected filters...");
-            proceedWithFilters(scanner,searchBean);
+            proceedWithFilters(scanner, searchBean);
         } else if (choice.equals("2")) {
             Printer.print("Returning to filter selection...");
             applyFiltersAndShowJobAnnouncements(scanner);
@@ -280,6 +282,22 @@ public class SendAJobApplicationStudentState implements State {
         }
     }
 
+    private void getValidInputWithValidation(Scanner scanner, String prompt, Consumer<String> setter) {
+        while (true) {
+            try {
+                String input = getValidInput(scanner, prompt);
+                setter.accept(input);
+                return;
+            } catch (Exception e) {
+                Printer.print(ERROR + e.getMessage() + TRY);
+            }
+        }
+    }
+
+    private String getValidInput(Scanner scanner, String prompt) {
+        Printer.print(prompt);
+        return scanner.nextLine().trim();
+    }
 
     private void proceedWithFilters(Scanner scanner, JobAnnouncementSearchBean searchBean) {
         try {
@@ -299,16 +317,14 @@ public class SendAJobApplicationStudentState implements State {
                 // Allow user to view more details about the selected job
                 showJobAnnouncementDetails(scanner, jobAnnouncements);
             }
-
-        } catch (JobAnnouncementNotFoundException | DatabaseException e) {
+        } catch (JobAnnouncementNotFoundException e) {
             // Handle case where no job announcements are found (already propagated from `getJobAnnouncements`)
-            Printer.print("Error: " + e.getMessage());
+            Printer.print(ERROR + e.getMessage());
         }  catch (Exception e) {
             // Handle any unexpected errors
             Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
-
 
     private void showJobAnnouncementDetails(Scanner scanner, List<JobAnnouncementBean> jobAnnouncements) {
         // Ask the student to choose a job
@@ -363,13 +379,11 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print("Job Title: " + jobApplicationBean.getJobTitle());
             Printer.print("Applicant Name: " + jobApplicationBean.getStudentUsername());
 
-            // Ask the user for their cover letter
+            String coverLetter;
             Printer.print("Enter your cover letter: ");
-            String coverLetter = scanner.nextLine();
+            coverLetter = scanner.nextLine();
             jobApplicationBean.setCoverLetter(coverLetter);
-
             Printer.print("Cover Letter: " + jobApplicationBean.getCoverLetter());
-
             return jobApplicationBean;
         } else {
             Printer.print("Failed to fill out the application form. Please try again.");
@@ -423,5 +437,4 @@ public class SendAJobApplicationStudentState implements State {
             Printer.print(ERROR_UNEXPECTED + e.getMessage());
         }
     }
-
 }

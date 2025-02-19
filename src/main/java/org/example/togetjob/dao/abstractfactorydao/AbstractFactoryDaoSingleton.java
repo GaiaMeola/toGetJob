@@ -60,5 +60,4 @@ AbstractFactoryDaoSingleton {
     public abstract StudentDao createStudentDao();
     public abstract RecruiterDao createRecruiterDao();
     public abstract JobApplicationDao createJobApplicationDao();
-    public abstract InterviewSchedulingDao createInterviewSchedulingDao();
 }

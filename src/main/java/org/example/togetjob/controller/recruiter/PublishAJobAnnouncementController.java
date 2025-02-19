@@ -14,6 +14,7 @@ import java.util.*;
 public class PublishAJobAnnouncementController {
 
     private final JobAnnouncementDao jobAnnouncementDao;
+    //** implemented for send a job application **/
 
     public PublishAJobAnnouncementController(){
       this.jobAnnouncementDao = AbstractFactoryDaoSingleton.getFactoryDao().createJobAnnouncementDao();
@@ -52,7 +53,7 @@ public class PublishAJobAnnouncementController {
                 salary
         );
 
-        JobAnnouncementFactory.completeJobAnnouncement(
+        org.example.togetjob.model.factory.JobAnnouncementFactory.completeJobAnnouncement(
                 jobAnnouncement,
                 jobAnnouncementBean.getDescription(),
                 recruiter,

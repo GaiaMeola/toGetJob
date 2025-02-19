@@ -8,7 +8,7 @@ public class JobApplicationBean {
     private String studentUsername;
     private String coverLetter;
     private String recruiterUsername;
-    private Status status ;
+    private Status status;
 
     public JobApplicationBean() {
         /* builder */
@@ -51,6 +51,6 @@ public class JobApplicationBean {
     }
 
     public void setStatus(Status status) {
-        this.status= status;
+        this.status = status;
     }
 }

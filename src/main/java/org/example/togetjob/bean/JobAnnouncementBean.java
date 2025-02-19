@@ -1,5 +1,7 @@
 package org.example.togetjob.bean;
 
+import org.example.togetjob.exceptions.InvalidJobDescriptionException;
+
 public class JobAnnouncementBean extends JobAnnouncementBaseBean {
 
     private String description;
@@ -15,6 +17,9 @@ public class JobAnnouncementBean extends JobAnnouncementBaseBean {
     }
 
     public void setDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
+            throw new InvalidJobDescriptionException("Description cannot be empty or null.");
+        }
         this.description = description;
     }
 

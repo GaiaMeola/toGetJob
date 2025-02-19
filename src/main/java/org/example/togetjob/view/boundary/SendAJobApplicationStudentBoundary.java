@@ -20,7 +20,7 @@ public class SendAJobApplicationStudentBoundary {
         return controller.showFilteredJobAnnouncements(jobAnnouncementSearchBean);
     }
 
-    public JobApplicationBean fillJobApplicationForm(JobAnnouncementBean jobAnnouncementBean){
+    public JobApplicationBean fillJobApplicationForm(JobAnnouncementBean jobAnnouncementBean) throws UnauthorizedAccessException{
         return controller.showJobApplicationForm(jobAnnouncementBean);
     }
 
@@ -32,11 +32,11 @@ public class SendAJobApplicationStudentBoundary {
         return controller.getAllJobApplication();
     }
 
-    public boolean modifyAJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException{
+    public boolean modifyAJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException, JobApplicationAlreadyProcessedException{
         return controller.modifyJobApplication(jobApplicationBean);
     }
 
-    public boolean deleteAJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException{
+    public boolean deleteAJobApplication(JobApplicationBean jobApplicationBean) throws DatabaseException, JobApplicationNotFoundException, JobApplicationAlreadyProcessedException{
         return controller.deleteJobApplication(jobApplicationBean);
     }
 }

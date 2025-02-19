@@ -11,7 +11,6 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
     private final DataBaseStudentDao studentDao;
     private final DataBaseRecruiterDao recruiterDao;
     private final DataBaseJobApplicationDao jobApplicationDao;
-    private final DataBaseInterviewSchedulingDao interviewSchedulingDao;
 
     public DataBaseFactoryDao() {
         this.userDao = new DataBaseUserDao();
@@ -19,8 +18,6 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
         this.studentDao = new DataBaseStudentDao(userDao, null);
         this.jobAnnouncementDao = new DataBaseJobAnnouncementDao(recruiterDao);
         this.jobApplicationDao = new DataBaseJobApplicationDao(jobAnnouncementDao, studentDao);
-        this.interviewSchedulingDao = new DataBaseInterviewSchedulingDao(jobAnnouncementDao, studentDao);
-
         //loop so:
         (studentDao).setJobApplicationDao(jobApplicationDao);
 
@@ -40,8 +37,5 @@ public class DataBaseFactoryDao extends AbstractFactoryDaoSingleton {
 
     @Override
     public JobApplicationDao createJobApplicationDao() { return jobApplicationDao; }
-
-    @Override
-    public InterviewSchedulingDao createInterviewSchedulingDao() { return interviewSchedulingDao; }
 
 }
