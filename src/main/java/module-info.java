@@ -24,6 +24,7 @@ module org.example.togetjob {
     exports org.example.togetjob;
     exports org.example.togetjob.bean;
     exports org.example.togetjob.exceptions;
+    exports org.example.togetjob.model.entity;
     exports org.example.togetjob.state;
     exports org.example.togetjob.view.gui.controllergrafico;
 }

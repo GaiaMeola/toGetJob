@@ -37,7 +37,7 @@ public class LoginUserBean {
         if (password.length() < 6) {
             throw new InvalidPasswordException("Password must be at least 6 characters long.");
         }
-        if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
+        if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) { //NOSONAR
             throw new InvalidPasswordException("Password must contain at least one uppercase letter, one lowercase letter, and one digit.");
         }
         this.password = password;
