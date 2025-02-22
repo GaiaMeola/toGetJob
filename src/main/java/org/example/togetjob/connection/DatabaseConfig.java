@@ -1,6 +1,6 @@
 package org.example.togetjob.connection;
 
-import org.example.togetjob.config.ConfigDaoLoader;
+import org.example.togetjob.config.ConfigLoaderBase;
 import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.printer.Printer;
 
@@ -15,7 +15,7 @@ public class DatabaseConfig {
 
     private static DatabaseConfig instance = null;
     private Connection connection;
-    private ConfigDaoLoader loaderDaoConfig;
+    private ConfigLoaderBase loaderDaoConfig;
     private final Properties dbProperties = new Properties();
 
     // Flag to track if the connection message has already been printed
@@ -47,7 +47,7 @@ public class DatabaseConfig {
     }
 
     // Setter for the ConfigDaoLoader
-    public synchronized void setConfigLoader(ConfigDaoLoader loader) {
+    public synchronized void setConfigLoader(ConfigLoaderBase loader) {
         if (loader == null) {
             throw new IllegalArgumentException("ConfigDaoLoader cannot be null.");
         }

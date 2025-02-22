@@ -5,16 +5,16 @@ import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 
 public class AppConfig {
 
-    private static ConfigDaoLoader daoConfig;
-    private static ConfigUILoader uiConfig;
+    private static ConfigLoaderBase daoConfig;
+    private static ConfigLoaderBase uiConfig;
 
     private AppConfig(){
         /**/
     }
 
     public static void loadConfigs() throws ConfigException {
-        daoConfig = new ConfigDaoLoader("dao.config.properties");
-        uiConfig = new ConfigUILoader("ui.config.properties");
+        daoConfig = new ConfigLoaderBase("dao.config.properties");
+        uiConfig = new ConfigLoaderBase("ui.config.properties");
         AbstractFactoryDaoSingleton.setConfigLoader(daoConfig);
     }
 
@@ -26,7 +26,7 @@ public class AppConfig {
         return uiConfig.getProperty("ui.type");
     }
 
-    public static ConfigDaoLoader getDaoConfig() {
+    public static ConfigLoaderBase getDaoConfig() {
         return daoConfig;
     }
 }

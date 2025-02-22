@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public abstract class ConfigLoaderBase {
+public class ConfigLoaderBase {
 
     protected final Properties properties;
 
@@ -30,6 +30,8 @@ public abstract class ConfigLoaderBase {
 
     }
 
-    public abstract String getProperty(String key);
+    public String getProperty(String key){
+        return properties.getProperty(key);
+    }
 
 }

@@ -34,6 +34,8 @@ public abstract class AbstractRegisterController {
             saveUserSpecificData(user);
         }
 
+        user.introduce();
+
         return saved;
     }
 

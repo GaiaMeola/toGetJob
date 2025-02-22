@@ -1,6 +1,6 @@
 package org.example.togetjob.dao.abstractfactorydao;
 
-import org.example.togetjob.config.ConfigDaoLoader;
+import org.example.togetjob.config.ConfigLoaderBase;
 import org.example.togetjob.dao.abstractobjects.*;
 import org.example.togetjob.dao.concretefactorydao.DataBaseFactoryDao;
 import org.example.togetjob.dao.concretefactorydao.FileSystemFactoryDao;
@@ -10,12 +10,12 @@ public abstract class
 AbstractFactoryDaoSingleton {
 
     private static AbstractFactoryDaoSingleton factoryDao = null;
-    private static ConfigDaoLoader configLoader;
+    private static ConfigLoaderBase configLoader;
 
     protected AbstractFactoryDaoSingleton() {
     }
 
-    public static void setConfigLoader(ConfigDaoLoader loader){
+    public static void setConfigLoader(ConfigLoaderBase loader){
         if(loader == null){
             throw new IllegalArgumentException("Error.");
         }

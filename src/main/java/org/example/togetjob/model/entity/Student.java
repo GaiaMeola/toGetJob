@@ -25,8 +25,7 @@ public class Student extends User{
     @Override
     public void introduce() {
         Printer.print("\n--- Student Profile ---");
-        Printer.print(" Name: " + obtainName() + " " + obtainSurname());
-        Printer.print(" Email: " + obtainEmailAddress());
+        Printer.print(" Hello student " + obtainName() + " " + obtainSurname() + " !");
     }
 
     public Student(String name, String surname, String username, String emailAddress, String password, Role role, LocalDate dateOfBirth) {

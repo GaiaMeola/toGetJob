@@ -139,7 +139,6 @@ public class HomeRecruiterController {
         }
 
         Printer.print("Contacting Job Candidate for: " + jobAnnouncement.getJobTitle());
-        context.set("jobAnnouncement", jobAnnouncement);
         context.goNext("contactJobCandidate");
     }
 
