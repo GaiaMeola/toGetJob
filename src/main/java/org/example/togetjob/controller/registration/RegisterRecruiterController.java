@@ -6,8 +6,8 @@ import org.example.togetjob.exceptions.DatabaseException;
 import org.example.togetjob.dao.abstractfactorydao.AbstractFactoryDaoSingleton;
 import org.example.togetjob.dao.abstractobjects.RecruiterDao;
 import org.example.togetjob.model.entity.Recruiter;
-import org.example.togetjob.model.entity.Role;
 import org.example.togetjob.model.entity.User;
+import org.example.togetjob.model.factory.RecruiterFactory;
 
 public class RegisterRecruiterController extends AbstractRegisterController{
 
@@ -21,11 +21,15 @@ public class RegisterRecruiterController extends AbstractRegisterController{
 
     @Override
     protected User createUser(RegisterUserBean userBean) {
-        return new Recruiter(
-                userBean.getName(), userBean.getSurname(), userBean.getUsername(), userBean.getEmailAddress(), userBean.getPassword(), Role.RECRUITER, recruiterInfoBean.getCompanies()
+        return RecruiterFactory.createRecruiter(
+                userBean.getName(),
+                userBean.getSurname(),
+                userBean.getUsername(),
+                userBean.getEmailAddress(),
+                userBean.getPassword(),
+                recruiterInfoBean.getCompanies()
         );
     }
-
     @Override
     protected void saveUserSpecificData(User user) throws DatabaseException {
         recruiterDao.saveRecruiter((Recruiter) user);
